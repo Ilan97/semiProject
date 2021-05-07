@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane prefHeight="472.0" prefWidth="644.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ServerPortController">
+   <children>
+      <Text fill="#05125e" layoutX="175.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Client Network Info" wrappingWidth="293.4699401855469">
+         <font>
+            <Font name="Calibri" size="36.0" />
+         </font>
+      </Text>
+      <TableView fx:id="table" layoutX="40.0" layoutY="124.0" prefHeight="274.0" prefWidth="564.0">
+        <columns>
+          <TableColumn fx:id="columnIP" prefWidth="164.0" style="-fx-alignment: CENTER;" text="IP : Port" />
+          <TableColumn fx:id="columnHost" prefWidth="256.0" style="-fx-alignment: CENTER;" text="Host" />
+            <TableColumn fx:id="columnStatus" prefWidth="143.0" style="-fx-alignment: CENTER;" text="Connection Status" />
+        </columns>
+      </TableView>
+      <Button fx:id="btnRefresh" layoutX="469.0" layoutY="417.0" mnemonicParsing="false" onAction="#refreshActionButton" style="-fx-background-color: #9baed9;" text="refresh" textFill="#0f131b">
+         <font>
+            <Font name="Calibri" size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="btnExit" layoutX="546.0" layoutY="417.0" mnemonicParsing="false" onAction="#getExitButton" prefHeight="27.0" prefWidth="58.0" style="-fx-background-color: #f86060;" text="Exit">
+         <font>
+            <Font name="Calibri" size="14.0" />
+         </font>
+      </Button>
+   </children>
+</Pane>

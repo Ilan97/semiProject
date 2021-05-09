@@ -19,6 +19,12 @@ public class ServerUI extends Application {
 	// Instance methods ************************************************
 
 	/**
+	 * static instance for ServerController instance. Will be create only once for
+	 * each run.
+	 */
+	public static ServerController server;
+
+	/**
 	 * The main method of Application class.
 	 */
 	public static void main(String args[]) throws Exception {
@@ -33,8 +39,10 @@ public class ServerUI extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		ServerPortController frame = new ServerPortController();
-		// close the program
-		primaryStage.setOnCloseRequest((event)->{System.exit(0);});
+		// close the server
+		primaryStage.setOnCloseRequest((event) -> {
+			System.exit(0);
+		});
 		frame.start(primaryStage);
 	}
 }

@@ -83,20 +83,31 @@ public class ServerController extends AbstractServer {
 	}
 
 	/**
-	 * This method overrides the one in the superclass. Called when the server
-	 * starts listening for connections. Connect to the DB.
+	 * This method called when the server starts listening for connections. Connect
+	 * to the DB.
 	 */
+	@Override
 	protected void serverStarted() {
-		display("Server listening for connections on port " + getPort());
 		DBconnector.connectToDB();
+		display("Server listening for connections on port " + getPort());
 	}
 
 	/**
-	 * This method overrides the one in the superclass. Called when the server stops
-	 * listening for connections.
+	 * This method called when the server stops listening for connections.
+	 * Disconnect the DB.
 	 */
+	@Override
 	protected void serverStopped() {
+		DBconnector.closeDB();
 		display("Server has stopped listening for connections.");
+	}
+
+	/**
+	 * This method called when the server is closed.
+	 */
+	@Override
+	protected void serverClosed() {
+		display("Server closed");
 	}
 
 	/**

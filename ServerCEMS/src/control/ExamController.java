@@ -1,9 +1,11 @@
 package control;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
+
 import logic.Exam;
 import logic.Message;
 import logic.Question;
@@ -24,17 +26,23 @@ public class ExamController {
 	// Instance variables **********************************************
 
 	/**
-	 * mesaages that ExamController recieve from server (request) and sent to it
+	 * messages that ExamController receive from server (request) and sent to it
 	 * (result).
 	 */
 	private static Message request;
 	private static Message result;
 	/**
-	 * all components of the entire exam idetification number.
+	 * all components of the entire exam identification number.
 	 */
 	private static String fieldID;
 	private static String courseID;
 	private static String examID;
+	/**
+	 * variables for execute queries and handle the results from DB.
+	 */
+	private static Statement stmt;
+	private static ResultSet rs;
+	private static PreparedStatement pstmt;
 
 	// Instance methods ************************************************
 
@@ -49,7 +57,7 @@ public class ExamController {
 		// switch case is on the operations this controller ask to operate.
 		switch (request.getOperation()) {
 		case "viewTableExam":
-			// recieve data from DB and save it in HashMap
+			// receive data from DB and save it in HashMap
 			HashMap<String, String> resultMap;
 			resultMap = viewTableExamQuery((String) request.getMsg());
 			// create an Exam instance
@@ -58,7 +66,7 @@ public class ExamController {
 			if ((!resultMap.containsKey("fieldID")) || (!resultMap.containsKey("courseID"))
 					|| (!resultMap.containsKey("examID")))
 				exam.setExamID("Error");
-			// exam exsits
+			// exam exists
 			else {
 				// set the Exam instance
 				exam.setFid(resultMap.get("fieldID"));
@@ -95,7 +103,7 @@ public class ExamController {
 			break;
 
 		case "updateExamDurationTime":
-			// this msg contains the new duration time and exam's enitre ID
+			// this msg contains the new duration time and exam's entire ID
 			String[] updateDetails = parsingTheData((String) request.getMsg());
 			int duration = Integer.parseInt(updateDetails[0]);
 			String examID = updateDetails[1];
@@ -129,28 +137,48 @@ public class ExamController {
 		 * exists in DB, the map wont contain field's name and id.
 		 */
 		String fieldQuery = "SELECT fname FROM FieldOfStudy WHERE fid = " + fieldID;
-		try (Statement stmt = DBconnector.conn.createStatement()) {
-			ResultSet rs = stmt.executeQuery(fieldQuery);
+		try {
+			stmt = DBconnector.conn.createStatement();
+			rs = stmt.executeQuery(fieldQuery);
 			while (rs.next()) {
 				examDataMap.put("fieldID", fieldID);
 				examDataMap.put("fieldName", rs.getString("fname"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+			} catch (Exception e) {
+			}
+			try {
+				stmt.close();
+			} catch (Exception e) {
+			}
 		}
 		/**
 		 * Execute query for exam's course name. Table Course. In case exam isn't exists
 		 * in DB, the map wont contain course's name and id.
 		 */
 		String courseQuery = "SELECT cname FROM Course WHERE cid = " + courseID;
-		try (Statement stmt = DBconnector.conn.createStatement()) {
-			ResultSet rs = stmt.executeQuery(courseQuery);
+		try {
+			stmt = DBconnector.conn.createStatement();
+			rs = stmt.executeQuery(courseQuery);
 			while (rs.next()) {
 				examDataMap.put("courseID", courseID);
 				examDataMap.put("courseName", rs.getString("cname"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+			} catch (Exception e) {
+			}
+			try {
+				stmt.close();
+			} catch (Exception e) {
+			}
 		}
 		/**
 		 * Execute query for exam's details. Join between tables Exam & QuestionInExam.
@@ -158,8 +186,9 @@ public class ExamController {
 		String examQuery = "SELECT e.duration, qe.qid, qe.score "
 				+ "FROM Exam e JOIN QuestionInExam qe using(fid, cid, eid)" + " WHERE fid = " + fieldID + " AND "
 				+ "cid = " + courseID + " AND " + "eid = " + examID;
-		try (Statement stmt = DBconnector.conn.createStatement()) {
-			ResultSet rs = stmt.executeQuery(examQuery);
+		try {
+			stmt = DBconnector.conn.createStatement();
+			rs = stmt.executeQuery(examQuery);
 			int index = 1;
 			while (rs.next()) {
 				examDataMap.put("examID", examID);
@@ -172,6 +201,15 @@ public class ExamController {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+			} catch (Exception e) {
+			}
+			try {
+				stmt.close();
+			} catch (Exception e) {
+			}
 		}
 		return examDataMap;
 	}
@@ -193,11 +231,17 @@ public class ExamController {
 		 */
 		String query = "UPDATE Exam SET duration = " + newDuration + " WHERE fid = " + fieldID + " AND " + "cid = "
 				+ courseID + " AND " + "eid = " + examID;
-		try (Statement stmt = DBconnector.conn.createStatement()) {
+		try {
+			stmt = DBconnector.conn.createStatement();
 			stmt.executeUpdate(query);
 			display("DB: New exam duration time was updated");
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				stmt.close();
+			} catch (Exception e) {
+			}
 		}
 	}
 
@@ -219,18 +263,28 @@ public class ExamController {
 		 */
 		String query = "SELECT duration FROM Exam WHERE fid = " + fieldID + " AND " + "cid = " + courseID + " AND "
 				+ "eid = " + examID;
-		try (Statement stmt = DBconnector.conn.createStatement()) {
-			ResultSet rs = stmt.executeQuery(query);
+		try {
+			stmt = DBconnector.conn.createStatement();
+			rs = stmt.executeQuery(query);
 			while (rs.next())
 				duration = rs.getInt("duration");
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+			} catch (Exception e) {
+			}
+			try {
+				stmt.close();
+			} catch (Exception e) {
+			}
 		}
 		return duration;
 	}
 
 	/**
-	 * This method parsing the data recieved from msg.
+	 * This method parsing the data received from msg.
 	 * 
 	 * @param msg The message received.
 	 * @return pArray The parsed data.

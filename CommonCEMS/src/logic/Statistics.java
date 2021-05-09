@@ -11,11 +11,11 @@ import java.io.Serializable;
  * @version May 2021
  */
 
-
 @SuppressWarnings("serial")
-public class Statistics implements Serializable{
-	
+public class Statistics implements Serializable {
+
 	// Instance variables **********************************************
+
 	private int sid;
 	private int eid;
 	private int fid;
@@ -25,11 +25,12 @@ public class Statistics implements Serializable{
 	private int numFinished;
 	private int numStarted;
 	private int numNotFinished;
-	
+
 	// Constructors ****************************************************
+
 	public Statistics() {
 	}
-	
+
 	// Instance methods ************************************************
 
 	/**
@@ -178,11 +179,11 @@ public class Statistics implements Serializable{
 		result = prime * result + sid;
 		return result;
 	}
-	
+
 	/**
 	 * @return true If object is this Statistics, false otherwise
 	 */
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 /**
  * This is an entity class that save details about each field of Study that is
- * created. Implements Serilizable to save the state of Field of Study object and
+ * created. Implements Serilizable to save the state of FieldofStudy object and
  * re-create it as needed.
  *
  * @author Moran Davidov
@@ -13,17 +13,20 @@ import java.util.ArrayList;
  */
 
 @SuppressWarnings("serial")
-public class FieldofStudy implements Serializable{
-	
+public class FieldofStudy implements Serializable {
+
+	// Instance variables **********************************************
+
 	private String fid;
 	private String fname;
 	private ArrayList<Course> courses = new ArrayList<>();
-	
-	// Instance variables **********************************************
+
+	// Constructors ****************************************************
+
 	public FieldofStudy() {
 
 	}
-	
+
 	// Instance methods ************************************************
 
 	/**
@@ -39,35 +42,35 @@ public class FieldofStudy implements Serializable{
 	public void setFid(String fid) {
 		this.fid = fid;
 	}
-	
+
 	/**
 	 * @return the fname
 	 */
 	public String getFname() {
 		return fname;
 	}
-	
+
 	/**
 	 * @param fname The fname to set
 	 */
 	public void setFname(String fname) {
 		this.fname = fname;
 	}
-	
+
 	/**
 	 * @return the courses
 	 */
 	public ArrayList<Course> getCourses() {
 		return courses;
 	}
-	
+
 	/**
 	 * @param courses The courses to set
 	 */
 	public void setCourses(ArrayList<Course> courses) {
 		this.courses = courses;
 	}
-	
+
 	/**
 	 * @return result The hashCode of FieldofStuday object
 	 */

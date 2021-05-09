@@ -1,9 +1,9 @@
 package gui;
 
 import java.io.IOException;
-import java.net.Socket;
-import java.net.UnknownHostException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -12,6 +12,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -20,6 +21,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -39,7 +42,7 @@ import server.ServerController;
  * @version May 2021
  */
 
-public class ServerPortController {
+public class ServerPortController implements Initializable {
 
 	// Instance variables **********************************************
 
@@ -52,6 +55,10 @@ public class ServerPortController {
 	 * FXML variables.
 	 */
 	@FXML
+	private ImageView imgPort;
+	@FXML
+	private ImageView imgClients;
+	@FXML
 	private TextField txtPort;
 	@FXML
 	private Label lblErrorPort;
@@ -63,6 +70,8 @@ public class ServerPortController {
 	private TableColumn<Client, String> columnHost;
 	@FXML
 	private TableColumn<Client, ClientStatus> columnStatus;
+
+	// Instance methods ************************************************
 
 	/**
 	 * The server's first window and this window's first method. load and show this
@@ -103,7 +112,7 @@ public class ServerPortController {
 			server = new ServerController(Integer.parseInt(port));
 			// hiding the current window
 			((Node) event.getSource()).getScene().getWindow().hide();
-			//try to listening for connections
+			// try to listening for connections
 			server.runServer();
 			if (!server.connectionSuccessfull)
 				lblErrorPort.setText("connection faild");
@@ -116,14 +125,18 @@ public class ServerPortController {
 				Scene scene = new Scene(root);
 				primaryStage.setTitle("Server Connections");
 				primaryStage.setScene(scene);
-				// close the program
+				// close the server
 				primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-				    @Override
-				    public void handle(WindowEvent e) {
-				     Platform.exit();
-				     System.exit(0);
-				    }
-				  });
+					@Override
+					public void handle(WindowEvent e) {
+						Platform.exit();
+						try {
+							server.close();
+						} catch (IOException ex) {
+							display("Faild to exit server!");
+						}
+					}
+				});
 				primaryStage.show();
 			}
 		}
@@ -133,9 +146,9 @@ public class ServerPortController {
 	 * This is FXML event handler. Handles the action of click on 'refresh' button.
 	 *
 	 * @param event The action event.
-	 * @throws IOException 
+	 * @throws IOException
 	 */
-	@SuppressWarnings({ "static-access", "resource" })
+	@SuppressWarnings({ "static-access" })
 	@FXML
 	public void refreshActionButton(ActionEvent event) throws IOException {
 		// this list save the details of all connected clients
@@ -144,7 +157,7 @@ public class ServerPortController {
 		String[] ca; // tmp for string clientAddress for split method
 		String ip; // client's ip address
 		String hostName; // client's host name
-		
+
 		// there is at least 1 client that connected to server
 		if (server.getNumberOfClients() != 0) {
 			Thread[] clientConnected = new Thread[server.getNumberOfClients()];
@@ -154,7 +167,7 @@ public class ServerPortController {
 				clientAddress = (((ConnectionToClient) client).getInetAddress().getLocalHost()).toString();
 				ca = clientAddress.split("/");
 				hostName = ca[0];
-				ip = ca[1] + " : " + (new Socket(((ConnectionToClient) client).getInetAddress(), server.getPort())).getLocalPort();
+				ip = ca[1];
 				// add the details to the table
 				allClients.add(new Client(ip, hostName, ClientStatus.CONNECTED));
 			}
@@ -176,23 +189,29 @@ public class ServerPortController {
 	}
 
 	/**
-	 * This is FXML event handler. Handles the action of click on 'exit' button.
-	 *
-	 * @param event The action event.
-	 */
-	@FXML
-	public void getExitButton(ActionEvent event) {
-		display("exit server");
-		System.exit(0);
-	}
-
-	/**
 	 * This method displays a message into the console.
 	 *
 	 * @param message The string to be displayed.
 	 */
 	public static void display(String message) {
 		System.out.println("> " + message);
+	}
+
+	/**
+	 * This method called to initialize a controller after its root element has been
+	 * completely processed (after load method).
+	 *
+	 */
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		if (imgPort != null) {
+			Image img = new Image(this.getClass().getResource("serverFrame.PNG").toString());
+			imgPort.setImage(img);
+		}
+		if (imgClients != null) {
+			Image img = new Image(this.getClass().getResource("serverFrame.PNG").toString());
+			imgClients.setImage(img);
+		}
 	}
 }
 //End of ServerPortController class

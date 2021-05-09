@@ -3,7 +3,7 @@ package client;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import java.io.IOException;
-import gui.SearchExamController;
+import control.SearchExamController;
 
 /**
  * This class overrides some of the methods defined in the Application
@@ -46,21 +46,27 @@ public class ClientUI extends Application {
 	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-
 		try {
 			// initialize the instance
 			client = new ClientController("localhost", DEFAULT_PORT);
 		} catch (IOException exception) {
-			System.out.println("Error: Can't setup connection!" + " Terminating client.");
+			display("Error: Can't setup connection!" + " Terminating client.");
 			System.exit(1);
 		}
 		/**
 		 * create and start SearchExam frame.
 		 */
 		SearchExamController frame = new SearchExamController();
-		// close the program
-		primaryStage.setOnCloseRequest((event)->{System.exit(0);});
 		frame.start(primaryStage);
+	}
+
+	/**
+	 * This method displays a message into the console.
+	 *
+	 * @param message The string to be displayed.
+	 */
+	public static void display(String message) {
+		System.out.println("> " + message);
 	}
 }
 //End of ClientUI class

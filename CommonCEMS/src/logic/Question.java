@@ -25,6 +25,7 @@ public class Question implements Serializable {
 	private String cid;
 	private String questionID;
 	private String author;
+	private String content;
 	private String instructions;
 	private String rightAnswer;
 	private String wrongAnswer1;

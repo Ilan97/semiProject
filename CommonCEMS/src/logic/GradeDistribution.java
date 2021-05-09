@@ -3,9 +3,9 @@ package logic;
 import java.io.Serializable;
 
 /**
- * This is an entity class that save details about each grade Distribution that is
- * created. Implements Serilizable to save the state of Grade Distribution object and
- * re-create it as needed.
+ * This is an entity class that save details about each grade Distribution that
+ * is created. Implements Serilizable to save the state of GradeDistribution
+ * object and re-create it as needed.
  *
  * @author Moran Davidov
  * @version May 2021
@@ -13,18 +13,20 @@ import java.io.Serializable;
 
 @SuppressWarnings("serial")
 public class GradeDistribution implements Serializable {
-	
+
 	// Instance variables **********************************************
+
 	private int sid;
 	private String gradeRange;
 	private int studentCounter;
-	
+
 	// Constructors ****************************************************
+
 	public GradeDistribution() {
 	}
-	
+
 	// Instance methods ************************************************
-	
+
 	/**
 	 * @return the sid
 	 */

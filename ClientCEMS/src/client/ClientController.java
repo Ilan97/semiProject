@@ -6,8 +6,9 @@ package client;
 
 import java.io.IOException;
 
-import gui.SearchExamController;
-import logic.Exam;
+import control.ServerCrushedController;
+import javafx.application.Platform;
+import javafx.stage.Stage;
 import logic.Message;
 import ocsf.client.AbstractClient;
 
@@ -24,6 +25,10 @@ public class ClientController extends AbstractClient {
 
 	// Instance variables **********************************************
 
+	/**
+	 * The message that returns from server
+	 */
+	private Object message;
 	/**
 	 * The interface type variable. It allows the implementation of the display
 	 * method in the client.
@@ -53,32 +58,19 @@ public class ClientController extends AbstractClient {
 	 */
 	public void handleMessageFromServer(Object msg) {
 		display("HandleMessageFromServer");
-		awaitResponse = false; // no longer wait for response from server (received message)
 		Message messageFromServer = ((Message) msg);
-		/**
-		 * External switch case is on controller's name which returning results from DB.
-		 * Internal switch case is on the operations every controller ask to operate.
-		 */
-		switch (messageFromServer.getControllerName()) {
-		case "ExamController":
-			switch (messageFromServer.getOperation()) {
-			case "viewTableExam":
-				SearchExamController.exam = (Exam) messageFromServer.getMsg();
-				break;
-
-			case "updateExamDurationTime":
-				SearchExamController.exam.setDuration((int) messageFromServer.getMsg());
-				break;
-			} // end internal switch case
-		} // end external switch case
+		message = messageFromServer.getMsg();
+		awaitResponse = false; // no longer wait for response from server (received message)
 	}
 
 	/**
 	 * This method handles all data coming from the UI
 	 *
 	 * @param msg The message from the UI.
+	 * @return message The result from server
+	 * @throws IOException
 	 */
-	public void handleMessageFromClientUI(Message msg) {
+	public Object handleMessageFromClientUI(Message msg) {
 		try {
 			openConnection();
 			awaitResponse = true;
@@ -89,23 +81,25 @@ public class ClientController extends AbstractClient {
 				try {
 					Thread.sleep(100);
 				} catch (InterruptedException e) {
-					e.printStackTrace();
 				}
 			}
+			Object ret = message;
+			message = null;
+			return ret;
 		} catch (IOException e) {
 			e.printStackTrace();
 			display("Could not send message to server: Terminating client." + e);
 			quit();
 		}
+		return null;
 	}
 
 	/**
-	 * This method displays a message into the console.
-	 *
-	 * @param message The string to be displayed.
+	 * This method called when the client is close connection with server.
 	 */
-	public void display(String message) {
-		System.out.println("> " + message);
+	@Override
+	protected void connectionClosed() {
+		display("Client disconnected");
 	}
 
 	/**
@@ -117,6 +111,38 @@ public class ClientController extends AbstractClient {
 		} catch (IOException e) {
 		}
 		System.exit(0);
+	}
+
+	/**
+	 * This method called when client connection closed.
+	 */
+	@Override
+	protected void connectionEstablished() {
+		Thread con = Thread.currentThread();
+		new Thread(() -> {
+			while(con.isAlive()) {
+				try {
+					con.join();
+				} catch(InterruptedException e) {
+				}
+			}
+			Platform.runLater(() -> {
+				ServerCrushedController serverCrushedController = new ServerCrushedController();
+				try {
+					serverCrushedController.start(new Stage());
+				} catch (Exception e) {
+				}
+			});
+		}).start();
+	}
+
+	/**
+	 * This method displays a message into the console.
+	 *
+	 * @param message The string to be displayed.
+	 */
+	public void display(String message) {
+		System.out.println("> " + message);
 	}
 }
 //End of ClientController class

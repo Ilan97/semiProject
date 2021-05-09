@@ -3,32 +3,32 @@ package logic;
 import java.io.Serializable;
 
 /**
- * This is an entity class that save details about each report that is
- * created. Implements Serilizable to save the state of Report object and
- * re-create it as needed.
+ * This is an entity class that save details about each report that is created.
+ * Implements Serilizable to save the state of Report object and re-create it as
+ * needed.
  *
  * @author Moran Davidov
  * @version May 2021
  */
 
 @SuppressWarnings("serial")
-public class Report implements Serializable{
+public class Report implements Serializable {
 
 	// Instance variables **********************************************
+
 	private int sid;
 	private int rid;
 	private float average;
 	private int median;
 	private GradeDistribution gradeDistribution;
-	
-
 
 	// Constructors ****************************************************
+
 	public Report() {
 	}
 
 	// Instance methods ************************************************
-	
+
 	/**
 	 * @return the gradeDistribution
 	 */
@@ -39,7 +39,7 @@ public class Report implements Serializable{
 	public void setGradeDistribution(GradeDistribution gradeDistribution) {
 		this.gradeDistribution = gradeDistribution;
 	}
-	
+
 	/**
 	 * @return the sid
 	 */
@@ -110,7 +110,7 @@ public class Report implements Serializable{
 		result = prime * result + sid;
 		return result;
 	}
-	
+
 	/**
 	 * @return true If object is this Report, false otherwise
 	 */

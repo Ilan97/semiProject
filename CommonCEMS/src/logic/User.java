@@ -3,9 +3,9 @@ package logic;
 import java.io.Serializable;
 
 /**
- * This is an entity class that save details about each user that is
- * created. Implements Serilizable to save the state of User object and
- * re-create it as needed.
+ * This is an entity class that save details about each user that is created.
+ * Implements Serilizable to save the state of User object and re-create it as
+ * needed.
  *
  * @author Moran Davidov
  * @version May 2021
@@ -13,8 +13,9 @@ import java.io.Serializable;
 
 @SuppressWarnings("serial")
 public class User implements Serializable {
-	
+
 	// Instance variables **********************************************
+
 	private String username;
 	private String upassword;
 	private String firstName;
@@ -22,105 +23,106 @@ public class User implements Serializable {
 	private String uid;
 	private String email;
 	private boolean isLogedIN;
-	
+
 	// Constructors ****************************************************
+
 	public User() {
-		
+
 	}
 
 	// Instance methods ************************************************
-	
+
 	/**
 	 * @return the username
 	 */
 	public String getUsername() {
 		return username;
 	}
-	
+
 	/**
 	 * @param username The username to set
 	 */
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	
+
 	/**
 	 * @return the upassword
 	 */
 	public String getUpassword() {
 		return upassword;
 	}
-	
+
 	/**
 	 * @param upassword The upassword to set
 	 */
 	public void setUpassword(String upassword) {
 		this.upassword = upassword;
 	}
-	
+
 	/**
 	 * @return the firstName
 	 */
 	public String getFirstName() {
 		return firstName;
 	}
-	
+
 	/**
 	 * @param firstName The firstName to set
 	 */
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
-	
+
 	/**
 	 * @return the lastName
 	 */
 	public String getLastName() {
 		return lastName;
 	}
-	
+
 	/**
 	 * @param lastName The lastName to set
 	 */
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	
+
 	/**
 	 * @return the uid
 	 */
 	public String getUid() {
 		return uid;
 	}
-	
+
 	/**
 	 * @param uid The uid to set
 	 */
 	public void setUid(String uid) {
 		this.uid = uid;
 	}
-	
+
 	/**
 	 * @return the email
 	 */
 	public String getEmail() {
 		return email;
 	}
-	
+
 	/**
 	 * @param email The email to set
 	 */
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
+
 	/**
 	 * @return if logged in or not
 	 */
 	public boolean isLogedIN() {
 		return isLogedIN;
 	}
-	
+
 	/**
 	 * @param isLogedIN The isLogedIN to set
 	 */
@@ -191,8 +193,6 @@ public class User implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
 
 }
 //End of User class

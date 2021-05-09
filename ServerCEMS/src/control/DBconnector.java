@@ -27,7 +27,7 @@ public class DBconnector {
 	// Instance methods ************************************************
 
 	/**
-	 * Connect the java with the DB.
+	 * Connect java with the DB.
 	 */
 	public static void connectToDB() {
 		try {
@@ -38,8 +38,23 @@ public class DBconnector {
 		}
 
 		try {
-			conn = DriverManager.getConnection("jdbc:mysql://localhost/cemserver?serverTimezone=IST", "G3", "123456");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost/cemserver?useSSL=false&serverTimezone=IST", "G3",
+					"123456");
 			display("SQL connection succeed");
+		} catch (SQLException ex) {
+			display("SQLException: " + ex.getMessage());
+			display("SQLState: " + ex.getSQLState());
+			display("VendorError: " + ex.getErrorCode());
+		}
+	}
+
+	/**
+	 * disconnect java from DB.
+	 */
+	public static void closeDB() {
+		try {
+			conn.close();
+			display("SQL close succeed");
 		} catch (SQLException ex) {
 			display("SQLException: " + ex.getMessage());
 			display("SQLState: " + ex.getSQLState());

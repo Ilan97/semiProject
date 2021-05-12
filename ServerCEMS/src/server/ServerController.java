@@ -20,6 +20,11 @@ import ocsf.server.ConnectionToClient;
  * @author Fran&ccedil;ois B&eacute;langer
  * @author Paul Holden
  * @version July 2000
+ * @author Bat-El Gardin
+ * @author Sharon Vaknin
+ * @author Ilan Meikler
+ * @author Ohad Shamir
+ * @version May 2021
  */
 public class ServerController extends AbstractServer {
 

@@ -20,6 +20,11 @@ import ocsf.client.AbstractClient;
  * @author Dr Robert Lagani&egrave;
  * @author Fran&ccedil;ois B&eacute;langer
  * @version July 2000
+ * @author Bat-El Gardin
+ * @author Sharon Vaknin
+ * @author Ilan Meikler
+ * @author Ohad Shamir
+ * @version May 2021
  */
 public class ClientController extends AbstractClient {
 

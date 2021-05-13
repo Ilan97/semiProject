@@ -96,17 +96,7 @@
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </MenuButton>
-            <MenuButton layoutX="386.0" layoutY="172.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="176.0" style="-fx-background-color: #b2b2b2;" text="Choose Report Type" textFill="WHITE" wrapText="true">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="Report by Student" />
-                  <MenuItem mnemonicParsing="false" text="Report by Teacher" />
-                  <MenuItem mnemonicParsing="false" text="Report by Course" />
-               </items>
-               <font>
-                  <Font name="Calibri Bold" size="14.0" />
-               </font>
-            </MenuButton>
-            <Label layoutX="379.0" layoutY="169.0" text="*" textFill="#f86060">
+            <Label layoutX="379.0" layoutY="165.0" text="*" textFill="#f86060">
                <font>
                   <Font name="Calibri Bold" size="11.0" />
                </font>
@@ -138,5 +128,14 @@
             </Label>
          </children>
       </Pane>
+      <MenuButton fx:id="reportType" layoutX="379.0" layoutY="169.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="176.0" style="-fx-background-color: #b2b2b2;" text="Report by Student" textFill="WHITE" wrapText="true">
+         <items>
+            <MenuItem fx:id="byTeacher" mnemonicParsing="false" onAction="#teacherNext" text="Report by Teacher" />
+            <MenuItem fx:id="byCourse" mnemonicParsing="false" onAction="#courseNext" text="Report by Course" />
+         </items>
+         <font>
+            <Font name="Calibri Bold" size="14.0" />
+         </font>
+      </MenuButton>
    </children>
 </AnchorPane>

@@ -50,7 +50,7 @@
                </children>
             </VBox>
             <ListView fx:id="requestsList" layoutX="346.0" layoutY="143.0" prefHeight="241.0" prefWidth="274.0" />
-            <Button layoutX="684.0" layoutY="465.0" mnemonicParsing="false" onAction="#closeAction" prefHeight="27.0" prefWidth="57.0" style="-fx-background-color: #f86060; -fx-background-radius: 30 30 30 30;" text="Close" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Button layoutX="684.0" layoutY="465.0" mnemonicParsing="false" onAction="#goHome" prefHeight="27.0" prefWidth="57.0" style="-fx-background-color: #f86060; -fx-background-radius: 30 30 30 30;" text="Close" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>

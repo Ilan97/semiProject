@@ -16,6 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -23,6 +24,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -63,6 +66,8 @@ public class ServerPortController implements Initializable {
 	@FXML
 	private Label lblErrorPort;
 	@FXML
+	private Button btnConnect;
+	@FXML
 	private TableView<Client> table;
 	@FXML
 	private TableColumn<Client, String> columnIP;
@@ -72,6 +77,18 @@ public class ServerPortController implements Initializable {
 	private TableColumn<Client, ClientStatus> columnStatus;
 
 	// Instance methods ************************************************
+
+	/**
+	 * This is FXML event handler. Handles the action of press on "Enter".
+	 *
+	 * @param event The action event.
+	 */
+	@FXML
+	void inputPass(KeyEvent event) {
+		if (event.getCode().equals(KeyCode.ENTER)) {
+			btnConnect.fire();
+		}
+	}
 
 	/**
 	 * The server's first window and this window's first method. load and show this

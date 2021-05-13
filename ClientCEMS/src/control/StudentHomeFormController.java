@@ -16,7 +16,8 @@ import logic.Message;
  * This is controller class (boundary) for window StudentHome. This class handle
  * all events related to this window. This class connect with client.
  *
- * @author
+ * @author Bat-El Gardin
+ * @author Sharon Vaknin
  * @version May 2021
  */
 
@@ -31,7 +32,7 @@ public class StudentHomeFormController implements GuiController, Initializable {
 	private ImageView imgBack;
 	@FXML
 	private ImageView imgLogo;
-	
+
 	// Instance methods ************************************************
 
 	/**
@@ -75,17 +76,21 @@ public class StudentHomeFormController implements GuiController, Initializable {
 	void gradesAction(ActionEvent event) {
 		Navigator.instance().navigate("GradesForm");
 	}
-	
 
-    @FXML
-    void logoutAction(ActionEvent event) {
-    	Message messageToServer = new Message();
-    	messageToServer.setMsg(LoginController.user.getUsername());
+	/**
+	 * This is FXML event handler. Handles the action of click on 'Log out' button.
+	 *
+	 * @param event The action event.
+	 */
+	@FXML
+	void logoutAction(ActionEvent event) {
+		Message messageToServer = new Message();
+		messageToServer.setMsg(LoginController.user.getUsername());
 		messageToServer.setOperation("updateConnectionStatus");
 		messageToServer.setControllerName("UserController");
 		ClientUI.client.handleMessageFromClientUI(messageToServer);
 		Navigator.instance().clearHistory("LoginForm");
-    }
+	}
 
 	/**
 	 * This method called to initialize a controller after its root element has been

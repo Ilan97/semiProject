@@ -60,5 +60,10 @@
             </Button>
          </children>
       </Pane>
+      <Button layoutX="694.0" layoutY="475.0" mnemonicParsing="false" onAction="#logoutAction" prefHeight="10.0" prefWidth="64.0" style="-fx-background-color: #F6872B; -fx-background-radius: 30 30 30 30;" text="Log out" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+         <font>
+            <Font name="Calibri Bold" size="14.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

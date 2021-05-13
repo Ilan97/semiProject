@@ -17,7 +17,7 @@ import javafx.scene.image.ImageView;
  * This class handle all events related to this window. This class connect with
  * client.
  *
- * @author
+ * @author Bat-El Gardin
  * @version May 2021
  */
 

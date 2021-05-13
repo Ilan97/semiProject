@@ -13,7 +13,7 @@
       <Pane prefHeight="210.0" prefWidth="223.0" style="-fx-background-color: #ffffff;">
          <children>
             <ImageView fx:id="imgCrash" fitHeight="210.0" fitWidth="223.0" layoutY="-1.0" />
-            <Text fill="#f86060" layoutX="15.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Oh no! " textAlignment="CENTER" wrappingWidth="199.47003173828125">
+            <Text fill="#f86060" layoutX="38.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Oh no! " textAlignment="CENTER" wrappingWidth="199.47003173828125">
                <font>
                   <Font name="Calibri Bold" size="41.0" />
                </font>
@@ -33,6 +33,7 @@
                   <Font name="Calibri" size="18.0" />
                </font>
             </Label>
+            <ImageView fx:id="imgErr" fitHeight="50.0" fitWidth="60.0" layoutX="16.0" layoutY="17.0" />
          </children>
       </Pane>
    </children>

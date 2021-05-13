@@ -1,4 +1,6 @@
-package control;
+package gui;
+
+import control.GuiController;
 
 public interface NavigatorInterface {
 

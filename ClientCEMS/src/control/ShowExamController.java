@@ -163,8 +163,7 @@ public class ShowExamController implements GuiController, Initializable {
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
-
+		loadExam();
 	}
 }
 //End of ShowExamController class

@@ -1,9 +1,10 @@
-package control;
+package gui;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.Stack;
 
+import control.GuiController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -88,6 +89,7 @@ public class Navigator implements NavigatorInterface {
 			current.name = destenation;
 			baseNode.getChildren().clear();
 			baseNode.getChildren().add(current.node);
+			baseNode.getScene().getWindow().sizeToScene();
 			return current.controller;
 		} catch (IOException e) {
 			e.printStackTrace();

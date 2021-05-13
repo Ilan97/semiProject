@@ -7,6 +7,7 @@ package server;
 import control.DBconnector;
 
 import control.ExamController;
+import control.UserController;
 import logic.Message;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
@@ -74,7 +75,9 @@ public class ServerController extends AbstractServer {
 		case "ExamController":
 			messageFromController = ExamController.handleRequest(messageFromClient);
 			break;
-
+		case "UserController":
+			messageFromController = UserController.handleRequest(messageFromClient);
+			break;
 		} // end of switch
 
 		/**

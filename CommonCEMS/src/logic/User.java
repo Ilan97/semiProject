@@ -23,8 +23,17 @@ public class User implements Serializable {
 	private String uid;
 	private String email;
 	private boolean isLogedIN;
+	private UserType userType;
 
 	// Constructors ****************************************************
+
+	public UserType getUserType() {
+		return userType;
+	}
+
+	public void setUserType(UserType userType) {
+		this.userType = userType;
+	}
 
 	public User() {
 

@@ -89,6 +89,7 @@ public class Navigator implements NavigatorInterface {
 			current.name = destenation;
 			baseNode.getChildren().clear();
 			baseNode.getChildren().add(current.node);
+			baseNode.getScene().getWindow().sizeToScene();
 			return current.controller;
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -50,7 +50,7 @@ public class PrincipalReportForm2Controller implements GuiController, Initializa
 	 */
 	@FXML
 	void back(ActionEvent event) {
-
+		Navigator.instance().navigate("PrincipalReportForm1");
 	}
 
 	/**
@@ -60,7 +60,7 @@ public class PrincipalReportForm2Controller implements GuiController, Initializa
 	 */
 	@FXML
 	void save(ActionEvent event) {
-
+		// pop up (?) or window
 	}
 
 	// Menu methods ************************************************

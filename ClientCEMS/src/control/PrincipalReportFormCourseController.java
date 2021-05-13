@@ -50,9 +50,31 @@ public class PrincipalReportFormCourseController implements GuiController, Initi
 	 */
 	@FXML
 	void next(ActionEvent event) {
-
+		Navigator.instance().navigate("PrincipalReportForm2");
 	}
 
+	/**
+	 * This is FXML event handler. Handles the action of click on 'Report by
+	 * Student' option in 'Choose Report Type' menu button.
+	 * 
+	 * @param event The action event.
+	 */
+	@FXML
+	void studentNext(ActionEvent event) {
+		Navigator.instance().navigate("PrincipalReportFormStudent");
+	}
+
+	/**
+	 * This is FXML event handler. Handles the action of click on 'Report by
+	 * Teacher' option in 'Choose Report Type' menu button.
+	 * 
+	 * @param event The action event.
+	 */
+	@FXML
+	void teacherNext(ActionEvent event) {
+		Navigator.instance().navigate("PrincipalReportFormTeacher");
+	}
+	
 	/**
 	 * This is FXML event handler. Handles the action of click on 'Choose Course'
 	 * menu button.

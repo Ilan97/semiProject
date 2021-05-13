@@ -39,16 +39,6 @@ public class PrincipalViewRequestFormController implements GuiController, Initia
 	// Instance methods ************************************************
 
 	/**
-	 * This is FXML event handler. Handles the action of click on 'Close' button.
-	 *
-	 * @param event The action event.
-	 */
-	@FXML
-	void closeAction(ActionEvent event) {
-
-	}
-
-	/**
 	 * This is FXML event handler. Handles the action of click on 'Refresh' button.
 	 *
 	 * @param event The action event.

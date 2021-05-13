@@ -41,11 +41,6 @@
                   <Font name="Calibri Bold" size="24.0" />
                </font>
             </Label>
-            <Button layoutX="705.0" layoutY="465.0" mnemonicParsing="false" onAction="#next" prefHeight="2.0" prefWidth="23.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="&gt;" textAlignment="CENTER" textFill="WHITE" wrapText="true">
-               <font>
-                  <Font name="Calibri Bold" size="14.0" />
-               </font>
-            </Button>
             <Label layoutX="251.0" layoutY="51.0" text="Get Report" textFill="#f6872b">
                <font>
                   <Font name="Calibri Bold" size="41.0" />
@@ -66,17 +61,17 @@
                   <Font name="Calibri Bold" size="18.0" />
                </font>
             </Label>
-            <MenuButton fx:id="reportType" layoutX="386.0" layoutY="220.0" mnemonicParsing="false" onAction="#chooseType" prefHeight="27.0" prefWidth="176.0" style="-fx-background-color: #b2b2b2;" text="Choose Report Type" textFill="WHITE" wrapText="true">
+            <MenuButton fx:id="reportType" layoutX="386.0" layoutY="169.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="176.0" style="-fx-background-color: #b2b2b2;" text="Choose Report Type" textFill="WHITE" wrapText="true">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Report by Student" />
-                  <MenuItem mnemonicParsing="false" text="Report by Teacher" />
-                  <MenuItem mnemonicParsing="false" text="Report by Course" />
+                  <MenuItem fx:id="byStudent" mnemonicParsing="false" onAction="#studentNext" text="Report by Student" />
+                  <MenuItem fx:id="byTeacher" mnemonicParsing="false" onAction="#teacherNext" text="Report by Teacher" />
+                  <MenuItem fx:id="byCourse" mnemonicParsing="false" onAction="#courseNext" text="Report by Course" />
                </items>
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </MenuButton>
-            <Label layoutX="380.0" layoutY="216.0" text="*" textFill="#f86060">
+            <Label layoutX="380.0" layoutY="165.0" text="*" textFill="#f86060">
                <font>
                   <Font name="Calibri Bold" size="11.0" />
                </font>
@@ -88,5 +83,10 @@
             </Label>
          </children>
       </Pane>
+      <Button layoutX="715.0" layoutY="475.0" mnemonicParsing="false" onAction="#next" prefHeight="13.0" prefWidth="23.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="&gt;" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+         <font>
+            <Font name="Calibri Bold" size="14.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

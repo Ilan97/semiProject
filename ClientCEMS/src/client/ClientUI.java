@@ -1,9 +1,11 @@
 package client;
 
+import java.io.IOException;
+
+import control.LoginController;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import java.io.IOException;
-import control.SearchExamController;
+
 
 /**
  * This class overrides some of the methods defined in the Application
@@ -54,9 +56,9 @@ public class ClientUI extends Application {
 			System.exit(1);
 		}
 		/**
-		 * create and start SearchExam frame.
+		 * create and start Login frame.
 		 */
-		SearchExamController frame = new SearchExamController();
+		LoginController  frame = new LoginController();
 		frame.start(primaryStage);
 	}
 

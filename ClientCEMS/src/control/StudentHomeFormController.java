@@ -3,11 +3,14 @@ package control;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import client.ClientUI;
+import gui.Navigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import logic.Message;
 
 /**
  * This is controller class (boundary) for window StudentHome. This class handle
@@ -28,7 +31,7 @@ public class StudentHomeFormController implements GuiController, Initializable {
 	private ImageView imgBack;
 	@FXML
 	private ImageView imgLogo;
-
+	
 	// Instance methods ************************************************
 
 	/**
@@ -38,7 +41,7 @@ public class StudentHomeFormController implements GuiController, Initializable {
 	 */
 	@FXML
 	void goHome(ActionEvent event) {
-
+		Navigator.instance().clearHistory("PrincipalHomeForm");
 	}
 
 	/**
@@ -49,7 +52,7 @@ public class StudentHomeFormController implements GuiController, Initializable {
 	 */
 	@FXML
 	void compExamAction(ActionEvent event) {
-
+		Navigator.instance().navigate("ComputerizedExamCodeWindow");
 	}
 
 	/**
@@ -60,7 +63,7 @@ public class StudentHomeFormController implements GuiController, Initializable {
 	 */
 	@FXML
 	void manualExamAction(ActionEvent event) {
-
+		Navigator.instance().navigate("ManualExamForm");
 	}
 
 	/**
@@ -70,8 +73,19 @@ public class StudentHomeFormController implements GuiController, Initializable {
 	 */
 	@FXML
 	void gradesAction(ActionEvent event) {
-
+		Navigator.instance().navigate("GradesForm");
 	}
+	
+
+    @FXML
+    void logoutAction(ActionEvent event) {
+    	Message messageToServer = new Message();
+    	messageToServer.setMsg(LoginController.user.getUsername());
+		messageToServer.setOperation("updateConnectionStatus");
+		messageToServer.setControllerName("UserController");
+		ClientUI.client.handleMessageFromClientUI(messageToServer);
+		Navigator.instance().clearHistory("LoginForm");
+    }
 
 	/**
 	 * This method called to initialize a controller after its root element has been

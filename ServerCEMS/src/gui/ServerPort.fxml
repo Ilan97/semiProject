@@ -11,29 +11,29 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ServerPortController">
    <children>
-      <Pane prefHeight="193.0" prefWidth="200.0" style="-fx-background-color: #ffffff;">
+      <Pane prefHeight="260.0" prefWidth="254.0" style="-fx-background-color: #ffffff;">
          <children>
-            <ImageView fx:id="imgPort" fitHeight="187.0" fitWidth="189.0" layoutX="5.0" layoutY="3.0" />
-            <Text fill="#0070c0" layoutX="79.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Port" wrappingWidth="227.47003173828125">
+            <ImageView fx:id="imgPort" fitHeight="254.0" fitWidth="243.0" layoutX="5.0" layoutY="3.0" />
+            <Text fill="#0070c0" layoutX="104.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Port" wrappingWidth="48.13671875">
                <font>
                   <Font name="Calibri Bold" size="24.0" />
                </font>
             </Text>
-            <Button fx:id="btnConnect" layoutX="69.0" layoutY="134.0" mnemonicParsing="false" onAction="#connectActionButton" style="-fx-background-color: #0070C0; -fx-background-radius: 30 30 30 30;" text="connect" textFill="WHITE">
+            <Button fx:id="btnConnect" layoutX="98.0" layoutY="194.0" mnemonicParsing="false" onAction="#connectActionButton" style="-fx-background-color: #0070C0; -fx-background-radius: 30 30 30 30;" text="connect" textFill="WHITE">
                <font>
                   <Font name="Calibri" size="14.0" />
                </font>
             </Button>
-            <TextField fx:id="txtPort" layoutX="61.0" layoutY="85.0" prefHeight="28.0" prefWidth="79.0">
+            <TextField fx:id="txtPort" layoutX="89.0" layoutY="119.0" onKeyPressed="#inputPass" prefHeight="28.0" prefWidth="79.0">
                <font>
                   <Font name="Calibri" size="12.0" />
                </font></TextField>
-            <Text fontSmoothingType="LCD" layoutX="70.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter port ">
+            <Text fontSmoothingType="LCD" layoutX="98.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter port ">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Text>
-            <Label fx:id="lblErrorPort" alignment="CENTER" layoutX="6.0" layoutY="42.0" prefHeight="17.0" prefWidth="189.0" textFill="#f86060">
+            <Label fx:id="lblErrorPort" alignment="CENTER" layoutX="34.0" layoutY="69.0" prefHeight="17.0" prefWidth="189.0" textFill="#f86060">
                <font>
                   <Font name="Calibri Bold" size="12.0" />
                </font>

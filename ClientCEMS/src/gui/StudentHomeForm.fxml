@@ -66,6 +66,11 @@
                   <Font name="Calibri Bold" size="24.0" />
                </font>
             </Label>
+            <Button layoutX="684.0" layoutY="475.0" mnemonicParsing="false" onAction="#logoutAction" prefHeight="10.0" prefWidth="64.0" style="-fx-background-color: #19cebc; -fx-background-radius: 30 30 30 30;" text="Log out" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Button>
          </children>
       </Pane>
    </children>

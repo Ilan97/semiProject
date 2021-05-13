@@ -72,16 +72,17 @@ public class UserController {
 		return result;
 		}
 	
-	
-	private static boolean updateConnectionStatus(String userName,boolean Status ) {
+	private static boolean updateConnectionStatus(String userName, boolean Status ) {
 		String query;
 		boolean StatusAfterUpdate = Status;
 		query = "UPDATE users SET isLogedIn = ? WHERE userName = ?";
 		
 		try {
 			pstmt = DBconnector.conn.prepareStatement(query);
-			
+			//if (Status)
 				pstmt.setBoolean(1, !Status);
+			//else
+				//pstmt.setBoolean(1, Status);
 			pstmt.setString(2, userName);
 			System.out.println(pstmt.executeUpdate());
 			
@@ -89,7 +90,7 @@ public class UserController {
 			
 			StatusAfterUpdate = getConnectionStatus(userName);
 			System.out.println("After while Rs");
-	}catch (SQLException e) {e.printStackTrace();} 
+	} catch (SQLException e) {e.printStackTrace();} 
 	finally 
 	{
 		try {rs.close();} catch (Exception e) {}

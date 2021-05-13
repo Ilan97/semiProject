@@ -3,6 +3,7 @@ package control;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import gui.Navigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -105,7 +106,7 @@ public class PrincipalReportFormCourseController implements GuiController, Initi
 	 */
 	@FXML
 	void goHome(ActionEvent event) {
-
+		Navigator.instance().clearHistory("PrincipalHomeForm");
 	}
 
 	/**
@@ -116,7 +117,18 @@ public class PrincipalReportFormCourseController implements GuiController, Initi
 	 */
 	@FXML
 	void getReportAction(ActionEvent event) {
+		Navigator.instance().navigate("PrincipalReportForm1");
+	}
 
+	/**
+	 * This is FXML event handler. Handles the action of click on 'View Request'
+	 * button.
+	 *
+	 * @param event The action event.
+	 */
+	@FXML
+	void viewRequestsAction(ActionEvent event) {
+		Navigator.instance().navigate("PrincipalViewRequestForm");
 	}
 
 	/**

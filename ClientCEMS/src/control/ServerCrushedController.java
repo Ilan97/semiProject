@@ -34,6 +34,8 @@ public class ServerCrushedController implements Initializable {
 	@FXML
 	private ImageView imgCrash;
 	@FXML
+	private ImageView imgErr;
+	@FXML
 	private Button btnApprove;
 
 	// Instance methods ************************************************
@@ -84,6 +86,8 @@ public class ServerCrushedController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		Image img = new Image(this.getClass().getResource("serverCrushed.PNG").toString());
 		imgCrash.setImage(img);
+		Image img2 = new Image(this.getClass().getResource("error.png").toString());
+		imgErr.setImage(img2);
 	}
 
 }

@@ -40,7 +40,7 @@
                   <Font name="Calibri Bold" size="12.0" />
                </font>
             </Label>
-            <VBox layoutY="115.0" prefHeight="412.0" prefWidth="176.0" style="-fx-background-color: #ffffff;">
+            <VBox layoutX="2.0" layoutY="115.0" prefHeight="412.0" prefWidth="176.0" style="-fx-background-color: #ffffff;">
                <children>
                   <Button mnemonicParsing="false" onAction="#goHome" prefHeight="60.0" prefWidth="130.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 0 30 30 0;" text="Home" textAlignment="CENTER" textFill="WHITE">
                      <font>
@@ -48,6 +48,11 @@
                      </font>
                   </Button>
                   <Button mnemonicParsing="false" onAction="#getReportAction" prefHeight="60.0" prefWidth="160.0" style="-fx-background-color: #F6872B; -fx-background-radius: 0 30 30 0;" text="Get Report" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                     <font>
+                        <Font name="Calibri Bold" size="18.0" />
+                     </font>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#viewRequestsAction" prefHeight="60.0" prefWidth="130.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 0 30 30 0;" text="View Requests" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                      <font>
                         <Font name="Calibri Bold" size="18.0" />
                      </font>

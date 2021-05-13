@@ -5,20 +5,15 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import client.ClientUI;
-import javafx.application.Platform;
+import gui.Navigator;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import logic.Exam;
 import logic.Message;
 
@@ -61,10 +56,13 @@ public class SearchExamController implements GuiController, Initializable {
 	 * @param primaryStage The stage for window's scene.
 	 */
 	public void start(Stage primaryStage) throws Exception {
-		Parent root = FXMLLoader.load(getClass().getResource("/gui/SearchExam.fxml"));
-		Scene scene = new Scene(root);
-		primaryStage.setTitle("CEMS");
-		primaryStage.setScene(scene);
+//		Parent root = FXMLLoader.load(getClass().getResource("/gui/SearchExam.fxml"));
+//		Scene scene = new Scene(root);
+//		primaryStage.setTitle("CEMS");
+		Pane p = new Pane();
+		Navigator.init(p);
+		primaryStage.setScene(new Scene(p));
+		Navigator.instance().navigate("SearchExam");
 		// close the client
 		primaryStage.setOnCloseRequest((event) -> {
 			try {
@@ -91,7 +89,7 @@ public class SearchExamController implements GuiController, Initializable {
 	 */
 	@FXML
 	public void searchActionButton(ActionEvent event) throws Exception {
-		FXMLLoader loader = new FXMLLoader();
+		//FXMLLoader loader = new FXMLLoader();
 		String id = getExamID();
 		// check that user put an id
 		if (id.trim().isEmpty())
@@ -109,32 +107,35 @@ public class SearchExamController implements GuiController, Initializable {
 				lblErrorID.setText("Exam ID not found");
 			} else {
 				display("Exam ID Found");
-				// hiding the current window
-				((Node) event.getSource()).getScene().getWindow().hide();
-				// load the next window
-				Stage primaryStage = new Stage();
-				Pane root = loader.load(getClass().getResource("/gui/ShowExam.fxml").openStream());
-				ShowExamController showExamController = loader.getController();
-				showExamController.loadExam();
-				// show the loaded scene
-				Scene scene = new Scene(root);
-				primaryStage.setTitle("CEMS");
-				// close the client
-				primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-					@Override
-					public void handle(WindowEvent e) {
-						Platform.exit();
-						try {
-							ClientUI.client.closeConnection();
-						} catch (IOException ex) {
-							display("Faild to exit client!");
-						}
-					}
-				});
-				primaryStage.setScene(scene);
-				primaryStage.show();
+//				// hiding the current window
+//				((Node) event.getSource()).getScene().getWindow().hide();
+//				// load the next window
+//				Stage primaryStage = new Stage();
+//				Pane root = loader.load(getClass().getResource("/gui/ShowExam.fxml").openStream());
+//				ShowExamController showExamController = loader.getController();
+//				showExamController.loadExam();
+//				// show the loaded scene
+//				Scene scene = new Scene(root);
+//				primaryStage.setTitle("CEMS");
+//				// close the client
+//				primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+//					@Override
+//					public void handle(WindowEvent e) {
+//						Platform.exit();
+//						try {
+//							ClientUI.client.closeConnection();
+//						} catch (IOException ex) {
+//							display("Faild to exit client!");
+//						}
+//					}
+//				});
+//				primaryStage.setScene(scene);
+//				primaryStage.show();
+				Navigator.instance().navigate("showExam");
 			}
+			
 		}
+		
 	}
 
 	/**
@@ -168,7 +169,6 @@ public class SearchExamController implements GuiController, Initializable {
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
 		
 	}
 }

@@ -3,6 +3,7 @@ package control;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import gui.Navigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,7 +17,8 @@ import javafx.scene.image.ImageView;
  * Teacher. This class handle all events related to this window. This class
  * connect with client.
  *
- * @author
+ * @author Moran Davidov
+ * @author Bat-El Gardin
  * @version May 2021
  */
 
@@ -49,7 +51,7 @@ public class WriteAnExamForm2Controller implements GuiController, Initializable 
 	 */
 	@FXML
 	void next(ActionEvent event) {
-
+		Navigator.instance().navigate("WriteAnExamForm3");
 	}
 
 	/**
@@ -59,7 +61,7 @@ public class WriteAnExamForm2Controller implements GuiController, Initializable 
 	 */
 	@FXML
 	void back(ActionEvent event) {
-
+		Navigator.instance().navigate("WriteAnExamForm1");
 	}
 
 	// Menu methods ************************************************
@@ -70,8 +72,8 @@ public class WriteAnExamForm2Controller implements GuiController, Initializable 
 	 * @param event The action event.
 	 */
 	@FXML
-	void goToHome(ActionEvent event) {
-
+	void goHome(ActionEvent event) {
+		Navigator.instance().clearHistory("TeacherHomeForm");
 	}
 
 	/**
@@ -82,7 +84,7 @@ public class WriteAnExamForm2Controller implements GuiController, Initializable 
 	 */
 	@FXML
 	void writeQuestionAction(ActionEvent event) {
-
+		Navigator.instance().navigate("WriteQuestionForm1");
 	}
 
 	/**
@@ -93,7 +95,7 @@ public class WriteAnExamForm2Controller implements GuiController, Initializable 
 	 */
 	@FXML
 	void writeExamAction(ActionEvent event) {
-
+		Navigator.instance().navigate("WriteAnExamForm1");
 	}
 
 	/**
@@ -104,7 +106,7 @@ public class WriteAnExamForm2Controller implements GuiController, Initializable 
 	 */
 	@FXML
 	void getReportAction(ActionEvent event) {
-
+		Navigator.instance().navigate("TeacherReportForm1");
 	}
 
 	/**
@@ -115,7 +117,7 @@ public class WriteAnExamForm2Controller implements GuiController, Initializable 
 	 */
 	@FXML
 	void changeDurAction(ActionEvent event) {
-
+		Navigator.instance().navigate("RequestChangeExamDurationTimeWindow");
 	}
 
 	/**
@@ -126,7 +128,7 @@ public class WriteAnExamForm2Controller implements GuiController, Initializable 
 	 */
 	@FXML
 	void checkExamAction(ActionEvent event) {
-
+		//Navigator.instance().navigate(" ");///????
 	}
 
 	/**
@@ -137,7 +139,7 @@ public class WriteAnExamForm2Controller implements GuiController, Initializable 
 	 */
 	@FXML
 	void examSearchAction(ActionEvent event) {
-
+		Navigator.instance().navigate("ExamStockForm1");
 	}
 
 	/**

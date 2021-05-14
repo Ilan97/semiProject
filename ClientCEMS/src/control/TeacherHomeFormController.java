@@ -18,6 +18,7 @@ import logic.Message;
  *
  * @author Bat-El Gardin
  * @author Sharon Vaknin
+ * @author Moran Davidov
  * @version May 2021
  */
 
@@ -41,8 +42,8 @@ public class TeacherHomeFormController implements GuiController, Initializable {
 	 * @param event The action event.
 	 */
 	@FXML
-	void goToHome(ActionEvent event) {
-
+	void goHome(ActionEvent event) {
+		Navigator.instance().clearHistory("TeacherHomeForm");
 	}
 
 	/**
@@ -53,7 +54,7 @@ public class TeacherHomeFormController implements GuiController, Initializable {
 	 */
 	@FXML
 	void writeQuestionAction(ActionEvent event) {
-
+		Navigator.instance().navigate("WriteQuestionForm1");
 	}
 
 	/**
@@ -64,7 +65,7 @@ public class TeacherHomeFormController implements GuiController, Initializable {
 	 */
 	@FXML
 	void writeExamAction(ActionEvent event) {
-
+		Navigator.instance().navigate("WriteAnExamForm1");
 	}
 
 	/**
@@ -75,7 +76,7 @@ public class TeacherHomeFormController implements GuiController, Initializable {
 	 */
 	@FXML
 	void getReportAction(ActionEvent event) {
-
+		Navigator.instance().navigate("TeacherReportForm1");
 	}
 
 	/**
@@ -86,7 +87,8 @@ public class TeacherHomeFormController implements GuiController, Initializable {
 	 */
 	@FXML
 	void changeDurAction(ActionEvent event) {
-
+		// need to be like pop up
+		Navigator.instance().navigate("RequestChangeExamDurationTimeWindow"); 
 	}
 
 	/**
@@ -97,7 +99,8 @@ public class TeacherHomeFormController implements GuiController, Initializable {
 	 */
 	@FXML
 	void checkExamAction(ActionEvent event) {
-
+		//NO WINDOW YET
+		//Navigator.instance().navigate(" ");///????
 	}
 
 	/**
@@ -108,7 +111,7 @@ public class TeacherHomeFormController implements GuiController, Initializable {
 	 */
 	@FXML
 	void examSearchAction(ActionEvent event) {
-
+		Navigator.instance().navigate("ExamStockForm1");
 	}
 
 	/**

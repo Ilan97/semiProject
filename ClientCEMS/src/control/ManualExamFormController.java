@@ -3,11 +3,13 @@ package control;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import gui.Navigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
 /**
  * This is controller class (boundary) for window ManualExam in Student. This
@@ -48,7 +50,12 @@ public class ManualExamFormController implements GuiController, Initializable {
 	 */
 	@FXML
 	void enterCodeAction(ActionEvent event) {
-
+		ManualExamCodeWindowController popUp = new ManualExamCodeWindowController();
+		try {
+			popUp.start(new Stage());
+		} catch (Exception e) {
+			
+		}
 	}
 
 	/**
@@ -71,7 +78,7 @@ public class ManualExamFormController implements GuiController, Initializable {
 	 */
 	@FXML
 	void goHome(ActionEvent event) {
-
+		Navigator.instance().clearHistory("StudentHomeForm");
 	}
 
 	/**
@@ -82,7 +89,13 @@ public class ManualExamFormController implements GuiController, Initializable {
 	 */
 	@FXML
 	void compExamAction(ActionEvent event) {
-
+		/*//successes pop up
+		ComputerizedExamCodeWindowController popUp = new ComputerizedExamCodeWindowController();
+		try {
+			popUp.start(new Stage());
+		} catch (Exception e) {
+			
+		}*/
 	}
 
 	/**
@@ -93,7 +106,7 @@ public class ManualExamFormController implements GuiController, Initializable {
 	 */
 	@FXML
 	void manualExamAction(ActionEvent event) {
-
+		Navigator.instance().navigate("ManualExamForm");
 	}
 
 	/**
@@ -103,7 +116,7 @@ public class ManualExamFormController implements GuiController, Initializable {
 	 */
 	@FXML
 	void gradesAction(ActionEvent event) {
-
+		Navigator.instance().navigate("GradesForm");
 	}
 
 	/**

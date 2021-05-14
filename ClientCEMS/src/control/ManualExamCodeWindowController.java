@@ -1,15 +1,20 @@
 package control;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
 /**
  * This is controller class (boundary) for window ManualExamCode in Student.
@@ -33,6 +38,25 @@ public class ManualExamCodeWindowController implements GuiController, Initializa
 	private TextField txtCode;
 	@FXML
 	private Label lblErr;
+	
+	// Instance methods ************************************************
+	
+	/**
+	 * Pop this window.
+	 *
+	 * @param primaryStage The stage for window's scene.
+	 */
+	public void start(Stage primaryStage) throws IOException {
+		Parent root = FXMLLoader.load(getClass().getResource("/gui/ManualExamCodeWindow.fxml"));
+		Scene scene = new Scene(root);
+		primaryStage.setTitle("Enter Code");
+		primaryStage.setScene(scene);
+		//closing the current window
+		primaryStage.setOnCloseRequest((event) -> {
+			primaryStage.close();
+		});
+		primaryStage.show();
+	}
 
 	/**
 	 * This is FXML event handler. Handles the action of click on 'Download' button.
@@ -41,7 +65,7 @@ public class ManualExamCodeWindowController implements GuiController, Initializa
 	 */
 	@FXML
 	void download(ActionEvent event) {
-
+		
 	}
 
 	/**

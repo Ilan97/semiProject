@@ -3,6 +3,7 @@ package control;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import gui.Navigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -10,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
 /**
  * This is controller class (boundary) for window ComputerizedExam (middle) in
@@ -47,7 +49,7 @@ public class ComputerizedExamFormMiddleController implements GuiController, Init
 	 */
 	@FXML
 	void back(ActionEvent event) {
-
+		Navigator.instance().back();
 	}
 
 	/**
@@ -57,7 +59,7 @@ public class ComputerizedExamFormMiddleController implements GuiController, Init
 	 */
 	@FXML
 	void next(ActionEvent event) {
-
+		Navigator.instance().navigate("ComputerizedExamFormEnd");
 	}
 
 	/**
@@ -113,7 +115,7 @@ public class ComputerizedExamFormMiddleController implements GuiController, Init
 	 */
 	@FXML
 	void goHome(ActionEvent event) {
-
+		Navigator.instance().clearHistory("StudentHomeForm");
 	}
 
 	/**
@@ -124,7 +126,15 @@ public class ComputerizedExamFormMiddleController implements GuiController, Init
 	 */
 	@FXML
 	void compExamAction(ActionEvent event) {
-
+//		//successes pop up
+//		ComputerizedExamCodeWindowController popUp = new ComputerizedExamCodeWindowController();
+//		try {
+//			popUp.start(new Stage());
+//		} catch (Exception e) {
+//			
+//		}
+//		
+//		Navigator.instance().navigate("ComputerizedExamFormStartController");
 	}
 
 	/**
@@ -135,7 +145,7 @@ public class ComputerizedExamFormMiddleController implements GuiController, Init
 	 */
 	@FXML
 	void manualExamAction(ActionEvent event) {
-
+		Navigator.instance().navigate("ManualExamForm");
 	}
 
 	/**
@@ -145,7 +155,7 @@ public class ComputerizedExamFormMiddleController implements GuiController, Init
 	 */
 	@FXML
 	void gradesAction(ActionEvent event) {
-
+		Navigator.instance().navigate("GradesForm");
 	}
 
 	/**
@@ -159,6 +169,5 @@ public class ComputerizedExamFormMiddleController implements GuiController, Init
 		Image img2 = new Image(this.getClass().getResource("logo.png").toString());
 		imgLogo.setImage(img2);
 	}
-
 }
 //End of ComputerizedExamFormMiddleController class

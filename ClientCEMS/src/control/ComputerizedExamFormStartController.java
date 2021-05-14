@@ -3,6 +3,7 @@ package control;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import gui.Navigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -47,7 +48,7 @@ public class ComputerizedExamFormStartController implements GuiController, Initi
 	 */
 	@FXML
 	void next(ActionEvent event) {
-
+		Navigator.instance().navigate("ComputerizedExamFormMiddle");
 	}
 
 	/**
@@ -103,7 +104,7 @@ public class ComputerizedExamFormStartController implements GuiController, Initi
 	 */
 	@FXML
 	void goHome(ActionEvent event) {
-
+		Navigator.instance().clearHistory("StudentHomeForm");
 	}
 
 	/**
@@ -125,7 +126,7 @@ public class ComputerizedExamFormStartController implements GuiController, Initi
 	 */
 	@FXML
 	void manualExamAction(ActionEvent event) {
-
+		Navigator.instance().navigate("ManualExamForm");
 	}
 
 	/**
@@ -135,7 +136,7 @@ public class ComputerizedExamFormStartController implements GuiController, Initi
 	 */
 	@FXML
 	void gradesAction(ActionEvent event) {
-
+		Navigator.instance().navigate("GradesForm");
 	}
 
 	/**

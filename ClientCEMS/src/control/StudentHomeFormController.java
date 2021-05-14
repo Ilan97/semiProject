@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 import logic.Message;
 
 /**
@@ -42,7 +43,7 @@ public class StudentHomeFormController implements GuiController, Initializable {
 	 */
 	@FXML
 	void goHome(ActionEvent event) {
-		Navigator.instance().clearHistory("PrincipalHomeForm");
+		Navigator.instance().clearHistory("StudentHomeForm");
 	}
 
 	/**
@@ -53,7 +54,13 @@ public class StudentHomeFormController implements GuiController, Initializable {
 	 */
 	@FXML
 	void compExamAction(ActionEvent event) {
-		Navigator.instance().navigate("ComputerizedExamCodeWindow");
+		//successes pop up
+		ComputerizedExamCodeWindowController popUp = new ComputerizedExamCodeWindowController();
+		try {
+			popUp.start(new Stage());
+		} catch (Exception e) {
+			
+		}
 	}
 
 	/**
@@ -103,6 +110,5 @@ public class StudentHomeFormController implements GuiController, Initializable {
 		Image img2 = new Image(this.getClass().getResource("logo.png").toString());
 		imgLogo.setImage(img2);
 	}
-
 }
 //End of StudentHomeFormController class

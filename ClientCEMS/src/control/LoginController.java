@@ -138,10 +138,10 @@ public class LoginController implements GuiController, Initializable {
 			a.setHeaderText("User name or password is incorrect");
 			Label label = new Label();
 			label.setPrefSize(100, 100);
-			BackgroundFill bgFill = new BackgroundFill(Color.RED, new CornerRadii(60), null);
-			Background bg = new Background(bgFill);
+//			BackgroundFill bgFill = new BackgroundFill(Color.RED, new CornerRadii(60), null);
+//			Background bg = new Background(bgFill);
 			label.setPadding(new Insets(10, 10, 10, 10));
-			label.setBackground(bg);
+		//	label.setBackground(bg);
 			a.setGraphic(label);
 			a.showAndWait();
 		}

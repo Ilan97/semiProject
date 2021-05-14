@@ -41,7 +41,7 @@
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </MenuButton>
-            <MenuButton layoutX="353.0" layoutY="155.0" mnemonicParsing="false" onAction="#chooseCourseAction" prefHeight="27.0" prefWidth="83.0" style="-fx-background-color: #b2b2b2;" text="Course" textFill="WHITE" wrapText="true">
+            <MenuButton fx:id="course" layoutX="353.0" layoutY="155.0" mnemonicParsing="false" onAction="#chooseCourseAction" prefHeight="27.0" prefWidth="83.0" style="-fx-background-color: #b2b2b2;" text="Course" textFill="WHITE" wrapText="true">
                <items>
                   <MenuItem mnemonicParsing="false" text="Action 1" />
                   <MenuItem mnemonicParsing="false" text="Action 2" />

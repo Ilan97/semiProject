@@ -1,13 +1,19 @@
 package control;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
 /**
  * This is controller class (boundary) for window TheSubmissionWasSuccessful.
@@ -31,7 +37,24 @@ public class TheSubmissionWasSuccessfulWindowController implements GuiController
 	private ImageView imgOk;
 
 	// Instance methods ************************************************
-
+	
+	/**
+	 * Pop this window.
+	 *
+	 * @param primaryStage The stage for window's scene.
+	 */
+	public void start(Stage primaryStage) throws IOException {
+		Parent root = FXMLLoader.load(getClass().getResource("/gui/ComputerizedExamCodeWindow.fxml"));
+		Scene scene = new Scene(root);
+		primaryStage.setTitle("Enter Code");
+		primaryStage.setScene(scene);
+		//closing the current window
+		primaryStage.setOnCloseRequest((event) -> {
+			primaryStage.close();
+		});
+		primaryStage.show();
+	}
+	
 	/**
 	 * This is FXML event handler. Handles the action of click on 'Ok' button.
 	 *
@@ -39,7 +62,8 @@ public class TheSubmissionWasSuccessfulWindowController implements GuiController
 	 */
 	@FXML
 	void okAction(ActionEvent event) {
-
+		// hiding the current window
+		((Node) event.getSource()).getScene().getWindow().hide();
 	}
 
 	/**

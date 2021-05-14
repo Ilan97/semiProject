@@ -4,6 +4,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+
 import logic.Message;
 import logic.User;
 import logic.UserType;
@@ -74,7 +76,13 @@ public class UserController {
 			updateStatusMessage.setMsg(statusOfUpdate);
 			result = updateStatusMessage;
 			break;
-		}
+
+		case "initUsersStatus":
+			if (changeStatusToFalse())
+				display("initUsersStatus successfully");
+			else
+				display("initUsersStatus faild");
+		} // end of switch case
 		return result;
 	}
 
@@ -168,6 +176,42 @@ public class UserController {
 			}
 		}
 		return currStatus;
+	}
+
+	/**
+	 * This method execute query for changing connection status to false (0) of all
+	 * users that their status have been true (1).
+	 * 
+	 * @return boolean value. If the changing success for all users.
+	 */
+	private static boolean changeStatusToFalse() {
+		// return all userNames that their status is true (log in)
+		String Query = "SELECT userName FROM users WHERE isLogedIn = ?";
+		// save the userNames
+		ArrayList<String> userNames = new ArrayList<>();
+		try {
+			pstmt = DBconnector.conn.prepareStatement(Query);
+			pstmt.setBoolean(1, true);
+			rs = pstmt.executeQuery(); // the userNames
+			while (rs.next()) {
+				userNames.add(rs.getString("userName"));
+			}
+			for (String userName : userNames)
+				if (!updateConnectionStatus(userName, true)) // fail to update
+					return false;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+			} catch (Exception e) {
+			}
+			try {
+				pstmt.close();
+			} catch (Exception e) {
+			}
+		}
+		return true; // Successes
 	}
 
 	/**

@@ -97,6 +97,12 @@ public class ServerController extends AbstractServer {
 	@Override
 	protected void serverStarted() {
 		DBconnector.connectToDB();
+		// initialize all users that have been in 'log in' mode to be in 'log out' mode.
+		// this can happen if the server was crushed.
+		Message changeStatusMessage = new Message();
+		changeStatusMessage.setOperation("initUsersStatus");
+		changeStatusMessage.setControllerName("UserController");
+		UserController.handleRequest(changeStatusMessage);
 		display("Server listening for connections on port " + getPort());
 	}
 

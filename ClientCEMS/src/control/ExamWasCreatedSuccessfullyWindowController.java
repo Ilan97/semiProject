@@ -38,7 +38,24 @@ public class ExamWasCreatedSuccessfullyWindowController implements GuiController
 	private ImageView imgOk;
 
 	// Instance methods ************************************************
-
+	
+	/**
+	 * Pop this window.
+	 *
+	 * @param primaryStage The stage for window's scene.
+	 */
+	public void start(Stage primaryStage) throws IOException {
+		Parent root = FXMLLoader.load(getClass().getResource("/gui/ExamWasCreatedWindow.fxml"));
+		Scene scene = new Scene(root);
+		primaryStage.setTitle("Enter Code");
+		primaryStage.setScene(scene);
+		//closing the current window
+		primaryStage.setOnCloseRequest((event) -> {
+			primaryStage.close();
+		});
+		primaryStage.show();
+	}
+	
 	/**
 	 * Pop this window.
 	 *
@@ -63,6 +80,7 @@ public class ExamWasCreatedSuccessfullyWindowController implements GuiController
 	 */
 	@FXML
 	void okAction(ActionEvent event) {
+    // hiding the current window
 		((Node)event.getSource()).getScene().getWindow().hide();
 		Navigator.instance().clearHistory("TeacherHomeForm");
 	}

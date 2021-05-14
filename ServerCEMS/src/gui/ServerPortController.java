@@ -79,7 +79,7 @@ public class ServerPortController implements Initializable {
 	// Instance methods ************************************************
 
 	/**
-	 * This is FXML event handler. Handles the action of press on "Enter".
+	 * This is FXML event handler. Handles the action of press on enter key.
 	 *
 	 * @param event The action event.
 	 */

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import gui.Navigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -56,16 +57,33 @@ public class ExamWasCreatedSuccessfullyWindowController implements GuiController
 	}
 	
 	/**
+	 * Pop this window.
+	 *
+	 * @param primaryStage The stage for window's scene.
+	 */
+	public void start(Stage primaryStage) throws IOException {
+		Parent root = FXMLLoader.load(getClass().getResource("/gui/ExamWasCreatedSuccessfullyWindow.fxml"));
+		Scene scene = new Scene(root);
+		primaryStage.setTitle("Success!");
+		primaryStage.setScene(scene);
+		//closing the current window
+		primaryStage.setOnCloseRequest((event) -> {
+			primaryStage.close();
+		});
+		primaryStage.show();
+	}
+	
+	/**
 	 * This is FXML event handler. Handles the action of click on 'Ok' button.
 	 *
 	 * @param event The action event.
 	 */
 	@FXML
 	void okAction(ActionEvent event) {
-		// hiding the current window
-		((Node) event.getSource()).getScene().getWindow().hide();
+    // hiding the current window
+		((Node)event.getSource()).getScene().getWindow().hide();
+		Navigator.instance().clearHistory("TeacherHomeForm");
 	}
-
 	/**
 	 * This method called to initialize a controller after its root element has been
 	 * completely processed (after load method).

@@ -15,7 +15,7 @@
             <ImageView fx:id="imgBack" fitHeight="541.0" fitWidth="636.0" layoutX="160.0" />
             <VBox layoutY="115.0" prefHeight="427.0" prefWidth="169.0" style="-fx-background-color: #ffffff;">
                <children>
-                  <Button mnemonicParsing="false" onAction="#goToHome" prefHeight="60.0" prefWidth="160.0" style="-fx-background-color: #47ce60; -fx-background-radius: 0 30 30 0;" text="Home" textAlignment="CENTER" textFill="WHITE">
+                  <Button mnemonicParsing="false" onAction="#goHome" prefHeight="60.0" prefWidth="160.0" style="-fx-background-color: #47ce60; -fx-background-radius: 0 30 30 0;" text="Home" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font name="Calibri Bold" size="18.0" />
                      </font>

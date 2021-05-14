@@ -1,17 +1,27 @@
 package control;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+
+import client.ClientUI;
 
 import gui.Navigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import logic.Exam;
+import logic.Message;
+import logic.Question;
 
 /**
  * This is controller class (boundary) for window WriteQuestion (first part) in
@@ -26,7 +36,7 @@ import javafx.scene.image.ImageView;
 public class WriteQuestionForm1Controller implements GuiController, Initializable {
 
 	// Instance variables **********************************************
-
+	public static Question Question;
 	/**
 	 * FXML variables.
 	 */
@@ -38,6 +48,8 @@ public class WriteQuestionForm1Controller implements GuiController, Initializabl
 	private ImageView imgPencil;
 	@FXML
 	private MenuButton filed;
+    @FXML
+    private MenuButton course;
 	@FXML
 	private TextArea questionCon;
 	@FXML
@@ -72,7 +84,39 @@ public class WriteQuestionForm1Controller implements GuiController, Initializabl
 	 */
 	@FXML
 	void next(ActionEvent event) {
-		Navigator.instance().navigate("WriteQuestionForm2");
+
+		
+		String QuestionCon = questionCon.getText();
+		String Instructions = instructions.getText();
+		String RightAns= rightAns.getText();
+		String WrongAns1 = wrongAns1.getText();
+		String WrongAns2 = wrongAns2.getText();
+		String WrongAns3 = wrongAns3.getText();
+		String Field = filed.getText();
+		String Course = course.getText(); 
+		
+		if( QuestionCon == null || Instructions == null || RightAns == null ||
+				WrongAns1 == null || WrongAns2 == null || WrongAns3 == null ||
+				Field == null || Course == null)
+		//Pop up - missing details ya zain !//
+		;
+		else {
+			Question q = new Question();
+			q.setAuthor(LoginController.user.getFirstName()+" "+LoginController.user.getLastName());
+			q.setFieldName(Field);
+			q.setCourseName(Course);
+			q.setContent(QuestionCon);
+			q.setInstructions(Instructions);
+			q.setRightAnswer(RightAns);
+			q.setWrongAnswer1(WrongAns1);
+			q.setWrongAnswer2(WrongAns2);
+			q.setWrongAnswer3(WrongAns2);
+			
+			//go to next page --> 
+			
+			Navigator.instance().navigate("WriteQuestionForm2");
+	}
+
 	}
 
 	/**
@@ -81,9 +125,18 @@ public class WriteQuestionForm1Controller implements GuiController, Initializabl
 	 *
 	 * @param event The action event.
 	 */
+	@SuppressWarnings("unchecked")
 	@FXML
 	void chooseFieldAction(ActionEvent event) {
-
+		ArrayList<String> listOfField;
+		String UserName = LoginController.user.getUsername();
+		Message messageToServer = new Message();
+		messageToServer.setMsg(UserName);
+		messageToServer.setControllerName("QuestionController");
+		messageToServer.setOperation("ShowFieldList");
+		listOfField = (ArrayList<String>) ClientUI.client.handleMessageFromClientUI(messageToServer);
+		for (String field : listOfField) 
+			filed.setText(field);
 	}
 
 	/**
@@ -92,9 +145,34 @@ public class WriteQuestionForm1Controller implements GuiController, Initializabl
 	 *
 	 * @param event The action event.
 	 */
+	@SuppressWarnings("unchecked")
 	@FXML
 	void chooseCourseAction(ActionEvent event) {
-
+		ArrayList<String> listOfCourse;
+		Message messageToServer = new Message();
+		
+		if ( filed.getText() == null ) {
+			Alert a = new Alert(AlertType.ERROR);
+			a.setTitle("CEMS");
+			a.setResizable(true);
+			a.setHeaderText("First Choose Field !");
+			Label label = new Label();
+			label.setPrefSize(100, 100);
+			label.setPadding(new Insets(10, 10, 10, 10));
+			a.setGraphic(label);
+			a.showAndWait();
+		}
+		else {
+			String UserName = LoginController.user.getUsername();
+			String ChosenField = filed.getText();
+			messageToServer.setMsg(UserName+" "+ChosenField);
+			messageToServer.setControllerName("QuestionController");
+			messageToServer.setOperation("ShowCourseList");
+			listOfCourse = (ArrayList<String>) ClientUI.client.handleMessageFromClientUI(messageToServer);
+			for (String Course : listOfCourse) 
+				course.setText(Course);
+			}
+			
 	}
 
 	// Menu methods ************************************************

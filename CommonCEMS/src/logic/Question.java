@@ -19,7 +19,8 @@ import java.io.Serializable;
 public class Question implements Serializable {
 
 	// Instance variables **********************************************
-
+	private String FieldName;
+	private String CourseName;
 	private String qid;
 	private String fid;
 	private String cid;
@@ -178,6 +179,50 @@ public class Question implements Serializable {
 	public void setWrongAnswer3(String wrongAnswer3) {
 		this.wrongAnswer3 = wrongAnswer3;
 	}
+	
+	/**
+	 * @return the fieldName
+	 */
+	public String getFieldName() {
+		return FieldName;
+	}
+
+	/**
+	 * @param fieldName the fieldName to set
+	 */
+	public void setFieldName(String fieldName) {
+		FieldName = fieldName;
+	}
+
+	/**
+	 * @return the courseName
+	 */
+	public String getCourseName() {
+		return CourseName;
+	}
+
+	/**
+	 * @param courseName the courseName to set
+	 */
+	public void setCourseName(String courseName) {
+		CourseName = courseName;
+	}
+	
+	/**
+	 * @return the content
+	 */
+	public String getContent() {
+		return content;
+	}
+
+	/**
+	 * @param content the content to set
+	 */
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	
 
 	/**
 	 * @return result The hashCode of Question object

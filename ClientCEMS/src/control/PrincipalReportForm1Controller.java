@@ -48,7 +48,7 @@ public class PrincipalReportForm1Controller implements GuiController, Initializa
 	 */
 	@FXML
 	void next(ActionEvent event) {
-		// not doing anything
+		lblErr.setText("Choose type first");
 	}
 
 	/**

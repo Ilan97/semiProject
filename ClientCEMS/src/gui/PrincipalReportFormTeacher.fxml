@@ -111,17 +111,12 @@
                   <Font name="Calibri Bold" size="11.0" />
                </font>
             </Label>
-            <Label layoutX="572.0" layoutY="177.0" prefHeight="14.0" prefWidth="57.0" textFill="#f86060">
-               <font>
-                  <Font name="Calibri Bold" size="12.0" />
-               </font>
-            </Label>
             <Label fx:id="lblErrStat" layoutX="522.0" layoutY="278.0" prefHeight="14.0" prefWidth="57.0" textFill="#f86060">
                <font>
                   <Font name="Calibri Bold" size="12.0" />
                </font>
             </Label>
-            <Label fx:id="lblErrTeacher" layoutX="572.0" layoutY="227.0" prefHeight="14.0" prefWidth="57.0" textFill="#f86060">
+            <Label fx:id="lblErrTeacher" layoutX="572.0" layoutY="227.0" prefHeight="14.0" prefWidth="112.0" textFill="#f86060">
                <font>
                   <Font name="Calibri Bold" size="12.0" />
                </font>

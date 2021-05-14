@@ -76,7 +76,7 @@
                   <Font name="Calibri Bold" size="11.0" />
                </font>
             </Label>
-            <Label fx:id="lblErr" layoutX="572.0" layoutY="222.0" prefHeight="14.0" prefWidth="57.0" textFill="#f86060">
+            <Label fx:id="lblErr" layoutX="572.0" layoutY="177.0" prefHeight="14.0" prefWidth="90.0" textFill="#f86060">
                <font>
                   <Font name="Calibri Bold" size="12.0" />
                </font>

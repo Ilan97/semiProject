@@ -125,13 +125,17 @@ public class ClientController extends AbstractClient {
 	protected void connectionEstablished() {
 		Thread con = Thread.currentThread();
 		new Thread(() -> {
-			while(con.isAlive()) {
+			// the loop is staying while there is connection to the server
+			while (con.isAlive()) {
 				try {
 					con.join();
-				} catch(InterruptedException e) {
+				} catch (InterruptedException e) {
 				}
 			}
+			// run the specified Runnable on the JavaFX Application Thread at some
+			// unspecified time in the future (when server is suddenly disconnected).
 			Platform.runLater(() -> {
+				// pop up window - will close the client on exit
 				ServerCrushedController serverCrushedController = new ServerCrushedController();
 				try {
 					serverCrushedController.start(new Stage());

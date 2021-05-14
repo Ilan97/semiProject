@@ -49,9 +49,12 @@ public class PrincipalReportWasSavedWindowController implements GuiController, I
 		Scene scene = new Scene(root);
 		primaryStage.setTitle("Successes!");
 		primaryStage.setScene(scene);
-		primaryStage.setOnCloseRequest((event) -> {
-			((Node) event.getSource()).getScene().getWindow().hide();
-		});
+		// hiding the current window
+		// NOT GOOD - EXCEPTIONS!!!
+		// NEDD TO FIGURE IT UP!!
+//		primaryStage.setOnCloseRequest((event) -> {
+//			((Node) event.getSource()).getScene().getWindow().hide();
+//		});
 		primaryStage.show();
 	}
 

@@ -55,7 +55,7 @@
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Button>
-            <Label layoutX="644.0" layoutY="40.0" text="Student" textFill="#19cebc">
+            <Label layoutX="646.0" layoutY="40.0" text="Student" textFill="#19cebc">
                <font>
                   <Font name="Calibri Bold" size="41.0" />
                </font>

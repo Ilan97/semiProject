@@ -1,6 +1,5 @@
 package control;
 
-import java.awt.event.InputMethodEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -9,7 +8,6 @@ import client.ClientUI;
 import gui.Navigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -31,13 +29,13 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import logic.Message;
 import logic.User;
-import logic.UserType;
 
 /**
  * This is controller class (boundary) for window Login. This class handle all
  * events related to this windows. This class connect with client.
  *
- * @author
+ * @author Ilan Meikler
+ * @author Ohad Shamir
  * @version May 2021
  */
 
@@ -70,8 +68,32 @@ public class LoginController implements GuiController, Initializable {
 
 	@FXML
 	void inputPass(KeyEvent event) {
-		if (event.getCode().equals(KeyCode.ENTER)) 
+		if (event.getCode().equals(KeyCode.ENTER))
 			btnLogin.fire();
+	}
+
+	/**
+	 * The client's first window and this window's first method. load and show this
+	 * window.
+	 *
+	 * @param primaryStage The stage for window's scene.
+	 */
+	public void start(Stage primaryStage) throws Exception {
+		Pane p = new Pane();
+		Navigator.init(p);
+		primaryStage.setScene(new Scene(p));
+		Navigator.instance().navigate("LoginForm");
+		primaryStage.setTitle("CEMS");
+		// close the client
+		primaryStage.setOnCloseRequest((event) -> {
+			try {
+				ClientUI.client.closeConnection();
+			} catch (IOException ex) {
+				System.out.println("Fail to close client!");
+			}
+			System.exit(0);
+		});
+		primaryStage.show();
 	}
 
 	// txtPassword.setOnKeyPressed(event -> if(event.getCode() == KeyCode.ENTER);
@@ -144,8 +166,7 @@ public class LoginController implements GuiController, Initializable {
 			messageToServer.setMsg(userName);
 			messageToServer.setOperation("updateConnectionStatus");
 			messageToServer.setControllerName("UserController");
-			Boolean temp = (Boolean) ClientUI.client.handleMessageFromClientUI(messageToServer);
-			System.out.println("after update");
+			ClientUI.client.handleMessageFromClientUI(messageToServer);
 
 			switch (user.getUserType()) {
 			case STUDENT:
@@ -175,30 +196,5 @@ public class LoginController implements GuiController, Initializable {
 		Image img3 = new Image(this.getClass().getResource("copyright.png").toString());
 		imgCopyRights.setImage(img3);
 	}
-
-	/**
-	 * The client's first window and this window's first method. load and show this
-	 * window.
-	 *
-	 * @param primaryStage The stage for window's scene.
-	 */
-	public void start(Stage primaryStage) throws Exception {
-		Pane p = new Pane();
-		Navigator.init(p);
-		primaryStage.setScene(new Scene(p));
-		Navigator.instance().navigate("LoginForm");
-		primaryStage.setTitle("CEMS");
-		// close the client
-		primaryStage.setOnCloseRequest((event) -> {
-			try {
-				ClientUI.client.closeConnection();
-			} catch (IOException ex) {
-				System.out.println("Fail to close client!");
-			}
-			System.exit(0);
-		});
-		primaryStage.show();
-	}
 }
-
 //End of LoginController class

@@ -3,18 +3,21 @@ package control;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import client.ClientUI;
 import gui.Navigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import logic.Message;
 
 /**
  * This is controller class (boundary) for window PrincipalHome. This class
  * handle all events related to this window. This class connect with client.
  *
- * @author
+ * @author Bat-El Gardin
+ * @author Sharon Vaknin
  * @version May 2021
  */
 
@@ -62,6 +65,21 @@ public class PrincipalHomeFormController implements GuiController, Initializable
 	@FXML
 	void viewRequestsAction(ActionEvent event) {
 		Navigator.instance().navigate("PrincipalViewRequestForm");
+	}
+
+	/**
+	 * This is FXML event handler. Handles the action of click on 'Log out' button.
+	 *
+	 * @param event The action event.
+	 */
+	@FXML
+	void logoutAction(ActionEvent event) {
+		Message messageToServer = new Message();
+		messageToServer.setMsg(LoginController.user.getUsername());
+		messageToServer.setOperation("updateConnectionStatus");
+		messageToServer.setControllerName("UserController");
+		ClientUI.client.handleMessageFromClientUI(messageToServer);
+		Navigator.instance().clearHistory("LoginForm");
 	}
 
 	/**

@@ -17,13 +17,14 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 /**
  * This is controller class (boundary) for window PrincipalReport (second part).
  * This class handle all events related to this window. This class connect with
  * client.
  *
- * @author
+ * @author Bat-El Gardin
  * @version May 2021
  */
 
@@ -60,7 +61,16 @@ public class PrincipalReportForm2Controller implements GuiController, Initializa
 	 */
 	@FXML
 	void save(ActionEvent event) {
-		// pop up (?) or window
+		// successes pop up
+		PrincipalReportWasSavedWindowController popUp = new PrincipalReportWasSavedWindowController();
+		try {
+			popUp.start(new Stage());
+		} catch (Exception e) {
+		}
+		// save in DB
+
+		// go back to home
+		Navigator.instance().clearHistory("PrincipalHomeForm");
 	}
 
 	// Menu methods ************************************************

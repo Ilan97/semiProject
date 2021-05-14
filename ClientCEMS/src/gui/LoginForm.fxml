@@ -12,53 +12,53 @@
 
 <AnchorPane prefHeight="315.0" prefWidth="512.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.LoginController">
    <children>
-      <ImageView fx:id="imgLogin" fitHeight="315.0" fitWidth="512.0" layoutY="-8.0" />
-      <Pane layoutX="-29.0" layoutY="-35.0" prefHeight="235.0" prefWidth="229.0" />
-      <TextField fx:id="txtUserName" layoutX="389.0" layoutY="149.0" onKeyPressed="#inputPass" prefHeight="25.0" prefWidth="90.0" promptText="UserName" style="-fx-background-radius: 30 30 30 30;" />
-      <Text fill="#848e8f" layoutX="290.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User Name">
+      <ImageView fx:id="imgLogin" fitHeight="315.0" fitWidth="512.0" layoutX="1.0" layoutY="-8.0" />
+      <Pane layoutX="-28.0" layoutY="-35.0" prefHeight="235.0" prefWidth="229.0" />
+      <TextField fx:id="txtUserName" layoutX="135.0" layoutY="149.0" onKeyPressed="#inputPass" prefHeight="25.0" prefWidth="90.0" promptText="UserName" style="-fx-background-radius: 30 30 30 30;" />
+      <Text fill="#848e8f" layoutX="36.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User Name">
          <font>
             <Font name="Calibri Bold" size="18.0" />
          </font>
       </Text>
-      <Text fill="#848e8f" layoutX="300.0" layoutY="204.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password">
+      <Text fill="#848e8f" layoutX="37.0" layoutY="204.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password">
          <font>
             <Font name="Calibri Bold" size="18.0" />
          </font>
       </Text>
-      <Button fx:id="btnLogin" accessibleRole="IMAGE_VIEW" layoutX="397.0" layoutY="229.0" mnemonicParsing="false" onAction="#login" prefHeight="7.0" prefWidth="59.0" style="-fx-background-color: #47ce60; -fx-background-radius: 30 30 30 30;" text="Log in" textFill="WHITE">
+      <Button fx:id="btnLogin" accessibleRole="IMAGE_VIEW" layoutX="138.0" layoutY="229.0" mnemonicParsing="false" onAction="#login" prefHeight="7.0" prefWidth="59.0" style="-fx-background-color: #47ce60; -fx-background-radius: 30 30 30 30;" text="Log in" textFill="WHITE">
          <font>
             <Font name="Calibri Bold" size="14.0" />
          </font>
       </Button>
-      <PasswordField fx:id="txtPassword" layoutX="389.0" layoutY="187.0" onKeyPressed="#inputPass" prefHeight="25.0" prefWidth="90.0" promptText="Password" style="-fx-background-radius: 30 30 30 30;" />
-      <Label fx:id="lblPassErr" layoutX="252.0" layoutY="179.0" prefHeight="18.0" prefWidth="120.0" textFill="#e26161">
+      <PasswordField fx:id="txtPassword" layoutX="135.0" layoutY="187.0" onKeyPressed="#inputPass" prefHeight="25.0" prefWidth="90.0" promptText="Password" style="-fx-background-radius: 30 30 30 30;" />
+      <Label fx:id="lblPassErr" layoutX="17.0" layoutY="178.0" prefHeight="18.0" prefWidth="120.0" textFill="#e26161">
          <font>
             <Font name="Calibri" size="12.0" />
          </font>
       </Label>
-      <Label layoutX="227.0" layoutY="25.0" text="Welcome to " textFill="#47ce60">
+      <Label layoutX="38.0" layoutY="25.0" text="Welcome to " textFill="#47ce60">
          <font>
             <Font name="Calibri Bold" size="36.0" />
          </font>
       </Label>
-      <Label layoutX="322.0" layoutY="63.0" prefHeight="55.0" prefWidth="126.0" text="CEMS" textFill="#47ce60">
+      <Label layoutX="48.0" layoutY="63.0" prefHeight="55.0" prefWidth="126.0" text="CEMS" textFill="#47ce60">
          <font>
             <Font name="Calibri Bold" size="48.0" />
          </font>
       </Label>
-      <Label layoutX="307.0" layoutY="270.0" prefHeight="41.0" prefWidth="168.0" text="Copyright       2021 G3. All rights reserved" textAlignment="CENTER" textFill="#aa9d9d">
+      <Label layoutX="50.0" layoutY="270.0" prefHeight="41.0" prefWidth="168.0" text="Copyright       2021 G3. All rights reserved" textAlignment="CENTER" textFill="#aa9d9d">
          <font>
             <Font name="Calibri" size="10.0" />
          </font>
       </Label>
-      <ImageView fx:id="imgCopyRights" fitHeight="14.0" fitWidth="14.0" layoutX="348.0" layoutY="284.0" />
-      <ImageView fx:id="imgLogo" fitHeight="47.0" fitWidth="47.0" layoutX="441.0" layoutY="67.0" />
-      <Label fx:id="lblUserErr" layoutX="247.0" layoutY="141.0" prefHeight="17.0" prefWidth="120.0" textAlignment="CENTER" textFill="#f86060">
+      <ImageView fx:id="imgCopyRights" fitHeight="14.0" fitWidth="14.0" layoutX="91.0" layoutY="284.0" />
+      <ImageView fx:id="imgLogo" fitHeight="47.0" fitWidth="47.0" layoutX="169.0" layoutY="67.0" />
+      <Label fx:id="lblUserErr" layoutX="16.0" layoutY="141.0" prefHeight="17.0" prefWidth="120.0" textAlignment="CENTER" textFill="#f86060">
          <font>
             <Font name="Calibri Bold" size="12.0" />
          </font>
       </Label>
-      <Button layoutX="326.0" layoutY="229.0" mnemonicParsing="false" onAction="#exit" prefHeight="27.0" prefWidth="57.0" style="-fx-background-color: #f86060; -fx-background-radius: 30 30 30 30;" text="Exit" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+      <Button layoutX="67.0" layoutY="229.0" mnemonicParsing="false" onAction="#exit" prefHeight="27.0" prefWidth="57.0" style="-fx-background-color: #f86060; -fx-background-radius: 30 30 30 30;" text="Exit" textAlignment="CENTER" textFill="WHITE" wrapText="true">
          <font>
             <Font name="Calibri Bold" size="14.0" />
          </font>

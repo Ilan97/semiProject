@@ -14,8 +14,8 @@
          <children>
             <ImageView fx:id="imgBack2" fitHeight="541.0" fitWidth="636.0" layoutX="164.0" layoutY="-1.0" />
             <ImageView fx:id="imgRep" fitHeight="28.0" fitWidth="23.0" layoutX="214.0" layoutY="60.0" />
-            <ImageView fx:id="imgLogo" fitHeight="71.0" fitWidth="73.0" layoutX="14.0" layoutY="15.0" />
-            <Label layoutX="70.0" layoutY="71.0" text="CEMS" textFill="#bebaba">
+            <ImageView fx:id="imgLogo" fitHeight="71.0" fitWidth="73.0" layoutX="23.0" layoutY="15.0" />
+            <Label layoutX="79.0" layoutY="71.0" text="CEMS" textFill="#bebaba">
                <font>
                   <Font name="Calibri Bold" size="24.0" />
                </font>

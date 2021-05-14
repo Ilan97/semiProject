@@ -31,9 +31,11 @@ import logic.Message;
 import logic.User;
 
 /**
- * This is controller class (boundary) for window Login. This class handle all
- * events related to this windows. This class connect with client.
+ * This is controller class (boundary) for window Login. This is the first
+ * system's window. This class handle all events related to this windows. This
+ * class connect with client.
  *
+ * @author Bat-El Gardin
  * @author Ilan Meikler
  * @author Ohad Shamir
  * @version May 2021
@@ -42,6 +44,11 @@ import logic.User;
 public class LoginController implements GuiController, Initializable {
 
 	// Instance variables **********************************************
+
+	/**
+	 * static instance for User object. Will be create only once for each run. the
+	 * object initialize by the info that return from DB.
+	 */
 	public static User user = null;
 
 	/**
@@ -54,7 +61,7 @@ public class LoginController implements GuiController, Initializable {
 	@FXML
 	private Button btnLogin;
 	@FXML
-	private PasswordField txtPassword; // maybe its better to change to textArea (?)
+	private PasswordField txtPassword;
 	@FXML
 	private Label lblPassErr;
 	@FXML
@@ -66,6 +73,11 @@ public class LoginController implements GuiController, Initializable {
 
 	// Instance methods ************************************************
 
+	/**
+	 * This is FXML event handler. Handles the action of press on enter key.
+	 *
+	 * @param event The action event.
+	 */
 	@FXML
 	void inputPass(KeyEvent event) {
 		if (event.getCode().equals(KeyCode.ENTER))
@@ -74,7 +86,8 @@ public class LoginController implements GuiController, Initializable {
 
 	/**
 	 * The client's first window and this window's first method. load and show this
-	 * window.
+	 * window. in each press on X button (in all primary windows), the user is
+	 * logged out and return to 'log in' screen.
 	 *
 	 * @param primaryStage The stage for window's scene.
 	 */
@@ -84,19 +97,40 @@ public class LoginController implements GuiController, Initializable {
 		primaryStage.setScene(new Scene(p));
 		Navigator.instance().navigate("LoginForm");
 		primaryStage.setTitle("CEMS");
-		// close the client
+		// when press on X button
 		primaryStage.setOnCloseRequest((event) -> {
-			try {
-				ClientUI.client.closeConnection();
-			} catch (IOException ex) {
-				System.out.println("Fail to close client!");
+			// log out and return to 'log in' window
+			if (LoginController.user != null) {
+				Message messageToServer = new Message();
+				messageToServer.setMsg(LoginController.user.getUsername());
+				messageToServer.setOperation("updateConnectionStatus");
+				messageToServer.setControllerName("UserController");
+				ClientUI.client.handleMessageFromClientUI(messageToServer);
+				LoginController.user = null;
 			}
-			System.exit(0);
+			Navigator.instance().clearHistory();
+			// marks this event as consumed. This stops its further propagation.
+			event.consume();
 		});
 		primaryStage.show();
 	}
 
-	// txtPassword.setOnKeyPressed(event -> if(event.getCode() == KeyCode.ENTER);
+	/**
+	 * This is FXML event handler. Handles the action of click on 'Exit' button.
+	 *
+	 * @param event The action event.
+	 * @throws IOException
+	 */
+	@FXML
+	void exit(ActionEvent event) throws IOException {
+		// close the client
+		try {
+			ClientUI.client.closeConnection();
+		} catch (IOException ex) {
+			System.out.println("Fail to close client!");
+		}
+		System.exit(0);
+	}
 
 	/**
 	 * This is FXML event handler. Handles the action of click on 'Log in' button.
@@ -109,7 +143,7 @@ public class LoginController implements GuiController, Initializable {
 		Message messageToServer = new Message();
 		String userName = txtUserName.getText();
 		String password = txtPassword.getText();
-		// check that user put an id
+		// check that user put details
 		if (userName.trim().isEmpty()) {
 			lblUserErr.setText("Please enter User name");
 			if (password.trim().isEmpty())
@@ -127,11 +161,11 @@ public class LoginController implements GuiController, Initializable {
 			messageToServer.setMsg(userName + " " + password);
 			messageToServer.setOperation("isUserExists");
 			messageToServer.setControllerName("UserController");
+			// the result User instance
 			user = (User) ClientUI.client.handleMessageFromClientUI(messageToServer);
-
 		}
 		// user isn't exists in DB
-		if (user == null) {// create pop up alert
+		if (user == null) { // create pop up alert
 			Alert a = new Alert(AlertType.INFORMATION);
 			a.setTitle("CEMS");
 			a.setResizable(true);
@@ -145,8 +179,8 @@ public class LoginController implements GuiController, Initializable {
 			a.setGraphic(label);
 			a.showAndWait();
 		}
-
-		else if (user.isLogedIN() == true) {
+		// user already log in
+		else if (user.isLogedIN() == true) { // create pop up alert
 			Alert a = new Alert(AlertType.INFORMATION);
 			a.setTitle("CEMS");
 			a.setResizable(true);
@@ -159,15 +193,13 @@ public class LoginController implements GuiController, Initializable {
 			label.setBackground(bg);
 			a.setGraphic(label);
 			a.showAndWait();
-		} else {// in case when user logged in successfully
-				// * need to add - update to DB for connection status//
-
-			System.out.println("before update");
+		} else { // user logged in successfully
 			messageToServer.setMsg(userName);
 			messageToServer.setOperation("updateConnectionStatus");
 			messageToServer.setControllerName("UserController");
+			// update the user's connection status
 			ClientUI.client.handleMessageFromClientUI(messageToServer);
-
+			// navigate user to the right home page, by his permission
 			switch (user.getUserType()) {
 			case STUDENT:
 				Navigator.instance().navigate("StudentHomeForm");
@@ -178,10 +210,9 @@ public class LoginController implements GuiController, Initializable {
 			case PRINCIPAL:
 				Navigator.instance().navigate("PrincipalHomeForm");
 				break;
-			}
-		}
-
-	}
+			} // end switch case
+		} // end successful 'else'
+	} // end of login
 
 	/**
 	 * This method called to initialize a controller after its root element has been

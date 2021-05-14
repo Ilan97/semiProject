@@ -79,7 +79,8 @@ public class PrincipalHomeFormController implements GuiController, Initializable
 		messageToServer.setOperation("updateConnectionStatus");
 		messageToServer.setControllerName("UserController");
 		ClientUI.client.handleMessageFromClientUI(messageToServer);
-		Navigator.instance().clearHistory("LoginForm");
+		LoginController.user = null;
+		Navigator.instance().clearHistory();
 	}
 
 	/**

@@ -88,7 +88,7 @@
             </Label>
             <VBox layoutY="115.0" prefHeight="427.0" prefWidth="164.0" style="-fx-background-color: #ffffff;">
                <children>
-                  <Button mnemonicParsing="false" onAction="#goToHome" prefHeight="60.0" prefWidth="130.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 0 30 30 0;" text="Home" textAlignment="CENTER" textFill="WHITE">
+                  <Button mnemonicParsing="false" onAction="#goHome" prefHeight="60.0" prefWidth="130.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 0 30 30 0;" text="Home" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font name="Calibri Bold" size="18.0" />
                      </font>

@@ -17,7 +17,7 @@ public class Navigator implements NavigatorInterface {
 
 	private static NavigatorInterface instance = null;
 	private static Pane baseNode = null;
-	private static String defaultTab = "Motd";
+	private static String defaultTab = "LoginForm";
 	private Tab current = null;
 
 	private Stack<Tab> history;
@@ -26,7 +26,7 @@ public class Navigator implements NavigatorInterface {
 		if (baseNode == null)
 			throw new RuntimeException("Navigator not initiated, run Navigator.init(Pane baseNode) first");
 		history = new Stack<>();
-		navigate("logIn");
+		navigate("LoginForm");
 	}
 	
 	public static void setNavigator(NavigatorInterface nav) {

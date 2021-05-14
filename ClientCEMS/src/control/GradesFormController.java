@@ -3,6 +3,7 @@ package control;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import gui.Navigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -10,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
 /**
  * This is controller class (boundary) for window Grades in Student. This class
@@ -30,8 +32,6 @@ public class GradesFormController implements GuiController, Initializable {
 	private ImageView imgBack;
 	@FXML
 	private ImageView imgLogo;
-	@FXML
-	private ImageView imgAgrade;
 	@FXML
 	private Label lblError;
 	@FXML
@@ -54,7 +54,7 @@ public class GradesFormController implements GuiController, Initializable {
 	 */
 	@FXML
 	void getExamAction(ActionEvent event) {
-
+		
 	}
 
 	/**
@@ -67,6 +67,17 @@ public class GradesFormController implements GuiController, Initializable {
 	void getGradeAction(ActionEvent event) {
 
 	}
+	
+	/**
+	 * This is FXML event handler. Handles the action of click on 'Close'
+	 * button.
+	 *
+	 * @param event The action event.
+	 */
+    @FXML
+    void closeAction(ActionEvent event) {
+    	Navigator.instance().clearHistory("StudentHomeForm");
+    }
 
 	// Menu methods ************************************************
 
@@ -77,7 +88,7 @@ public class GradesFormController implements GuiController, Initializable {
 	 */
 	@FXML
 	void goHome(ActionEvent event) {
-
+		Navigator.instance().clearHistory("StudentHomeForm");
 	}
 
 	/**
@@ -88,7 +99,13 @@ public class GradesFormController implements GuiController, Initializable {
 	 */
 	@FXML
 	void compExamAction(ActionEvent event) {
-
+//		//successes pop up
+//		ComputerizedExamCodeWindowController popUp = new ComputerizedExamCodeWindowController();
+//		try {
+//			popUp.start(new Stage());
+//		} catch (Exception e) {
+//			
+//		}
 	}
 
 	/**
@@ -99,7 +116,7 @@ public class GradesFormController implements GuiController, Initializable {
 	 */
 	@FXML
 	void manualExamAction(ActionEvent event) {
-
+		Navigator.instance().navigate("ManualExamForm");
 	}
 
 	/**
@@ -109,7 +126,7 @@ public class GradesFormController implements GuiController, Initializable {
 	 */
 	@FXML
 	void gradesAction(ActionEvent event) {
-
+		Navigator.instance().navigate("GradesForm");
 	}
 
 	/**
@@ -122,8 +139,6 @@ public class GradesFormController implements GuiController, Initializable {
 		imgBack.setImage(img);
 		Image img2 = new Image(this.getClass().getResource("logo.png").toString());
 		imgLogo.setImage(img2);
-		Image img3 = new Image(this.getClass().getResource("Agrade.png").toString());
-		imgAgrade.setImage(img3);
 	}
 
 }

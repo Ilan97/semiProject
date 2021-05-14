@@ -3,6 +3,7 @@ package control;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import gui.Navigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -61,7 +62,7 @@ public class RequestChangeDurationExamTimeController implements GuiController, I
 	 */
 	@FXML
 	void cancelActionButton(ActionEvent event) {
-
+		Navigator.instance().clearHistory("TeacherHomeForm");
 	}
 
 	/**
@@ -71,7 +72,7 @@ public class RequestChangeDurationExamTimeController implements GuiController, I
 	 */
 	@FXML
 	void requestActionButton(ActionEvent event) {
-
+		Navigator.instance().clearHistory("TeacherHomeForm");
 	}
 
 	/**

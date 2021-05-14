@@ -3,18 +3,21 @@ package control;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import gui.Navigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
 /**
  * This is controller class (boundary) for window TeacherReport (second part).
  * This class handle all events related to this window. This class connect with
  * client.
  *
- * @author
+ * @author Moran Davidov
+ * @author Bat-El Gardin
  * @version May 2021
  */
 
@@ -41,7 +44,7 @@ public class TeacherReportForm2Controller implements GuiController, Initializabl
 	 */
 	@FXML
 	void back(ActionEvent event) {
-
+		Navigator.instance().navigate("TeacherReportForm1");
 	}
 
 	/**
@@ -52,7 +55,13 @@ public class TeacherReportForm2Controller implements GuiController, Initializabl
 	 */
 	@FXML
 	void saveReportAction(ActionEvent event) {
-
+		//successes pop up
+		TeacherReportWasSavedWindowController popUp = new TeacherReportWasSavedWindowController();
+		try {
+			popUp.start(new Stage());
+		} catch (Exception e) {
+			
+		}
 	}
 
 	// Menu methods ************************************************
@@ -63,8 +72,8 @@ public class TeacherReportForm2Controller implements GuiController, Initializabl
 	 * @param event The action event.
 	 */
 	@FXML
-	void goToHome(ActionEvent event) {
-
+	void goHome(ActionEvent event) {
+		Navigator.instance().clearHistory("TeacherHomeForm");
 	}
 
 	/**
@@ -75,7 +84,7 @@ public class TeacherReportForm2Controller implements GuiController, Initializabl
 	 */
 	@FXML
 	void writeQuestionAction(ActionEvent event) {
-
+		Navigator.instance().navigate("WriteQuestionForm1");
 	}
 
 	/**
@@ -86,7 +95,7 @@ public class TeacherReportForm2Controller implements GuiController, Initializabl
 	 */
 	@FXML
 	void writeExamAction(ActionEvent event) {
-
+		Navigator.instance().navigate("WriteAnExamForm1");
 	}
 
 	/**
@@ -97,7 +106,7 @@ public class TeacherReportForm2Controller implements GuiController, Initializabl
 	 */
 	@FXML
 	void getReportAction(ActionEvent event) {
-
+		Navigator.instance().navigate("TeacherReportForm1");
 	}
 
 	/**
@@ -108,7 +117,7 @@ public class TeacherReportForm2Controller implements GuiController, Initializabl
 	 */
 	@FXML
 	void changeDurAction(ActionEvent event) {
-
+		Navigator.instance().navigate("RequestChangeExamDurationTimeWindow"); 
 	}
 
 	/**
@@ -119,7 +128,7 @@ public class TeacherReportForm2Controller implements GuiController, Initializabl
 	 */
 	@FXML
 	void checkExamAction(ActionEvent event) {
-
+		//Navigator.instance().navigate(" ");///????
 	}
 
 	/**
@@ -130,7 +139,7 @@ public class TeacherReportForm2Controller implements GuiController, Initializabl
 	 */
 	@FXML
 	void examSearchAction(ActionEvent event) {
-
+		Navigator.instance().navigate("ExamStockForm1");
 	}
 
 	/**
@@ -139,7 +148,7 @@ public class TeacherReportForm2Controller implements GuiController, Initializabl
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		Image img1 = new Image(this.getClass().getResource("teacherFrame.PNG").toString());
+		Image img1 = new Image(this.getClass().getResource("frameWriteQuestion2.PNG").toString());
 		imgBack.setImage(img1);
 		Image img2 = new Image(this.getClass().getResource("logo.png").toString());
 		imgLogo.setImage(img2);

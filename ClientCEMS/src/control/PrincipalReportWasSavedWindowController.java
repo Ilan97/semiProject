@@ -1,10 +1,9 @@
 package control;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import client.ClientUI;
+import gui.Navigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,7 +20,7 @@ import javafx.stage.Stage;
  * class handle all events related to this window. This class connect with
  * client.
  *
- * @author
+ * @author Bat-El Gardin
  * @version May 2021
  */
 
@@ -49,12 +48,10 @@ public class PrincipalReportWasSavedWindowController implements GuiController, I
 		Scene scene = new Scene(root);
 		primaryStage.setTitle("Successes!");
 		primaryStage.setScene(scene);
-		// hiding the current window
-		// NOT GOOD - EXCEPTIONS!!!
-		// NEDD TO FIGURE IT UP!!
-//		primaryStage.setOnCloseRequest((event) -> {
-//			((Node) event.getSource()).getScene().getWindow().hide();
-//		});
+		// close the current window
+		primaryStage.setOnCloseRequest((event) -> {
+			primaryStage.close();
+		});
 		primaryStage.show();
 	}
 
@@ -67,6 +64,8 @@ public class PrincipalReportWasSavedWindowController implements GuiController, I
 	void okAction(ActionEvent event) {
 		// hiding the current window
 		((Node) event.getSource()).getScene().getWindow().hide();
+		// go back to home
+		Navigator.instance().clearHistory("PrincipalHomeForm");
 	}
 
 	/**

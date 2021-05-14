@@ -36,8 +36,8 @@
                   </Button>
                </children>
             </VBox>
-            <ImageView fx:id="imgLogo" fitHeight="71.0" fitWidth="73.0" layoutX="14.0" layoutY="15.0" />
-            <Label layoutX="70.0" layoutY="71.0" text="CEMS" textFill="#bebaba">
+            <ImageView fx:id="imgLogo" fitHeight="71.0" fitWidth="73.0" layoutX="28.0" layoutY="15.0" />
+            <Label layoutX="84.0" layoutY="71.0" text="CEMS" textFill="#bebaba">
                <font>
                   <Font name="Calibri Bold" size="24.0" />
                </font>
@@ -111,17 +111,12 @@
                   <Font name="Calibri Bold" size="11.0" />
                </font>
             </Label>
-            <Label layoutX="572.0" layoutY="177.0" prefHeight="14.0" prefWidth="57.0" textFill="#f86060">
-               <font>
-                  <Font name="Calibri Bold" size="12.0" />
-               </font>
-            </Label>
             <Label fx:id="lblErrStat" layoutX="522.0" layoutY="278.0" prefHeight="14.0" prefWidth="57.0" textFill="#f86060">
                <font>
                   <Font name="Calibri Bold" size="12.0" />
                </font>
             </Label>
-            <Label fx:id="lblErrStudent" layoutX="572.0" layoutY="227.0" prefHeight="14.0" prefWidth="57.0" textFill="#f86060">
+            <Label fx:id="lblErrStudent" layoutX="572.0" layoutY="227.0" prefHeight="14.0" prefWidth="123.0" textFill="#f86060">
                <font>
                   <Font name="Calibri Bold" size="12.0" />
                </font>

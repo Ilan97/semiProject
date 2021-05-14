@@ -4,7 +4,11 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+
 import client.ClientUI;
+
+import gui.Navigator;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -12,15 +16,20 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
 import logic.Message;
 import logic.Question;
+
+import javafx.stage.Stage;
+
 
 /**
  * This is controller class (boundary) for window WriteQuestion (second part) in
  * Teacher. This class handle all events related to this window. This class
  * connect with client.
  *
- * @author
+ * @author Bat-El Gardin
+ * @author Moran Davidov
  * @version May 2021
  */
 
@@ -61,7 +70,7 @@ public class WriteQuestionForm2Controller implements GuiController, Initializabl
 	 */
 	@FXML
 	void back(ActionEvent event) {
-
+		Navigator.instance().navigate("WriteQuestionForm1");
 	}
 
 	/**
@@ -71,21 +80,24 @@ public class WriteQuestionForm2Controller implements GuiController, Initializabl
 	 */
 	@FXML
 	void save(ActionEvent event) {
+		
+
 
 		Message messageToServer = new Message();
 		messageToServer.setMsg(WriteQuestionForm1Controller.Question);
 		messageToServer.setControllerName("QuestionController");
 		messageToServer.setOperation("SaveQuestion");
-		boolean result =(boolean) ClientUI.client.handleMessageFromClientUI(messageToServer);
-		if(result == true)
-			//pop up successfully
-			;
+		boolean result = (boolean) ClientUI.client.handleMessageFromClientUI(messageToServer);
+		if(result == true) {
+		// successes pop up
+		QuestionWasCreatedSuccessfullyWindowController popUp = new QuestionWasCreatedSuccessfullyWindowController();
+		try {
+			popUp.start(new Stage());
+		} catch (Exception e) {}
+    }
 		else 
 			//pop up failed
 			;
-		
-		
-		
 	}
 
 	// Menu methods ************************************************
@@ -96,8 +108,8 @@ public class WriteQuestionForm2Controller implements GuiController, Initializabl
 	 * @param event The action event.
 	 */
 	@FXML
-	void goToHome(ActionEvent event) {
-
+	void goHome(ActionEvent event) {
+		Navigator.instance().clearHistory("TeacherHomeForm");
 	}
 
 	/**
@@ -108,7 +120,7 @@ public class WriteQuestionForm2Controller implements GuiController, Initializabl
 	 */
 	@FXML
 	void writeQuestionAction(ActionEvent event) {
-
+		Navigator.instance().navigate("WriteQuestionForm1");
 	}
 
 	/**
@@ -119,7 +131,7 @@ public class WriteQuestionForm2Controller implements GuiController, Initializabl
 	 */
 	@FXML
 	void writeExamAction(ActionEvent event) {
-
+		Navigator.instance().navigate("WriteAnExamForm1");
 	}
 
 	/**
@@ -130,7 +142,7 @@ public class WriteQuestionForm2Controller implements GuiController, Initializabl
 	 */
 	@FXML
 	void getReportAction(ActionEvent event) {
-
+		Navigator.instance().navigate("TeacherReportForm1");
 	}
 
 	/**
@@ -141,7 +153,7 @@ public class WriteQuestionForm2Controller implements GuiController, Initializabl
 	 */
 	@FXML
 	void changeDurAction(ActionEvent event) {
-
+		Navigator.instance().navigate("RequestChangeExamDurationTimeWindow");
 	}
 
 	/**
@@ -152,7 +164,7 @@ public class WriteQuestionForm2Controller implements GuiController, Initializabl
 	 */
 	@FXML
 	void checkExamAction(ActionEvent event) {
-
+		// Navigator.instance().navigate(" ");///????
 	}
 
 	/**
@@ -163,7 +175,7 @@ public class WriteQuestionForm2Controller implements GuiController, Initializabl
 	 */
 	@FXML
 	void examSearchAction(ActionEvent event) {
-
+		Navigator.instance().navigate("ExamStockForm1");
 	}
 
 	/**

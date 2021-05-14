@@ -42,7 +42,6 @@ public class TeacherHomeFormController implements GuiController, Initializable {
 	 */
 	@FXML
 	void goToHome(ActionEvent event) {
-
 	}
 
 	/**
@@ -64,7 +63,6 @@ public class TeacherHomeFormController implements GuiController, Initializable {
 	 */
 	@FXML
 	void writeExamAction(ActionEvent event) {
-
 	}
 
 	/**

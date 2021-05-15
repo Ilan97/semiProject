@@ -73,6 +73,7 @@ public class QuestionScoreWindowController implements GuiController, Initializab
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		// set images
 		Image img = new Image(this.getClass().getResource("teacherFrame.PNG").toString());
 		imgBack.setImage(img);
 	}

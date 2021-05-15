@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import gui.Navigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -37,24 +38,25 @@ public class TheSubmissionWasSuccessfulWindowController implements GuiController
 	private ImageView imgOk;
 
 	// Instance methods ************************************************
-	
+
 	/**
 	 * Pop this window.
 	 *
 	 * @param primaryStage The stage for window's scene.
 	 */
 	public void start(Stage primaryStage) throws IOException {
-		Parent root = FXMLLoader.load(getClass().getResource("/gui/ComputerizedExamCodeWindow.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("/gui/TheSubmissionWasSuccessfulWindow.fxml"));
 		Scene scene = new Scene(root);
-		primaryStage.setTitle("Enter Code");
+		primaryStage.setTitle("Success!");
 		primaryStage.setScene(scene);
-		//closing the current window
+		// closing the current window and return to home page
 		primaryStage.setOnCloseRequest((event) -> {
 			primaryStage.close();
+			Navigator.instance().clearHistory("StudentHomeForm");
 		});
 		primaryStage.show();
 	}
-	
+
 	/**
 	 * This is FXML event handler. Handles the action of click on 'Ok' button.
 	 *
@@ -64,6 +66,7 @@ public class TheSubmissionWasSuccessfulWindowController implements GuiController
 	void okAction(ActionEvent event) {
 		// hiding the current window
 		((Node) event.getSource()).getScene().getWindow().hide();
+		Navigator.instance().clearHistory("StudentHomeForm");
 	}
 
 	/**
@@ -72,6 +75,7 @@ public class TheSubmissionWasSuccessfulWindowController implements GuiController
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		// set images
 		Image img1 = new Image(this.getClass().getResource("studentFrame.PNG").toString());
 		imgBack.setImage(img1);
 		Image img2 = new Image(this.getClass().getResource("ok.png").toString());

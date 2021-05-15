@@ -3,7 +3,6 @@ package control;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 import logic.Message;
@@ -34,7 +33,6 @@ public class UserController {
 	/**
 	 * variables for execute queries and handle the results from DB.
 	 **/
-	private static Statement stmt;
 	private static ResultSet rs;
 	private static PreparedStatement pstmt;
 
@@ -49,13 +47,13 @@ public class UserController {
 	public static Message handleRequest(Message msg) {
 		request = msg;
 		Boolean statusOfUpdate;
+		Message userMessage = new Message();
+		ArrayList<String> resList;
 		// switch case is on the operations this controller ask to operate.
 		switch (request.getOperation()) {
 		case "isUserExists":
 			// receive a complete User object
 			User res = viewTableUserQuery((String) request.getMsg());
-			// create the result Message instance
-			Message userMessage = new Message();
 			userMessage.setMsg(res);
 			result = userMessage;
 			break;
@@ -71,10 +69,8 @@ public class UserController {
 				display("updateConnectionStatus successfully");
 			else
 				display("updateConnectionStatus faild");
-			// create the result Message instance
-			Message updateStatusMessage = new Message();
-			updateStatusMessage.setMsg(statusOfUpdate);
-			result = updateStatusMessage;
+			userMessage.setMsg(statusOfUpdate);
+			result = userMessage;
 			break;
 
 		case "initUsersStatus":
@@ -82,6 +78,19 @@ public class UserController {
 				display("initUsersStatus successfully");
 			else
 				display("initUsersStatus faild");
+			
+		case "ShowAllStudents":
+			resList = getAllStudents();
+			userMessage.setMsg(resList);
+			result = userMessage;
+			break;
+			
+		case "ShowAllTeachers":
+			resList = getAllTeachers();
+			userMessage.setMsg(resList);
+			result = userMessage;
+			break;
+			
 		} // end of switch case
 		return result;
 	}
@@ -246,7 +255,71 @@ public class UserController {
 		// update was fail
 		return false;
 	}
+	
+	/**
+	 * This method return the list of all students from DB.
+	 *
+	 * @return studentList The list of all students. if there isn't any student, return
+	 *         null.
+	 */
+	public static ArrayList<String> getAllStudents() {
+		ArrayList<String> studentList = new ArrayList<>();
+		String sql = "SELECT firstName, lastName FROM users WHERE urole = ?";
+		try {
+			pstmt = DBconnector.conn.prepareStatement(sql);
+			pstmt.setString(1, "student");
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				studentList.add(rs.getString("firstName") + " " + rs.getString("lastName"));
+			}
 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+			} catch (Exception e) {
+			}
+			try {
+				pstmt.close();
+			} catch (Exception e) {
+			}
+		}
+		return studentList;
+	}
+
+	/**
+	 * This method return the list of all teachers from DB.
+	 *
+	 * @return teacherList The list of all teachers. if there isn't any student, return
+	 *         null.
+	 */
+	public static ArrayList<String> getAllTeachers() {
+		ArrayList<String> teacherList = new ArrayList<>();
+		String sql = "SELECT firstName, lastName FROM users WHERE urole = ?";
+		try {
+			pstmt = DBconnector.conn.prepareStatement(sql);
+			pstmt.setString(1, "teacher");
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				teacherList.add(rs.getString("firstName") + " " + rs.getString("lastName"));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+			} catch (Exception e) {
+			}
+			try {
+				pstmt.close();
+			} catch (Exception e) {
+			}
+		}
+		return teacherList;
+	}
+	
 	/**
 	 * This method parsing the data received from msg.
 	 * 
@@ -266,4 +339,5 @@ public class UserController {
 	public static void display(String message) {
 		System.out.println("> " + message);
 	}
+	
 }// End of UserController class

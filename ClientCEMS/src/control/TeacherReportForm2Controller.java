@@ -44,7 +44,7 @@ public class TeacherReportForm2Controller implements GuiController, Initializabl
 	 */
 	@FXML
 	void back(ActionEvent event) {
-		Navigator.instance().navigate("TeacherReportForm1");
+		Navigator.instance().back();
 	}
 
 	/**
@@ -148,6 +148,7 @@ public class TeacherReportForm2Controller implements GuiController, Initializabl
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		// set images
 		Image img1 = new Image(this.getClass().getResource("frameWriteQuestion2.PNG").toString());
 		imgBack.setImage(img1);
 		Image img2 = new Image(this.getClass().getResource("logo.png").toString());

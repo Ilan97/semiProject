@@ -1,16 +1,20 @@
 package control;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import client.ClientUI;
 import gui.Navigator;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import logic.Message;
 
 /**
  * This is controller class (boundary) for window PrincipalReport (first part)
@@ -35,7 +39,7 @@ public class PrincipalReportFormTeacherController implements GuiController, Init
 	@FXML
 	private ImageView imgLogo;
 	@FXML
-	private MenuButton teacher;
+	private ComboBox<String> teacher;
 	@FXML
 	private Label lblErrStat;
 	@FXML
@@ -52,7 +56,7 @@ public class PrincipalReportFormTeacherController implements GuiController, Init
 	void next(ActionEvent event) {
 		Navigator.instance().navigate("PrincipalReportForm2");
 	}
-	
+
 	/**
 	 * This is FXML event handler. Handles the action of click on 'Report by Course'
 	 * option in 'Choose Report Type' menu button.
@@ -73,17 +77,6 @@ public class PrincipalReportFormTeacherController implements GuiController, Init
 	@FXML
 	void studentNext(ActionEvent event) {
 		Navigator.instance().navigate("PrincipalReportFormStudent");
-	}
-
-	/**
-	 * This is FXML event handler. Handles the action of click on 'Choose Teacher'
-	 * menu button.
-	 *
-	 * @param event The action event.
-	 */
-	@FXML
-	void chooseTeacherAction(ActionEvent event) {
-
 	}
 
 	/**
@@ -141,30 +134,39 @@ public class PrincipalReportFormTeacherController implements GuiController, Init
 	void getReportAction(ActionEvent event) {
 		Navigator.instance().navigate("PrincipalReportForm1");
 	}
-	
+
 	/**
 	 * This is FXML event handler. Handles the action of click on 'View Request'
 	 * button.
 	 *
 	 * @param event The action event.
 	 */
-    @FXML
-    void viewRequestsAction(ActionEvent event) {
-    	Navigator.instance().navigate("PrincipalViewRequestForm");
-    }
+	@FXML
+	void viewRequestsAction(ActionEvent event) {
+		Navigator.instance().navigate("PrincipalViewRequestForm");
+	}
 
 	/**
 	 * This method called to initialize a controller after its root element has been
 	 * completely processed (after load method).
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		// set images
 		Image img = new Image(this.getClass().getResource("frame1PrincipalReport.PNG").toString());
 		imgBack1.setImage(img);
 		Image img2 = new Image(this.getClass().getResource("logo.png").toString());
 		imgLogo.setImage(img2);
 		Image img3 = new Image(this.getClass().getResource("report.png").toString());
 		imgRep.setImage(img3);
+		// set the content in the comboBox 'teacher'
+		ArrayList<String> listOfTeacher = null;
+		Message messageToServer = new Message();
+		messageToServer.setControllerName("UserController");
+		messageToServer.setOperation("ShowAllTeachers");
+		listOfTeacher = (ArrayList<String>) ClientUI.client.handleMessageFromClientUI(messageToServer);
+		teacher.setItems(FXCollections.observableArrayList(listOfTeacher));
 	}
 
 }

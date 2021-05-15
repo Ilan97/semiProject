@@ -9,7 +9,6 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -28,7 +27,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import logic.Client;
 import logic.ClientStatus;
 import ocsf.server.ConnectionToClient;
@@ -122,7 +120,7 @@ public class ServerPortController implements Initializable {
 		FXMLLoader loader = new FXMLLoader();
 		// check if user put port number
 		if (port.trim().isEmpty())
-			lblErrorPort.setText("you must enter port number");
+			lblErrorPort.setText("enter port number");
 		// trim isn't empty
 		else {
 			// initialize the instance
@@ -143,15 +141,12 @@ public class ServerPortController implements Initializable {
 				primaryStage.setTitle("Server Connections");
 				primaryStage.setScene(scene);
 				// close the server
-				primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-					@Override
-					public void handle(WindowEvent e) {
-						Platform.exit();
-						try {
-							server.close();
-						} catch (IOException ex) {
-							display("Faild to exit server!");
-						}
+				primaryStage.setOnCloseRequest((e) -> {
+					Platform.exit();
+					try {
+						server.close();
+					} catch (IOException ex) {
+						display("Faild to exit server!");
 					}
 				});
 				primaryStage.show();

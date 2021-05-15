@@ -1,17 +1,21 @@
 package control;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import client.ClientUI;
 import gui.Navigator;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuButton;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import logic.Message;
 
 /**
  * This is controller class (boundary) for window WriteAnExam (first part) in
@@ -39,11 +43,11 @@ public class WriteAnExamForm1Controller implements GuiController, Initializable 
 	@FXML
 	private Label lblErrorPort21;
 	@FXML
-	private MenuButton field;
+	private ComboBox<String> field;
 	@FXML
-	private MenuButton course;
+	private ComboBox<String> course;
 	@FXML
-	private MenuButton type;
+	private ComboBox<String> type;
 	@FXML
 	private TextField txtDuration;
 	@FXML
@@ -68,36 +72,24 @@ public class WriteAnExamForm1Controller implements GuiController, Initializable 
 	}
 
 	/**
-	 * This is FXML event handler. Handles the action of click on 'Choose Field'
-	 * menu button.
+	 * This is FXML event handler. Handles the action of click on 'field' comboBox.
+	 * Get list of courses that teacher teach, in order to the field that was
+	 * chosen.
 	 *
 	 * @param event The action event.
 	 */
+	@SuppressWarnings("unchecked")
 	@FXML
 	void chooseFieldAction(ActionEvent event) {
-
-	}
-
-	/**
-	 * This is FXML event handler. Handles the action of click on 'Choose Course'
-	 * menu button.
-	 *
-	 * @param event The action event.
-	 */
-	@FXML
-	void chooseCourseAction(ActionEvent event) {
-
-	}
-
-	/**
-	 * This is FXML event handler. Handles the action of click on 'Choose Exam Type'
-	 * menu button.
-	 *
-	 * @param event The action event.
-	 */
-	@FXML
-	void chooseTypeAction(ActionEvent event) {
-
+		ArrayList<String> listOfCourse;
+		Message messageToServer = new Message();
+		String UserName = LoginController.user.getUsername();
+		String ChosenField = field.getSelectionModel().getSelectedItem();
+		messageToServer.setMsg(UserName + " " + ChosenField);
+		messageToServer.setControllerName("TeacherController");
+		messageToServer.setOperation("ShowCourseList");
+		listOfCourse = (ArrayList<String>) ClientUI.client.handleMessageFromClientUI(messageToServer);
+		course.setItems(FXCollections.observableArrayList(listOfCourse));
 	}
 
 	// Menu methods ************************************************
@@ -164,7 +156,7 @@ public class WriteAnExamForm1Controller implements GuiController, Initializable 
 	 */
 	@FXML
 	void checkExamAction(ActionEvent event) {
-		//Navigator.instance().navigate(" ");///????
+		// Navigator.instance().navigate(" ");///????
 	}
 
 	/**
@@ -182,14 +174,31 @@ public class WriteAnExamForm1Controller implements GuiController, Initializable 
 	 * This method called to initialize a controller after its root element has been
 	 * completely processed (after load method).
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		// set images
 		Image img1 = new Image(this.getClass().getResource("frame1WriteAnExam.PNG").toString());
 		imgBack.setImage(img1);
 		Image img2 = new Image(this.getClass().getResource("logo.png").toString());
 		imgLogo.setImage(img2);
 		Image img3 = new Image(this.getClass().getResource("pencil.png").toString());
 		imgPencil.setImage(img3);
+		// set the content (list of fields that teacher is teaching) in the comboBox
+		// 'field'
+		ArrayList<String> listOfField;
+		String UserName = LoginController.user.getUsername();
+		Message messageToServer = new Message();
+		messageToServer.setMsg(UserName);
+		messageToServer.setControllerName("TeacherController");
+		messageToServer.setOperation("ShowFieldList");
+		listOfField = (ArrayList<String>) ClientUI.client.handleMessageFromClientUI(messageToServer);
+		field.setItems(FXCollections.observableArrayList(listOfField));
+		// set the content in the comboBox 'type'
+		ArrayList<String> examTypes = new ArrayList<>();
+		examTypes.add("Manual");
+		examTypes.add("Computerized");
+		type.setItems(FXCollections.observableArrayList(examTypes));
 	}
 
 }

@@ -46,6 +46,16 @@ public class ExamStockForm2Controller implements GuiController, Initializable {
 	// Instance methods ************************************************
 
 	/**
+	 * This is FXML event handler. Handles the action of click on 'back' button.
+	 *
+	 * @param event The action event.
+	 */
+	@FXML
+	void back(ActionEvent event) {
+		Navigator.instance().back();
+	}
+
+	/**
 	 * This is FXML event handler. Handles the action of click on 'Close' button.
 	 *
 	 * @param event The action event.
@@ -108,7 +118,7 @@ public class ExamStockForm2Controller implements GuiController, Initializable {
 	 */
 	@FXML
 	void changeDurAction(ActionEvent event) {
-		Navigator.instance().navigate("RequestChangeExamDurationTimeWindow"); 
+		Navigator.instance().navigate("RequestChangeExamDurationTimeWindow");
 	}
 
 	/**
@@ -119,7 +129,7 @@ public class ExamStockForm2Controller implements GuiController, Initializable {
 	 */
 	@FXML
 	void checkExamAction(ActionEvent event) {
-		Navigator.instance().navigate(" ");///????
+		Navigator.instance().navigate(" ");/// ????
 	}
 
 	/**
@@ -133,13 +143,13 @@ public class ExamStockForm2Controller implements GuiController, Initializable {
 		Navigator.instance().navigate("ExamStockForm1");
 	}
 
-
 	/**
 	 * This method called to initialize a controller after its root element has been
 	 * completely processed (after load method).
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		// set images
 		Image img1 = new Image(this.getClass().getResource("frameWriteQuestion2.PNG").toString());
 		imgBack.setImage(img1);
 		Image img2 = new Image(this.getClass().getResource("logo.png").toString());

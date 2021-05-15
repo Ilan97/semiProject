@@ -60,7 +60,7 @@ public class WriteAnExamForm3Controller implements GuiController, Initializable 
 	 */
 	@FXML
 	void back(ActionEvent event) {
-		Navigator.instance().navigate("WriteAnExamForm2");
+		Navigator.instance().back();
 	}
 
 	/**
@@ -163,6 +163,7 @@ public class WriteAnExamForm3Controller implements GuiController, Initializable 
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		// set images
 		Image img1 = new Image(this.getClass().getResource("frame3WriteAnExam.PNG").toString());
 		imgBack.setImage(img1);
 		Image img2 = new Image(this.getClass().getResource("logo.png").toString());

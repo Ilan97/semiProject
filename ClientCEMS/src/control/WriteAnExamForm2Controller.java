@@ -4,6 +4,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import gui.Navigator;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -11,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import logic.Question;
 
 /**
  * This is controller class (boundary) for window WriteAnExam (second part) in
@@ -34,9 +37,9 @@ public class WriteAnExamForm2Controller implements GuiController, Initializable 
 	@FXML
 	private ImageView imgLogo;
 	@FXML
-	private ListView<?> quesList;
+	private ListView<Question> quesList;
 	@FXML
-	private ListView<?> chosenList;
+	private ListView<Question> chosenList;
 	@FXML
 	private Label lblError;
 	@FXML
@@ -61,7 +64,7 @@ public class WriteAnExamForm2Controller implements GuiController, Initializable 
 	 */
 	@FXML
 	void back(ActionEvent event) {
-		Navigator.instance().navigate("WriteAnExamForm1");
+		Navigator.instance().back();
 	}
 
 	// Menu methods ************************************************
@@ -128,7 +131,7 @@ public class WriteAnExamForm2Controller implements GuiController, Initializable 
 	 */
 	@FXML
 	void checkExamAction(ActionEvent event) {
-		//Navigator.instance().navigate(" ");///????
+		// Navigator.instance().navigate(" ");///????
 	}
 
 	/**
@@ -148,13 +151,42 @@ public class WriteAnExamForm2Controller implements GuiController, Initializable 
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		// set images
 		Image img1 = new Image(this.getClass().getResource("frame2WriteAnExam.PNG").toString());
 		imgBack.setImage(img1);
 		Image img2 = new Image(this.getClass().getResource("logo.png").toString());
 		imgLogo.setImage(img2);
 		Image img3 = new Image(this.getClass().getResource("pencil.png").toString());
 		imgPencil.setImage(img3);
-	}
+		// set quesList (questions from DB) listView
+		quesList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Question>() {
+			@Override
+			public void changed(ObservableValue<? extends Question> observable, Question oldValue, Question newValue) {
+				if (newValue != null) {
+					quesList.getItems().remove(newValue);
+					// add to test
+					chosenList.getItems().add(newValue);
+				}
 
+			}
+		});
+		// set chosenList (chosen questions) listView
+		chosenList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Question>() {
+			@Override
+			public void changed(ObservableValue<? extends Question> observable, Question oldValue, Question newValue) {
+				if (newValue != null) {
+					chosenList.getItems().remove(newValue);
+					// delete from hash map
+					quesList.getItems().add(newValue);
+				}
+			}
+		});
+		// Lambda expression
+//		chosenList.getSelectionModel().selectedItemProperty().addListener((obs,o,n)->{
+//			chosenList.getItems().remove(n);
+//			//delete from hash map		
+//			quesList.getItems().add(n);
+//		});
+	}
 }
 //End of WriteAnExamForm2Controller class

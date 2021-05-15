@@ -21,11 +21,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import logic.Message;
 import logic.User;
@@ -49,7 +45,7 @@ public class LoginController implements GuiController, Initializable {
 	 * static instance for User object. Will be create only once for each run. the
 	 * object initialize by the info that return from DB.
 	 */
-	public static User user = null;
+	public static User user;
 
 	/**
 	 * FXML variables.
@@ -63,13 +59,11 @@ public class LoginController implements GuiController, Initializable {
 	@FXML
 	private PasswordField txtPassword;
 	@FXML
-	private Label lblPassErr;
+	private Label lblErr;
 	@FXML
 	private ImageView imgCopyRights;
 	@FXML
 	private ImageView imgLogo;
-	@FXML
-	private Label lblUserErr;
 
 	// Instance methods ************************************************
 
@@ -127,7 +121,7 @@ public class LoginController implements GuiController, Initializable {
 		try {
 			ClientUI.client.closeConnection();
 		} catch (IOException ex) {
-			System.out.println("Fail to close client!");
+			display("Fail to close client!");
 		}
 		System.exit(0);
 	}
@@ -144,75 +138,69 @@ public class LoginController implements GuiController, Initializable {
 		String userName = txtUserName.getText();
 		String password = txtPassword.getText();
 		// check that user put details
-		if (userName.trim().isEmpty()) {
-			lblUserErr.setText("Please enter User name");
-			if (password.trim().isEmpty())
-				lblPassErr.setText("Please enter password");
-			else
-				lblPassErr.setText("");
-		}
-		// trim isn't empty
-		else if (password.trim().isEmpty()) {
-			lblUserErr.setText("");
-			lblPassErr.setText("Please enter password");
-		} else {
-			lblPassErr.setText("");
+		if (userName.trim().isEmpty() || password.trim().isEmpty())
+			lblErr.setText("User Name or Password is missing");
+		else {
+			lblErr.setText("");
 			// create new Message object with the request
 			messageToServer.setMsg(userName + " " + password);
 			messageToServer.setOperation("isUserExists");
 			messageToServer.setControllerName("UserController");
 			// the result User instance
 			user = (User) ClientUI.client.handleMessageFromClientUI(messageToServer);
+			// user isn't exists in DB
+			if (user == null) { // create pop up alert
+				Alert a = new Alert(AlertType.INFORMATION);
+				a.setTitle("CEMS");
+				a.setResizable(true);
+				a.setHeaderText("User Name or Password is incorrect");
+				Label label = new Label();
+				label.setPrefSize(100, 100);
+				label.setPadding(new Insets(10, 10, 10, 10));
+				a.setGraphic(label);
+				a.showAndWait();
+			}
+			// user already log in
+			else if (user.isLogedIN() == true) { // create pop up alert
+				Alert a = new Alert(AlertType.INFORMATION);
+				a.setTitle("CEMS");
+				a.setResizable(true);
+				a.setHeaderText("User already logged in !");
+				Label label = new Label();
+				label.setPrefSize(100, 100);
+				label.setPadding(new Insets(10, 10, 10, 10));
+				a.setGraphic(label);
+				a.showAndWait();
+			} else { // user logged in successfully
+				messageToServer.setMsg(userName);
+				messageToServer.setOperation("updateConnectionStatus");
+				messageToServer.setControllerName("UserController");
+				// update the user's connection status
+				ClientUI.client.handleMessageFromClientUI(messageToServer);
+				// navigate user to the right home page, by his permission
+				switch (user.getUserType()) {
+				case STUDENT:
+					Navigator.instance().navigate("StudentHomeForm");
+					break;
+				case TEACHER:
+					Navigator.instance().navigate("TeacherHomeForm");
+					break;
+				case PRINCIPAL:
+					Navigator.instance().navigate("PrincipalHomeForm");
+					break;
+				} // end switch case
+			}
 		}
-		// user isn't exists in DB
-		if (user == null) { // create pop up alert
-			Alert a = new Alert(AlertType.INFORMATION);
-			a.setTitle("CEMS");
-			a.setResizable(true);
-			a.setHeaderText("User name or password is incorrect");
-			Label label = new Label();
-			label.setPrefSize(100, 100);
-			BackgroundFill bgFill = new BackgroundFill(Color.RED, new CornerRadii(60), null);
-			Background bg = new Background(bgFill);
-			label.setPadding(new Insets(10, 10, 10, 10));
-			label.setBackground(bg);
-			a.setGraphic(label);
-			a.showAndWait();
-		}
-		// user already log in
-		else if (user.isLogedIN() == true) { // create pop up alert
-			Alert a = new Alert(AlertType.INFORMATION);
-			a.setTitle("CEMS");
-			a.setResizable(true);
-			a.setHeaderText("User name already logged in !");
-			Label label = new Label();
-			label.setPrefSize(100, 100);
-			BackgroundFill bgFill = new BackgroundFill(Color.RED, new CornerRadii(20), null);
-			Background bg = new Background(bgFill);
-			label.setPadding(new Insets(10, 10, 10, 10));
-			label.setBackground(bg);
-			a.setGraphic(label);
-			a.showAndWait();
-		} else { // user logged in successfully
-			messageToServer.setMsg(userName);
-			messageToServer.setOperation("updateConnectionStatus");
-			messageToServer.setControllerName("UserController");
-			// update the user's connection status
-			ClientUI.client.handleMessageFromClientUI(messageToServer);
-			// navigate user to the right home page, by his permission
-			switch (user.getUserType()) {
-			case STUDENT:
-				Navigator.instance().navigate("StudentHomeForm");
-				break;
-			case TEACHER:
-				Navigator.instance().navigate("TeacherHomeForm");
-				break;
-			case PRINCIPAL:
-				Navigator.instance().navigate("PrincipalHomeForm");
-				break;
-			} // end switch case
-		} // end successful 'else'
-	} // end of login
+	}
+
+	/**
+	 * This method displays a message into the console.
+	 *
+	 * @param message The string to be displayed.
+	 */
+	public static void display(String message) {
+		System.out.println("> " + message);
+	}
 
 	/**
 	 * This method called to initialize a controller after its root element has been
@@ -220,6 +208,7 @@ public class LoginController implements GuiController, Initializable {
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		// set images
 		Image img1 = new Image(this.getClass().getResource("loginForm.PNG").toString());
 		imgLogin.setImage(img1);
 		Image img2 = new Image(this.getClass().getResource("logo.png").toString());

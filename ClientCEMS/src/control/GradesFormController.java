@@ -11,7 +11,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
 
 /**
  * This is controller class (boundary) for window Grades in Student. This class
@@ -54,7 +53,7 @@ public class GradesFormController implements GuiController, Initializable {
 	 */
 	@FXML
 	void getExamAction(ActionEvent event) {
-		
+
 	}
 
 	/**
@@ -67,17 +66,16 @@ public class GradesFormController implements GuiController, Initializable {
 	void getGradeAction(ActionEvent event) {
 
 	}
-	
+
 	/**
-	 * This is FXML event handler. Handles the action of click on 'Close'
-	 * button.
+	 * This is FXML event handler. Handles the action of click on 'Close' button.
 	 *
 	 * @param event The action event.
 	 */
-    @FXML
-    void closeAction(ActionEvent event) {
-    	Navigator.instance().clearHistory("StudentHomeForm");
-    }
+	@FXML
+	void closeAction(ActionEvent event) {
+		Navigator.instance().clearHistory("StudentHomeForm");
+	}
 
 	// Menu methods ************************************************
 
@@ -135,6 +133,7 @@ public class GradesFormController implements GuiController, Initializable {
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		// set images
 		Image img = new Image(this.getClass().getResource("studentFrame.PNG").toString());
 		imgBack.setImage(img);
 		Image img2 = new Image(this.getClass().getResource("logo.png").toString());

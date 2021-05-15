@@ -46,11 +46,12 @@ public class PrincipalReportWasSavedWindowController implements GuiController, I
 	public void start(Stage primaryStage) throws Exception {
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/PrincipalReportWasSavedWindow.fxml"));
 		Scene scene = new Scene(root);
-		primaryStage.setTitle("Successes!");
+		primaryStage.setTitle("Success!");
 		primaryStage.setScene(scene);
-		// close the current window
+		// close the current window and return to home page
 		primaryStage.setOnCloseRequest((event) -> {
 			primaryStage.close();
+			Navigator.instance().clearHistory("PrincipalHomeForm");
 		});
 		primaryStage.show();
 	}
@@ -74,6 +75,7 @@ public class PrincipalReportWasSavedWindowController implements GuiController, I
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		// set images
 		Image img1 = new Image(this.getClass().getResource("principalFrame.PNG").toString());
 		imgBack.setImage(img1);
 		Image img2 = new Image(this.getClass().getResource("ok.png").toString());

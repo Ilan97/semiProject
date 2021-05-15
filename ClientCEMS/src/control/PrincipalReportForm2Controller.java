@@ -102,6 +102,7 @@ public class PrincipalReportForm2Controller implements GuiController, Initializa
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		// set images
 		Image img = new Image(this.getClass().getResource("frame2PrincipalReport.PNG").toString());
 		imgBack2.setImage(img);
 		Image img2 = new Image(this.getClass().getResource("logo.png").toString());

@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
@@ -13,31 +14,12 @@
 
 <AnchorPane prefHeight="406.0" prefWidth="603.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.PrincipalReportFormCourseController">
    <children>
-      <Pane layoutX="-7.0" prefHeight="541.0" prefWidth="794.0" style="-fx-background-color: #ffffff;">
+      <Pane layoutX="-9.0" prefHeight="541.0" prefWidth="794.0" style="-fx-background-color: #ffffff;">
          <children>
             <ImageView fx:id="imgBack1" fitHeight="541.0" fitWidth="636.0" layoutX="160.0" layoutY="-1.0" />
             <ImageView fx:id="imgRep" fitHeight="28.0" fitWidth="23.0" layoutX="214.0" layoutY="60.0" />
-            <VBox layoutX="7.0" layoutY="115.0" prefHeight="412.0" prefWidth="158.0" style="-fx-background-color: #ffffff;">
-               <children>
-                  <Button mnemonicParsing="false" onAction="#goHome" prefHeight="60.0" prefWidth="130.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 0 30 30 0;" text="Home" textAlignment="CENTER" textFill="WHITE">
-                     <font>
-                        <Font name="Calibri Bold" size="18.0" />
-                     </font>
-                  </Button>
-                  <Button mnemonicParsing="false" onAction="#getReportAction" prefHeight="60.0" prefWidth="160.0" style="-fx-background-color: #F6872B; -fx-background-radius: 0 30 30 0;" text="Get Report" textAlignment="CENTER" textFill="WHITE" wrapText="true">
-                     <font>
-                        <Font name="Calibri Bold" size="18.0" />
-                     </font>
-                  </Button>
-                  <Button mnemonicParsing="false" onAction="#viewRequestsAction" prefHeight="60.0" prefWidth="130.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 0 30 30 0;" text="View Requests" textAlignment="CENTER" textFill="WHITE" wrapText="true">
-                     <font>
-                        <Font name="Calibri Bold" size="18.0" />
-                     </font>
-                  </Button>
-               </children>
-            </VBox>
-            <ImageView fx:id="imgLogo" fitHeight="71.0" fitWidth="73.0" layoutX="14.0" layoutY="15.0" />
-            <Label layoutX="70.0" layoutY="71.0" text="CEMS" textFill="#bebaba">
+            <ImageView fx:id="imgLogo" fitHeight="71.0" fitWidth="73.0" layoutX="30.0" layoutY="15.0" />
+            <Label layoutX="86.0" layoutY="71.0" text="CEMS" textFill="#bebaba">
                <font>
                   <Font name="Calibri Bold" size="24.0" />
                </font>
@@ -87,15 +69,6 @@
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
-            <MenuButton fx:id="course" layoutX="386.0" layoutY="220.0" mnemonicParsing="false" onAction="#chooseCourseAction" prefHeight="27.0" prefWidth="176.0" style="-fx-background-color: #b2b2b2;" text="Choose Course" textFill="WHITE" wrapText="true">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="Action 1" />
-                  <MenuItem mnemonicParsing="false" text="Action 2" />
-               </items>
-               <font>
-                  <Font name="Calibri Bold" size="14.0" />
-               </font>
-            </MenuButton>
             <Label layoutX="379.0" layoutY="165.0" text="*" textFill="#f86060">
                <font>
                   <Font name="Calibri Bold" size="11.0" />
@@ -121,15 +94,35 @@
                   <Font name="Calibri Bold" size="12.0" />
                </font>
             </Label>
-            <MenuButton fx:id="reportType" layoutX="386.0" layoutY="169.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="176.0" style="-fx-background-color: #b2b2b2;" text="Report by Course" textFill="WHITE" wrapText="true">
+            <MenuButton fx:id="reportType" layoutX="386.0" layoutY="169.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="176.0" style="-fx-background-color: #b2b2b2;" text="Report by Course" textFill="#3f3f3f" wrapText="true">
                <items>
                   <MenuItem fx:id="byStudent" mnemonicParsing="false" onAction="#studentNext" text="Report by Student" />
                   <MenuItem fx:id="byTeacher" mnemonicParsing="false" onAction="#teacherNext" text="Report by Teacher" />
                </items>
                <font>
-                  <Font name="Calibri Bold" size="14.0" />
+                  <Font name="Arial" size="12.0" />
                </font>
             </MenuButton>
+            <VBox layoutX="9.0" layoutY="115.0" prefHeight="412.0" prefWidth="158.0" style="-fx-background-color: #ffffff;">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#goHome" prefHeight="60.0" prefWidth="130.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 0 30 30 0;" text="Home" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="Calibri Bold" size="18.0" />
+                     </font>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#getReportAction" prefHeight="60.0" prefWidth="160.0" style="-fx-background-color: #F6872B; -fx-background-radius: 0 30 30 0;" text="Get Report" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                     <font>
+                        <Font name="Calibri Bold" size="18.0" />
+                     </font>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#viewRequestsAction" prefHeight="60.0" prefWidth="130.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 0 30 30 0;" text="View Requests" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                     <font>
+                        <Font name="Calibri Bold" size="18.0" />
+                     </font>
+                  </Button>
+               </children>
+            </VBox>
+            <ComboBox fx:id="course" layoutX="386.0" layoutY="220.0" prefHeight="27.0" prefWidth="176.0" promptText="Choose Course" style="-fx-background-color: #b2b2b2;" />
          </children>
       </Pane>
    </children>

@@ -49,9 +49,10 @@ public class ExamWasCreatedSuccessfullyWindowController implements GuiController
 		Scene scene = new Scene(root);
 		primaryStage.setTitle("Success!");
 		primaryStage.setScene(scene);
-		// closing the current window
+		// closing the current window and return to home page
 		primaryStage.setOnCloseRequest((event) -> {
 			primaryStage.close();
+			Navigator.instance().clearHistory("TeacherHomeForm");
 		});
 		primaryStage.show();
 	}
@@ -74,6 +75,7 @@ public class ExamWasCreatedSuccessfullyWindowController implements GuiController
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		// set images
 		Image img1 = new Image(this.getClass().getResource("teacherFrame.PNG").toString());
 		imgBack.setImage(img1);
 		Image img2 = new Image(this.getClass().getResource("ok.png").toString());

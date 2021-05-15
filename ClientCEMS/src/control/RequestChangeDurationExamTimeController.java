@@ -81,6 +81,7 @@ public class RequestChangeDurationExamTimeController implements GuiController, I
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		// set images
 		Image img = new Image(this.getClass().getResource("teacherFrame.PNG").toString());
 		imgBack.setImage(img);
 	}

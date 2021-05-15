@@ -1,10 +1,5 @@
 package control;
 
-import java.io.IOException;
-
-import client.ClientUI;
-import javafx.stage.Stage;
-
 /**
  * <pre>
  * interface for GUI to save them in the navigator,

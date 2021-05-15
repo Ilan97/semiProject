@@ -36,52 +36,52 @@
                </font>
             </Button>
             <ImageView fx:id="imgPencil" fitHeight="36.0" fitWidth="34.0" layoutX="472.0" layoutY="54.0" />
-            <Label layoutX="250.0" layoutY="191.0" prefHeight="17.0" prefWidth="40.0" text="Field:">
+            <Label layoutX="238.0" layoutY="191.0" prefHeight="17.0" prefWidth="40.0" text="Field:">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
-            <Label fx:id="lblField" layoutX="352.0" layoutY="188.0" prefHeight="17.0" prefWidth="102.0" textFill="#b2b2b2">
+            <Label fx:id="lblField" layoutX="340.0" layoutY="188.0" prefHeight="17.0" prefWidth="102.0" textFill="#b2b2b2">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="250.0" layoutY="225.0" prefHeight="17.0" prefWidth="66.0" text="Course:">
+            <Label layoutX="238.0" layoutY="225.0" prefHeight="17.0" prefWidth="66.0" text="Course:">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
-            <Label fx:id="lblCourse" layoutX="352.0" layoutY="226.0" prefHeight="17.0" prefWidth="73.0" textFill="#b2b2b2">
+            <Label fx:id="lblCourse" layoutX="340.0" layoutY="226.0" prefHeight="17.0" prefWidth="102.0" textFill="#b2b2b2">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
-            <TextArea fx:id="questionView" layoutX="509.0" layoutY="210.0" prefHeight="145.0" prefWidth="196.0">
+            <TextArea fx:id="questionView" layoutX="458.0" layoutY="210.0" prefHeight="207.0" prefWidth="261.0">
                <font>
                   <Font name="Calibri" size="14.0" />
                </font>
             </TextArea>
-            <Label fx:id="lblAuthor" layoutX="352.0" layoutY="264.0" prefHeight="17.0" prefWidth="144.0" textFill="#b2b2b2">
+            <Label fx:id="lblAuthor" layoutX="340.0" layoutY="264.0" prefHeight="17.0" prefWidth="102.0" textFill="#b2b2b2">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="509.0" layoutY="185.0" text="Question:">
+            <Label layoutX="459.0" layoutY="185.0" text="Question:">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="250.0" layoutY="263.0" prefHeight="17.0" prefWidth="66.0" text="Author:">
+            <Label layoutX="238.0" layoutY="263.0" prefHeight="17.0" prefWidth="66.0" text="Author:">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
-            <Label fx:id="lblSerialNum" layoutX="352.0" layoutY="303.0" prefHeight="17.0" prefWidth="57.0" textFill="#b2b2b2">
+            <Label fx:id="lblSerialNum" layoutX="340.0" layoutY="303.0" prefHeight="17.0" prefWidth="57.0" textFill="#b2b2b2">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="250.0" layoutY="301.0" prefHeight="17.0" prefWidth="92.0" text="Serial Number:">
+            <Label layoutX="238.0" layoutY="301.0" prefHeight="17.0" prefWidth="92.0" text="Serial Number:">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>

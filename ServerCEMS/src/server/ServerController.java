@@ -1,12 +1,16 @@
 package server;
 // This file contains material supporting section 3.7 of the textbook:
 
+import control.CourseController;
+
 // "Object Oriented Software Engineering" and is issued under the open-source
 // license found at www.lloseng.com 
 
 import control.DBconnector;
-
 import control.ExamController;
+import control.FieldOfStudyController;
+import control.QuestionController;
+import control.TeacherController;
 import control.UserController;
 import logic.Message;
 import ocsf.server.AbstractServer;
@@ -77,6 +81,18 @@ public class ServerController extends AbstractServer {
 			break;
 		case "UserController":
 			messageFromController = UserController.handleRequest(messageFromClient);
+			break;
+		case "QuestionController":
+			messageFromController = QuestionController.handleRequest(messageFromClient);
+			break;
+		case "TeacherController":
+			messageFromController = TeacherController.handleRequest(messageFromClient);
+			break;
+		case "FieldOfStudyController":
+			messageFromController = FieldOfStudyController.handleRequest(messageFromClient);
+			break;
+		case "CourseController":
+			messageFromController = CourseController.handleRequest(messageFromClient);
 			break;
 		} // end of switch
 

@@ -56,6 +56,7 @@ public class SubmissionAgreementWindowController implements GuiController, Initi
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		// set images
 		Image img = new Image(this.getClass().getResource("serverCrushed.PNG").toString());
 		imgBack.setImage(img);
 	}

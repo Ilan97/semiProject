@@ -7,10 +7,7 @@ import java.util.Stack;
 import control.GuiController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 
 /** (Singleton) class for navigation between windows */
 public class Navigator implements NavigatorInterface {
@@ -28,7 +25,7 @@ public class Navigator implements NavigatorInterface {
 		history = new Stack<>();
 		navigate("LoginForm");
 	}
-	
+
 	public static void setNavigator(NavigatorInterface nav) {
 		instance = nav;
 	}
@@ -134,8 +131,10 @@ public class Navigator implements NavigatorInterface {
 	private class Tab {
 		public Node node;
 		public GuiController controller;
+		@SuppressWarnings("unused")
 		public String name;
 
+		@SuppressWarnings("unused")
 		public Tab(Node body, GuiController controller, String name) {
 			super();
 			this.node = body;

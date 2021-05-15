@@ -84,6 +84,7 @@ public class ServerCrushedController implements Initializable {
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		// set images
 		Image img = new Image(this.getClass().getResource("serverCrushed.PNG").toString());
 		imgCrash.setImage(img);
 		Image img2 = new Image(this.getClass().getResource("error.png").toString());

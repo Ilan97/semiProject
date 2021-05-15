@@ -49,13 +49,14 @@ public class QuestionWasCreatedSuccessfullyWindowController implements GuiContro
 		Scene scene = new Scene(root);
 		primaryStage.setTitle("Success!");
 		primaryStage.setScene(scene);
-		//closing the current window
+		// closing the current window and return to home page
 		primaryStage.setOnCloseRequest((event) -> {
 			primaryStage.close();
+			Navigator.instance().clearHistory("TeacherHomeForm");
 		});
 		primaryStage.show();
 	}
-	
+
 	/**
 	 * This is FXML event handler. Handles the action of click on 'Ok' button.
 	 *
@@ -63,7 +64,7 @@ public class QuestionWasCreatedSuccessfullyWindowController implements GuiContro
 	 */
 	@FXML
 	void okAction(ActionEvent event) {
-		((Node)event.getSource()).getScene().getWindow().hide();
+		((Node) event.getSource()).getScene().getWindow().hide();
 		Navigator.instance().clearHistory("TeacherHomeForm");
 	}
 
@@ -73,6 +74,7 @@ public class QuestionWasCreatedSuccessfullyWindowController implements GuiContro
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		// set images
 		Image img1 = new Image(this.getClass().getResource("teacherFrame.PNG").toString());
 		imgBack.setImage(img1);
 		Image img2 = new Image(this.getClass().getResource("ok.png").toString());

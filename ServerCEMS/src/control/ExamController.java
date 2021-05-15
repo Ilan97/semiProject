@@ -1,6 +1,6 @@
 package control;
 
-import java.sql.PreparedStatement;
+//import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -42,7 +42,7 @@ public class ExamController {
 	 */
 	private static Statement stmt;
 	private static ResultSet rs;
-	private static PreparedStatement pstmt;
+	// private static PreparedStatement pstmt;
 
 	// Instance methods ************************************************
 

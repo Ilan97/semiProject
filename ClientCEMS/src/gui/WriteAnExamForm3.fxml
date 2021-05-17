@@ -160,7 +160,10 @@
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="357.0" layoutY="326.0" prefHeight="17.0" prefWidth="11.0" text="m" textFill="#b2b2b2" />
+            <Label layoutX="357.0" layoutY="326.0" prefHeight="17.0" prefWidth="11.0" text="m" textFill="#b2b2b2">
+               <font>
+                  <Font name="Calibri Bold" size="12.0" />
+               </font></Label>
          </children>
       </Pane>
    </children>

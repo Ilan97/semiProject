@@ -112,30 +112,35 @@ public class WriteQuestionForm1Controller implements GuiController, Initializabl
 			// field chosen
 			else
 				clearErrLbl(lblErrField);
+
 			// course not chosen
 			if (course.getSelectionModel().isEmpty())
 				lblErrCourse.setText("choose course");
 			// course chosen
 			else
 				clearErrLbl(lblErrCourse);
+
 			// no content
 			if (QuestionCon.trim().isEmpty())
 				lblErrQues.setText("enter content");
 			// there is content
 			else
 				clearErrLbl(lblErrQues);
+
 			// no instructions
 			if (Instructions.trim().isEmpty())
 				lblErrInstr.setText("enter instructions");
 			// there are instructions
 			else
 				clearErrLbl(lblErrInstr);
+
 			// no right answer
 			if (RightAns.trim().isEmpty())
 				lblErrRightAns.setText("enter answer");
 			// there is right answer
 			else
 				clearErrLbl(lblErrRightAns);
+
 			// one or more wrong answers are missing
 			if (WrongAns1.trim().isEmpty() || WrongAns2.trim().isEmpty() || WrongAns3.trim().isEmpty())
 				lblErrWrongAns.setText("enter 3 answers");
@@ -153,7 +158,7 @@ public class WriteQuestionForm1Controller implements GuiController, Initializabl
 			q.setRightAnswer(RightAns);
 			q.setWrongAnswer1(WrongAns1);
 			q.setWrongAnswer2(WrongAns2);
-			q.setWrongAnswer3(WrongAns2);
+			q.setWrongAnswer3(WrongAns3);
 			WriteQuestionForm1Controller.Question = q;
 			// go to next page
 			Navigator.instance().navigate("WriteQuestionForm2");

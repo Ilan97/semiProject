@@ -32,6 +32,9 @@ public class Question implements Serializable {
 	private String wrongAnswer1;
 	private String wrongAnswer2;
 	private String wrongAnswer3;
+	// will be set when the question will be added to an exam - not must
+	private String teacherNote;
+	private String studentNote;
 
 	// Constructors ****************************************************
 
@@ -39,6 +42,34 @@ public class Question implements Serializable {
 	}
 
 	// Instance methods ************************************************
+
+	/**
+	 * @return the teacherNote
+	 */
+	public String getTeacherNote() {
+		return teacherNote;
+	}
+
+	/**
+	 * @param teacherNote the teacherNote to set
+	 */
+	public void setTeacherNote(String teacherNote) {
+		this.teacherNote = teacherNote;
+	}
+
+	/**
+	 * @return the studentNote
+	 */
+	public String getStudentNote() {
+		return studentNote;
+	}
+
+	/**
+	 * @param studentNote the studentNote to set
+	 */
+	public void setStudentNote(String studentNote) {
+		this.studentNote = studentNote;
+	}
 
 	/**
 	 * @return the qid
@@ -179,7 +210,7 @@ public class Question implements Serializable {
 	public void setWrongAnswer3(String wrongAnswer3) {
 		this.wrongAnswer3 = wrongAnswer3;
 	}
-	
+
 	/**
 	 * @return the fieldName
 	 */
@@ -207,7 +238,7 @@ public class Question implements Serializable {
 	public void setCourseName(String courseName) {
 		CourseName = courseName;
 	}
-	
+
 	/**
 	 * @return the content
 	 */
@@ -221,8 +252,6 @@ public class Question implements Serializable {
 	public void setContent(String content) {
 		this.content = content;
 	}
-
-	
 
 	/**
 	 * @return result The hashCode of Question object
@@ -311,8 +340,13 @@ public class Question implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Question num." + qid + "\n" + instructions + "\n" + rightAnswer + "\n" + wrongAnswer1 + "\n"
-				+ wrongAnswer2 + "\n" + wrongAnswer3;
+		String QuestionView = "";
+		QuestionView += getContent() + "\n";
+		QuestionView += "1) " + getWrongAnswer2() + "\n";
+		QuestionView += "2) " + getWrongAnswer1() + "\n";
+		QuestionView += "3) " + getRightAnswer() + "\n";
+		QuestionView += "4) " + getWrongAnswer3() + "\n";
+		return QuestionView;
 	}
 }
 //End of Question class

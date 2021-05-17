@@ -112,7 +112,8 @@ public class TeacherController {
 			pstmt.setString(1, UserName);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				listOfField.add(rs.getString("field"));
+				if(!listOfField.contains(rs.getString("field")))
+					listOfField.add(rs.getString("field"));
 			}
 
 		} catch (SQLException e) {

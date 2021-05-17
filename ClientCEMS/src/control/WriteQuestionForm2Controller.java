@@ -118,13 +118,13 @@ public class WriteQuestionForm2Controller implements GuiController, Initializabl
 	 * @param question The question.
 	 * @return questionView The preview of the question.
 	 */
-	public String GetQuestionView(Question q) {
+	private String GetQuestionView(Question q) {
 		String QuestionView = "";
-		QuestionView += q.getContent() + "\n\n";
+		QuestionView += q.getContent() + "\n";
 		QuestionView += q.getInstructions() + "\n\n";
-		QuestionView += "1) " + q.getRightAnswer() + "\n";
+		QuestionView += "1) " + q.getWrongAnswer2() + "\n";
 		QuestionView += "2) " + q.getWrongAnswer1() + "\n";
-		QuestionView += "3) " + q.getWrongAnswer2() + "\n";
+		QuestionView += "3) " + q.getRightAnswer() + "\n";
 		QuestionView += "4) " + q.getWrongAnswer3() + "\n";
 		return QuestionView;
 	}
@@ -135,7 +135,7 @@ public class WriteQuestionForm2Controller implements GuiController, Initializabl
 	 * @param fieldName,courseName from client.
 	 * @return return qid if found in dataBase else return -1
 	 */
-	public int GetQid(String fieldName, String courseName) {
+	private int GetQid(String fieldName, String courseName) {
 		int Qid;
 		Message messageToServer = new Message();
 		messageToServer.setMsg(fieldName + " " + courseName);
@@ -151,7 +151,7 @@ public class WriteQuestionForm2Controller implements GuiController, Initializabl
 	 * @param fieldName from client.
 	 * @return return Fid if Field found in dataBase else return "Field not found"
 	 */
-	public String GetFid(String FieldName) {
+	private String GetFid(String FieldName) {
 		String Fid;
 		Message messageToServer = new Message();
 		messageToServer.setMsg(FieldName);
@@ -169,7 +169,7 @@ public class WriteQuestionForm2Controller implements GuiController, Initializabl
 	 * @param CourseName from client.
 	 * @return return Cid if Course found in dataBase else return "Course not found"
 	 */
-	public String GetCid(String CourseName) {
+	private String GetCid(String CourseName) {
 		String Cid;
 		Message messageToServer = new Message();
 		messageToServer.setMsg(CourseName);

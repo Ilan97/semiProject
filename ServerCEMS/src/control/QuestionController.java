@@ -3,6 +3,8 @@ package control;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+
 import logic.Message;
 import logic.Question;
 
@@ -44,22 +46,83 @@ public class QuestionController {
 		// create the result Message instance
 		Message questionMessage = new Message();
 		request = msg;
+		ArrayList<Question> listOfQuestions;
+		String[] FieldName_CourseName;
 		// switch case is on the operations this controller ask to operate.
 		switch (request.getOperation()) {
 		case "GetQid":
-			String[] FieldName_CourseName = parsingTheData((String) request.getMsg());
+			FieldName_CourseName = parsingTheData((String) request.getMsg());
 			int Qid = GetQid(FieldName_CourseName[0], FieldName_CourseName[1]);
 			questionMessage.setMsg(Qid);
 			result = questionMessage;
 			break;
 
 		case "SaveQuestion":
-			boolean SaveStatus = SaveQuestion((Question) request.getMsg());
+			boolean SaveStatus = saveQuestion((Question) request.getMsg());
 			questionMessage.setMsg(SaveStatus);
 			result = questionMessage;
 			break;
+
+		case "ShowQuestionList":
+			FieldName_CourseName = parsingTheData((String) request.getMsg());
+			listOfQuestions = getQuestions(FieldName_CourseName[0], FieldName_CourseName[1]);
+			questionMessage.setMsg(listOfQuestions);
+			result = questionMessage;
 		}
 		return result;
+	}
+
+	/**
+	 * This method responsible to get list of questions from DB .
+	 *
+	 * @param Fid The id of the field.
+	 * @param Cid The id of the course.
+	 * @return listOfQuestions The questions that belong to those field and course.
+	 *         If there no questions, return null.
+	 */
+	public static ArrayList<Question> getQuestions(String Fname, String Cname) {
+		ArrayList<Question> listOfQuestions = new ArrayList<>();
+		// get the data from the relevant controllers
+		String Fid = FieldOfStudyController.GetFid(Fname);
+		String Cid = CourseController.GetCid(Cname);
+		// execute query
+		String sql = "SELECT * FROM Question WHERE fid = ? AND cid = ?";
+		try {
+			pstmt = DBconnector.conn.prepareStatement(sql);
+			pstmt.setString(1, Fid);
+			pstmt.setString(2, Cid);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				Question q = new Question();
+				q.setFieldName(Fname);
+				q.setCourseName(Cname);
+				q.setQid(rs.getString("qid"));
+				q.setFid(Fid);
+				q.setCid(Cid);
+				q.setQuestionID(q.getFid() + q.getCid() + q.getQid());
+				q.setAuthor(rs.getString("author"));
+				q.setContent(rs.getString("content"));
+				q.setInstructions(rs.getString("instructions"));
+				q.setRightAnswer(rs.getString("rightAnswer"));
+				q.setWrongAnswer1(rs.getString("wrongAnswer1"));
+				q.setWrongAnswer2(rs.getString("wrongAnswer2"));
+				q.setWrongAnswer3(rs.getString("wrongAnswer3"));
+				listOfQuestions.add(q);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+			} catch (Exception e) {
+			}
+			try {
+				pstmt.close();
+			} catch (Exception e) {
+			}
+		}
+		return listOfQuestions;
 	}
 
 	/**
@@ -68,7 +131,7 @@ public class QuestionController {
 	 * @param question from client.
 	 * @return boolean result if the save succeed.
 	 */
-	public static boolean SaveQuestion(Question q) {
+	public static boolean saveQuestion(Question q) {
 		String sql = "INSERT INTO Question VALUES (?,?,?,?,?,?,?,?,?,?)";
 		try {
 			pstmt = DBconnector.conn.prepareStatement(sql);

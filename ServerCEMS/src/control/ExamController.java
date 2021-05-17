@@ -1,5 +1,6 @@
 package control;
 
+import java.sql.PreparedStatement;
 //import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -41,6 +42,7 @@ public class ExamController {
 	 * variables for execute queries and handle the results from DB.
 	 */
 	private static Statement stmt;
+	private static PreparedStatement pstmt;
 	private static ResultSet rs;
 	// private static PreparedStatement pstmt;
 
@@ -53,9 +55,24 @@ public class ExamController {
 	 * @return result The result message for the server.
 	 */
 	public static Message handleRequest(Message msg) {
+		Message examMessage = new Message();
 		request = msg;
+		String[] FieldName_CourseName;
 		// switch case is on the operations this controller ask to operate.
 		switch (request.getOperation()) {
+		case "GetEid":
+			FieldName_CourseName = parsingTheData((String) request.getMsg());
+			int Qid = GetEid(FieldName_CourseName[0], FieldName_CourseName[1]);
+			examMessage.setMsg(Qid);
+			result = examMessage;
+			break;
+			
+		case "SaveExam":
+			boolean SaveStatus = saveExam((Exam) request.getMsg());
+			examMessage.setMsg(SaveStatus);
+			result = examMessage;
+			break;
+			
 		case "viewTableExam":
 			// receive data from DB and save it in HashMap
 			HashMap<String, String> resultMap;
@@ -95,11 +112,8 @@ public class ExamController {
 				}
 			}
 			// create the result Message instance
-			Message newExamMessage = new Message();
-			newExamMessage.setMsg((Exam) exam);
-			newExamMessage.setOperation("viewTableExam");
-			newExamMessage.setControllerName("ExamController");
-			result = newExamMessage;
+			examMessage.setMsg((Exam) exam);
+			result = examMessage;
 			break;
 
 		case "updateExamDurationTime":
@@ -109,14 +123,109 @@ public class ExamController {
 			String examID = updateDetails[1];
 			updateExamDurationQuery(examID, duration);
 			// create the result Message instance
-			Message durationUpddateSuccessedMessage = new Message();
-			durationUpddateSuccessedMessage.setMsg(requestDurationTimeQuery(examID)); // return the new duration time
-			durationUpddateSuccessedMessage.setOperation("updateExamDurationTime");
-			durationUpddateSuccessedMessage.setControllerName("ExamController");
-			result = durationUpddateSuccessedMessage;
+			examMessage.setMsg(requestDurationTimeQuery(examID)); // return the new duration time
+			result = examMessage;
 			break;
 		} // end switch case
 		return result;
+	}
+
+	/**
+	 * This method responsible to save an exam in DB .
+	 *
+	 * @param exam The exam from client.
+	 * @return boolean result if the save succeed.
+	 */
+	public static boolean saveExam(Exam exam) {
+		String sql = "INSERT INTO Exam VALUES (?,?,?,?,?,?)";
+		try {
+			pstmt = DBconnector.conn.prepareStatement(sql);
+			pstmt.setString(1, exam.getFid());
+			pstmt.setString(2, exam.getCid());
+			pstmt.setString(3, exam.getEid());
+			pstmt.setString(4, exam.getAuthor());
+			pstmt.setInt(5, exam.getDuration());
+			// set the exam type
+			switch (exam.getEtype()) {
+			case COMPUTERIZED:
+				pstmt.setString(6, "Computerized");
+				break;
+			case MANUAL:
+				pstmt.setString(6, "Manual");
+				break;
+			}
+			pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			try {
+				rs.close();
+			} catch (Exception e) {
+			}
+			try {
+				pstmt.close();
+			} catch (Exception e) {
+			}
+		}
+		UpdateEid(exam.getFname(), exam.getCname(), exam.getEid());
+		return true;
+	}
+
+	/**
+	 * This method responsible to update eid in DB .
+	 *
+	 * @param fieldName,courseName,Eid from client.
+	 */
+	private static void UpdateEid(String fieldName, String courseName, String Eid) {
+		String query = "UPDATE eidtable SET eid = ? WHERE fieldName = ? AND courseName = ?";
+		try {
+			pstmt = DBconnector.conn.prepareStatement(query);
+			pstmt.setInt(1, Integer.parseInt(Eid));
+			pstmt.setString(2, fieldName);
+			pstmt.setString(3, courseName);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+		} finally {
+			try {
+				pstmt.close();
+			} catch (Exception e) {
+			}
+		}
+	}
+	
+	/**
+	 * This method return the eid from DB.
+	 *
+	 * @param fieldName,courseName from client.
+	 * @return return eid if found in dataBase else return -1
+	 */
+	public static int GetEid(String FieldName, String CourseName) {
+		int Eid = -1;
+		String sql = "SELECT eid FROM eidtable WHERE fieldName = ? AND CourseName = ?";
+		try {
+			pstmt = DBconnector.conn.prepareStatement(sql);
+			pstmt.setString(1, FieldName);
+			pstmt.setString(2, CourseName);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				Eid = rs.getInt("eid");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+			} catch (Exception e) {
+			}
+			try {
+				pstmt.close();
+			} catch (Exception e) {
+			}
+		}
+		return Eid;
 	}
 
 	/**

@@ -3,6 +3,7 @@ package control;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import client.ClientUI;
 import gui.Navigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,14 +13,16 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import logic.Exam;
+import logic.Message;
 
 /**
  * This is controller class (boundary) for window WriteAnExam (third part) in
  * Teacher. This class handle all events related to this window. This class
  * connect with client.
  *
- * @author Moran Davidov
  * @author Bat-El Gardin
+ * @author Sharon Vaknin
  * @version May 2021
  */
 
@@ -70,13 +73,127 @@ public class WriteAnExamForm3Controller implements GuiController, Initializable 
 	 */
 	@FXML
 	void saveAction(ActionEvent event) {
-		//successes pop up
-		ExamWasCreatedSuccessfullyWindowController popUp = new ExamWasCreatedSuccessfullyWindowController();
-		try {
-			popUp.start(new Stage());
-		} catch (Exception e) {
-			
+		// create new message to the server
+		Message messageToServer = new Message();
+		messageToServer.setMsg(WriteAnExamForm1Controller.Exam);
+		messageToServer.setControllerName("ExamController");
+		messageToServer.setOperation("SaveExam");
+		boolean result = (boolean) ClientUI.client.handleMessageFromClientUI(messageToServer);
+		if (result == true) {
+			// successes pop up
+			ExamWasCreatedSuccessfullyWindowController popUp = new ExamWasCreatedSuccessfullyWindowController();
+			try {
+				popUp.start(new Stage());
+			} catch (Exception e) {
+			}
+		} else
+			// pop up failed
+			;
+	}
+
+	/**
+	 * This method display the exam to the window.
+	 */
+	private void ShowExam() {
+		Exam e = WriteAnExamForm1Controller.Exam;
+		lblField.setText(e.getFname());
+		lblCourse.setText(e.getCname());
+		lblAuthor.setText(e.getAuthor());
+		lblDur.setText(String.valueOf(e.getDuration()));
+		// set the exam type
+		switch (e.getEtype()) {
+		case COMPUTERIZED:
+			lblType.setText("Computerized");
+			break;
+		case MANUAL:
+			lblType.setText("Manual");
+			break;
 		}
+		// set the Exam ID
+		String Cid = GetCid(e.getCname());
+		if (!Cid.equals("Course not found"))
+			e.setCid(Cid);
+		String Fid = GetFid(e.getFname());
+		if (!Fid.equals("Field not found"))
+			e.setFid(Fid);
+		int Eid = GetEid(e.getFname(), e.getCname());
+		if (Eid != -1)
+			e.setEid(String.format("%02d", Eid + 1));
+		else
+			display("qid not found");
+		e.setExamID(Fid + Cid + String.format("%02d", Eid + 1));
+		lblExamID.setText(e.getExamID());
+//		String QuestionsView = GetQuestionsView(e);
+//		questions.setText(QuestionsView);
+	}
+
+	/**
+	 * This method prepares the string for questionsView.
+	 *
+	 * @param e The exam.
+	 * @return questionsView The preview of the questions.
+	 */
+//	private String GetQuestionsView(Exam e) {
+//		String QuestionsView = "";
+//		QuestionView += q.getContent() + "\n";
+//		QuestionView += q.getInstructions() + "\n\n";
+//		QuestionView += "1) " + q.getWrongAnswer2() + "\n";
+//		QuestionView += "2) " + q.getWrongAnswer1() + "\n";
+//		QuestionView += "3) " + q.getRightAnswer() + "\n";
+//		QuestionView += "4) " + q.getWrongAnswer3() + "\n";
+//		return QuestionView;
+//	}
+
+	/**
+	 * This method request from server to return the eid from DB.
+	 *
+	 * @param fieldName,courseName from client.
+	 * @return return Eid if found in dataBase else return -1
+	 */
+	private int GetEid(String fieldName, String courseName) {
+		int Eid;
+		Message messageToServer = new Message();
+		messageToServer.setMsg(fieldName + " " + courseName);
+		messageToServer.setControllerName("ExamController");
+		messageToServer.setOperation("GetEid");
+		Eid = (int) ClientUI.client.handleMessageFromClientUI(messageToServer);
+		return Eid;
+	}
+
+	/**
+	 * This method request from server to return the fid from DB.
+	 *
+	 * @param fieldName from client.
+	 * @return return Fid if Field found in dataBase else return "Field not found"
+	 */
+	private String GetFid(String FieldName) {
+		String Fid;
+		Message messageToServer = new Message();
+		messageToServer.setMsg(FieldName);
+		messageToServer.setControllerName("FieldOfStudyController");
+		messageToServer.setOperation("GetFieldId");
+		Fid = (String) ClientUI.client.handleMessageFromClientUI(messageToServer);
+		if (Fid == null)
+			return "Field not found";
+		return Fid;
+	}
+
+	/**
+	 * This method request from server to return the cid from DB.
+	 *
+	 * @param CourseName from client.
+	 * @return return Cid if Course found in dataBase else return "Course not found"
+	 */
+	private String GetCid(String CourseName) {
+		String Cid;
+		Message messageToServer = new Message();
+		messageToServer.setMsg(CourseName);
+		messageToServer.setControllerName("CourseController");
+		messageToServer.setOperation("GetCourseId");
+		Cid = (String) ClientUI.client.handleMessageFromClientUI(messageToServer);
+		if (Cid == null)
+			return "Course not found";
+		return Cid;
 	}
 
 	// Menu methods ************************************************
@@ -143,7 +260,7 @@ public class WriteAnExamForm3Controller implements GuiController, Initializable 
 	 */
 	@FXML
 	void checkExamAction(ActionEvent event) {
-		//Navigator.instance().navigate(" ");///????
+		// Navigator.instance().navigate(" ");///????
 	}
 
 	/**
@@ -155,6 +272,15 @@ public class WriteAnExamForm3Controller implements GuiController, Initializable 
 	@FXML
 	void examSearchAction(ActionEvent event) {
 		Navigator.instance().navigate("ExamStockForm1");
+	}
+
+	/**
+	 * This method displays a message into the console.
+	 *
+	 * @param message The string to be displayed.
+	 */
+	public static void display(String message) {
+		System.out.println("> " + message);
 	}
 
 	/**
@@ -170,6 +296,8 @@ public class WriteAnExamForm3Controller implements GuiController, Initializable 
 		imgLogo.setImage(img2);
 		Image img3 = new Image(this.getClass().getResource("pencil.png").toString());
 		imgPencil.setImage(img3);
+		// preview exam
+		ShowExam();
 	}
 
 }

@@ -1,11 +1,14 @@
 package control;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import client.ClientUI;
 import gui.Navigator;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -13,6 +16,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import logic.Exam;
+import logic.Message;
 import logic.Question;
 
 /**
@@ -20,8 +25,8 @@ import logic.Question;
  * Teacher. This class handle all events related to this window. This class
  * connect with client.
  *
- * @author Moran Davidov
  * @author Bat-El Gardin
+ * @author Sharon Vaknin
  * @version May 2021
  */
 
@@ -149,6 +154,7 @@ public class WriteAnExamForm2Controller implements GuiController, Initializable 
 	 * This method called to initialize a controller after its root element has been
 	 * completely processed (after load method).
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// set images
@@ -158,35 +164,43 @@ public class WriteAnExamForm2Controller implements GuiController, Initializable 
 		imgLogo.setImage(img2);
 		Image img3 = new Image(this.getClass().getResource("pencil.png").toString());
 		imgPencil.setImage(img3);
-		// set quesList (questions from DB) listView
+		// set the questions list in order to the field and course that was chosen
+		ArrayList<Question> listOfQuestions;
+		Exam exam = WriteAnExamForm1Controller.Exam;
+		Message messageToServer = new Message();
+		messageToServer.setMsg(exam.getFname() + " " + exam.getCname());
+		messageToServer.setControllerName("QuestionController");
+		messageToServer.setOperation("ShowQuestionList");
+		System.out.println(messageToServer);
+		listOfQuestions = (ArrayList<Question>) ClientUI.client.handleMessageFromClientUI(messageToServer);
+		quesList.setItems(FXCollections.observableArrayList(listOfQuestions));
+		// handle the action of press on question in quesList
 		quesList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Question>() {
 			@Override
 			public void changed(ObservableValue<? extends Question> observable, Question oldValue, Question newValue) {
+				// question chosen
 				if (newValue != null) {
 					quesList.getItems().remove(newValue);
-					// add to test
+					// add to hash map (in Exam object)
 					chosenList.getItems().add(newValue);
+					WriteAnExamForm1Controller.Exam.getQuestionsInExam().put(newValue, 0);
 				}
-
 			}
 		});
-		// set chosenList (chosen questions) listView
+		// handle the action of press on question in chosenList
 		chosenList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Question>() {
 			@Override
 			public void changed(ObservableValue<? extends Question> observable, Question oldValue, Question newValue) {
+				// question removed from exam
 				if (newValue != null) {
 					chosenList.getItems().remove(newValue);
-					// delete from hash map
+					// delete from hash map (in Exam object)
 					quesList.getItems().add(newValue);
+					WriteAnExamForm1Controller.Exam.getQuestionsInExam().remove(newValue);
 				}
 			}
 		});
-		// Lambda expression
-//		chosenList.getSelectionModel().selectedItemProperty().addListener((obs,o,n)->{
-//			chosenList.getItems().remove(n);
-//			//delete from hash map		
-//			quesList.getItems().add(n);
-//		});
+		
 	}
 }
 //End of WriteAnExamForm2Controller class

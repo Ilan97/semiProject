@@ -29,12 +29,7 @@
                   <Font name="Calibri" size="14.0" />
                </font>
             </Button>
-            <Label fx:id="lblError" layoutX="132.0" layoutY="122.0" prefHeight="14.0" prefWidth="58.0" textAlignment="CENTER" textFill="#f86060">
-               <font>
-                  <Font name="Calibri Bold" size="12.0" />
-               </font>
-            </Label>
-            <TextArea fx:id="txtTechNote" layoutX="61.0" layoutY="91.0" prefHeight="82.0" prefWidth="171.0">
+            <TextArea fx:id="txtTeachNote" layoutX="61.0" layoutY="91.0" prefHeight="82.0" prefWidth="171.0">
                <font>
                   <Font name="Calibri" size="12.0" />
                </font>

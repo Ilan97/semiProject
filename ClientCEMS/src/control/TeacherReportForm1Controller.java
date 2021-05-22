@@ -85,6 +85,7 @@ public class TeacherReportForm1Controller implements GuiController, Initializabl
 		messageToServer.setOperation("ShowCourseList");
 		listOfCourse = (ArrayList<String>) ClientUI.client.handleMessageFromClientUI(messageToServer);
 		course.setItems(FXCollections.observableArrayList(listOfCourse));
+		course.setDisable(false);
 	}
 
 	/**
@@ -95,6 +96,7 @@ public class TeacherReportForm1Controller implements GuiController, Initializabl
 	 */
 	@FXML
 	void chooseCourseAction(ActionEvent event) {
+		code.setDisable(false);
 
 	}
 
@@ -234,6 +236,9 @@ public class TeacherReportForm1Controller implements GuiController, Initializabl
 		imgLogo.setImage(img2);
 		Image img3 = new Image(this.getClass().getResource("report.png").toString());
 		imgRep.setImage(img3);
+		// cannot choose anything from these lists
+		course.setDisable(true);
+		code.setDisable(true);
 		// set the content (list of fields that teacher is teaching) in the comboBox
 		// 'field'
 		ArrayList<String> listOfField;

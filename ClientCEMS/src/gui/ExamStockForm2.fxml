@@ -87,7 +87,7 @@
             </Label>
             <TableView fx:id="examTable" layoutX="343.0" layoutY="145.0" prefHeight="286.0" prefWidth="258.0">
               <columns>
-                <TableColumn fx:id="columnField" prefWidth="75.0" text="Feild " />
+                <TableColumn fx:id="columnField" prefWidth="75.0" text="Field " />
                 <TableColumn fx:id="columnCourse" prefWidth="75.0" text="Course" />
                   <TableColumn fx:id="columnID" prefWidth="105.66668701171875" text="Serial Number" />
               </columns>

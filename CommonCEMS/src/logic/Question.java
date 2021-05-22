@@ -1,6 +1,8 @@
 package logic;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * This is an entity class that save details about each question that is
@@ -341,11 +343,21 @@ public class Question implements Serializable {
 	@Override
 	public String toString() {
 		String QuestionView = "";
+		Random random = new Random();
+		int i = 1;
+		String[] answers = { getRightAnswer(), getWrongAnswer1(), getWrongAnswer2(), getWrongAnswer3() };
+		ArrayList<Integer> selected = new ArrayList<>();
 		QuestionView += getContent() + "\n";
-		QuestionView += "1) " + getWrongAnswer2() + "\n";
-		QuestionView += "2) " + getWrongAnswer1() + "\n";
-		QuestionView += "3) " + getRightAnswer() + "\n";
-		QuestionView += "4) " + getWrongAnswer3() + "\n";
+		QuestionView += getInstructions() + "\n";
+		while (i < 5) {
+			int r = random.nextInt(4);
+			if (!selected.contains(r)) {
+				selected.add(r);
+				QuestionView += i + ") " + answers[r] + "\n";
+				i++;
+			}
+		}
+		QuestionView += "\n";
 		return QuestionView;
 	}
 }

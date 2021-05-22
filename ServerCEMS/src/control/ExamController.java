@@ -1,13 +1,19 @@
 package control;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.sql.Blob;
 import java.sql.PreparedStatement;
 //import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
+import java.util.Set;
 
 import logic.Exam;
+import logic.ExamFile;
 import logic.Message;
 import logic.Question;
 
@@ -19,6 +25,7 @@ import logic.Question;
  * @author Sharon Vaknin
  * @author Ilan Meikler
  * @author Ohad Shamir
+ * @author Moran Davidov
  * @version April 2021
  */
 
@@ -51,7 +58,7 @@ public class ExamController {
 	/**
 	 * This method handles all requests that comes in from the server.
 	 *
-	 * @param msg The request message from the server.
+	 * @param msg {@link Message} The request message from the server.
 	 * @return result The result message for the server.
 	 */
 	public static Message handleRequest(Message msg) {
@@ -66,13 +73,13 @@ public class ExamController {
 			examMessage.setMsg(Qid);
 			result = examMessage;
 			break;
-			
+
 		case "SaveExam":
 			boolean SaveStatus = saveExam((Exam) request.getMsg());
 			examMessage.setMsg(SaveStatus);
 			result = examMessage;
 			break;
-			
+
 		case "viewTableExam":
 			// receive data from DB and save it in HashMap
 			HashMap<String, String> resultMap;
@@ -126,39 +133,37 @@ public class ExamController {
 			examMessage.setMsg(requestDurationTimeQuery(examID)); // return the new duration time
 			result = examMessage;
 			break;
+
+		case "downloadManualExam":
+			ExamFile res = getExamFile((String) request.getMsg());
+			examMessage.setMsg(res);
+			result = examMessage;
+			break;
 		} // end switch case
 		return result;
 	}
 
 	/**
-	 * This method responsible to save an exam in DB .
+	 * This method get the exam code from given code.
 	 *
-	 * @param exam The exam from client.
-	 * @return boolean result if the save succeed.
+	 * @param code The code from examToPerform table.
+	 * @return examID The id. if not found return null.
 	 */
-	public static boolean saveExam(Exam exam) {
-		String sql = "INSERT INTO Exam VALUES (?,?,?,?,?,?)";
+	public static String getExamCode(String code) {
+		String sql = "SELECT fid, cid, eid FROM examToPerform WHERE ecode = ?";
+		String examID = null;
 		try {
 			pstmt = DBconnector.conn.prepareStatement(sql);
-			pstmt.setString(1, exam.getFid());
-			pstmt.setString(2, exam.getCid());
-			pstmt.setString(3, exam.getEid());
-			pstmt.setString(4, exam.getAuthor());
-			pstmt.setInt(5, exam.getDuration());
-			// set the exam type
-			switch (exam.getEtype()) {
-			case COMPUTERIZED:
-				pstmt.setString(6, "Computerized");
-				break;
-			case MANUAL:
-				pstmt.setString(6, "Manual");
-				break;
+			pstmt.setString(1, code);
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				examID = rs.getString("fid");
+				examID += rs.getString("cid");
+				examID += rs.getString("eid");
 			}
-			pstmt.executeUpdate();
-
 		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
+			e.getStackTrace();
+			return null;
 		} finally {
 			try {
 				rs.close();
@@ -169,22 +174,167 @@ public class ExamController {
 			} catch (Exception e) {
 			}
 		}
-		UpdateEid(exam.getFname(), exam.getCname(), exam.getEid());
+		return examID;
+	}
+
+	/**
+	 * This method get the exam file from table exam.
+	 *
+	 * @param code The code from examToPerform table.
+	 * @return ExamFile {@link ExamFile} The file from DB.
+	 */
+	public static ExamFile getExamFile(String code) {
+		String sql = "SELECT upload_file, file_Name FROM exam as e, examToPerform as ep "
+				+ "WHERE e.fid = ep.fid AND e.cid = ep.cid AND e.eid = ep.eid AND ep.ecode = ?";
+		Blob fileData = null;
+		String fileName = null;
+		try {
+			pstmt = DBconnector.conn.prepareStatement(sql);
+			pstmt.setString(1, code);
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				fileName = rs.getString("file_Name");
+				fileData = rs.getBlob("upload_file");
+			}
+			int len = (int) fileData.length();
+			return new ExamFile(fileData.getBytes(1, len), fileName);
+		} catch (Exception e) {
+			e.getStackTrace();
+			return null;
+		} finally {
+			try {
+				rs.close();
+			} catch (Exception e) {
+			}
+			try {
+				pstmt.close();
+			} catch (Exception e) {
+			}
+		}
+	}
+
+	/**
+	 * This method return the exam's type.
+	 *
+	 * @param examKey The entire exam ID.
+	 * @return type The type of the exam.
+	 */
+	public static String getExamType(String examKey) {
+		String[] examIDcomponents = parsingTheExamId(examKey);
+		String type = null;
+		// data from parsingTheExamId method
+		fieldID = examIDcomponents[0];
+		courseID = examIDcomponents[1];
+		examID = examIDcomponents[2];
+		String sql = "SELECT etype FROM exam WHERE fid = ? AND cid = ? AND eid = ?";
+		try {
+			pstmt = DBconnector.conn.prepareStatement(sql);
+			pstmt.setString(1, fieldID);
+			pstmt.setString(2, courseID);
+			pstmt.setString(3, examID);
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next())
+				type = rs.getString("etype");
+		} catch (Exception e) {
+		} finally {
+			try {
+				rs.close();
+			} catch (Exception e) {
+			}
+			try {
+				pstmt.close();
+			} catch (Exception e) {
+			}
+		}
+		return type;
+	}
+
+	/**
+	 * This method responsible to save an exam in DB .
+	 *
+	 * @param exam The exam from client.
+	 * @return boolean result if the save succeed.
+	 */
+	public static boolean saveExam(Exam exam) {
+		InputStream inputStream = new ByteArrayInputStream(exam.toString().getBytes(StandardCharsets.UTF_8));
+		String sql = "INSERT INTO Exam VALUES (?,?,?,?,?,?,?,?)";
+		try {
+			pstmt = DBconnector.conn.prepareStatement(sql);
+			pstmt.setString(1, exam.getFid());
+			pstmt.setString(2, exam.getCid());
+			pstmt.setString(3, exam.getEid());
+			pstmt.setString(4, exam.getAuthor());
+			pstmt.setInt(5, exam.getDuration());
+			pstmt.setString(8, exam.getExamID() + ".txt");
+			// set the exam type
+			switch (exam.getEtype()) {
+			case COMPUTERIZED:
+				pstmt.setString(6, "Computerized");
+				byte[] empty = {};
+				pstmt.setBlob(7, new ByteArrayInputStream(empty));
+				break;
+			case MANUAL:
+				pstmt.setString(6, "Manual");
+				pstmt.setBlob(7, inputStream);
+				break;
+			}
+			pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			try {
+				pstmt.close();
+			} catch (Exception e) {
+			}
+		}
+		UpdateEid(exam);
+		questionsInExam(exam);
 		return true;
+	}
+
+	/**
+	 * This method update the table questions in exam.
+	 *
+	 * @param exam The exam from client.
+	 */
+	private static void questionsInExam(Exam exam) {
+		Set<Question> QuestionSet = exam.getQuestionsInExam().keySet();
+		for (Question q : QuestionSet) {
+			String sql = "INSERT INTO questionInExam VALUES (?,?,?,?,?,?,?)";
+			try {
+				pstmt = DBconnector.conn.prepareStatement(sql);
+				pstmt.setString(1, exam.getFid());
+				pstmt.setString(2, exam.getCid());
+				pstmt.setString(3, exam.getEid());
+				pstmt.setString(4, q.getQid());
+				pstmt.setInt(5, exam.getQuestionsInExam().get(q));
+				pstmt.setString(6, q.getTeacherNote());
+				pstmt.setString(7, q.getStudentNote());
+				pstmt.executeUpdate();
+			} catch (SQLException e) {
+			} finally {
+				try {
+					pstmt.close();
+				} catch (Exception e) {
+				}
+			}
+		}
 	}
 
 	/**
 	 * This method responsible to update eid in DB .
 	 *
-	 * @param fieldName,courseName,Eid from client.
+	 * @param exam The exam from client.
 	 */
-	private static void UpdateEid(String fieldName, String courseName, String Eid) {
+	private static void UpdateEid(Exam exam) {
 		String query = "UPDATE eidtable SET eid = ? WHERE fieldName = ? AND courseName = ?";
 		try {
 			pstmt = DBconnector.conn.prepareStatement(query);
-			pstmt.setInt(1, Integer.parseInt(Eid));
-			pstmt.setString(2, fieldName);
-			pstmt.setString(3, courseName);
+			pstmt.setInt(1, Integer.parseInt(exam.getEid()));
+			pstmt.setString(2, exam.getFname());
+			pstmt.setString(3, exam.getCname());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 		} finally {
@@ -194,7 +344,7 @@ public class ExamController {
 			}
 		}
 	}
-	
+
 	/**
 	 * This method return the eid from DB.
 	 *
@@ -212,7 +362,6 @@ public class ExamController {
 			while (rs.next()) {
 				Eid = rs.getInt("eid");
 			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

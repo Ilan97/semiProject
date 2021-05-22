@@ -146,22 +146,42 @@ public class QuestionController {
 			pstmt.setString(9, q.getWrongAnswer2());
 			pstmt.setString(10, q.getWrongAnswer3());
 			pstmt.executeUpdate();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
 		} finally {
-			try {
-				rs.close();
-			} catch (Exception e) {
-			}
 			try {
 				pstmt.close();
 			} catch (Exception e) {
 			}
 		}
 		UpdateQid(q.getFieldName(), q.getCourseName(), q.getQid());
+		int newQid = GetQid(q.getFieldName(), q.getCourseName());
+		questionToCourse(q.getFid(), q.getCid(), String.format("%03d", newQid));
 		return true;
+	}
+	
+	/**
+	 * This method responsible to update table questionInCourse in DB .
+	 *
+	 * @param fieldName,courseName,Qid from client.
+	 */
+	private static void questionToCourse(String Fid, String Cid, String Qid) {
+		String sql = "INSERT INTO questionInCourse VALUES (?,?,?)";
+		try {
+			pstmt = DBconnector.conn.prepareStatement(sql);
+			pstmt.setString(1, Fid);
+			pstmt.setString(2, Cid);
+			pstmt.setString(3, Qid);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				pstmt.close();
+			} catch (Exception e) {
+			}
+		}
 	}
 
 	/**

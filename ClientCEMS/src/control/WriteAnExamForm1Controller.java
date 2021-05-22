@@ -161,6 +161,7 @@ public class WriteAnExamForm1Controller implements GuiController, Initializable 
 		messageToServer.setOperation("ShowCourseList");
 		listOfCourse = (ArrayList<String>) ClientUI.client.handleMessageFromClientUI(messageToServer);
 		course.setItems(FXCollections.observableArrayList(listOfCourse));
+		course.setDisable(false);
 	}
 
 	// Menu methods ************************************************
@@ -248,6 +249,7 @@ public class WriteAnExamForm1Controller implements GuiController, Initializable 
 	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		Exam = null;
 		// set images
 		Image img1 = new Image(this.getClass().getResource("frame1WriteAnExam.PNG").toString());
 		imgBack.setImage(img1);
@@ -255,6 +257,8 @@ public class WriteAnExamForm1Controller implements GuiController, Initializable 
 		imgLogo.setImage(img2);
 		Image img3 = new Image(this.getClass().getResource("pencil.png").toString());
 		imgPencil.setImage(img3);
+		// cannot choose anything from that list
+		course.setDisable(true);
 		// set the content (list of fields that teacher is teaching) in the comboBox
 		// 'field'
 		ArrayList<String> listOfField;

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Random;
 import java.util.ResourceBundle;
+
 import client.ClientUI;
 import gui.Navigator;
 import javafx.event.ActionEvent;
@@ -17,9 +18,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 import logic.Message;
 import logic.Question;
-import javafx.stage.Stage;
 
 /**
  * This is controller class (boundary) for window WriteQuestion (second part) in
@@ -114,25 +115,7 @@ public class WriteQuestionForm2Controller implements GuiController, Initializabl
 		q.setQuestionID(Fid + Cid + String.format("%03d", Qid + 1));
 
 		lblSerialNum.setText(q.getQuestionID());
-		String QuestionView = GetQuestionView(q);
-		questionView.setText(QuestionView);
-	}
-
-	/**
-	 * This method prepares the string for questionView.
-	 *
-	 * @param question The question.
-	 * @return questionView The preview of the question.
-	 */
-	private String GetQuestionView(Question q) {
-		String QuestionView = "";
-		QuestionView += q.getContent() + "\n";
-		QuestionView += q.getInstructions() + "\n\n";
-		QuestionView += "1) " + q.getWrongAnswer2() + "\n";
-		QuestionView += "2) " + q.getWrongAnswer1() + "\n";
-		QuestionView += "3) " + q.getRightAnswer() + "\n";
-		QuestionView += "4) " + q.getWrongAnswer3() + "\n";
-		return QuestionView;
+		questionView.setText(q.toString());
 	}
 
 	/**

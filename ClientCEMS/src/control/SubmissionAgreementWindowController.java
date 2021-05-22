@@ -1,20 +1,30 @@
 package control;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import client.ClientUI;
+import gui.Navigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
+import logic.Message;
 
 /**
  * This is controller class (boundary) for window SubmissionAgreement in
  * Student. This class handle all events related to this windows. This class
  * connect with client.
  *
- * @author
+ * @author Ilan Meikler
+ * @author Bat-El Gardin
  * @version May 2021
  */
 
@@ -31,23 +41,62 @@ public class SubmissionAgreementWindowController implements GuiController, Initi
 	// Instance methods ************************************************
 
 	/**
+	 * Pop this window.
+	 *
+	 * @param primaryStage The stage for window's scene.
+	 */
+	public void start(Stage primaryStage) throws IOException {
+		Parent root = FXMLLoader.load(getClass().getResource("/gui/SubmissionAgreementWindow.fxml"));
+		Scene scene = new Scene(root);
+		primaryStage.setTitle("Are you Sure?");
+		primaryStage.setScene(scene);
+		primaryStage.showAndWait();
+	}
+
+	/**
 	 * This is FXML event handler. Handles the action of click on 'Cancel' button.
 	 *
 	 * @param event The action event.
 	 */
 	@FXML
 	void cancelActionButton(ActionEvent event) {
-
+		close(event);
 	}
 
 	/**
 	 * This is FXML event handler. Handles the action of click on 'Submit' button.
 	 *
 	 * @param event The action event.
+	 * @throws IOException
 	 */
 	@FXML
-	void submitActionButton(ActionEvent event) {
+	void submitActionButton(ActionEvent event) throws IOException {
+		boolean res;
+		// message to server
+		Message messageToServer = new Message();
+		messageToServer.setMsg(ManualExamFormController.examToUpload);
+		messageToServer.setControllerName("StudentController");
+		messageToServer.setOperation("UploadFile");
+		res = (boolean) ClientUI.client.handleMessageFromClientUI(messageToServer);
+		close(event);
+		// upload success
+		if (res) {
+			TheFileWasUploadedSuccessfulWindowController success = new TheFileWasUploadedSuccessfulWindowController();
+			success.start(new Stage());
+		}
+		// upload fail
+		else
+			;
+		Navigator.instance().clearHistory("StudentHomeForm");
+	}
 
+	/**
+	 * This method close the current stage.
+	 */
+	private void close(ActionEvent event) {
+		Node source = (Node) event.getSource();
+		Stage stage = (Stage) source.getScene().getWindow();
+		stage.close();
 	}
 
 	/**
@@ -60,6 +109,5 @@ public class SubmissionAgreementWindowController implements GuiController, Initi
 		Image img = new Image(this.getClass().getResource("serverCrushed.PNG").toString());
 		imgBack.setImage(img);
 	}
-
 }
 //End of SubmissionAgreementWindowController class

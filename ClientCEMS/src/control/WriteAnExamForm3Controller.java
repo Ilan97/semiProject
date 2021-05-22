@@ -26,6 +26,8 @@ import logic.Message;
  * connect with client.
  *
  * @author Bat-El Gardin
+ * @author Ilan Meikler
+ * @author Moran Davidov
  * @author Sharon Vaknin
  * @version May 2021
  */
@@ -127,26 +129,8 @@ public class WriteAnExamForm3Controller implements GuiController, Initializable 
 			display("qid not found");
 		e.setExamID(Fid + Cid + String.format("%02d", Eid + 1));
 		lblExamID.setText(e.getExamID());
-//		String QuestionsView = GetQuestionsView(e);
-//		questions.setText(QuestionsView);
+		questions.setText(WriteAnExamForm1Controller.Exam.allQuestionsToString());
 	}
-
-	/**
-	 * This method prepares the string for questionsView.
-	 *
-	 * @param e The exam.
-	 * @return questionsView The preview of the questions.
-	 */
-//	private String GetQuestionsView(Exam e) {
-//		String QuestionsView = "";
-//		QuestionView += q.getContent() + "\n";
-//		QuestionView += q.getInstructions() + "\n\n";
-//		QuestionView += "1) " + q.getWrongAnswer2() + "\n";
-//		QuestionView += "2) " + q.getWrongAnswer1() + "\n";
-//		QuestionView += "3) " + q.getRightAnswer() + "\n";
-//		QuestionView += "4) " + q.getWrongAnswer3() + "\n";
-//		return QuestionView;
-//	}
 
 	/**
 	 * This method request from server to return the eid from DB.
@@ -292,6 +276,5 @@ public class WriteAnExamForm3Controller implements GuiController, Initializable 
 		// preview exam
 		ShowExam();
 	}
-
 }
 //End of WriteAnExamForm3Controller class

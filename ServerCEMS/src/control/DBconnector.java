@@ -61,6 +61,18 @@ public class DBconnector {
 			display("VendorError: " + ex.getErrorCode());
 		}
 	}
+	
+	/**
+	 * Print the value of SQL exception
+	 * 
+	 * @param ex the SQL exception to be printed
+	 */
+	public static void printSQLException(SQLException ex) {
+		System.out.println("SQLException: " + ex.getMessage());
+		System.out.println("SQLState: " + ex.getSQLState());
+		System.out.println("VendorError: " + ex.getErrorCode());
+		ex.printStackTrace();
+	}
 
 	/**
 	 * This method displays a message into the console.

@@ -18,6 +18,7 @@ import logic.Message;
  */
 
 public class CourseController {
+
 	// Instance variables **********************************************
 
 	/**
@@ -38,8 +39,8 @@ public class CourseController {
 	/**
 	 * This method handles all requests that comes in from the server.
 	 *
-	 * @param msg The request message from the server.
-	 * @return result The result message for the server.
+	 * @param msg {@link Message} The request message from the server.
+	 * @return result {@link Message} The result message to the server.
 	 */
 	public static Message handleRequest(Message msg) {
 		ArrayList<String> listOfCoursesIds;
@@ -79,7 +80,7 @@ public class CourseController {
 	 * This method return the cid from DB.
 	 *
 	 * @param CourseName from client.
-	 * @return return Cid if Course found in dataBase else return null
+	 * @return Cid The course id. if not found in dataBase return null.
 	 */
 	public static String GetCid(String CourseName) {
 		String Cid = null;
@@ -91,9 +92,8 @@ public class CourseController {
 			while (rs.next()) {
 				Cid = rs.getString("cid");
 			}
-
 		} catch (SQLException e) {
-			e.printStackTrace();
+			DBconnector.printSQLException(e);
 		} finally {
 			try {
 				rs.close();
@@ -110,8 +110,8 @@ public class CourseController {
 	/**
 	 * This method return the course name from DB.
 	 *
-	 * @param cid The course id.
-	 * @return cname if Course found in dataBase else return null
+	 * @param Cid The course id.
+	 * @return cname The course name. if not found in dataBase return null.
 	 */
 	public static String GetCname(String Cid) {
 		String Cname = null;
@@ -123,9 +123,8 @@ public class CourseController {
 			while (rs.next()) {
 				Cname = rs.getString("cname");
 			}
-
 		} catch (SQLException e) {
-			e.printStackTrace();
+			DBconnector.printSQLException(e);
 		} finally {
 			try {
 				rs.close();
@@ -143,7 +142,8 @@ public class CourseController {
 	 * This method return list of courses id's that belong to specific course.
 	 *
 	 * @param fid The field id.
-	 * @return return list of courses id's if found in dataBase else return null
+	 * @return listOfCoursesIds The list of all courses ids. if not found in
+	 *         dataBase return null.
 	 */
 	public static ArrayList<String> getCoursesIdList(String fid) {
 		ArrayList<String> listOfCoursesIds = new ArrayList<>();
@@ -155,9 +155,8 @@ public class CourseController {
 			while (rs.next()) {
 				listOfCoursesIds.add(rs.getString("cid"));
 			}
-
 		} catch (SQLException e) {
-			e.printStackTrace();
+			DBconnector.printSQLException(e);
 		} finally {
 			try {
 				rs.close();
@@ -174,7 +173,7 @@ public class CourseController {
 	/**
 	 * This method return the list of all courses from DB.
 	 *
-	 * @return courseList The list of all courses. if there isn't any course, return
+	 * @return courseList The list of all courses. if not found in dataBase return
 	 *         null.
 	 */
 	public static ArrayList<String> getAllCourses() {
@@ -186,9 +185,8 @@ public class CourseController {
 			while (rs.next()) {
 				courseList.add(rs.getString("cname"));
 			}
-
 		} catch (SQLException e) {
-			e.printStackTrace();
+			DBconnector.printSQLException(e);
 		} finally {
 			try {
 				rs.close();

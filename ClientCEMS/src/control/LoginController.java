@@ -94,13 +94,13 @@ public class LoginController implements GuiController, Initializable {
 		// when press on X button
 		primaryStage.setOnCloseRequest((event) -> {
 			// log out and return to 'log in' window
-			if (LoginController.user != null) {
+			if (user != null) {
 				Message messageToServer = new Message();
-				messageToServer.setMsg(LoginController.user.getUsername());
+				messageToServer.setMsg(user.getUsername());
 				messageToServer.setOperation("updateConnectionStatus");
 				messageToServer.setControllerName("UserController");
 				ClientUI.client.handleMessageFromClientUI(messageToServer);
-				LoginController.user = null;
+				user = null;
 			}
 			Navigator.instance().clearHistory();
 			// marks this event as consumed. This stops its further propagation.

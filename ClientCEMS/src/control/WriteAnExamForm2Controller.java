@@ -1,14 +1,12 @@
 package control;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
 import client.ClientUI;
 import gui.Navigator;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,6 +18,8 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import logic.Exam;
 import logic.Message;
 import logic.Question;
@@ -30,6 +30,8 @@ import logic.Question;
  * connect with client.
  *
  * @author Bat-El Gardin
+ * @author Ilan Meikler
+ * @author Moran Davidov
  * @author Sharon Vaknin
  * @author Ohad Shamir
  * @version May 2021
@@ -38,6 +40,12 @@ import logic.Question;
 public class WriteAnExamForm2Controller implements GuiController, Initializable {
 
 	// Instance variables **********************************************
+
+	/**
+	 * This variable help us to check that the total score in this exam is exactly
+	 * 100
+	 */
+	public static int sum = 0;
 
 	/**
 	 * FXML variables.
@@ -51,7 +59,7 @@ public class WriteAnExamForm2Controller implements GuiController, Initializable 
 	@FXML
 	private ListView<Question> chosenList;
 	@FXML
-	private Label lblError;
+	private Label lblErr;
 	@FXML
 	private ImageView imgPencil;
 
@@ -64,7 +72,10 @@ public class WriteAnExamForm2Controller implements GuiController, Initializable 
 	 */
 	@FXML
 	void next(ActionEvent event) {
-		Navigator.instance().navigate("WriteAnExamForm3");
+		if (sum < 100)
+			lblErr.setText(("total score is under 100!"));
+		else
+			Navigator.instance().navigate("WriteAnExamForm3");
 	}
 
 	/**
@@ -75,6 +86,65 @@ public class WriteAnExamForm2Controller implements GuiController, Initializable 
 	@FXML
 	void back(ActionEvent event) {
 		Navigator.instance().back();
+	}
+
+	/**
+	 * This is FXML event handler. Handles the action of click on the button to add
+	 * questions to exam.
+	 *
+	 * @param event The action event.
+	 */
+	@FXML
+	void add(MouseEvent event) {
+		QuestionScoreWindowController returned = null;
+		if (quesList.getSelectionModel().isEmpty())
+			return;
+		Question newValue = quesList.getSelectionModel().getSelectedItem();
+		quesList.getSelectionModel().clearSelection();
+		QuestionScoreWindowController scoreWindow = new QuestionScoreWindowController();
+		try {
+			returned = (QuestionScoreWindowController) scoreWindow.start(new Stage());
+		} catch (IOException e) {
+		}
+		// check if score is over 100
+		sum += returned.score;
+		if (sum > 100) {
+			lblErr.setText("total score is over 100!");
+			sum -= returned.score;
+		} else {
+			lblErr.setText("");
+			quesList.getItems().remove(newValue);
+			chosenList.getItems().add(newValue);
+			// add the question to the exam
+			newValue.setTeacherNote(returned.teachNote);
+			newValue.setStudentNote(returned.studNote);
+			WriteAnExamForm1Controller.Exam.getQuestionsInExam().put(newValue, returned.score);
+			if (sum == 100) {
+				lblErr.setText("total score is 100!");
+				quesList.setDisable(true);
+			}
+		}
+	}
+
+	/**
+	 * This is FXML event handler. Handles the action of click on the button to
+	 * remove questions from exam.
+	 *
+	 * @param event The action event.
+	 */
+	@FXML
+	void remove(MouseEvent event) {
+		if (chosenList.getSelectionModel().isEmpty())
+			return;
+		lblErr.setText("");
+		quesList.setDisable(false);
+		Question newValue = chosenList.getSelectionModel().getSelectedItem();
+		chosenList.getSelectionModel().clearSelection();
+		chosenList.getItems().remove(newValue);
+		// delete from hash map (in Exam object)
+		quesList.getItems().add(newValue);
+		sum -= WriteAnExamForm1Controller.Exam.getQuestionsInExam().get(newValue);
+		WriteAnExamForm1Controller.Exam.getQuestionsInExam().remove(newValue);
 	}
 
 	// Menu methods ************************************************
@@ -151,6 +221,7 @@ public class WriteAnExamForm2Controller implements GuiController, Initializable 
 	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		sum = 0;
 		// set images
 		Image img1 = new Image(this.getClass().getResource("frame2WriteAnExam.PNG").toString());
 		imgBack.setImage(img1);
@@ -165,35 +236,8 @@ public class WriteAnExamForm2Controller implements GuiController, Initializable 
 		messageToServer.setMsg(exam.getFname() + " " + exam.getCname());
 		messageToServer.setControllerName("QuestionController");
 		messageToServer.setOperation("ShowQuestionList");
-		System.out.println(messageToServer);
 		listOfQuestions = (ArrayList<Question>) ClientUI.client.handleMessageFromClientUI(messageToServer);
 		quesList.setItems(FXCollections.observableArrayList(listOfQuestions));
-		// handle the action of press on question in quesList
-		quesList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Question>() {
-			@Override
-			public void changed(ObservableValue<? extends Question> observable, Question oldValue, Question newValue) {
-				// question chosen
-				if (newValue != null) {
-					quesList.getItems().remove(newValue);
-					// add to hash map (in Exam object)
-					chosenList.getItems().add(newValue);
-					WriteAnExamForm1Controller.Exam.getQuestionsInExam().put(newValue, 0);
-				}
-			}
-		});
-		// handle the action of press on question in chosenList
-		chosenList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Question>() {
-			@Override
-			public void changed(ObservableValue<? extends Question> observable, Question oldValue, Question newValue) {
-				// question removed from exam
-				if (newValue != null) {
-					chosenList.getItems().remove(newValue);
-					// delete from hash map (in Exam object)
-					quesList.getItems().add(newValue);
-					WriteAnExamForm1Controller.Exam.getQuestionsInExam().remove(newValue);
-				}
-			}
-		});
 	}
 }
 //End of WriteAnExamForm2Controller class

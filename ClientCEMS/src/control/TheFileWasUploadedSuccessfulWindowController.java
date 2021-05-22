@@ -21,7 +21,8 @@ import javafx.stage.Stage;
  * This class handle all events related to this window. This class connect with
  * client.
  *
- * @author
+ * @author Ilan Meikler
+ * @author Bat-El Gardin
  * @version May 2021
  */
 
@@ -49,12 +50,7 @@ public class TheFileWasUploadedSuccessfulWindowController implements GuiControll
 		Scene scene = new Scene(root);
 		primaryStage.setTitle("Success!");
 		primaryStage.setScene(scene);
-		// closing the current window and return to home page
-		primaryStage.setOnCloseRequest((event) -> {
-			primaryStage.close();
-			Navigator.instance().clearHistory("StudentHomeForm");
-		});
-		primaryStage.show();
+		primaryStage.showAndWait();
 	}
 
 	/**
@@ -65,8 +61,17 @@ public class TheFileWasUploadedSuccessfulWindowController implements GuiControll
 	@FXML
 	void okAction(ActionEvent event) {
 		// hiding the current window
-		((Node) event.getSource()).getScene().getWindow().hide();
+		close(event);
 		Navigator.instance().clearHistory("StudentHomeForm");
+	}
+
+	/**
+	 * This method close the current stage.
+	 */
+	private void close(ActionEvent event) {
+		Node source = (Node) event.getSource();
+		Stage stage = (Stage) source.getScene().getWindow();
+		stage.close();
 	}
 
 	/**

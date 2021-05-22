@@ -22,4 +22,6 @@ public interface NavigatorInterface {
 	 */
 	void clearHistory(String fxml);
 
+	void alertPopUp(String string);
+
 }

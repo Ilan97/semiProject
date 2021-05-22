@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
@@ -42,16 +41,6 @@
                   <Font name="Calibri Bold" size="18.0" />
                </font>
             </Label>
-            <MenuButton fx:id="reportType" layoutX="386.0" layoutY="169.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="176.0" style="-fx-background-color: #b2b2b2;" text="Choose Report Type" textFill="WHITE" wrapText="true">
-               <items>
-                  <MenuItem fx:id="byStudent" mnemonicParsing="false" onAction="#studentNext" text="Report by Student" />
-                  <MenuItem fx:id="byTeacher" mnemonicParsing="false" onAction="#teacherNext" text="Report by Teacher" />
-                  <MenuItem fx:id="byCourse" mnemonicParsing="false" onAction="#courseNext" text="Report by Course" />
-               </items>
-               <font>
-                  <Font name="Calibri Bold" size="14.0" />
-               </font>
-            </MenuButton>
             <Label layoutX="380.0" layoutY="165.0" text="*" textFill="#f86060">
                <font>
                   <Font name="Calibri Bold" size="11.0" />
@@ -81,6 +70,7 @@
                   </Button>
                </children>
             </VBox>
+            <ComboBox fx:id="reportType" layoutX="387.0" layoutY="169.0" prefHeight="27.0" prefWidth="176.0" promptText="Choose Report Type" style="-fx-background-color: #b2b2b2;" />
          </children>
       </Pane>
       <Button layoutX="715.0" layoutY="475.0" mnemonicParsing="false" onAction="#next" prefHeight="13.0" prefWidth="23.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="&gt;" textAlignment="CENTER" textFill="WHITE" wrapText="true">

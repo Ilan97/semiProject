@@ -34,7 +34,7 @@ public class StudentHomeFormController implements GuiController, Initializable {
 	@FXML
 	private ImageView imgLogo;
 
-	// Instance methods ************************************************
+	// Menu methods ************************************************
 
 	/**
 	 * This is FXML event handler. Handles the action of click on 'Home' button.

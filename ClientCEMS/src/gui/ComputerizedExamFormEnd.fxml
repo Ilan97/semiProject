@@ -17,22 +17,22 @@
             <ImageView fx:id="imgBack" fitHeight="541.0" fitWidth="636.0" layoutX="163.0" layoutY="1.0" />
             <VBox layoutY="115.0" prefHeight="427.0" prefWidth="166.0" style="-fx-background-color: #ffffff;">
                <children>
-                  <Button mnemonicParsing="false" onAction="#goHome" prefHeight="60.0" prefWidth="130.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 0 30 30 0;" text="Home" textAlignment="CENTER" textFill="WHITE">
+                  <Button mnemonicParsing="false" prefHeight="60.0" prefWidth="130.0" style="-fx-background-color: #d0d0d0; -fx-background-radius: 0 30 30 0;" text="Home" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font name="Calibri Bold" size="18.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#compExamAction" prefHeight="60.0" prefWidth="160.0" style="-fx-background-color: #19CEBC; -fx-background-radius: 0 30 30 0;" text="Computerized Exam" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                  <Button mnemonicParsing="false" prefHeight="60.0" prefWidth="160.0" style="-fx-background-color: #19CEBC; -fx-background-radius: 0 30 30 0;" text="Computerized Exam" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                      <font>
                         <Font name="Calibri Bold" size="18.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#manualExamAction" prefHeight="60.0" prefWidth="130.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 0 30 30 0;" text="Manual Exam" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                  <Button mnemonicParsing="false" prefHeight="60.0" prefWidth="130.0" style="-fx-background-color: #d0d0d0; -fx-background-radius: 0 30 30 0;" text="Manual Exam" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                      <font>
                         <Font name="Calibri Bold" size="18.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#gradesAction" prefHeight="60.0" prefWidth="130.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 0 30 30 0;" text="Grades" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                  <Button mnemonicParsing="false" prefHeight="60.0" prefWidth="130.0" style="-fx-background-color: #d0d0d0; -fx-background-radius: 0 30 30 0;" text="Grades" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                      <font>
                         <Font name="Calibri Bold" size="18.0" />
                      </font>
@@ -76,7 +76,7 @@
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </RadioButton>
-            <Button layoutX="668.0" layoutY="465.0" mnemonicParsing="false" onAction="#finish" prefHeight="27.0" prefWidth="68.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="Finish" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Button layoutX="668.0" layoutY="465.0" mnemonicParsing="false" onAction="#finishAction" prefHeight="27.0" prefWidth="68.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="Finish" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>

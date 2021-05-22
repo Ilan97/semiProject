@@ -108,11 +108,6 @@
                         <Font name="Calibri Bold" size="18.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#changeDurAction" prefHeight="60.0" prefWidth="130.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 0 30 30 0;" text="Change Exam Duration" textAlignment="CENTER" textFill="WHITE" wrapText="true">
-                     <font>
-                        <Font name="Calibri Bold" size="18.0" />
-                     </font>
-                  </Button>
                   <Button mnemonicParsing="false" onAction="#checkExamAction" prefHeight="60.0" prefWidth="130.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 0 30 30 0;" text="Check Exam" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                      <font>
                         <Font name="Calibri Bold" size="18.0" />

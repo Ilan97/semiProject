@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 import logic.Message;
 
 /**
@@ -87,9 +88,12 @@ public class TeacherHomeFormController implements GuiController, Initializable {
 	 */
 	@FXML
 	void changeDurAction(ActionEvent event) {
-		// need to be like pop up
-		Navigator.instance().navigate("RequestChangeExamDurationTimeWindow"); 
+		RequestChangeDurationExamTimeController popUp = new RequestChangeDurationExamTimeController();
+		try {
+				popUp.start(new Stage());
+			} catch (Exception e) {}
 	}
+
 
 	/**
 	 * This is FXML event handler. Handles the action of click on 'Check Exam'

@@ -2,12 +2,25 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.Stack;
 
 import control.GuiController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 /** (Singleton) class for navigation between windows */
 public class Navigator implements NavigatorInterface {
@@ -145,7 +158,37 @@ public class Navigator implements NavigatorInterface {
 		public Tab() {
 			super();
 		}
-
+	}
+	
+	/**
+	 * This method create pop up alert for warning the user. 
+	 * click OK will navigate to "formName" form
+	 *
+	 * @param String formName.
+	 */
+	public void alertPopUp(String formName) {
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Alert");
+		alert.setHeaderText("Leaving this page will cause the data to be lost\r\n");
+		alert.setContentText("Are you ok with this?");
+		Image image = new Image("file:src/control/error.png");
+		Label label = new Label();
+		label.setPrefSize(image.getWidth(), image.getWidth());
+		label.setGraphic(new ImageView(image));
+		alert.setGraphic(label);
+		alert.getDialogPane().getStylesheets().add(this.getClass().getResource("style.css").toString());
+		ButtonBar bb = (ButtonBar) alert.getDialogPane().lookup(".button-bar");
+		bb.setButtonOrder("C_L+Ok_R");
+		bb.getButtons().forEach(b->{
+			Button bu = (Button) b;
+			if(bu.getText( ).equals("Cancel")) {
+			bu.getStyleClass().add("Cancel");
+			}
+		});
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == ButtonType.OK) { // user chose OK
+			clearHistory(formName);
+		} else {} // user chose CANCEL or closed the dialog
 	}
 
 	/** navigation Interruption */

@@ -2,6 +2,7 @@ package control;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import client.ClientUI;
 import gui.Navigator;
@@ -9,9 +10,12 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import logic.Message;
@@ -159,7 +163,7 @@ public class WriteQuestionForm1Controller implements GuiController, Initializabl
 			q.setWrongAnswer1(WrongAns1);
 			q.setWrongAnswer2(WrongAns2);
 			q.setWrongAnswer3(WrongAns3);
-			WriteQuestionForm1Controller.Question = q;
+			Question = q;
 			// go to next page
 			Navigator.instance().navigate("WriteQuestionForm2");
 		}
@@ -196,7 +200,10 @@ public class WriteQuestionForm1Controller implements GuiController, Initializabl
 	 */
 	@FXML
 	void goHome(ActionEvent event) {
-		Navigator.instance().clearHistory("TeacherHomeForm");
+		if (formIsNotEmpty())
+			Navigator.instance().alertPopUp("TeacherHomeForm");
+		else
+			Navigator.instance().navigate("TeacherHomeForm");
 	}
 
 	/**
@@ -207,7 +214,10 @@ public class WriteQuestionForm1Controller implements GuiController, Initializabl
 	 */
 	@FXML
 	void writeQuestionAction(ActionEvent event) {
-		Navigator.instance().navigate("WriteQuestionForm1");
+		if (formIsNotEmpty())
+			Navigator.instance().alertPopUp("WriteQuestionForm1");
+		else
+			Navigator.instance().navigate("WriteQuestionForm1");
 	}
 
 	/**
@@ -218,7 +228,10 @@ public class WriteQuestionForm1Controller implements GuiController, Initializabl
 	 */
 	@FXML
 	void writeExamAction(ActionEvent event) {
-		Navigator.instance().navigate("WriteAnExamForm1");
+		if (formIsNotEmpty())
+			Navigator.instance().alertPopUp("WriteAnExamForm1");
+		else
+			Navigator.instance().navigate("WriteAnExamForm1");
 	}
 
 	/**
@@ -229,18 +242,10 @@ public class WriteQuestionForm1Controller implements GuiController, Initializabl
 	 */
 	@FXML
 	void getReportAction(ActionEvent event) {
-		Navigator.instance().navigate("TeacherReportForm1");
-	}
-
-	/**
-	 * This is FXML event handler. Handles the action of click on 'Change Exam
-	 * Duration' button.
-	 *
-	 * @param event The action event.
-	 */
-	@FXML
-	void changeDurAction(ActionEvent event) {
-		Navigator.instance().navigate("RequestChangeExamDurationTimeWindow");
+		if (formIsNotEmpty())
+			Navigator.instance().alertPopUp("TeacherReportForm1");
+		else
+			Navigator.instance().navigate("TeacherReportForm1");
 	}
 
 	/**
@@ -262,7 +267,24 @@ public class WriteQuestionForm1Controller implements GuiController, Initializabl
 	 */
 	@FXML
 	void examSearchAction(ActionEvent event) {
-		Navigator.instance().navigate("ExamStockForm1");
+		if (formIsNotEmpty())
+			Navigator.instance().alertPopUp("ExamStockForm1");
+		else
+			Navigator.instance().navigate("ExamStockForm1");
+	}
+	
+	/**
+	 * This method check that there is no selected values in the form
+	 *
+	 * @return boolean result.
+	 */
+	private boolean formIsNotEmpty() {
+		if (!field.getSelectionModel().isEmpty() || !questionCon.getText().trim().isEmpty()
+				|| !instructions.getText().trim().isEmpty() || !rightAns.getText().trim().isEmpty()
+				|| !wrongAns1.getText().trim().isEmpty() || !wrongAns2.getText().trim().isEmpty()
+				|| !wrongAns3.getText().trim().isEmpty())
+			return true;
+		return false;
 	}
 
 	/**

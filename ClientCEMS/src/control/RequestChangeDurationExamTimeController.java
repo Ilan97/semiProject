@@ -1,18 +1,24 @@
 package control;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import gui.Navigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
 /**
  * This is controller class (boundary) for window RequestChangeDurationExamTime
@@ -54,6 +60,24 @@ public class RequestChangeDurationExamTimeController implements GuiController, I
 	private Label lblErrorExplanation;
 
 	// Instance methods ************************************************
+	
+	/**
+	 * Pop this window.
+	 *
+	 * @param primaryStage The stage for window's scene.
+	 */
+	public void start(Stage primaryStage) throws IOException {
+		Parent root = FXMLLoader.load(getClass().getResource("/gui/RequestChangeExamDurationTimeWindow.fxml"));
+		Scene scene = new Scene(root);
+		primaryStage.setTitle("CEMS");
+		primaryStage.setScene(scene);
+		// closing the current window and return to home page
+		primaryStage.setOnCloseRequest((event) -> {
+			primaryStage.close();
+			Navigator.instance().clearHistory("TeacherHomeForm");
+		});
+		primaryStage.show();
+	}
 
 	/**
 	 * This is FXML event handler. Handles the action of click on 'Cancel' button.
@@ -62,6 +86,7 @@ public class RequestChangeDurationExamTimeController implements GuiController, I
 	 */
 	@FXML
 	void cancelActionButton(ActionEvent event) {
+		((Node) event.getSource()).getScene().getWindow().hide();
 		Navigator.instance().clearHistory("TeacherHomeForm");
 	}
 
@@ -72,6 +97,7 @@ public class RequestChangeDurationExamTimeController implements GuiController, I
 	 */
 	@FXML
 	void requestActionButton(ActionEvent event) {
+		((Node) event.getSource()).getScene().getWindow().hide();
 		Navigator.instance().clearHistory("TeacherHomeForm");
 	}
 

@@ -163,13 +163,11 @@ public class ManualExamFormController implements GuiController, Initializable {
 	 */
 	@FXML
 	void compExamAction(ActionEvent event) {
-		/*
-		 * //successes pop up ComputerizedExamCodeWindowController popUp = new
-		 * ComputerizedExamCodeWindowController(); try { popUp.start(new Stage()); }
-		 * catch (Exception e) {
-		 * 
-		 * }
-		 */
+		//successes pop up
+		ComputerizedExamCodeWindowController popUp = new ComputerizedExamCodeWindowController();
+		try {
+			popUp.start(new Stage());
+		} catch (Exception e) {}
 	}
 
 	/**

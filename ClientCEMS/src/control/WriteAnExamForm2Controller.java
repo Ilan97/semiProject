@@ -2,6 +2,7 @@ package control;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import client.ClientUI;
@@ -12,8 +13,11 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import logic.Exam;
@@ -27,6 +31,7 @@ import logic.Question;
  *
  * @author Bat-El Gardin
  * @author Sharon Vaknin
+ * @author Ohad Shamir
  * @version May 2021
  */
 
@@ -81,7 +86,7 @@ public class WriteAnExamForm2Controller implements GuiController, Initializable 
 	 */
 	@FXML
 	void goHome(ActionEvent event) {
-		Navigator.instance().clearHistory("TeacherHomeForm");
+		Navigator.instance().alertPopUp("TeacherHomeForm");
 	}
 
 	/**
@@ -92,7 +97,7 @@ public class WriteAnExamForm2Controller implements GuiController, Initializable 
 	 */
 	@FXML
 	void writeQuestionAction(ActionEvent event) {
-		Navigator.instance().navigate("WriteQuestionForm1");
+		Navigator.instance().alertPopUp("WriteQuestionForm1");
 	}
 
 	/**
@@ -103,7 +108,7 @@ public class WriteAnExamForm2Controller implements GuiController, Initializable 
 	 */
 	@FXML
 	void writeExamAction(ActionEvent event) {
-		Navigator.instance().navigate("WriteAnExamForm1");
+		Navigator.instance().alertPopUp("WriteAnExamForm1");
 	}
 
 	/**
@@ -114,18 +119,7 @@ public class WriteAnExamForm2Controller implements GuiController, Initializable 
 	 */
 	@FXML
 	void getReportAction(ActionEvent event) {
-		Navigator.instance().navigate("TeacherReportForm1");
-	}
-
-	/**
-	 * This is FXML event handler. Handles the action of click on 'Change Exam
-	 * Duration' button.
-	 *
-	 * @param event The action event.
-	 */
-	@FXML
-	void changeDurAction(ActionEvent event) {
-		Navigator.instance().navigate("RequestChangeExamDurationTimeWindow");
+		Navigator.instance().alertPopUp("TeacherReportForm1");
 	}
 
 	/**
@@ -147,7 +141,7 @@ public class WriteAnExamForm2Controller implements GuiController, Initializable 
 	 */
 	@FXML
 	void examSearchAction(ActionEvent event) {
-		Navigator.instance().navigate("ExamStockForm1");
+		Navigator.instance().alertPopUp("ExamStockForm1");
 	}
 
 	/**
@@ -200,7 +194,6 @@ public class WriteAnExamForm2Controller implements GuiController, Initializable 
 				}
 			}
 		});
-		
 	}
 }
 //End of WriteAnExamForm2Controller class

@@ -2,8 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
@@ -33,11 +32,6 @@
                      </font>
                   </Button>
                   <Button fx:id="getReportAction" mnemonicParsing="false" prefHeight="60.0" prefWidth="130.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 0 30 30 0;" text="Get Report" textAlignment="CENTER" textFill="WHITE" wrapText="true">
-                     <font>
-                        <Font name="Calibri Bold" size="18.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="changeDurAction" mnemonicParsing="false" prefHeight="60.0" prefWidth="130.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 0 30 30 0;" text="Change Exam Duration" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                      <font>
                         <Font name="Calibri Bold" size="18.0" />
                      </font>
@@ -85,13 +79,7 @@
                   <Font name="Calibri Bold" size="18.0" />
                </font>
             </Label>
-            <TableView fx:id="examTable" layoutX="343.0" layoutY="145.0" prefHeight="286.0" prefWidth="258.0">
-              <columns>
-                <TableColumn fx:id="columnField" prefWidth="75.0" text="Feild " />
-                <TableColumn fx:id="columnCourse" prefWidth="75.0" text="Course" />
-                  <TableColumn fx:id="columnID" prefWidth="105.66668701171875" text="Serial Number" />
-              </columns>
-            </TableView>
+            <ListView fx:id="examsView" layoutX="253.0" layoutY="144.0" prefHeight="299.0" prefWidth="433.0" />
          </children>
       </Pane>
       <Button layoutX="230.0" layoutY="465.0" mnemonicParsing="false" onAction="#back" prefHeight="6.0" prefWidth="15.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="&lt;" textAlignment="CENTER" textFill="WHITE" wrapText="true">

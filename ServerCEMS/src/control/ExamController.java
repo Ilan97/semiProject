@@ -5,11 +5,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import logic.Exam;
+import logic.ExamType;
 import logic.Message;
 import logic.Question;
+import logic.UserType;
 
 /**
  * This class execute all queries that related to Exam object and handle with
@@ -57,6 +60,7 @@ public class ExamController {
 	public static Message handleRequest(Message msg) {
 		Message examMessage = new Message();
 		request = msg;
+		ArrayList<Exam> listOfExams;
 		String[] FieldName_CourseName;
 		// switch case is on the operations this controller ask to operate.
 		switch (request.getOperation()) {
@@ -126,8 +130,64 @@ public class ExamController {
 			examMessage.setMsg(requestDurationTimeQuery(examID)); // return the new duration time
 			result = examMessage;
 			break;
-		} // end switch case
-		return result;
+		
+		case "ShowExamList":
+			FieldName_CourseName = parsingTheData((String) request.getMsg());
+			listOfExams = getExams(FieldName_CourseName[0], FieldName_CourseName[1]);
+			examMessage.setMsg(listOfExams);
+			result = examMessage;
+			break;
+	} // end switch case
+	return result;
+	}
+	
+	/**
+	 * This method responsible to get list of exams from DB .
+	 *
+	 * @param Fid The id of the field.
+	 * @param Cid The id of the course.
+	 * @return listOfexams The exams that belong to those field and course.
+	 *         If there is no such exams, return null.
+	 */
+	public static ArrayList<Exam> getExams(String Fname, String Cname) {
+		ArrayList<Exam> listOfExams = new ArrayList<>();
+		// get the data from the relevant controllers
+		String Fid = FieldOfStudyController.GetFid(Fname);
+		String Cid = CourseController.GetCid(Cname);
+		// execute query
+		String sql = "SELECT * FROM Exam WHERE fid = ? AND cid = ?";
+		try {
+			pstmt = DBconnector.conn.prepareStatement(sql);
+			pstmt.setString(1, Fid);
+			pstmt.setString(2, Cid);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				Exam e = new Exam();
+				e.setFname(Fname);
+				e.setCname(Cname);
+				e.setEid(rs.getString("eid"));
+				e.setFid(Fid);
+				e.setCid(Cid);
+				e.setExamID(e.getFid() + e.getCid() + e.getEid());
+				e.setAuthor(rs.getString("author"));
+				e.setDuration(rs.getInt("Duration"));
+				e.setEtype(ExamType.valueOf(ExamType.class,rs.getString("etype")));
+				listOfExams.add(e);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+			} catch (Exception e) {
+			}
+			try {
+				pstmt.close();
+			} catch (Exception e) {
+			}
+		}
+		return listOfExams;
 	}
 
 	/**
@@ -146,14 +206,7 @@ public class ExamController {
 			pstmt.setString(4, exam.getAuthor());
 			pstmt.setInt(5, exam.getDuration());
 			// set the exam type
-			switch (exam.getEtype()) {
-			case COMPUTERIZED:
-				pstmt.setString(6, "Computerized");
-				break;
-			case MANUAL:
-				pstmt.setString(6, "Manual");
-				break;
-			}
+			pstmt.setString(6, exam.getEtype().name());
 			pstmt.executeUpdate();
 
 		} catch (SQLException e) {

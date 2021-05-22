@@ -105,58 +105,6 @@ public class ComputerizedExamFormMiddleController implements GuiController, Init
 
 	}
 
-	// Menu methods ************************************************
-
-	/**
-	 * This is FXML event handler. Handles the action of click on 'Home' button.
-	 *
-	 * @param event The action event.
-	 */
-	@FXML
-	void goHome(ActionEvent event) {
-		Navigator.instance().clearHistory("StudentHomeForm");
-	}
-
-	/**
-	 * This is FXML event handler. Handles the action of click on 'Computerized
-	 * Exam' button.
-	 *
-	 * @param event The action event.
-	 */
-	@FXML
-	void compExamAction(ActionEvent event) {
-//		//successes pop up
-//		ComputerizedExamCodeWindowController popUp = new ComputerizedExamCodeWindowController();
-//		try {
-//			popUp.start(new Stage());
-//		} catch (Exception e) {
-//			
-//		}
-//		
-//		Navigator.instance().navigate("ComputerizedExamFormStartController");
-	}
-
-	/**
-	 * This is FXML event handler. Handles the action of click on 'Manual Exam'
-	 * button.
-	 *
-	 * @param event The action event.
-	 */
-	@FXML
-	void manualExamAction(ActionEvent event) {
-		Navigator.instance().navigate("ManualExamForm");
-	}
-
-	/**
-	 * This is FXML event handler. Handles the action of click on 'Grades' button.
-	 *
-	 * @param event The action event.
-	 */
-	@FXML
-	void gradesAction(ActionEvent event) {
-		Navigator.instance().navigate("GradesForm");
-	}
-
 	/**
 	 * This method called to initialize a controller after its root element has been
 	 * completely processed (after load method).

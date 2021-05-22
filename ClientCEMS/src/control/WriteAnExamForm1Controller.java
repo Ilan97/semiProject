@@ -1,7 +1,9 @@
 package control;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import client.ClientUI;
@@ -10,11 +12,20 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 import logic.Exam;
 import logic.ExamType;
 import logic.Message;
@@ -161,6 +172,7 @@ public class WriteAnExamForm1Controller implements GuiController, Initializable 
 		messageToServer.setOperation("ShowCourseList");
 		listOfCourse = (ArrayList<String>) ClientUI.client.handleMessageFromClientUI(messageToServer);
 		course.setItems(FXCollections.observableArrayList(listOfCourse));
+		course.setDisable(false);
 	}
 
 	// Menu methods ************************************************
@@ -169,10 +181,14 @@ public class WriteAnExamForm1Controller implements GuiController, Initializable 
 	 * This is FXML event handler. Handles the action of click on 'Home' button.
 	 *
 	 * @param event The action event.
+	 * @throws IOException
 	 */
 	@FXML
-	void goHome(ActionEvent event) {
-		Navigator.instance().clearHistory("TeacherHomeForm");
+	void goHome(ActionEvent event) throws IOException {
+		if(formIsNotEmpty())
+			Navigator.instance().alertPopUp("TeacherHomeForm");
+		else
+			Navigator.instance().navigate("TeacherHomeForm");
 	}
 
 	/**
@@ -183,7 +199,10 @@ public class WriteAnExamForm1Controller implements GuiController, Initializable 
 	 */
 	@FXML
 	void writeQuestionAction(ActionEvent event) {
-		Navigator.instance().navigate("WriteQuestionForm1");
+		if (formIsNotEmpty())
+			Navigator.instance().alertPopUp("WriteQuestionForm1");
+		else
+			Navigator.instance().navigate("WriteQuestionForm1");
 	}
 
 	/**
@@ -194,7 +213,10 @@ public class WriteAnExamForm1Controller implements GuiController, Initializable 
 	 */
 	@FXML
 	void writeExamAction(ActionEvent event) {
-		Navigator.instance().navigate("WriteAnExamForm1");
+		if (formIsNotEmpty())
+			Navigator.instance().alertPopUp("WriteAnExamForm1");
+		else
+			Navigator.instance().navigate("WriteAnExamForm1");
 	}
 
 	/**
@@ -205,18 +227,10 @@ public class WriteAnExamForm1Controller implements GuiController, Initializable 
 	 */
 	@FXML
 	void getReportAction(ActionEvent event) {
-		Navigator.instance().navigate("TeacherReportForm1");
-	}
-
-	/**
-	 * This is FXML event handler. Handles the action of click on 'Change Exam
-	 * Duration' button.
-	 *
-	 * @param event The action event.
-	 */
-	@FXML
-	void changeDurAction(ActionEvent event) {
-		Navigator.instance().navigate("RequestChangeExamDurationTimeWindow");
+		if (formIsNotEmpty())
+			Navigator.instance().alertPopUp("TeacherReportForm1");
+		else
+			Navigator.instance().navigate("TeacherReportForm1");
 	}
 
 	/**
@@ -238,7 +252,10 @@ public class WriteAnExamForm1Controller implements GuiController, Initializable 
 	 */
 	@FXML
 	void examSearchAction(ActionEvent event) {
-		Navigator.instance().navigate("ExamStockForm1");
+		if (formIsNotEmpty())
+			Navigator.instance().alertPopUp("ExamStockForm1");
+		else
+			Navigator.instance().navigate("ExamStockForm1");
 	}
 
 	/**
@@ -248,6 +265,7 @@ public class WriteAnExamForm1Controller implements GuiController, Initializable 
 	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		Exam = null;
 		// set images
 		Image img1 = new Image(this.getClass().getResource("frame1WriteAnExam.PNG").toString());
 		imgBack.setImage(img1);
@@ -255,6 +273,8 @@ public class WriteAnExamForm1Controller implements GuiController, Initializable 
 		imgLogo.setImage(img2);
 		Image img3 = new Image(this.getClass().getResource("pencil.png").toString());
 		imgPencil.setImage(img3);
+		// cannot choose anything from that list
+		course.setDisable(true);
 		// set the content (list of fields that teacher is teaching) in the comboBox
 		// 'field'
 		ArrayList<String> listOfField;
@@ -272,5 +292,16 @@ public class WriteAnExamForm1Controller implements GuiController, Initializable 
 		type.setItems(FXCollections.observableArrayList(examTypes));
 	}
 
+	/**
+	 * This method check that there is no selected values in the form
+	 *
+	 * @return boolean result.
+	 */
+	private boolean formIsNotEmpty() {
+		if (!field.getSelectionModel().isEmpty() || !type.getSelectionModel().isEmpty()
+				|| !txtDuration.getText().trim().isEmpty())
+			return true;
+		return false;
+	}
 }
 //End of WriteAnExamForm1Controller class

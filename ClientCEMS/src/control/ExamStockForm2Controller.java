@@ -1,16 +1,30 @@
 package control;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
+import client.ClientUI;
 import gui.Navigator;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import logic.Exam;
+import logic.Message;
+import logic.Question;
 
 /**
  * This is controller class (boundary) for window ExamStock (second part). This
@@ -34,14 +48,9 @@ public class ExamStockForm2Controller implements GuiController, Initializable {
 	private ImageView imgBack;
 	@FXML
 	private ImageView imgLogo;
-	@FXML
-	private TableView<?> examTable;
-	@FXML
-	private TableColumn<?, ?> columnField;
-	@FXML
-	private TableColumn<?, ?> columnCourse;
-	@FXML
-	private TableColumn<?, ?> columnID;
+    @FXML
+    private ListView<Exam> examsView;
+
 
 	// Instance methods ************************************************
 
@@ -74,8 +83,9 @@ public class ExamStockForm2Controller implements GuiController, Initializable {
 	 */
 	@FXML
 	void goHome(ActionEvent event) {
-		Navigator.instance().clearHistory("TeacherHomeForm");
+		Navigator.instance().alertPopUp("TeacherHomeForm");
 	}
+
 
 	/**
 	 * This is FXML event handler. Handles the action of click on 'Write Question'
@@ -85,7 +95,7 @@ public class ExamStockForm2Controller implements GuiController, Initializable {
 	 */
 	@FXML
 	void writeQuestionAction(ActionEvent event) {
-		Navigator.instance().navigate("WriteQuestionForm1");
+		Navigator.instance().alertPopUp("WriteQuestionForm1");
 	}
 
 	/**
@@ -96,7 +106,7 @@ public class ExamStockForm2Controller implements GuiController, Initializable {
 	 */
 	@FXML
 	void writeExamAction(ActionEvent event) {
-		Navigator.instance().navigate("WriteAnExamForm1");
+		Navigator.instance().alertPopUp("WriteAnExamForm1");
 	}
 
 	/**
@@ -107,18 +117,7 @@ public class ExamStockForm2Controller implements GuiController, Initializable {
 	 */
 	@FXML
 	void getReportAction(ActionEvent event) {
-		Navigator.instance().navigate("TeacherReportForm1");
-	}
-
-	/**
-	 * This is FXML event handler. Handles the action of click on 'Change Exam
-	 * Duration' button.
-	 *
-	 * @param event The action event.
-	 */
-	@FXML
-	void changeDurAction(ActionEvent event) {
-		Navigator.instance().navigate("RequestChangeExamDurationTimeWindow");
+		Navigator.instance().alertPopUp("TeacherReportForm1");
 	}
 
 	/**
@@ -129,7 +128,7 @@ public class ExamStockForm2Controller implements GuiController, Initializable {
 	 */
 	@FXML
 	void checkExamAction(ActionEvent event) {
-		Navigator.instance().navigate(" ");/// ????
+		//Navigator.instance().navigate(" ");/// ????
 	}
 
 	/**
@@ -140,13 +139,21 @@ public class ExamStockForm2Controller implements GuiController, Initializable {
 	 */
 	@FXML
 	void examSearchAction(ActionEvent event) {
-		Navigator.instance().navigate("ExamStockForm1");
+		Navigator.instance().alertPopUp("ExamStockForm1");
 	}
+	
+
+    @FXML
+    void getChosenExam(MouseEvent event) {
+    	//String examId = examsView.getSelectionModel().getSelectedItem();
+    	
+    }
 
 	/**
 	 * This method called to initialize a controller after its root element has been
 	 * completely processed (after load method).
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// set images
@@ -154,7 +161,32 @@ public class ExamStockForm2Controller implements GuiController, Initializable {
 		imgBack.setImage(img1);
 		Image img2 = new Image(this.getClass().getResource("logo.png").toString());
 		imgLogo.setImage(img2);
+		examsView.setCellFactory(param ->new ListCell<Exam>() {
+			
+			protected void updateItem(Exam e,boolean empty) {
+				if(e == null|| empty)
+					setText("");
+				else {
+					String out = "Id:\t"+e.getExamID()+
+							"\nAuthor:\t"+e.getAuthor()+
+							"\nExam Type:\t"+e.getEtype();
+					setText(out);
+					
+				}
+					
+			}
+			
+		});
+		// set the exams list in order to the field and course that was chosen
+		ArrayList<Exam> listOfExams;
+		Exam exam = ExamStockForm1Controller.Exam;
+		Message messageToServer = new Message();
+		messageToServer.setMsg(exam.getFname() + " " + exam.getCname());
+		messageToServer.setControllerName("ExamController");
+		messageToServer.setOperation("ShowExamList");
+		System.out.println(messageToServer);
+		listOfExams = (ArrayList<Exam>) ClientUI.client.handleMessageFromClientUI(messageToServer);
+		examsView.setItems(FXCollections.observableArrayList(listOfExams));
 	}
-
 }
 // End of ExamStockForm2Controller class

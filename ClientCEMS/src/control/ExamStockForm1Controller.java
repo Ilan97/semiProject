@@ -2,6 +2,7 @@ package control;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import client.ClientUI;
 import gui.Navigator;
@@ -9,10 +10,15 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import logic.Exam;
+import logic.ExamType;
 import logic.Message;
 
 /**
@@ -30,6 +36,8 @@ public class ExamStockForm1Controller implements GuiController, Initializable {
 
 	// Instance variables **********************************************
 
+	public static Exam Exam;
+	
 	/**
 	 * FXML variables.
 	 */
@@ -74,6 +82,13 @@ public class ExamStockForm1Controller implements GuiController, Initializable {
 		listOfCourse = (ArrayList<String>) ClientUI.client.handleMessageFromClientUI(messageToServer2);
 		course.setItems(FXCollections.observableArrayList(listOfCourse));
 	}
+	
+	/**
+	 * This method clear error label.
+	 */
+	private void clearErrLbl(Label err) {
+		err.setText("");
+	}
 
 	/**
 	 * This is FXML event handler. Handles the action of click on 'Search' button.
@@ -82,7 +97,27 @@ public class ExamStockForm1Controller implements GuiController, Initializable {
 	 */
 	@FXML
 	void searchAction(ActionEvent event) {
-		Navigator.instance().navigate("ExamStockForm2");
+		// get details from the screen
+		String Field = field.getSelectionModel().getSelectedItem();
+		String Course = course.getSelectionModel().getSelectedItem();
+		// handle missing fields
+		if (field.getSelectionModel().isEmpty()) {
+			// field not chosen
+			if (field.getSelectionModel().isEmpty())
+				lblErrField.setText("choose field");
+			// field chosen
+			else
+				clearErrLbl(lblErrField);
+
+		} else {
+			// build the Exam object
+			Exam e = new Exam();
+			e.setFname(Field);
+			e.setCname(Course);
+			Exam = e;
+			// go to next page
+			Navigator.instance().navigate("ExamStockForm2");
+		}
 	}
 
 	// Menu methods ************************************************
@@ -94,7 +129,10 @@ public class ExamStockForm1Controller implements GuiController, Initializable {
 	 */
 	@FXML
 	void goHome(ActionEvent event) {
-		Navigator.instance().clearHistory("TeacherHomeForm");
+		if (formIsNotEmpty())
+			Navigator.instance().alertPopUp("TeacherHomeForm");
+		else
+			Navigator.instance().navigate("TeacherHomeForm");
 	}
 
 	/**
@@ -105,7 +143,10 @@ public class ExamStockForm1Controller implements GuiController, Initializable {
 	 */
 	@FXML
 	void writeQuestionAction(ActionEvent event) {
-		Navigator.instance().navigate("WriteQuestionForm1");
+		if (formIsNotEmpty())
+			Navigator.instance().alertPopUp("WriteQuestionForm1");
+		else
+			Navigator.instance().navigate("WriteQuestionForm1");
 	}
 
 	/**
@@ -116,7 +157,10 @@ public class ExamStockForm1Controller implements GuiController, Initializable {
 	 */
 	@FXML
 	void writeExamAction(ActionEvent event) {
-		Navigator.instance().navigate("WriteAnExamForm1");
+		if (formIsNotEmpty())
+			Navigator.instance().alertPopUp("WriteAnExamForm1");
+		else
+			Navigator.instance().navigate("WriteAnExamForm1");
 	}
 
 	/**
@@ -127,20 +171,12 @@ public class ExamStockForm1Controller implements GuiController, Initializable {
 	 */
 	@FXML
 	void getReportAction(ActionEvent event) {
-		Navigator.instance().navigate("TeacherReportForm1");
+		if (formIsNotEmpty())
+			Navigator.instance().alertPopUp("TeacherReportForm1");
+		else
+			Navigator.instance().navigate("TeacherReportForm1");
 	}
-
-	/**
-	 * This is FXML event handler. Handles the action of click on 'Change Exam
-	 * Duration' button.
-	 *
-	 * @param event The action event.
-	 */
-	@FXML
-	void changeDurAction(ActionEvent event) {
-		Navigator.instance().navigate("RequestChangeExamDurationTimeWindow");
-	}
-
+	
 	/**
 	 * This is FXML event handler. Handles the action of click on 'Check Exam'
 	 * button.
@@ -149,7 +185,7 @@ public class ExamStockForm1Controller implements GuiController, Initializable {
 	 */
 	@FXML
 	void checkExamAction(ActionEvent event) {
-		Navigator.instance().navigate(" ");/// ????
+	//	Navigator.instance().navigate(" ");/// ????
 	}
 
 	/**
@@ -160,7 +196,21 @@ public class ExamStockForm1Controller implements GuiController, Initializable {
 	 */
 	@FXML
 	void examSearchAction(ActionEvent event) {
-		Navigator.instance().navigate("ExamStockForm1");
+		if (formIsNotEmpty())
+			Navigator.instance().alertPopUp("ExamStockForm1");
+		else
+			Navigator.instance().navigate("ExamStockForm1");
+	}
+	
+	/**
+	 * This method check that there is no selected values in the form
+	 *
+	 * @return boolean result.
+	 */
+	private boolean formIsNotEmpty() {
+		if (!field.getSelectionModel().isEmpty())
+			return true;
+		return false;
 	}
 
 	/**

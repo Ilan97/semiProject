@@ -1,6 +1,7 @@
 package control;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import client.ClientUI;
@@ -8,8 +9,11 @@ import gui.Navigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
@@ -22,6 +26,8 @@ import logic.Message;
  * connect with client.
  *
  * @author Bat-El Gardin
+ * @author Ilan Meikler
+ * @author Moran Davidov
  * @author Sharon Vaknin
  * @version May 2021
  */
@@ -123,26 +129,8 @@ public class WriteAnExamForm3Controller implements GuiController, Initializable 
 			display("qid not found");
 		e.setExamID(Fid + Cid + String.format("%02d", Eid + 1));
 		lblExamID.setText(e.getExamID());
-//		String QuestionsView = GetQuestionsView(e);
-//		questions.setText(QuestionsView);
+		questions.setText(WriteAnExamForm1Controller.Exam.allQuestionsToString());
 	}
-
-	/**
-	 * This method prepares the string for questionsView.
-	 *
-	 * @param e The exam.
-	 * @return questionsView The preview of the questions.
-	 */
-//	private String GetQuestionsView(Exam e) {
-//		String QuestionsView = "";
-//		QuestionView += q.getContent() + "\n";
-//		QuestionView += q.getInstructions() + "\n\n";
-//		QuestionView += "1) " + q.getWrongAnswer2() + "\n";
-//		QuestionView += "2) " + q.getWrongAnswer1() + "\n";
-//		QuestionView += "3) " + q.getRightAnswer() + "\n";
-//		QuestionView += "4) " + q.getWrongAnswer3() + "\n";
-//		return QuestionView;
-//	}
 
 	/**
 	 * This method request from server to return the eid from DB.
@@ -205,7 +193,7 @@ public class WriteAnExamForm3Controller implements GuiController, Initializable 
 	 */
 	@FXML
 	void goHome(ActionEvent event) {
-		Navigator.instance().clearHistory("TeacherHomeForm");
+		Navigator.instance().alertPopUp("TeacherHomeForm");
 	}
 
 	/**
@@ -216,7 +204,7 @@ public class WriteAnExamForm3Controller implements GuiController, Initializable 
 	 */
 	@FXML
 	void writeQuestionAction(ActionEvent event) {
-		Navigator.instance().navigate("WriteQuestionForm1");
+		Navigator.instance().alertPopUp("WriteQuestionForm1");
 	}
 
 	/**
@@ -227,7 +215,7 @@ public class WriteAnExamForm3Controller implements GuiController, Initializable 
 	 */
 	@FXML
 	void writeExamAction(ActionEvent event) {
-		Navigator.instance().navigate("WriteAnExamForm1");
+		Navigator.instance().alertPopUp("WriteAnExamForm1");
 	}
 
 	/**
@@ -238,18 +226,7 @@ public class WriteAnExamForm3Controller implements GuiController, Initializable 
 	 */
 	@FXML
 	void getReportAction(ActionEvent event) {
-		Navigator.instance().navigate("TeacherReportForm1");
-	}
-
-	/**
-	 * This is FXML event handler. Handles the action of click on 'Change Exam
-	 * Duration' button.
-	 *
-	 * @param event The action event.
-	 */
-	@FXML
-	void changeDurAction(ActionEvent event) {
-		Navigator.instance().navigate("RequestChangeExamDurationTimeWindow");
+		Navigator.instance().alertPopUp("TeacherReportForm1");
 	}
 
 	/**
@@ -271,7 +248,7 @@ public class WriteAnExamForm3Controller implements GuiController, Initializable 
 	 */
 	@FXML
 	void examSearchAction(ActionEvent event) {
-		Navigator.instance().navigate("ExamStockForm1");
+		Navigator.instance().alertPopUp("ExamStockForm1");
 	}
 
 	/**
@@ -299,6 +276,5 @@ public class WriteAnExamForm3Controller implements GuiController, Initializable 
 		// preview exam
 		ShowExam();
 	}
-
 }
 //End of WriteAnExamForm3Controller class

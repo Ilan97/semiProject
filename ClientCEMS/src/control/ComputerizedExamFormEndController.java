@@ -1,16 +1,24 @@
 package control;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import gui.Navigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
 /**
  * This is controller class (boundary) for window ComputerizedExam (end) in
@@ -57,8 +65,13 @@ public class ComputerizedExamFormEndController implements GuiController, Initial
 	 * @param event The action event.
 	 */
 	@FXML
-	void finish(ActionEvent event) {
-
+	void finishAction(ActionEvent event) {
+//		// successes pop up
+//		SubmissionAgreementWindowController popUp = new SubmissionAgreementWindowController();
+//		try {
+//			popUp.start(new Stage());
+//		} catch (Exception e) {
+//		}
 	}
 
 	/**
@@ -103,57 +116,6 @@ public class ComputerizedExamFormEndController implements GuiController, Initial
 	@FXML
 	void chooseAns4(ActionEvent event) {
 
-	}
-
-	// Menu methods ************************************************
-
-	/**
-	 * This is FXML event handler. Handles the action of click on 'Home' button.
-	 *
-	 * @param event The action event.
-	 */
-	@FXML
-	void goHome(ActionEvent event) {
-		Navigator.instance().clearHistory("StudentHomeForm");
-	}
-
-	/**
-	 * This is FXML event handler. Handles the action of click on 'Computerized
-	 * Exam' button.
-	 *
-	 * @param event The action event.
-	 */
-	@FXML
-	void compExamAction(ActionEvent event) {
-//		//successes pop up
-//		ComputerizedExamCodeWindowController popUp = new ComputerizedExamCodeWindowController();
-//		try {
-//			popUp.start(new Stage());
-//		} catch (Exception e) {
-//			
-//		}
-//		Navigator.instance().navigate("ComputerizedExamFormStartController");
-	}
-
-	/**
-	 * This is FXML event handler. Handles the action of click on 'Manual Exam'
-	 * button.
-	 *
-	 * @param event The action event.
-	 */
-	@FXML
-	void manualExamAction(ActionEvent event) {
-		Navigator.instance().navigate("ManualExamForm");
-	}
-
-	/**
-	 * This is FXML event handler. Handles the action of click on 'Grades' button.
-	 *
-	 * @param event The action event.
-	 */
-	@FXML
-	void gradesAction(ActionEvent event) {
-		Navigator.instance().navigate("GradesForm");
 	}
 
 	/**

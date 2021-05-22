@@ -121,7 +121,7 @@ public class PrincipalReportFormStudentController implements GuiController, Init
 	 */
 	@FXML
 	void goHome(ActionEvent event) {
-		Navigator.instance().clearHistory("PrincipalHomeForm");
+		Navigator.instance().alertPopUp("PrincipalHomeForm");
 	}
 
 	/**
@@ -132,7 +132,7 @@ public class PrincipalReportFormStudentController implements GuiController, Init
 	 */
 	@FXML
 	void getReportAction(ActionEvent event) {
-		Navigator.instance().navigate("PrincipalReportForm1");
+		Navigator.instance().alertPopUp("PrincipalReportForm1");
 	}
 
 	/**
@@ -143,7 +143,7 @@ public class PrincipalReportFormStudentController implements GuiController, Init
 	 */
 	@FXML
 	void viewRequestsAction(ActionEvent event) {
-		Navigator.instance().navigate("PrincipalViewRequestForm");
+		Navigator.instance().alertPopUp("PrincipalViewRequestForm");
 	}
 
 	/**

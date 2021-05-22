@@ -3,6 +3,7 @@ package logic;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Set;
 
 /**
  * This is an entity class that save details about each exam that is created.
@@ -217,6 +218,24 @@ public class Exam implements Serializable {
 	public void setCname(String cname) {
 		this.cname = cname;
 	}
+
+	/**
+	 * @return the string of all questions and their scores in the exam.
+	 */
+	public String allQuestionsToString() {
+		int i = 1;
+		String QuestionView = "";
+		Set<Question> QuestionSet = questionsInExam.keySet();
+		for (Question q : QuestionSet) {
+			QuestionView += "Question number " + i + ": " + "(" + questionsInExam.get(q) + " points)\n";
+			if (q.getStudentNote() != null)
+				QuestionView += q.getStudentNote() + "\n";
+			QuestionView += q.toString();
+			i++;
+		}
+		return QuestionView;
+	}
+
 	/**
 	 * @return result The hashCode of Exam object
 	 */
@@ -313,9 +332,8 @@ public class Exam implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Exam [fname=" + fname + ", cname=" + cname + ", examID=" + examID + ", edate=" + edate + ", ecode="
-				+ ecode + ", author=" + author + ", duration=" + duration + ", estatus=" + estatus + ", etype=" + etype
-				+ ", questionInExam=" + questionsInExam + "]";
+		return "Field: " + getFname() + "\n" + "Course: " + getCname() + "\n" + "Author: " + getAuthor() + "\n"
+				+ "Duration: " + getDuration() + " minutes\n" + allQuestionsToString();
 	}
 }
 //End of Exam class

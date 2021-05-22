@@ -2,6 +2,7 @@ package control;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import client.ClientUI;
@@ -10,8 +11,11 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import logic.Message;
@@ -85,6 +89,7 @@ public class TeacherReportForm1Controller implements GuiController, Initializabl
 		messageToServer.setOperation("ShowCourseList");
 		listOfCourse = (ArrayList<String>) ClientUI.client.handleMessageFromClientUI(messageToServer);
 		course.setItems(FXCollections.observableArrayList(listOfCourse));
+		course.setDisable(false);
 	}
 
 	/**
@@ -95,6 +100,7 @@ public class TeacherReportForm1Controller implements GuiController, Initializabl
 	 */
 	@FXML
 	void chooseCourseAction(ActionEvent event) {
+		code.setDisable(false);
 
 	}
 
@@ -151,7 +157,10 @@ public class TeacherReportForm1Controller implements GuiController, Initializabl
 	 */
 	@FXML
 	void goHome(ActionEvent event) {
-		Navigator.instance().clearHistory("TeacherHomeForm");
+		if (formIsNotEmpty())
+			Navigator.instance().alertPopUp("TeacherHomeForm");
+		else
+			Navigator.instance().navigate("TeacherHomeForm");
 	}
 
 	/**
@@ -162,7 +171,10 @@ public class TeacherReportForm1Controller implements GuiController, Initializabl
 	 */
 	@FXML
 	void writeQuestionAction(ActionEvent event) {
-		Navigator.instance().navigate("WriteQuestionForm1");
+		if (formIsNotEmpty())
+			Navigator.instance().alertPopUp("WriteQuestionForm1");
+		else
+			Navigator.instance().navigate("WriteQuestionForm1");
 	}
 
 	/**
@@ -173,7 +185,10 @@ public class TeacherReportForm1Controller implements GuiController, Initializabl
 	 */
 	@FXML
 	void writeExamAction(ActionEvent event) {
-		Navigator.instance().navigate("WriteAnExamForm1");
+		if (formIsNotEmpty())
+			Navigator.instance().alertPopUp("WriteAnExamForm1");
+		else
+			Navigator.instance().navigate("WriteAnExamForm1");
 	}
 
 	/**
@@ -184,18 +199,10 @@ public class TeacherReportForm1Controller implements GuiController, Initializabl
 	 */
 	@FXML
 	void getReportAction(ActionEvent event) {
-		Navigator.instance().navigate("TeacherReportForm1");
-	}
-
-	/**
-	 * This is FXML event handler. Handles the action of click on 'Change Exam
-	 * Duration' button.
-	 *
-	 * @param event The action event.
-	 */
-	@FXML
-	void changeDurAction(ActionEvent event) {
-		Navigator.instance().navigate("RequestChangeExamDurationTimeWindow");
+		if (formIsNotEmpty())
+			Navigator.instance().alertPopUp("TeacherReportForm1");
+		else
+			Navigator.instance().navigate("TeacherReportForm1");
 	}
 
 	/**
@@ -217,7 +224,10 @@ public class TeacherReportForm1Controller implements GuiController, Initializabl
 	 */
 	@FXML
 	void examSearchAction(ActionEvent event) {
-		Navigator.instance().navigate("ExamStockForm1");
+		if (formIsNotEmpty())
+			Navigator.instance().alertPopUp("ExamStockForm1");
+		else
+			Navigator.instance().navigate("ExamStockForm1");
 	}
 
 	/**
@@ -234,6 +244,9 @@ public class TeacherReportForm1Controller implements GuiController, Initializabl
 		imgLogo.setImage(img2);
 		Image img3 = new Image(this.getClass().getResource("report.png").toString());
 		imgRep.setImage(img3);
+		// cannot choose anything from these lists
+		course.setDisable(true);
+		code.setDisable(true);
 		// set the content (list of fields that teacher is teaching) in the comboBox
 		// 'field'
 		ArrayList<String> listOfField;
@@ -244,6 +257,17 @@ public class TeacherReportForm1Controller implements GuiController, Initializabl
 		messageToServer.setOperation("ShowFieldList");
 		listOfField = (ArrayList<String>) ClientUI.client.handleMessageFromClientUI(messageToServer);
 		field.setItems(FXCollections.observableArrayList(listOfField));
+	}
+	
+	/**
+	 * This method check that there is no selected values in the form
+	 *
+	 * @return boolean result.
+	 */
+	private boolean formIsNotEmpty() {
+		if (!field.getSelectionModel().isEmpty() || !code.getSelectionModel().isEmpty())
+			return true;
+		return false;
 	}
 
 }

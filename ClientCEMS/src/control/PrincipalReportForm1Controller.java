@@ -1,16 +1,21 @@
 package control;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import client.ClientUI;
 import gui.Navigator;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import logic.Message;
 
 /**
  * This is controller class (boundary) for window PrincipalReport (first part).
@@ -35,7 +40,7 @@ public class PrincipalReportForm1Controller implements GuiController, Initializa
 	@FXML
 	private ImageView imgLogo;
 	@FXML
-	private MenuButton reportType;
+	private ComboBox<String> reportType;
 	@FXML
 	private Label lblErr;
 
@@ -48,40 +53,23 @@ public class PrincipalReportForm1Controller implements GuiController, Initializa
 	 */
 	@FXML
 	void next(ActionEvent event) {
-		lblErr.setText("Choose type first");
-	}
-
-	/**
-	 * This is FXML event handler. Handles the action of click on 'Report by Course'
-	 * option in 'Choose Report Type' menu button.
-	 * 
-	 * @param event The action event.
-	 */
-	@FXML
-	void courseNext(ActionEvent event) {
-		Navigator.instance().navigate("PrincipalReportFormCourse");
-	}
-
-	/**
-	 * This is FXML event handler. Handles the action of click on 'Report by
-	 * Student' option in 'Choose Report Type' menu button.
-	 * 
-	 * @param event The action event.
-	 */
-	@FXML
-	void studentNext(ActionEvent event) {
-		Navigator.instance().navigate("PrincipalReportFormStudent");
-	}
-
-	/**
-	 * This is FXML event handler. Handles the action of click on 'Report by
-	 * Teacher' option in 'Choose Report Type' menu button.
-	 * 
-	 * @param event The action event.
-	 */
-	@FXML
-	void teacherNext(ActionEvent event) {
-		Navigator.instance().navigate("PrincipalReportFormTeacher");
+		if(formIsNotEmpty()) {   //check if any type of report selected
+			lblErr.setText("");
+			switch(reportType.getSelectionModel().getSelectedItem()) {
+				case "Report By Student":
+					Navigator.instance().navigate("PrincipalReportFormStudent");
+					break;
+				case "Report By Course":
+					Navigator.instance().navigate("PrincipalReportFormCourse");
+					break;
+					
+				case "Report By Teacher":
+					Navigator.instance().navigate("PrincipalReportFormTeacher");
+					break;
+				}
+			}
+		else   //if not write error label
+			lblErr.setText("Choose type first");
 	}
 
 	// Menu methods ************************************************
@@ -93,7 +81,10 @@ public class PrincipalReportForm1Controller implements GuiController, Initializa
 	 */
 	@FXML
 	void goHome(ActionEvent event) {
-		Navigator.instance().clearHistory("PrincipalHomeForm");
+		if (formIsNotEmpty())
+			Navigator.instance().alertPopUp("PrincipalHomeForm");
+		else
+			Navigator.instance().navigate("PrincipalHomeForm");
 	}
 
 	/**
@@ -104,7 +95,10 @@ public class PrincipalReportForm1Controller implements GuiController, Initializa
 	 */
 	@FXML
 	void getReportAction(ActionEvent event) {
-		Navigator.instance().navigate("PrincipalReportForm1");
+		if (formIsNotEmpty())
+			Navigator.instance().alertPopUp("PrincipalReportForm1");
+		else
+			Navigator.instance().navigate("PrincipalReportForm1");
 	}
 
 	/**
@@ -115,7 +109,19 @@ public class PrincipalReportForm1Controller implements GuiController, Initializa
 	 */
 	@FXML
 	void viewRequestsAction(ActionEvent event) {
-		Navigator.instance().navigate("PrincipalViewRequestForm");
+		if (formIsNotEmpty())
+			Navigator.instance().alertPopUp("PrincipalViewRequestForm");
+		else
+			Navigator.instance().navigate("PrincipalViewRequestForm");
+	}
+	
+	/**
+	 * This method check that there is no selected values in the form
+	 *
+	 * @return boolean result.
+	 */
+	private boolean formIsNotEmpty() {
+		return !reportType.getSelectionModel().isEmpty();
 	}
 
 	/**
@@ -131,7 +137,12 @@ public class PrincipalReportForm1Controller implements GuiController, Initializa
 		imgLogo.setImage(img2);
 		Image img3 = new Image(this.getClass().getResource("report.png").toString());
 		imgRep.setImage(img3);
+		
+		ArrayList<String> reportTypes = new ArrayList<>();
+		reportTypes.add("Report By Student");
+		reportTypes.add("Report By Course");
+		reportTypes.add("Report By Teacher");
+		reportType.setItems(FXCollections.observableArrayList(reportTypes));
 	}
-
 }
 //End of PrincipalReportForm1Controller class

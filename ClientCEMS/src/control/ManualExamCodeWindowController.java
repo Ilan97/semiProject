@@ -1,33 +1,48 @@
 package control;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import client.ClientUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import logic.ExamFile;
+import logic.Message;
 
 /**
  * This is controller class (boundary) for window ManualExamCode in Student.
  * This class handle all events related to this window. This class connect with
  * client.
  *
- * @author
+ * @author Ilan Meikler
+ * @author Bat-El Gardin
+ * @author Moran Davidov
  * @version May 2021
  */
 
 public class ManualExamCodeWindowController implements GuiController, Initializable {
 
 	// Instance variables **********************************************
+
+	/**
+	 * The code that is entered.
+	 */
+	public String code = null;
 
 	/**
 	 * FXML variables.
@@ -38,24 +53,25 @@ public class ManualExamCodeWindowController implements GuiController, Initializa
 	private TextField txtCode;
 	@FXML
 	private Label lblErr;
-	
+
 	// Instance methods ************************************************
-	
+
 	/**
 	 * Pop this window.
 	 *
 	 * @param primaryStage The stage for window's scene.
+	 * @return the "real" controller.
 	 */
-	public void start(Stage primaryStage) throws IOException {
-		Parent root = FXMLLoader.load(getClass().getResource("/gui/ManualExamCodeWindow.fxml"));
+	public Object start(Stage primaryStage) throws IOException {
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource("/gui/ManualExamCodeWindow.fxml"));
+		Parent root = loader.load();
+		ManualExamCodeWindowController cont = loader.getController();
 		Scene scene = new Scene(root);
 		primaryStage.setTitle("Enter Code");
 		primaryStage.setScene(scene);
-		//closing the current window
-		primaryStage.setOnCloseRequest((event) -> {
-			primaryStage.close();
-		});
-		primaryStage.show();
+		primaryStage.showAndWait();
+		return cont;
 	}
 
 	/**
@@ -65,7 +81,70 @@ public class ManualExamCodeWindowController implements GuiController, Initializa
 	 */
 	@FXML
 	void download(ActionEvent event) {
-		
+		ExamFile res = null;
+		if (txtCode.getText().trim().isEmpty())
+			lblErr.setText("enter code");
+		else {
+			// message to server
+			Message messageToServer = new Message();
+			messageToServer.setMsg(txtCode.getText());
+			messageToServer.setControllerName("ExamController");
+			messageToServer.setOperation("downloadManualExam");
+			res = (ExamFile) ClientUI.client.handleMessageFromClientUI(messageToServer);
+			if (res == null)
+				lblErr.setText("code is not valid");
+			else {
+				code = txtCode.getText();	
+				// choose directory to download the file
+				Stage stage = new Stage();
+				FileChooser fileChooser = new FileChooser();
+				fileChooser.setTitle("Open Resource File");
+				String currentUser = System.getProperty("user.home");
+				fileChooser.setInitialDirectory(new File(currentUser + "\\downloads"));
+				fileChooser.setInitialFileName(res.getFilename());
+				fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("exam file (.txt)", "*.txt"));
+				File newFile = fileChooser.showSaveDialog(stage);
+				stage.setOnCloseRequest((e) -> {
+					stage.close();
+				});
+				// copy the file to the desktop if no directory was chosen
+				if (newFile == null) {
+					String LocalfilePath = currentUser + "\\desktop";
+					newFile = new File(LocalfilePath + "\\" + res.getFilename());
+				}
+				try {
+					FileOutputStream fis = new FileOutputStream(newFile);
+					BufferedOutputStream bis = new BufferedOutputStream(fis);
+					bis.write(res.getContent());
+					bis.close();
+					display("download succeeded!");
+					display("file path: " + newFile.getAbsolutePath());
+				} catch (IOException e) {
+					display("fail to download the file");
+				}
+				// start the clock
+				ManualExamFormController.startTime = System.currentTimeMillis();
+				close(event);
+			}
+		}
+	}
+
+	/**
+	 * This method close the current stage.
+	 */
+	private void close(ActionEvent event) {
+		Node source = (Node) event.getSource();
+		Stage stage = (Stage) source.getScene().getWindow();
+		stage.close();
+	}
+
+	/**
+	 * This method displays a message into the console.
+	 *
+	 * @param message The string to be displayed.
+	 */
+	public static void display(String message) {
+		System.out.println("> " + message);
 	}
 
 	/**
@@ -78,6 +157,5 @@ public class ManualExamCodeWindowController implements GuiController, Initializa
 		Image img = new Image(this.getClass().getResource("studentFrame.PNG").toString());
 		imgBack.setImage(img);
 	}
-
 }
 //End of ManualExamCodeWindowController class

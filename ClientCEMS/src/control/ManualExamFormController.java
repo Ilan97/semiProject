@@ -1,28 +1,57 @@
 package control;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ResourceBundle;
 
 import gui.Navigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import logic.ExamOfStudent;
 
 /**
  * This is controller class (boundary) for window ManualExam in Student. This
  * class handle all events related to this window. This class connect with
  * client.
  *
- * @author
+ * @author Ilan Meikler
+ * @author Bat-El Gardin
+ * @author Moran Davidov
  * @version May 2021
  */
 
 public class ManualExamFormController implements GuiController, Initializable {
 
 	// Instance variables **********************************************
+
+	/**
+	 * The details to upload the exam to DB.
+	 */
+	public static ExamOfStudent examToUpload = null;
+
+	/**
+	 * The chosen file in bytes.
+	 */
+	public byte[] fileContent;
+
+	/**
+	 * The code that is entered.
+	 */
+	public String code = null;
+
+	/**
+	 * The time when the student download the exam.
+	 */
+	public static long startTime;
 
 	/**
 	 * FXML variables.
@@ -39,6 +68,10 @@ public class ManualExamFormController implements GuiController, Initializable {
 	private ImageView imgDoc2;
 	@FXML
 	private ImageView imgUp;
+	@FXML
+	private Button btnSubmit;
+	@FXML
+	private Button btnUpload;
 
 	// Instance methods ************************************************
 
@@ -50,12 +83,51 @@ public class ManualExamFormController implements GuiController, Initializable {
 	 */
 	@FXML
 	void enterCodeAction(ActionEvent event) {
+		ManualExamCodeWindowController res;
 		ManualExamCodeWindowController popUp = new ManualExamCodeWindowController();
 		try {
-			popUp.start(new Stage());
+			res = (ManualExamCodeWindowController) popUp.start(new Stage());
+			code = res.code;
+			// no exam was download
+			if (code == null)
+				btnUpload.setDisable(true);
+			else {
+				// exam was download
+				btnUpload.setDisable(false);
+			}
 		} catch (Exception e) {
-			
+
 		}
+	}
+
+	/**
+	 * This is FXML event handler. Handles the action of click on 'Upload' button.
+	 *
+	 * @param event The action event.
+	 * @throws IOException
+	 */
+	@FXML
+	void uploadAction(ActionEvent event) throws IOException {
+		// open browser to search for the file to upload
+		Stage stage = new Stage();
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Open Resource File");
+		// choose file from browser
+		File chosen = fileChooser.showOpenDialog(stage);
+		stage.setOnCloseRequest((e) -> {
+			stage.close();
+		});
+		if (chosen != null) {
+			// the path of the chosen file
+			Path path = chosen.toPath();
+			fileContent = Files.readAllBytes(path);
+			// calculate the difference between start and end time
+			double difference = (double) ((System.currentTimeMillis() - ManualExamFormController.startTime) / 60000.0);
+			examToUpload = new ExamOfStudent(fileContent, code, LoginController.user.getUsername(), difference);
+			// file was chosen
+			btnSubmit.setDisable(false);
+		}
+
 	}
 
 	/**
@@ -63,10 +135,12 @@ public class ManualExamFormController implements GuiController, Initializable {
 	 * button.
 	 *
 	 * @param event The action event.
+	 * @throws IOException
 	 */
 	@FXML
-	void submitAction(ActionEvent event) {
-
+	void submitAction(ActionEvent event) throws IOException {
+		SubmissionAgreementWindowController agreement = new SubmissionAgreementWindowController();
+		agreement.start(new Stage());
 	}
 
 	// Menu methods ************************************************
@@ -89,13 +163,11 @@ public class ManualExamFormController implements GuiController, Initializable {
 	 */
 	@FXML
 	void compExamAction(ActionEvent event) {
-		/*//successes pop up
+		//successes pop up
 		ComputerizedExamCodeWindowController popUp = new ComputerizedExamCodeWindowController();
 		try {
 			popUp.start(new Stage());
-		} catch (Exception e) {
-			
-		}*/
+		} catch (Exception e) {}
 	}
 
 	/**
@@ -138,7 +210,10 @@ public class ManualExamFormController implements GuiController, Initializable {
 		imgDoc2.setImage(img5);
 		Image img6 = new Image(this.getClass().getResource("upload.PNG").toString());
 		imgUp.setImage(img6);
+		// no file was chosen
+		btnSubmit.setDisable(true);
+		// no exam was download
+		btnUpload.setDisable(true);
 	}
-
 }
 // End of ManualExamFormController class

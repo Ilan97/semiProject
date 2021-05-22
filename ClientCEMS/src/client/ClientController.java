@@ -73,7 +73,7 @@ public class ClientController extends AbstractClient {
 	 *
 	 * @param msg The message from the UI.
 	 * @return message The result from server
-	 * @throws IOException
+	 * 
 	 */
 	public Object handleMessageFromClientUI(Message msg) {
 		try {

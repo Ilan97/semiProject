@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -17,7 +18,8 @@ import javafx.scene.image.ImageView;
  * Student. This class handle all events related to this window. This class
  * connect with client.
  *
- * @author
+ * @author Bat-El Gardin
+ * @author Ilan Meikler
  * @version May 2021
  */
 
@@ -33,11 +35,21 @@ public class ComputerizedExamFormStartController implements GuiController, Initi
 	@FXML
 	private ImageView imgLogo;
 	@FXML
-	private Label lblNumQuestion;
-	@FXML
 	private TextArea question;
 	@FXML
+	private Label lblNumQuestion;
+	@FXML
 	private Label lblError;
+    @FXML
+    private Label lblScore;
+    @FXML
+    private RadioButton btnAnswer1;
+    @FXML
+    private RadioButton btnAnswer2;
+    @FXML
+    private RadioButton btnAnswer3;
+    @FXML
+    private RadioButton btnAnswer4;
 
 	// Instance methods ************************************************
 

@@ -56,22 +56,22 @@
                </font>
             </Label>
             <TextArea fx:id="question" layoutX="230.0" layoutY="99.0" prefHeight="197.0" prefWidth="505.0" />
-            <RadioButton layoutX="237.0" layoutY="329.0" mnemonicParsing="false" onAction="#chooseAns1" text="Answer 1">
+            <RadioButton fx:id="btnAnswer1" layoutX="237.0" layoutY="329.0" mnemonicParsing="false" onAction="#chooseAns1">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </RadioButton>
-            <RadioButton layoutX="237.0" layoutY="404.0" mnemonicParsing="false" onAction="#chooseAns4" text="Answer 4">
+            <RadioButton fx:id="btnAnswer4" layoutX="237.0" layoutY="404.0" mnemonicParsing="false" onAction="#chooseAns4">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </RadioButton>
-            <RadioButton layoutX="237.0" layoutY="379.0" mnemonicParsing="false" onAction="#chooseAns3" text="Answer 3">
+            <RadioButton fx:id="btnAnswer3" layoutX="237.0" layoutY="379.0" mnemonicParsing="false" onAction="#chooseAns3">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </RadioButton>
-            <RadioButton layoutX="237.0" layoutY="354.0" mnemonicParsing="false" onAction="#chooseAns2" text="Answer 2">
+            <RadioButton fx:id="btnAnswer2" layoutX="237.0" layoutY="354.0" mnemonicParsing="false" onAction="#chooseAns2">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
@@ -81,7 +81,7 @@
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Button>
-            <Label fx:id="lblError" layoutX="239.0" layoutY="312.0" prefHeight="14.0" prefWidth="57.0" textFill="#f86060">
+            <Label fx:id="lblError" layoutX="239.0" layoutY="312.0" prefHeight="14.0" prefWidth="130.0" textFill="#f86060">
                <font>
                   <Font name="Calibri Bold" size="12.0" />
                </font>
@@ -91,6 +91,11 @@
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Button>
+            <Label layoutX="340.0" layoutY="70.0" prefHeight="17.0" prefWidth="79.0" textFill="#b2b2b2">
+               <font>
+                  <Font name="Calibri Bold" size="12.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
    </children>

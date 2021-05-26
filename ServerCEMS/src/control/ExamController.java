@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.sql.Blob;
 import java.sql.PreparedStatement;
-//import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -18,7 +17,6 @@ import logic.ExamFile;
 import logic.ExamType;
 import logic.Message;
 import logic.Question;
-import logic.UserType;
 
 /**
  * This class execute all queries that related to Exam object and handle with
@@ -54,7 +52,6 @@ public class ExamController {
 	private static Statement stmt;
 	private static PreparedStatement pstmt;
 	private static ResultSet rs;
-	// private static PreparedStatement pstmt;
 
 	// Instance methods ************************************************
 
@@ -69,6 +66,7 @@ public class ExamController {
 		request = msg;
 		ArrayList<Exam> listOfExams;
 		String[] FieldName_CourseName;
+		String[] data;
 		// switch case is on the operations this controller ask to operate.
 		switch (request.getOperation()) {
 		case "GetEid":
@@ -103,7 +101,7 @@ public class ExamController {
 				exam.setCname(resultMap.get("courseName"));
 				exam.setEid(resultMap.get("examID"));
 				exam.setExamID(exam.getFid() + exam.getCid() + exam.getEid());
-				exam.setDuration(Integer.parseInt(resultMap.get("duration")));
+				exam.setDuration(Double.parseDouble(resultMap.get("duration")));
 				// set the questionsInExam HashMap (variable in Exam instance)
 				HashMap<Question, Integer> examQuestions;
 				examQuestions = exam.getQuestionsInExam();
@@ -130,38 +128,46 @@ public class ExamController {
 		case "updateExamDurationTime":
 			// this msg contains the new duration time and exam's entire ID
 			String[] updateDetails = parsingTheData((String) request.getMsg());
-			int duration = Integer.parseInt(updateDetails[0]);
+			double duration = Double.parseDouble(updateDetails[0]);
 			String examID = updateDetails[1];
 			updateExamDurationQuery(examID, duration);
 			// create the result Message instance
 			examMessage.setMsg(requestDurationTimeQuery(examID)); // return the new duration time
 			result = examMessage;
 			break;
-        
+
 		case "downloadManualExam":
-			ExamFile res = getExamFile((String) request.getMsg());
+			data = parsingTheData((String) request.getMsg());
+			ExamFile res = getExamFile(data[0], data[1]);
 			examMessage.setMsg(res);
 			result = examMessage;
 			break;
-        
-     case "ShowExamList":
+
+		case "ShowExamList":
 			FieldName_CourseName = parsingTheData((String) request.getMsg());
 			listOfExams = getExams(FieldName_CourseName[0], FieldName_CourseName[1]);
 			examMessage.setMsg(listOfExams);
 			result = examMessage;
 			break;
-        
+
+		case "CheckCodeExists":
+			data = parsingTheData((String) request.getMsg());
+			boolean isExists = checkCodeExists(data[0], data[1]);
+			examMessage.setMsg(isExists);
+			result = examMessage;
+			break;
+
 		} // end switch case
 		return result;
 	}
-	
+
 	/**
 	 * This method responsible to get list of exams from DB .
 	 *
 	 * @param Fid The id of the field.
 	 * @param Cid The id of the course.
-	 * @return listOfexams The exams that belong to those field and course.
-	 *         If there is no such exams, return null.
+	 * @return listOfexams The exams that belong to those field and course. If there
+	 *         is no such exams, return null.
 	 */
 	public static ArrayList<Exam> getExams(String Fname, String Cname) {
 		ArrayList<Exam> listOfExams = new ArrayList<>();
@@ -184,8 +190,8 @@ public class ExamController {
 				e.setCid(Cid);
 				e.setExamID(e.getFid() + e.getCid() + e.getEid());
 				e.setAuthor(rs.getString("author"));
-				e.setDuration(rs.getInt("Duration"));
-				e.setEtype(ExamType.valueOf(ExamType.class,rs.getString("etype")));
+				e.setDuration(rs.getDouble("Duration"));
+				e.setEtype(ExamType.valueOf(ExamType.class, rs.getString("etype")));
 				listOfExams.add(e);
 			}
 		} catch (SQLException e) {
@@ -241,16 +247,18 @@ public class ExamController {
 	 * This method get the exam file from table exam.
 	 *
 	 * @param code The code from examToPerform table.
+	 * @param type The exam type.
 	 * @return ExamFile {@link ExamFile} The file from DB.
 	 */
-	public static ExamFile getExamFile(String code) {
+	public static ExamFile getExamFile(String code, String type) {
 		String sql = "SELECT upload_file, file_Name FROM exam as e, examToPerform as ep "
-				+ "WHERE e.fid = ep.fid AND e.cid = ep.cid AND e.eid = ep.eid AND ep.ecode = ?";
+				+ "WHERE e.fid = ep.fid AND e.cid = ep.cid AND e.eid = ep.eid AND ep.ecode = ? AND e.etype = ?";
 		Blob fileData = null;
 		String fileName = null;
 		try {
 			pstmt = DBconnector.conn.prepareStatement(sql);
 			pstmt.setString(1, code);
+			pstmt.setString(2, type);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
 				fileName = rs.getString("file_Name");
@@ -271,6 +279,41 @@ public class ExamController {
 			} catch (Exception e) {
 			}
 		}
+	}
+
+	/**
+	 * This method get the exam file from table exam.
+	 *
+	 * @param code The code from examToPerform table.
+	 * @param type The exam type.
+	 * @return true if code exists, false otherwise
+	 */
+	public static boolean checkCodeExists(String code, String type) {
+		String sql = "SELECT ecode FROM exam as e, examToPerform as ep "
+				+ "WHERE e.fid = ep.fid AND e.cid = ep.cid AND e.eid = ep.eid AND e.etype = ? AND ep.ecode = ?";
+		boolean res = false;
+		try {
+			pstmt = DBconnector.conn.prepareStatement(sql);
+			pstmt.setString(1, type);
+			pstmt.setString(2, code);
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				res = true;
+			}
+		} catch (SQLException e) {
+			DBconnector.printSQLException(e);
+			return false;
+		} finally {
+			try {
+				rs.close();
+			} catch (Exception e) {
+			}
+			try {
+				pstmt.close();
+			} catch (Exception e) {
+			}
+		}
+		return res;
 	}
 
 	/**
@@ -324,12 +367,12 @@ public class ExamController {
 			pstmt.setString(2, exam.getCid());
 			pstmt.setString(3, exam.getEid());
 			pstmt.setString(4, exam.getAuthor());
-			pstmt.setInt(5, exam.getDuration());
+			pstmt.setDouble(5, exam.getDuration());
 			pstmt.setString(8, exam.getExamID() + ".txt");
 			// set the exam type
-      pstmt.setString(6, exam.getEtype().name());
+			pstmt.setString(6, exam.getEtype().name());
 			switch (exam.getEtype()) {
-      // save exam file
+			// save exam file
 			case COMPUTERIZED:
 				byte[] empty = {};
 				pstmt.setBlob(7, new ByteArrayInputStream(empty));
@@ -509,7 +552,7 @@ public class ExamController {
 			int index = 1;
 			while (rs.next()) {
 				examDataMap.put("examID", examID);
-				examDataMap.put("duration", "" + rs.getInt("duration"));
+				examDataMap.put("duration", "" + rs.getDouble("duration"));
 				// put exam questions into the result map
 				String questionID = rs.getString("qid");
 				int questionScore = rs.getInt("score");
@@ -537,7 +580,7 @@ public class ExamController {
 	 * @param examKey     The entire exam ID.
 	 * @param newDuration For the new exam duration time.
 	 */
-	public static void updateExamDurationQuery(String examKey, int newDuration) {
+	public static void updateExamDurationQuery(String examKey, double newDuration) {
 		String[] examIDcomponents = parsingTheExamId(examKey);
 		// data from parsingTheExamId method
 		fieldID = examIDcomponents[0];
@@ -568,13 +611,13 @@ public class ExamController {
 	 * @param examKey The entire exam ID.
 	 * @return duration The exam's duration time.
 	 */
-	public static int requestDurationTimeQuery(String examKey) {
+	public static double requestDurationTimeQuery(String examKey) {
 		String[] examIDcomponents = parsingTheExamId(examKey);
 		// data from parsingTheExamId method
 		fieldID = examIDcomponents[0];
 		courseID = examIDcomponents[1];
 		examID = examIDcomponents[2];
-		int duration = 0;
+		double duration = 0.0;
 		/**
 		 * Execute query for get the content of 'Duration' column. Table Exam.
 		 */
@@ -584,7 +627,7 @@ public class ExamController {
 			stmt = DBconnector.conn.createStatement();
 			rs = stmt.executeQuery(query);
 			while (rs.next())
-				duration = rs.getInt("duration");
+				duration = rs.getDouble("duration");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

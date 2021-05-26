@@ -33,22 +33,22 @@
             <ImageView fx:id="imgUp" fitHeight="28.0" fitWidth="26.0" layoutX="394.0" layoutY="297.0" />
             <VBox layoutY="115.0" prefHeight="427.0" prefWidth="166.0" style="-fx-background-color: #ffffff;">
                <children>
-                  <Button mnemonicParsing="false" onAction="#goHome" prefHeight="60.0" prefWidth="130.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 0 30 30 0;" text="Home" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                  <Button fx:id="btnHome" mnemonicParsing="false" onAction="#goHome" prefHeight="60.0" prefWidth="130.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 0 30 30 0;" text="Home" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                      <font>
                         <Font name="Calibri Bold" size="18.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#compExamAction" prefHeight="60.0" prefWidth="130.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 0 30 30 0;" text="Computerized Exam" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                  <Button fx:id="btnComp" mnemonicParsing="false" onAction="#compExamAction" prefHeight="60.0" prefWidth="130.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 0 30 30 0;" text="Computerized Exam" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                      <font>
                         <Font name="Calibri Bold" size="18.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#manualExamAction" prefHeight="60.0" prefWidth="160.0" style="-fx-background-color: #19CEBC; -fx-background-radius: 0 30 30 0;" text="Manual Exam" textAlignment="CENTER" textFill="WHITE">
+                  <Button fx:id="btnMan" mnemonicParsing="false" onAction="#manualExamAction" prefHeight="60.0" prefWidth="160.0" style="-fx-background-color: #19CEBC; -fx-background-radius: 0 30 30 0;" text="Manual Exam" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font name="Calibri Bold" size="18.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#gradesAction" prefHeight="60.0" prefWidth="130.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 0 30 30 0;" text="Grades" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                  <Button fx:id="btnGrades" mnemonicParsing="false" onAction="#gradesAction" prefHeight="60.0" prefWidth="130.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 0 30 30 0;" text="Grades" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                      <font>
                         <Font name="Calibri Bold" size="18.0" />
                      </font>

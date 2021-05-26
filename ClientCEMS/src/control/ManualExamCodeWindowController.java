@@ -15,10 +15,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import logic.ExamFile;
@@ -53,8 +56,28 @@ public class ManualExamCodeWindowController implements GuiController, Initializa
 	private TextField txtCode;
 	@FXML
 	private Label lblErr;
+	@FXML
+	private Button btnDown;
 
 	// Instance methods ************************************************
+
+	/**
+	 * @return the code from window.
+	 */
+	private String getCode() {
+		return txtCode.getText();
+	}
+
+	/**
+	 * This is FXML event handler. Handles the action of press on enter key.
+	 *
+	 * @param event The action event.
+	 */
+	@FXML
+	void inputPass(KeyEvent event) {
+		if (event.getCode().equals(KeyCode.ENTER))
+			btnDown.fire();
+	}
 
 	/**
 	 * Pop this window.
@@ -82,19 +105,19 @@ public class ManualExamCodeWindowController implements GuiController, Initializa
 	@FXML
 	void download(ActionEvent event) {
 		ExamFile res = null;
-		if (txtCode.getText().trim().isEmpty())
+		if (getCode().trim().isEmpty())
 			lblErr.setText("enter code");
 		else {
 			// message to server
 			Message messageToServer = new Message();
-			messageToServer.setMsg(txtCode.getText());
+			messageToServer.setMsg(getCode() + " manual");
 			messageToServer.setControllerName("ExamController");
 			messageToServer.setOperation("downloadManualExam");
 			res = (ExamFile) ClientUI.client.handleMessageFromClientUI(messageToServer);
 			if (res == null)
-				lblErr.setText("code is not valid");
+				lblErr.setText("invalid code");
 			else {
-				code = txtCode.getText();	
+				code = txtCode.getText();
 				// choose directory to download the file
 				Stage stage = new Stage();
 				FileChooser fileChooser = new FileChooser();
@@ -119,11 +142,12 @@ public class ManualExamCodeWindowController implements GuiController, Initializa
 					bis.close();
 					display("download succeeded!");
 					display("file path: " + newFile.getAbsolutePath());
+					ManualExamDownloadedWindowController msg = new ManualExamDownloadedWindowController();
+					msg.start(new Stage());
 				} catch (IOException e) {
 					display("fail to download the file");
+					// pop up ?
 				}
-				// start the clock
-				ManualExamFormController.startTime = System.currentTimeMillis();
 				close(event);
 			}
 		}

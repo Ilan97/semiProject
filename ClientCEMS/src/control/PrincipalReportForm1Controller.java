@@ -3,8 +3,6 @@ package control;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
-import client.ClientUI;
 import gui.Navigator;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -12,10 +10,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import logic.Message;
 
 /**
  * This is controller class (boundary) for window PrincipalReport (first part).
@@ -53,22 +49,21 @@ public class PrincipalReportForm1Controller implements GuiController, Initializa
 	 */
 	@FXML
 	void next(ActionEvent event) {
-		if(formIsNotEmpty()) {   //check if any type of report selected
+		if (formIsNotEmpty()) { // check if any type of report selected
 			lblErr.setText("");
-			switch(reportType.getSelectionModel().getSelectedItem()) {
-				case "Report By Student":
-					Navigator.instance().navigate("PrincipalReportFormStudent");
-					break;
-				case "Report By Course":
-					Navigator.instance().navigate("PrincipalReportFormCourse");
-					break;
-					
-				case "Report By Teacher":
-					Navigator.instance().navigate("PrincipalReportFormTeacher");
-					break;
-				}
+			switch (reportType.getSelectionModel().getSelectedItem()) {
+			case "Report By Student":
+				Navigator.instance().navigate("PrincipalReportFormStudent");
+				break;
+			case "Report By Course":
+				Navigator.instance().navigate("PrincipalReportFormCourse");
+				break;
+
+			case "Report By Teacher":
+				Navigator.instance().navigate("PrincipalReportFormTeacher");
+				break;
 			}
-		else   //if not write error label
+		} else // if not write error label
 			lblErr.setText("Choose type first");
 	}
 
@@ -114,7 +109,7 @@ public class PrincipalReportForm1Controller implements GuiController, Initializa
 		else
 			Navigator.instance().navigate("PrincipalViewRequestForm");
 	}
-	
+
 	/**
 	 * This method check that there is no selected values in the form
 	 *
@@ -137,7 +132,7 @@ public class PrincipalReportForm1Controller implements GuiController, Initializa
 		imgLogo.setImage(img2);
 		Image img3 = new Image(this.getClass().getResource("report.png").toString());
 		imgRep.setImage(img3);
-		
+
 		ArrayList<String> reportTypes = new ArrayList<>();
 		reportTypes.add("Report By Student");
 		reportTypes.add("Report By Course");

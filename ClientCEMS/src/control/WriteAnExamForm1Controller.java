@@ -3,7 +3,6 @@ package control;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 import client.ClientUI;
@@ -12,20 +11,11 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 import logic.Exam;
 import logic.ExamType;
 import logic.Message;
@@ -89,6 +79,13 @@ public class WriteAnExamForm1Controller implements GuiController, Initializable 
 	}
 
 	/**
+	 * @return the duration from window.
+	 */
+	private String getDuration() {
+		return txtDuration.getText();
+	}
+
+	/**
 	 * This is FXML event handler. Handles the action of click on 'next' button.
 	 *
 	 * @param event The action event.
@@ -125,19 +122,22 @@ public class WriteAnExamForm1Controller implements GuiController, Initializable 
 				clearErrLbl(lblErrType);
 
 			// no duration
-			if (Duration.trim().isEmpty())
+			if (getDuration().isEmpty())
 				lblErrDur.setText("enter content");
 			// there is duration
 			else
 				clearErrLbl(lblErrDur);
 
-		} else {
+		} else if (!durationIsValid())
+			lblErrDur.setText("invalid duration");
+		else {
+			clearErrLbl(lblErrDur);
 			// build the Exam object
 			Exam e = new Exam();
 			e.setAuthor(LoginController.user.getFirstName() + " " + LoginController.user.getLastName());
 			e.setFname(Field);
 			e.setCname(Course);
-			e.setDuration(Integer.parseInt(Duration));
+			e.setDuration(Double.parseDouble(Duration));
 			// set the exam type
 			switch (Type) {
 			case "Computerized":
@@ -151,6 +151,22 @@ public class WriteAnExamForm1Controller implements GuiController, Initializable 
 			// go to next page
 			Navigator.instance().navigate("WriteAnExamForm2");
 		}
+	}
+
+	/**
+	 * This method check if duration is valid
+	 */
+	private boolean durationIsValid() {
+		String durationString = getDuration();
+		try {
+			double duration = Double.parseDouble(durationString);
+			// check if score is valid number
+			if (duration < 0.1)
+				return false;
+		} catch (NumberFormatException e) {
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -185,7 +201,7 @@ public class WriteAnExamForm1Controller implements GuiController, Initializable 
 	 */
 	@FXML
 	void goHome(ActionEvent event) throws IOException {
-		if(formIsNotEmpty())
+		if (formIsNotEmpty())
 			Navigator.instance().alertPopUp("TeacherHomeForm");
 		else
 			Navigator.instance().navigate("TeacherHomeForm");

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import client.ClientUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,27 +12,23 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import logic.Message;
 
 /**
- * This is controller class (boundary) for window ComputerizedExamCode in
+ * This is controller class (boundary) for window ManualExamDownloaded in
  * Student. This class handle all events related to this window. This class
  * connect with client.
  *
- * @author Sharon Vaknin
  * @author Bat-El Gardin
+ * @author Moran Davidov
  * @version May 2021
  */
 
-public class ComputerizedExamCodeWindowController implements GuiController, Initializable {
-
+public class ManualExamDownloadedWindowController implements GuiController, Initializable {
 	// Instance variables **********************************************
 
 	/**
@@ -42,20 +37,11 @@ public class ComputerizedExamCodeWindowController implements GuiController, Init
 	@FXML
 	private ImageView imgBack;
 	@FXML
-	private TextField txtCode;
+	private ImageView imgGoodLuck;
 	@FXML
-	private Label lblErrCode;
-	@FXML
-	private Button btnNext;
+	private Button btnStart;
 
 	// Instance methods ************************************************
-
-	/**
-	 * @return the code from window.
-	 */
-	private String getCode() {
-		return txtCode.getText();
-	}
 
 	/**
 	 * This is FXML event handler. Handles the action of press on enter key.
@@ -65,7 +51,7 @@ public class ComputerizedExamCodeWindowController implements GuiController, Init
 	@FXML
 	void inputPass(KeyEvent event) {
 		if (event.getCode().equals(KeyCode.ENTER))
-			btnNext.fire();
+			btnStart.fire();
 	}
 
 	/**
@@ -74,44 +60,23 @@ public class ComputerizedExamCodeWindowController implements GuiController, Init
 	 * @param primaryStage The stage for window's scene.
 	 */
 	public void start(Stage primaryStage) throws IOException {
-		Parent root = FXMLLoader.load(getClass().getResource("/gui/ComputerizedExamCodeWindow.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("/gui/ManualExamDownloadedWindow.fxml"));
 		Scene scene = new Scene(root);
-		primaryStage.setTitle("Enter Code");
+		primaryStage.setTitle("Download success!");
 		primaryStage.setScene(scene);
 		primaryStage.showAndWait();
 	}
 
 	/**
-	 * This is FXML event handler. Handles the action of click on 'Next' button.
+	 * This is FXML event handler. Handles the action of click on 'Start' button.
 	 *
 	 * @param event The action event.
 	 */
 	@FXML
-	void nextAction(ActionEvent event) {
-		if (getCode().trim().isEmpty())
-			lblErrCode.setText("enter code");
-		else {
-			lblErrCode.setText("");
-			boolean res;
-			Message messageToServer = new Message();
-			messageToServer.setMsg(getCode() + " computerized");
-			messageToServer.setOperation("CheckCodeExists");
-			messageToServer.setControllerName("ExamController");
-			res = (boolean) ClientUI.client.handleMessageFromClientUI(messageToServer);
-			if (res) {
-				// successes pop up
-				ComputerizedExamEnterIDWindowController popUp = new ComputerizedExamEnterIDWindowController();
-				try {
-					popUp.start(new Stage());
-					close(event);
-
-				} catch (Exception e) {
-				}
-			}
-			// code isn't exists
-			else
-				lblErrCode.setText("invalid code");
-		}
+	void startAction(ActionEvent event) {
+		// start the clock
+		ManualExamFormController.startTime = System.currentTimeMillis();
+		close(event);
 	}
 
 	/**
@@ -132,7 +97,8 @@ public class ComputerizedExamCodeWindowController implements GuiController, Init
 		// set images
 		Image img = new Image(this.getClass().getResource("studentFrame.PNG").toString());
 		imgBack.setImage(img);
+		Image img1 = new Image(this.getClass().getResource("smile.png").toString());
+		imgGoodLuck.setImage(img1);
 	}
-
 }
-//End of ComputerizedExamCodeWindowController class
+//End of ComputerizedExamEnterIDWindowController class

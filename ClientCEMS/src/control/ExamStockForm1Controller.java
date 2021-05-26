@@ -2,7 +2,6 @@ package control;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import client.ClientUI;
 import gui.Navigator;
@@ -10,15 +9,11 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import logic.Exam;
-import logic.ExamType;
 import logic.Message;
 
 /**
@@ -37,7 +32,7 @@ public class ExamStockForm1Controller implements GuiController, Initializable {
 	// Instance variables **********************************************
 
 	public static Exam Exam;
-	
+
 	/**
 	 * FXML variables.
 	 */
@@ -82,7 +77,7 @@ public class ExamStockForm1Controller implements GuiController, Initializable {
 		listOfCourse = (ArrayList<String>) ClientUI.client.handleMessageFromClientUI(messageToServer2);
 		course.setItems(FXCollections.observableArrayList(listOfCourse));
 	}
-	
+
 	/**
 	 * This method clear error label.
 	 */
@@ -176,7 +171,7 @@ public class ExamStockForm1Controller implements GuiController, Initializable {
 		else
 			Navigator.instance().navigate("TeacherReportForm1");
 	}
-	
+
 	/**
 	 * This is FXML event handler. Handles the action of click on 'Check Exam'
 	 * button.
@@ -185,7 +180,7 @@ public class ExamStockForm1Controller implements GuiController, Initializable {
 	 */
 	@FXML
 	void checkExamAction(ActionEvent event) {
-	//	Navigator.instance().navigate(" ");/// ????
+		// Navigator.instance().navigate(" ");/// ????
 	}
 
 	/**
@@ -201,7 +196,7 @@ public class ExamStockForm1Controller implements GuiController, Initializable {
 		else
 			Navigator.instance().navigate("ExamStockForm1");
 	}
-	
+
 	/**
 	 * This method check that there is no selected values in the form
 	 *

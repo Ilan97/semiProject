@@ -32,7 +32,7 @@ public class Exam implements Serializable {
 	private Date edate;
 	private String ecode;
 	private String author;
-	private int duration;
+	private double duration;
 	private ExamStatus estatus;
 	private ExamType etype;
 	private HashMap<Question, Integer> questionsInExam = new HashMap<>();
@@ -131,14 +131,14 @@ public class Exam implements Serializable {
 	/**
 	 * @return the duration
 	 */
-	public int getDuration() {
+	public double getDuration() {
 		return duration;
 	}
 
 	/**
 	 * @param duration The duration to set
 	 */
-	public void setDuration(int duration) {
+	public void setDuration(double duration) {
 		this.duration = duration;
 	}
 
@@ -236,9 +236,6 @@ public class Exam implements Serializable {
 		return QuestionView;
 	}
 
-	/**
-	 * @return result The hashCode of Exam object
-	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -246,7 +243,9 @@ public class Exam implements Serializable {
 		result = prime * result + ((author == null) ? 0 : author.hashCode());
 		result = prime * result + ((cid == null) ? 0 : cid.hashCode());
 		result = prime * result + ((cname == null) ? 0 : cname.hashCode());
-		result = prime * result + duration;
+		long temp;
+		temp = Double.doubleToLongBits(duration);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + ((ecode == null) ? 0 : ecode.hashCode());
 		result = prime * result + ((edate == null) ? 0 : edate.hashCode());
 		result = prime * result + ((eid == null) ? 0 : eid.hashCode());
@@ -255,13 +254,9 @@ public class Exam implements Serializable {
 		result = prime * result + ((examID == null) ? 0 : examID.hashCode());
 		result = prime * result + ((fid == null) ? 0 : fid.hashCode());
 		result = prime * result + ((fname == null) ? 0 : fname.hashCode());
-		result = prime * result + ((questionsInExam == null) ? 0 : questionsInExam.hashCode());
 		return result;
 	}
 
-	/**
-	 * @return true If object is this Exam, false otherwise
-	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -286,7 +281,7 @@ public class Exam implements Serializable {
 				return false;
 		} else if (!cname.equals(other.cname))
 			return false;
-		if (duration != other.duration)
+		if (Double.doubleToLongBits(duration) != Double.doubleToLongBits(other.duration))
 			return false;
 		if (ecode == null) {
 			if (other.ecode != null)
@@ -321,11 +316,6 @@ public class Exam implements Serializable {
 			if (other.fname != null)
 				return false;
 		} else if (!fname.equals(other.fname))
-			return false;
-		if (questionsInExam == null) {
-			if (other.questionsInExam != null)
-				return false;
-		} else if (!questionsInExam.equals(other.questionsInExam))
 			return false;
 		return true;
 	}

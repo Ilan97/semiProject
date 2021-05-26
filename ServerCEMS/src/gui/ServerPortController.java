@@ -83,9 +83,8 @@ public class ServerPortController implements Initializable {
 	 */
 	@FXML
 	void inputPass(KeyEvent event) {
-		if (event.getCode().equals(KeyCode.ENTER)) {
+		if (event.getCode().equals(KeyCode.ENTER))
 			btnConnect.fire();
-		}
 	}
 
 	/**

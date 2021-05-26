@@ -45,7 +45,7 @@ public class ManualExamCodeWindowController implements GuiController, Initializa
 	/**
 	 * The code that is entered.
 	 */
-	public String code = null;
+	public String code;
 
 	/**
 	 * FXML variables.
@@ -181,6 +181,7 @@ public class ManualExamCodeWindowController implements GuiController, Initializa
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		code = null;
 		// set images
 		Image img = new Image(this.getClass().getResource("studentFrame.PNG").toString());
 		imgBack.setImage(img);

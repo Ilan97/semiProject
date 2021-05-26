@@ -20,6 +20,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import logic.Exam;
 import logic.Message;
 
 /**
@@ -35,6 +36,17 @@ import logic.Message;
 public class ComputerizedExamCodeWindowController implements GuiController, Initializable {
 
 	// Instance variables **********************************************
+
+	/**
+	 * static instance for Exam object. Will be create only once for each
+	 * computerized exam. the object initialize by the info that return from DB.
+	 */
+	public static Exam compExam;
+
+	/**
+	 * The code that is entered.
+	 */
+	public static String code;
 
 	/**
 	 * FXML variables.
@@ -92,26 +104,27 @@ public class ComputerizedExamCodeWindowController implements GuiController, Init
 			lblErrCode.setText("enter code");
 		else {
 			lblErrCode.setText("");
-			boolean res;
 			Message messageToServer = new Message();
 			messageToServer.setMsg(getCode() + " computerized");
 			messageToServer.setOperation("CheckCodeExists");
 			messageToServer.setControllerName("ExamController");
-			res = (boolean) ClientUI.client.handleMessageFromClientUI(messageToServer);
-			if (res) {
+			compExam = (Exam) ClientUI.client.handleMessageFromClientUI(messageToServer);
+			// code isn't exists
+			if (compExam == null)
+				lblErrCode.setText("invalid code");
+			else {
+				lblErrCode.setText("");
+				code = getCode();
 				// successes pop up
 				ComputerizedExamEnterIDWindowController popUp = new ComputerizedExamEnterIDWindowController();
 				try {
 					popUp.start(new Stage());
 					close(event);
 				} catch (Exception e) {
-          System.out.println("Exception: " + e.getMessage());
-			    e.printStackTrace();
+					System.out.println("Exception: " + e.getMessage());
+					e.printStackTrace();
 				}
 			}
-			// code isn't exists
-			else
-				lblErrCode.setText("invalid code");
 		}
 	}
 
@@ -130,6 +143,8 @@ public class ComputerizedExamCodeWindowController implements GuiController, Init
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		code = null;
+		compExam = null;
 		// set images
 		Image img = new Image(this.getClass().getResource("studentFrame.PNG").toString());
 		imgBack.setImage(img);

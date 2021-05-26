@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ResourceBundle;
 
+import client.ClientUI;
 import gui.Navigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,6 +19,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import logic.ExamOfStudent;
+import logic.Message;
 
 /**
  * This is controller class (boundary) for window ManualExam in Student. This
@@ -48,11 +50,6 @@ public class ManualExamFormController implements GuiController, Initializable {
 	 * The code that is entered.
 	 */
 	public String code = null;
-
-	/**
-	 * The time when the student download the exam.
-	 */
-	public static long startTime;
 
 	/**
 	 * FXML variables.
@@ -139,7 +136,11 @@ public class ManualExamFormController implements GuiController, Initializable {
 			Path path = chosen.toPath();
 			fileContent = Files.readAllBytes(path);
 			// calculate the difference between start and end time
-			double difference = (double) ((System.currentTimeMillis() - ManualExamFormController.startTime) / 60000.0);
+			Message messageToServer = new Message();
+			messageToServer.setControllerName("StudentController");
+			messageToServer.setOperation("StopTimer");
+			System.out.println(messageToServer);
+			double difference = (double) ClientUI.client.handleMessageFromClientUI(messageToServer);
 			examToUpload = new ExamOfStudent(fileContent, code, LoginController.user.getUsername(), difference);
 			// file was chosen
 			btnSubmit.setDisable(false);
@@ -157,7 +158,7 @@ public class ManualExamFormController implements GuiController, Initializable {
 	@FXML
 	void submitAction(ActionEvent event) throws IOException {
 		SubmissionAgreementWindowController agreement = new SubmissionAgreementWindowController();
-		agreement.start(new Stage());
+		agreement.start(new Stage(), "ManualExamCodeWindowController");
 	}
 
 	// Menu methods ************************************************
@@ -219,7 +220,6 @@ public class ManualExamFormController implements GuiController, Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// initialize static variables
 		examToUpload = null;
-		startTime = 0;
 		// set images
 		Image img = new Image(this.getClass().getResource("studentFrame.PNG").toString());
 		imgBack.setImage(img);

@@ -21,6 +21,11 @@ public class StudentController {
 	// Instance variables **********************************************
 
 	/**
+	 * The time that takes to the student to answer the exam.
+	 */
+	private static long startTime = 0;
+
+	/**
 	 * messages that UserController receive from server (request) and sent to it
 	 * (result).
 	 **/
@@ -47,13 +52,42 @@ public class StudentController {
 		request = msg;
 		// switch case is on the operations this controller ask to operate.
 		switch (request.getOperation()) {
-		case "UploadFile":
-			res = uploadFile((ExamOfStudent) request.getMsg());
+		case "SubmitExam":
+			res = submitExam((ExamOfStudent) request.getMsg());
 			teacherMessage.setMsg(res);
+			result = teacherMessage;
+			break;
+
+		// to be continue
+		case "StartTimer":
+			res = startTimer();
+			teacherMessage.setMsg(res);
+			result = teacherMessage;
+			break;
+
+		case "StopTimer":
+			double difference = stopTimer();
+			teacherMessage.setMsg(difference);
 			result = teacherMessage;
 			break;
 		}
 		return result;
+	}
+
+	/**
+	 * This method stop the timer of student in the exam.
+	 */
+	public static double stopTimer() {
+		return (System.currentTimeMillis() - startTime) / 60000.0;
+	}
+
+	/**
+	 * This method start the timer of student in the exam.
+	 */
+	public static boolean startTimer() {
+		// need to thing about the time limit
+		startTime = System.currentTimeMillis();
+		return true;
 	}
 
 	/**
@@ -62,7 +96,8 @@ public class StudentController {
 	 * @param file The exam to be upload by student.
 	 * @return true if saved, else return false.
 	 */
-	public static boolean uploadFile(ExamOfStudent exam) {
+	public static boolean submitExam(ExamOfStudent exam) {
+		InputStream inputStream = null;
 		// get exam's id
 		String examFullID = ExamController.getExamCode(exam.getCode());
 		String[] examIDcomponents = parsingTheExamId(examFullID);
@@ -72,8 +107,9 @@ public class StudentController {
 		String courseID = examIDcomponents[1];
 		String examID = examIDcomponents[2];
 		// save details in db
-		InputStream inputStream = new ByteArrayInputStream(exam.getContent());
-		String sql = "INSERT INTO examOfStudent  VALUES (?,?,?,?,?,?,?)";
+		if (exam.getContent() != null)
+			inputStream = new ByteArrayInputStream(exam.getContent());
+		String sql = "INSERT INTO examOfStudent VALUES (?,?,?,?,?,?,?,?)";
 		try {
 			pstmt = DBconnector.conn.prepareStatement(sql);
 			pstmt.setString(1, exam.getStudentName());
@@ -81,7 +117,8 @@ public class StudentController {
 			pstmt.setString(3, courseID);
 			pstmt.setString(4, examID);
 			pstmt.setDouble(5, exam.getRealTimeDuration());
-			pstmt.setInt(6, 0);
+			pstmt.setInt(6, exam.getGrade());
+			pstmt.setString(8, exam.getAnswers());
 			switch (type) {
 			case "computerized":
 				byte[] empty = {};

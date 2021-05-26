@@ -152,8 +152,8 @@ public class ExamController {
 
 		case "CheckCodeExists":
 			data = parsingTheData((String) request.getMsg());
-			boolean isExists = checkCodeExists(data[0], data[1]);
-			examMessage.setMsg(isExists);
+			Exam resExam = checkComputerizedExamCode(data[0], data[1]);
+			examMessage.setMsg(resExam);
 			result = examMessage;
 			break;
 
@@ -162,15 +162,74 @@ public class ExamController {
 	}
 
 	/**
-	 * This method responsible to get list of exams from DB .
+	 * This method get an exam object from DB.
 	 *
 	 * @param Fid The id of the field.
 	 * @param Cid The id of the course.
+	 * @param Eid The id of the exam.
+	 * @return exam The exam that we want to show. If not found, return null.
+	 */
+	public static Exam getExam(String Fid, String Cid, String Eid) {
+		Exam exam = new Exam();
+		ResultSet Rs = null;
+		// get the data from the relevant controllers
+		String Fname = FieldOfStudyController.GetFname(Fid);
+		String Cname = CourseController.GetCname(Cid);
+		// execute query
+		String sql = "SELECT author, duration FROM Exam WHERE fid = ? AND cid = ? AND eid = ?";
+		try {
+			pstmt = DBconnector.conn.prepareStatement(sql);
+			pstmt.setString(1, Fid);
+			pstmt.setString(2, Cid);
+			pstmt.setString(3, Eid);
+			Rs = pstmt.executeQuery();
+			while (Rs.next()) {
+				exam.setFname(Fname);
+				exam.setCname(Cname);
+				exam.setEid(Eid);
+				exam.setFid(Fid);
+				exam.setCid(Cid);
+				exam.setExamID(Fid + Cid + Eid);
+				exam.setAuthor(Rs.getString("author"));
+				exam.setDuration(Rs.getDouble("duration"));
+				exam.setQuestionsInExam(getQuestionsInExam(Fid, Cid, Eid));
+//				switch (Rs.getString("etype")) {
+//				case "computerized":
+//					exam.setEtype(ExamType.COMPUTERIZED);
+//					break;
+//				case "manual":
+//					exam.setEtype(ExamType.MANUAL);
+//					break;
+//				}
+			}
+		} catch (SQLException e) {
+			DBconnector.printSQLException(e);
+		} finally {
+			try {
+				Rs.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+			try {
+				pstmt.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+		}
+		return exam;
+	}
+
+	/**
+	 * This method responsible to get list of exams from DB .
+	 *
+	 * @param Fname The name of the field.
+	 * @param Cname The name of the course.
 	 * @return listOfexams The exams that belong to those field and course. If there
 	 *         is no such exams, return null.
 	 */
 	public static ArrayList<Exam> getExams(String Fname, String Cname) {
 		ArrayList<Exam> listOfExams = new ArrayList<>();
+		ResultSet rs1 = null;
 		// get the data from the relevant controllers
 		String Fid = FieldOfStudyController.GetFid(Fname);
 		String Cid = CourseController.GetCid(Cname);
@@ -180,18 +239,19 @@ public class ExamController {
 			pstmt = DBconnector.conn.prepareStatement(sql);
 			pstmt.setString(1, Fid);
 			pstmt.setString(2, Cid);
-			rs = pstmt.executeQuery();
-			while (rs.next()) {
+			rs1 = pstmt.executeQuery();
+			while (rs1.next()) {
 				Exam e = new Exam();
 				e.setFname(Fname);
 				e.setCname(Cname);
-				e.setEid(rs.getString("eid"));
+				e.setEid(rs1.getString("eid"));
 				e.setFid(Fid);
 				e.setCid(Cid);
 				e.setExamID(e.getFid() + e.getCid() + e.getEid());
-				e.setAuthor(rs.getString("author"));
-				e.setDuration(rs.getDouble("duration"));
-				switch (rs.getString("etype")) {
+				e.setAuthor(rs1.getString("author"));
+				e.setDuration(rs1.getDouble("duration"));
+				e.setQuestionsInExam(getQuestionsInExam(e.getFid(), e.getCid(), e.getEid()));
+				switch (rs1.getString("etype")) {
 				case "computerized":
 					e.setEtype(ExamType.COMPUTERIZED);
 					break;
@@ -205,7 +265,7 @@ public class ExamController {
 			DBconnector.printSQLException(e);
 		} finally {
 			try {
-				rs.close();
+				rs1.close();
 			} catch (Exception e) {
 				DBconnector.printException(e);
 			}
@@ -216,6 +276,91 @@ public class ExamController {
 			}
 		}
 		return listOfExams;
+	}
+
+	/**
+	 * This method get the questions of specific exam.
+	 *
+	 * @param Fid of the exam.
+	 * @param Cid of The exam.
+	 * @param Eid of The exam.
+	 * @return HashMap<Question, Integer> of all the questions in this specific
+	 *         exam.
+	 */
+	public static HashMap<Question, Integer> getQuestionsInExam(String Fid, String Cid, String Eid) {
+		HashMap<Question, Integer> questionsInExam = new HashMap<>();
+		int score;
+		ResultSet newRs = null;
+		String sql = "SELECT * FROM questioninexam WHERE fid = ? AND cid = ? AND eid = ?";
+		try {
+			pstmt = DBconnector.conn.prepareStatement(sql);
+			pstmt.setString(1, Fid);
+			pstmt.setString(2, Cid);
+			pstmt.setString(3, Eid);
+			newRs = pstmt.executeQuery();
+			while (newRs.next()) {
+				Question q = new Question();
+				q.setFid(Fid);
+				q.setCid(Cid);
+				q.setQid(newRs.getString("qid"));
+				score = newRs.getInt("score");
+				q.setStudentNote(newRs.getString("studentNote"));
+				getMoreFieldsForQuestion(q);
+				questionsInExam.put(q, score);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				newRs.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+			try {
+				pstmt.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+		}
+		return questionsInExam;
+	}
+
+	/**
+	 * This method get a question and add it extra fields.
+	 *
+	 * @param question.
+	 */
+	public static void getMoreFieldsForQuestion(Question question) {
+		String sql = "SELECT * FROM question WHERE fid = ? AND cid = ? AND qid = ?";
+		try {
+			pstmt = DBconnector.conn.prepareStatement(sql);
+			pstmt.setString(1, question.getFid());
+			pstmt.setString(2, question.getCid());
+			pstmt.setString(3, question.getQid());
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				question.setQuestionID(question.getFid() + question.getCid() + question.getQid());
+				question.setContent(rs.getString("content"));
+				question.setInstructions(rs.getString("instructions"));
+				question.setRightAnswer(rs.getString("rightAnswer"));
+				question.setWrongAnswer1(rs.getString("wrongAnswer1"));
+				question.setWrongAnswer2(rs.getString("wrongAnswer2"));
+				question.setWrongAnswer3(rs.getString("wrongAnswer3"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+			try {
+				pstmt.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+		}
 	}
 
 	/**
@@ -297,22 +442,25 @@ public class ExamController {
 	 *
 	 * @param code The code from examToPerform table.
 	 * @param type The exam type.
-	 * @return true if code exists, false otherwise
+	 * @return Exam if code exists, null otherwise
 	 */
-	public static boolean checkCodeExists(String code, String type) {
-		String sql = "SELECT ecode FROM exam as e, examToPerform as ep "
+	public static Exam checkComputerizedExamCode(String code, String type) {
+		Exam exam = null;
+		String Fid = null, Cid = null, Eid = null;
+		String sql = "SELECT e.fid, e.cid, e.eid FROM exam as e, examToPerform as ep "
 				+ "WHERE e.fid = ep.fid AND e.cid = ep.cid AND e.eid = ep.eid AND e.etype = ? AND ep.ecode = ?";
-		boolean res = false;
 		try {
 			pstmt = DBconnector.conn.prepareStatement(sql);
 			pstmt.setString(1, type);
 			pstmt.setString(2, code);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				res = true;
+				Fid = rs.getString("fid");
+				Cid = rs.getString("cid");
+				Eid = rs.getString("eid");
 			}
 		} catch (SQLException e) {
-			return false;
+			return null;
 		} finally {
 			try {
 				rs.close();
@@ -323,7 +471,9 @@ public class ExamController {
 			} catch (Exception e) {
 			}
 		}
-		return res;
+		if (Fid != null && Cid != null && Eid != null)
+			exam = getExam(Fid, Cid, Eid);
+		return exam;
 	}
 
 	/**

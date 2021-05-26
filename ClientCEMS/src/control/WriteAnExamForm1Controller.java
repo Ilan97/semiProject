@@ -41,6 +41,8 @@ public class WriteAnExamForm1Controller implements GuiController, Initializable 
 	 */
 	public static Exam Exam;
 
+	private boolean nextInit;
+
 	/**
 	 * FXML variables.
 	 */
@@ -131,6 +133,12 @@ public class WriteAnExamForm1Controller implements GuiController, Initializable 
 		} else if (!durationIsValid())
 			lblErrDur.setText("invalid duration");
 		else {
+
+			if (nextInit && WriteAnExamForm1Controller.Exam.getCname().equals(Course)
+					&& WriteAnExamForm1Controller.Exam.getFname().equals(Field)) {
+				Navigator.instance().next();
+				return;
+			}
 			clearErrLbl(lblErrDur);
 			// build the Exam object
 			Exam e = new Exam();
@@ -148,6 +156,7 @@ public class WriteAnExamForm1Controller implements GuiController, Initializable 
 				break;
 			}
 			WriteAnExamForm1Controller.Exam = e;
+			nextInit = true;
 			// go to next page
 			Navigator.instance().navigate("WriteAnExamForm2");
 		}
@@ -282,6 +291,7 @@ public class WriteAnExamForm1Controller implements GuiController, Initializable 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		Exam = null;
+		nextInit = false;
 		// set images
 		Image img1 = new Image(this.getClass().getResource("frame1WriteAnExam.PNG").toString());
 		imgBack.setImage(img1);

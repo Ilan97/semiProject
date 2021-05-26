@@ -24,4 +24,7 @@ public interface NavigatorInterface {
 
 	void alertPopUp(String string);
 
+	/** navigates to the last page all the data from current page will be deleted */
+	void next();
+
 }

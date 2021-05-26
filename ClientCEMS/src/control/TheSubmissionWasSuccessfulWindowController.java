@@ -49,12 +49,7 @@ public class TheSubmissionWasSuccessfulWindowController implements GuiController
 		Scene scene = new Scene(root);
 		primaryStage.setTitle("Success!");
 		primaryStage.setScene(scene);
-		// closing the current window and return to home page
-		primaryStage.setOnCloseRequest((event) -> {
-			primaryStage.close();
-			Navigator.instance().clearHistory("StudentHomeForm");
-		});
-		primaryStage.show();
+		primaryStage.showAndWait();
 	}
 
 	/**
@@ -64,9 +59,17 @@ public class TheSubmissionWasSuccessfulWindowController implements GuiController
 	 */
 	@FXML
 	void okAction(ActionEvent event) {
-		// hiding the current window
-		((Node) event.getSource()).getScene().getWindow().hide();
+		close(event);
 		Navigator.instance().clearHistory("StudentHomeForm");
+	}
+	
+	/**
+	 * This method close the current stage.
+	 */
+	private void close(ActionEvent event) {
+		Node source = (Node) event.getSource();
+		Stage stage = (Stage) source.getScene().getWindow();
+		stage.close();
 	}
 
 	/**

@@ -32,6 +32,7 @@ public class SubmissionAgreementWindowController implements GuiController, Initi
 
 	// Instance variables **********************************************
 
+	private String callerController;
 	/**
 	 * FXML variables.
 	 */
@@ -45,8 +46,12 @@ public class SubmissionAgreementWindowController implements GuiController, Initi
 	 *
 	 * @param primaryStage The stage for window's scene.
 	 */
-	public void start(Stage primaryStage) throws IOException {
-		Parent root = FXMLLoader.load(getClass().getResource("/gui/SubmissionAgreementWindow.fxml"));
+	public void start(Stage primaryStage, String controllerName) throws IOException {
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource("/gui/SubmissionAgreementWindow.fxml"));
+		Parent root = loader.load();
+		SubmissionAgreementWindowController cont = loader.getController();
+		cont.callerController = controllerName;
 		Scene scene = new Scene(root);
 		primaryStage.setTitle("Are you Sure?");
 		primaryStage.setScene(scene);
@@ -74,14 +79,21 @@ public class SubmissionAgreementWindowController implements GuiController, Initi
 		boolean res;
 		// message to server
 		Message messageToServer = new Message();
-		messageToServer.setMsg(ManualExamFormController.examToUpload);
+		switch (callerController) {
+		case "ManualExamCodeWindowController":
+			messageToServer.setMsg(ManualExamFormController.examToUpload);
+			break;
+		case "ComputerizedExamInnerFormController":
+			messageToServer.setMsg(ComputerizedExamFormController.examToSubmit);
+			break;
+		}
 		messageToServer.setControllerName("StudentController");
-		messageToServer.setOperation("UploadFile");
+		messageToServer.setOperation("SubmitExam");
 		res = (boolean) ClientUI.client.handleMessageFromClientUI(messageToServer);
 		close(event);
 		// upload success
 		if (res) {
-			TheFileWasUploadedSuccessfulWindowController success = new TheFileWasUploadedSuccessfulWindowController();
+			TheSubmissionWasSuccessfulWindowController success = new TheSubmissionWasSuccessfulWindowController();
 			success.start(new Stage());
 		}
 		// upload fail

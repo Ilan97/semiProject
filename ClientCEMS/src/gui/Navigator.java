@@ -31,11 +31,13 @@ public class Navigator implements NavigatorInterface {
 	private Tab current = null;
 
 	private Stack<Tab> history;
+	private Stack<Tab> next;
 
 	private Navigator() {
 		if (baseNode == null)
 			throw new RuntimeException("Navigator not initiated, run Navigator.init(Pane baseNode) first");
 		history = new Stack<>();
+		next = new Stack<>();
 		navigate("LoginForm");
 	}
 
@@ -97,6 +99,7 @@ public class Navigator implements NavigatorInterface {
 			current.controller = loader.getController();
 			current.controller.init();
 			current.name = destenation;
+			next = new Stack<>();
 			baseNode.getChildren().clear();
 			baseNode.getChildren().add(current.node);
 			baseNode.getScene().getWindow().sizeToScene();
@@ -115,6 +118,19 @@ public class Navigator implements NavigatorInterface {
 		if (history.isEmpty())
 			return;
 		Tab last = history.pop();
+		next.push(current);
+		current = last;
+		baseNode.getChildren().clear();
+		baseNode.getChildren().add(current.node);
+	}
+	
+	/** navigates to the last page all the data from current page will be deleted */
+	@Override
+	public void next() {
+		if (next.isEmpty())
+			return;
+		Tab last = next.pop();
+		history.push(current);
 		current = last;
 		baseNode.getChildren().clear();
 		baseNode.getChildren().add(current.node);
@@ -124,6 +140,7 @@ public class Navigator implements NavigatorInterface {
 	@Override
 	public void clearHistory() {
 		history = new Stack<>();
+		next = new Stack<>();
 		current = null;
 		navigate(defaultTab);
 	}
@@ -136,6 +153,7 @@ public class Navigator implements NavigatorInterface {
 	@Override
 	public void clearHistory(String fxml) {
 		history = new Stack<>();
+		next = new Stack<>();
 		current = null;
 		navigate(fxml);
 	}

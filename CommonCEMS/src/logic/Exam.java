@@ -39,6 +39,13 @@ public class Exam implements Serializable {
 
 	// Constructors ****************************************************
 
+	/**
+	 * @param questionsInExam the questionsInExam to set
+	 */
+	public void setQuestionsInExam(HashMap<Question, Integer> questionsInExam) {
+		this.questionsInExam = questionsInExam;
+	}
+
 	public Exam() {
 	}
 

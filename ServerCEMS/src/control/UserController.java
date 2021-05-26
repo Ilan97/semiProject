@@ -139,15 +139,17 @@ public class UserController {
 				return user;
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			DBconnector.printSQLException(e);
 		} finally {
 			try {
 				rs.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 			try {
 				pstmt.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 		}
 		// user dosen't exist
@@ -173,15 +175,17 @@ public class UserController {
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			DBconnector.printSQLException(e);
 		} finally {
 			try {
 				rs.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 			try {
 				pstmt.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 		}
 		return currStatus;
@@ -209,15 +213,17 @@ public class UserController {
 				if (!updateConnectionStatus(userName, true)) // fail to update
 					return false;
 		} catch (SQLException e) {
-			e.printStackTrace();
+			DBconnector.printSQLException(e);
 		} finally {
 			try {
 				rs.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 			try {
 				pstmt.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 		}
 		return true; // Successes
@@ -246,10 +252,12 @@ public class UserController {
 			if (StatusAfterUpdate != status)
 				return true;
 		} catch (SQLException e) {
+			DBconnector.printSQLException(e);
 		} finally {
 			try {
 				pstmt.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 		}
 		// update was fail
@@ -274,15 +282,17 @@ public class UserController {
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			DBconnector.printSQLException(e);
 		} finally {
 			try {
 				rs.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 			try {
 				pstmt.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 		}
 		return studentList;
@@ -306,15 +316,17 @@ public class UserController {
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			DBconnector.printSQLException(e);
 		} finally {
 			try {
 				rs.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 			try {
 				pstmt.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 		}
 		return teacherList;

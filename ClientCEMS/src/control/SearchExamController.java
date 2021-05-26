@@ -149,6 +149,8 @@ public class SearchExamController implements GuiController, Initializable {
 			ClientUI.client.closeConnection();
 		} catch (IOException ex) {
 			display("Faild to disconnect client!");
+			System.out.println("Exception: " + ex.getMessage());
+			ex.printStackTrace();
 		}
 		System.exit(0);
 	}

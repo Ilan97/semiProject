@@ -73,7 +73,16 @@ public class DBconnector {
 		System.out.println("VendorError: " + ex.getErrorCode());
 		ex.printStackTrace();
 	}
-
+	
+	/**
+	 * Print the value of thrown exception
+	 * 
+	 * @param ex the  exception to be printed
+	 */
+	public static void printException(Exception ex) {
+		System.out.println("Exception: " + ex.getMessage());
+		ex.printStackTrace();
+	}
 	/**
 	 * This method displays a message into the console.
 	 *

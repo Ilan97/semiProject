@@ -58,6 +58,8 @@ public class PrincipalReportForm2Controller implements GuiController, Initializa
 		try {
 			popUp.start(new Stage());
 		} catch (Exception e) {
+			System.out.println("Exception: " + e.getMessage());
+			e.printStackTrace();
 		}
 		// save in DB
 	}

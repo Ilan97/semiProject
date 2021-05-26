@@ -104,8 +104,9 @@ public class ComputerizedExamCodeWindowController implements GuiController, Init
 				try {
 					popUp.start(new Stage());
 					close(event);
-
 				} catch (Exception e) {
+          System.out.println("Exception: " + e.getMessage());
+			    e.printStackTrace();
 				}
 			}
 			// code isn't exists

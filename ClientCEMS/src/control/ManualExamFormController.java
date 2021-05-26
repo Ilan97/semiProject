@@ -180,6 +180,8 @@ public class ManualExamFormController implements GuiController, Initializable {
 		try {
 			popUp.start(new Stage());
 		} catch (Exception e) {
+			System.out.println("Exception: " + e.getMessage());
+			e.printStackTrace();}
 		}
 	}
 

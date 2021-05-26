@@ -92,6 +92,7 @@ public class ClientController extends AbstractClient {
 			message = null;
 			return ret;
 		} catch (IOException e) {
+			System.out.println("Exception: " + e.getMessage());
 			e.printStackTrace();
 			display("Could not send message to server: Terminating client." + e);
 			quit();
@@ -114,6 +115,8 @@ public class ClientController extends AbstractClient {
 		try {
 			closeConnection();
 		} catch (IOException e) {
+			System.out.println("Exception: " + e.getMessage());
+			e.printStackTrace();
 		}
 		System.exit(0);
 	}
@@ -130,6 +133,8 @@ public class ClientController extends AbstractClient {
 				try {
 					con.join();
 				} catch (InterruptedException e) {
+					System.out.println("Exception: " + e.getMessage());
+					e.printStackTrace();
 				}
 			}
 			// run the specified Runnable on the JavaFX Application Thread at some
@@ -140,6 +145,8 @@ public class ClientController extends AbstractClient {
 				try {
 					serverCrushedController.start(new Stage());
 				} catch (Exception e) {
+					System.out.println("Exception: " + e.getMessage());
+					e.printStackTrace();
 				}
 			});
 		}).start();

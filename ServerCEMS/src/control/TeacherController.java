@@ -84,15 +84,17 @@ public class TeacherController {
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			DBconnector.printSQLException(e);
 		} finally {
 			try {
 				rs.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 			try {
 				pstmt.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 		}
 		return listOfCourses;
@@ -117,15 +119,17 @@ public class TeacherController {
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			DBconnector.printSQLException(e);
 		} finally {
 			try {
 				rs.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 			try {
 				pstmt.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 		}
 		return listOfField;

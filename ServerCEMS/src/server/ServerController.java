@@ -153,6 +153,7 @@ public class ServerController extends AbstractServer {
 			connectionSuccessfull = true;
 		} catch (Exception ex) {
 			display("ERROR - Could not listen for clients!");
+			DBconnector.printException(ex);
 		}
 	}
 

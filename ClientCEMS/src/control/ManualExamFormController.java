@@ -181,7 +181,7 @@ public class ManualExamFormController implements GuiController, Initializable {
 			popUp.start(new Stage());
 		} catch (Exception e) {
 			System.out.println("Exception: " + e.getMessage());
-			e.printStackTrace();}
+			e.printStackTrace();
 		}
 	}
 

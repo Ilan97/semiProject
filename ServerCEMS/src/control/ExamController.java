@@ -171,6 +171,7 @@ public class ExamController {
 	 */
 	public static ArrayList<Exam> getExams(String Fname, String Cname) {
 		ArrayList<Exam> listOfExams = new ArrayList<>();
+		ResultSet rs1 = null;
 		// get the data from the relevant controllers
 		String Fid = FieldOfStudyController.GetFid(Fname);
 		String Cid = CourseController.GetCid(Cname);
@@ -180,18 +181,19 @@ public class ExamController {
 			pstmt = DBconnector.conn.prepareStatement(sql);
 			pstmt.setString(1, Fid);
 			pstmt.setString(2, Cid);
-			rs = pstmt.executeQuery();
-			while (rs.next()) {
+			rs1 = pstmt.executeQuery();
+			while (rs1.next()) {
 				Exam e = new Exam();
 				e.setFname(Fname);
 				e.setCname(Cname);
-				e.setEid(rs.getString("eid"));
+				e.setEid(rs1.getString("eid"));
 				e.setFid(Fid);
 				e.setCid(Cid);
 				e.setExamID(e.getFid() + e.getCid() + e.getEid());
-				e.setAuthor(rs.getString("author"));
-				e.setDuration(rs.getDouble("duration"));
-				switch (rs.getString("etype")) {
+				e.setAuthor(rs1.getString("author"));
+				e.setDuration(rs1.getDouble("duration"));
+				e.setQuestionsInExam(getQuestionsInExam(e.getFid(), e.getCid(), e.getEid()));
+				switch (rs1.getString("etype")) {
 				case "computerized":
 					e.setEtype(ExamType.COMPUTERIZED);
 					break;
@@ -205,7 +207,7 @@ public class ExamController {
 			DBconnector.printSQLException(e);
 		} finally {
 			try {
-				rs.close();
+				rs1.close();
 			} catch (Exception e) {
 				DBconnector.printException(e);
 			}
@@ -669,6 +671,93 @@ public class ExamController {
 			}
 		}
 		return duration;
+	}
+	
+	/**
+	 * This method get the questions of specific exam.
+	 *
+	 * @param Fid of the exam.
+	 * @param Cid of The exam.
+	 * @param Eid of The exam.
+	 * @return HashMap<Question, Integer> of all the questions in this specific exam.
+	 */
+	public static HashMap<Question, Integer> getQuestionsInExam(String Fid, String Cid, String Eid) {
+		HashMap<Question, Integer> questionsInExam = new HashMap<>();
+		int score;
+		ResultSet newRs = null;
+		String sql = "SELECT * FROM questioninexam as qe, question as q "
+				+ "WHERE qe.fid = ? AND qe.cid = ? AND qe.eid = ?";
+		try {
+			pstmt = DBconnector.conn.prepareStatement(sql);
+			pstmt.setString(1, Fid);
+			pstmt.setString(2, Cid);
+			pstmt.setString(3, Eid);
+			newRs = pstmt.executeQuery();
+			while (newRs.next()) {
+				Question q = new Question();
+				q.setFid(Fid);
+				q.setCid(Cid);
+				q.setQid(newRs.getString("qid"));
+				score =  newRs.getInt("score");
+				q.setStudentNote(newRs.getString("studentNote"));
+				getMoreFieldsForQuestion(q);
+				questionsInExam.put(q, score);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				newRs.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+			try {
+				pstmt.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+		}
+		return questionsInExam;
+	}
+	
+	/**
+	 * This method get a question and add it extra fields.
+	 *
+	 * @param question.
+	 */
+	public static void getMoreFieldsForQuestion(Question question) {
+		String sql = "SELECT * FROM question as q "
+				+ "WHERE q.fid = ? AND q.cid = ? AND q.qid = ?";
+		try {
+			pstmt = DBconnector.conn.prepareStatement(sql);
+			pstmt.setString(1, question.getFid());
+			pstmt.setString(2, question.getCid());
+			pstmt.setString(3, question.getQid());
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				Question q = new Question();
+				q.setQuestionID(question.getFid() + question.getCid() + question.getQid());
+				q.setContent(rs.getString("content"));
+				q.setInstructions(rs.getString("instructions"));
+				q.setRightAnswer(rs.getString("rightAnswer"));
+				q.setWrongAnswer1(rs.getString("wrongAnswer1"));
+				q.setWrongAnswer2(rs.getString("wrongAnswer2"));
+				q.setWrongAnswer3(rs.getString("wrongAnswer3"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+			try {
+				pstmt.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+		}
 	}
 
 	/**

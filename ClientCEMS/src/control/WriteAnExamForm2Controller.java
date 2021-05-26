@@ -3,7 +3,6 @@ package control;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import client.ClientUI;
 import gui.Navigator;
@@ -11,11 +10,8 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -45,7 +41,7 @@ public class WriteAnExamForm2Controller implements GuiController, Initializable 
 	 * This variable help us to check that the total score in this exam is exactly
 	 * 100
 	 */
-	public static int sum = 0;
+	public static int sum;
 
 	/**
 	 * FXML variables.
@@ -111,7 +107,11 @@ public class WriteAnExamForm2Controller implements GuiController, Initializable 
 		if (sum > 100) {
 			lblErr.setText("total score is over 100!");
 			sum -= returned.score;
-		} else {
+		}
+		// user entered on "X"
+		else if (returned.score == 0)
+			return;
+		else {
 			lblErr.setText("");
 			quesList.getItems().remove(newValue);
 			chosenList.getItems().add(newValue);

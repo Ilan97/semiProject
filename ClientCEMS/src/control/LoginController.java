@@ -121,6 +121,8 @@ public class LoginController implements GuiController, Initializable {
 		try {
 			ClientUI.client.closeConnection();
 		} catch (IOException ex) {
+			System.out.println("Exception: " + ex.getMessage());
+			ex.printStackTrace();
 			display("Fail to close client!");
 		}
 		System.exit(0);

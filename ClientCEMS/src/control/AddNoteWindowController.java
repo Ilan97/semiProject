@@ -43,8 +43,6 @@ public class AddNoteWindowController implements GuiController, Initializable {
 	@FXML
 	private ImageView imgBack;
 	@FXML
-	private Button btnAddScore;
-	@FXML
 	private Button btnCancel;
 	@FXML
 	private TextArea txtTeachNote;

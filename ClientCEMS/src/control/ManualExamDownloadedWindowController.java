@@ -3,7 +3,7 @@ package control;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import gui.Navigator;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,15 +12,23 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
-public class ComputerizedExamEnterIDWindowController implements GuiController, Initializable {
+/**
+ * This is controller class (boundary) for window ManualExamDownloaded in
+ * Student. This class handle all events related to this window. This class
+ * connect with client.
+ *
+ * @author Bat-El Gardin
+ * @author Moran Davidov
+ * @version May 2021
+ */
+
+public class ManualExamDownloadedWindowController implements GuiController, Initializable {
 	// Instance variables **********************************************
 
 	/**
@@ -31,20 +39,9 @@ public class ComputerizedExamEnterIDWindowController implements GuiController, I
 	@FXML
 	private ImageView imgGoodLuck;
 	@FXML
-	private TextField txtID;
-	@FXML
-	private Label lblErrID;
-	@FXML
 	private Button btnStart;
 
 	// Instance methods ************************************************
-
-	/**
-	 * @return the ID from window.
-	 */
-	private String getID() {
-		return txtID.getText();
-	}
 
 	/**
 	 * This is FXML event handler. Handles the action of press on enter key.
@@ -63,9 +60,9 @@ public class ComputerizedExamEnterIDWindowController implements GuiController, I
 	 * @param primaryStage The stage for window's scene.
 	 */
 	public void start(Stage primaryStage) throws IOException {
-		Parent root = FXMLLoader.load(getClass().getResource("/gui/ComputerizedExamEnterIDWindow.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("/gui/ManualExamDownloadedWindow.fxml"));
 		Scene scene = new Scene(root);
-		primaryStage.setTitle("Enter ID");
+		primaryStage.setTitle("Download success!");
 		primaryStage.setScene(scene);
 		primaryStage.showAndWait();
 	}
@@ -77,16 +74,9 @@ public class ComputerizedExamEnterIDWindowController implements GuiController, I
 	 */
 	@FXML
 	void startAction(ActionEvent event) {
-		if (getID().isEmpty())
-			lblErrID.setText("enter ID");
-		// code isn't exists
-		else if (!LoginController.user.getUid().equals(getID()))
-			lblErrID.setText("invalid ID");
-		else {
-			lblErrID.setText("");
-			close(event);
-			Navigator.instance().clearHistory("ComputerizedExamFormStart");
-		}
+		// start the clock
+		ManualExamFormController.startTime = System.currentTimeMillis();
+		close(event);
 	}
 
 	/**
@@ -110,6 +100,5 @@ public class ComputerizedExamEnterIDWindowController implements GuiController, I
 		Image img1 = new Image(this.getClass().getResource("smile.png").toString());
 		imgGoodLuck.setImage(img1);
 	}
-
 }
 //End of ComputerizedExamEnterIDWindowController class

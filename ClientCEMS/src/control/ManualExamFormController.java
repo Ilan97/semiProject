@@ -36,12 +36,12 @@ public class ManualExamFormController implements GuiController, Initializable {
 	/**
 	 * The details to upload the exam to DB.
 	 */
-	public static ExamOfStudent examToUpload = null;
+	public static ExamOfStudent examToUpload;
 
 	/**
 	 * The chosen file in bytes.
 	 */
-	public byte[] fileContent;
+	public byte[] fileContent = {};
 
 	/**
 	 * The code that is entered.
@@ -72,6 +72,14 @@ public class ManualExamFormController implements GuiController, Initializable {
 	private Button btnSubmit;
 	@FXML
 	private Button btnUpload;
+	@FXML
+	private Button btnHome;
+	@FXML
+	private Button btnComp;
+	@FXML
+	private Button btnMan;
+	@FXML
+	private Button btnGrades;
 
 	// Instance methods ************************************************
 
@@ -94,6 +102,10 @@ public class ManualExamFormController implements GuiController, Initializable {
 			else {
 				// exam was download
 				btnUpload.setDisable(false);
+				btnHome.setDisable(true);
+				btnComp.setDisable(true);
+				btnMan.setDisable(true);
+				btnGrades.setDisable(true);
 			}
 		} catch (Exception e) {
 
@@ -163,11 +175,14 @@ public class ManualExamFormController implements GuiController, Initializable {
 	 */
 	@FXML
 	void compExamAction(ActionEvent event) {
-		//successes pop up
+		// successes pop up
 		ComputerizedExamCodeWindowController popUp = new ComputerizedExamCodeWindowController();
 		try {
 			popUp.start(new Stage());
-		} catch (Exception e) {}
+		} catch (Exception e) {
+			System.out.println("Exception: " + e.getMessage());
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -197,6 +212,9 @@ public class ManualExamFormController implements GuiController, Initializable {
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		// initialize static variables
+		examToUpload = null;
+		startTime = 0;
 		// set images
 		Image img = new Image(this.getClass().getResource("studentFrame.PNG").toString());
 		imgBack.setImage(img);

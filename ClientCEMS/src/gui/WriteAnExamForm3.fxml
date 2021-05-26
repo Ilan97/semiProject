@@ -155,7 +155,7 @@
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="333.0" layoutY="326.0" prefHeight="17.0" prefWidth="11.0" text="m" textFill="#b2b2b2">
+            <Label layoutX="346.0" layoutY="326.0" prefHeight="17.0" prefWidth="27.0" text="min" textFill="#b2b2b2">
                <font>
                   <Font name="Calibri Bold" size="12.0" />
                </font></Label>

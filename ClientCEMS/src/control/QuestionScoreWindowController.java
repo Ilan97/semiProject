@@ -16,6 +16,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 /**
@@ -43,6 +45,9 @@ public class QuestionScoreWindowController implements GuiController, Initializab
 	 */
 	public String teachNote = null;
 	public String studNote = null;
+	
+	
+	public QuestionScoreWindowController cont;
 
 	/**
 	 * FXML variables.
@@ -55,10 +60,21 @@ public class QuestionScoreWindowController implements GuiController, Initializab
 	private TextField txtScore;
 	@FXML
 	private Label lblErr;
-    @FXML
-    private Label lblRange;
+	@FXML
+	private Label lblRange;
 
 	// Instance methods ************************************************
+
+	/**
+	 * This is FXML event handler. Handles the action of press on enter key.
+	 *
+	 * @param event The action event.
+	 */
+	@FXML
+	void inputPass(KeyEvent event) {
+		if (event.getCode().equals(KeyCode.ENTER))
+			btnSaveScore.fire();
+	}
 
 	/**
 	 * @return the score from window.
@@ -79,10 +95,10 @@ public class QuestionScoreWindowController implements GuiController, Initializab
 		Parent root = loader.load();
 		QuestionScoreWindowController cont = loader.getController();
 		Scene scene = new Scene(root);
-		primaryStage.setOnCloseRequest((e) -> {
-			cont.btnSaveScore.fire();
-			e.consume();
-		});
+//		primaryStage.setOnCloseRequest((e) -> {
+//			cont.btnSaveScore.fire();
+//			e.consume();
+//		});
 		primaryStage.setTitle("Add Score");
 		primaryStage.setScene(scene);
 		primaryStage.showAndWait();
@@ -103,6 +119,8 @@ public class QuestionScoreWindowController implements GuiController, Initializab
 			teachNote = returned.teachNote;
 			studNote = returned.studNote;
 		} catch (IOException e) {
+			System.out.println("Exception: " + e.getMessage());
+			e.printStackTrace();
 		}
 	}
 
@@ -151,7 +169,6 @@ public class QuestionScoreWindowController implements GuiController, Initializab
 			return false;
 		}
 		return true;
-
 	}
 
 	/**
@@ -169,7 +186,7 @@ public class QuestionScoreWindowController implements GuiController, Initializab
 		else if (WriteAnExamForm2Controller.sum == 99)
 			lblRange.setText("(range: 1)");
 		else
-			lblRange.setText("(range: 1-" + (100-WriteAnExamForm2Controller.sum) + ")");
+			lblRange.setText("(range: 1-" + (100 - WriteAnExamForm2Controller.sum) + ")");
 	}
 
 }

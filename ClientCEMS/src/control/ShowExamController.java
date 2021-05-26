@@ -97,7 +97,7 @@ public class ShowExamController implements GuiController, Initializable {
 	public void updateDuration(ActionEvent event) throws Exception {
 		String newDuration = getNewDuration();
 		// get the current duration from DB
-		int oldDuration = SearchExamController.exam.getDuration();
+		double oldDuration = SearchExamController.exam.getDuration();
 		// check if user put duration time
 		if (newDuration.trim().isEmpty()) {
 			lblError.setText("empty field");
@@ -143,6 +143,8 @@ public class ShowExamController implements GuiController, Initializable {
 			ClientUI.client.closeConnection();
 		} catch (IOException ex) {
 			display("Faild to disconnect client!");
+			System.out.println("Exception: " + ex.getMessage());
+			ex.printStackTrace();
 		}
 		System.exit(0);
 	}

@@ -92,8 +92,8 @@
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="txtDuration" layoutX="323.0" layoutY="320.0" prefHeight="25.0" prefWidth="57.0" />
-            <Label layoutX="361.0" layoutY="323.0" prefHeight="17.0" prefWidth="11.0" text="m">
+            <TextField fx:id="txtDuration" layoutX="323.0" layoutY="320.0" prefHeight="25.0" prefWidth="73.0" />
+            <Label layoutX="370.0" layoutY="323.0" prefHeight="17.0" prefWidth="27.0" text="min">
                <font>
                   <Font name="Calibri" size="12.0" />
                </font></Label>
@@ -117,29 +117,29 @@
                   <Font name="Calibri Bold" size="11.0" />
                </font>
             </Label>
-            <Label fx:id="lblErrField" layoutX="384.0" layoutY="196.0" prefHeight="17.0" prefWidth="73.0" textAlignment="CENTER" textFill="#f86060">
+            <Label fx:id="lblErrField" layoutX="400.0" layoutY="196.0" prefHeight="17.0" prefWidth="73.0" textAlignment="CENTER" textFill="#f86060">
                <font>
                   <Font name="Calibri Bold" size="12.0" />
                </font>
             </Label>
-            <Label fx:id="lblErrCourse" layoutX="384.0" layoutY="239.0" prefHeight="17.0" prefWidth="73.0" textAlignment="CENTER" textFill="#f86060">
+            <Label fx:id="lblErrCourse" layoutX="400.0" layoutY="239.0" prefHeight="17.0" prefWidth="73.0" textAlignment="CENTER" textFill="#f86060">
                <font>
                   <Font name="Calibri Bold" size="12.0" />
                </font>
             </Label>
-            <Label fx:id="lblErrType" layoutX="384.0" layoutY="280.0" prefHeight="17.0" prefWidth="73.0" textAlignment="CENTER" textFill="#f86060">
+            <Label fx:id="lblErrType" layoutX="400.0" layoutY="280.0" prefHeight="17.0" prefWidth="73.0" textAlignment="CENTER" textFill="#f86060">
                <font>
                   <Font name="Calibri Bold" size="12.0" />
                </font>
             </Label>
-            <Label fx:id="lblErrDur" layoutX="384.0" layoutY="323.0" prefHeight="17.0" prefWidth="73.0" textAlignment="CENTER" textFill="#f86060">
+            <Label fx:id="lblErrDur" layoutX="400.0" layoutY="323.0" prefHeight="17.0" prefWidth="84.0" textAlignment="CENTER" textFill="#f86060">
                <font>
                   <Font name="Calibri Bold" size="12.0" />
                </font>
             </Label>
-            <ComboBox fx:id="field" layoutX="250.0" layoutY="192.0" onAction="#chooseFieldAction" prefHeight="27.0" prefWidth="130.0" promptText="Choose Field" style="-fx-background-color: #b2b2b2;" />
-            <ComboBox fx:id="course" layoutX="250.0" layoutY="233.0" prefHeight="27.0" prefWidth="130.0" promptText="Choose Course" style="-fx-background-color: #b2b2b2;" />
-            <ComboBox fx:id="type" layoutX="250.0" layoutY="275.0" prefHeight="27.0" prefWidth="130.0" promptText="Choose Type" style="-fx-background-color: #b2b2b2;" />
+            <ComboBox fx:id="field" layoutX="250.0" layoutY="192.0" onAction="#chooseFieldAction" prefHeight="27.0" prefWidth="146.0" promptText="Choose Field" style="-fx-background-color: #b2b2b2;" />
+            <ComboBox fx:id="course" layoutX="250.0" layoutY="233.0" prefHeight="27.0" prefWidth="146.0" promptText="Choose Course" style="-fx-background-color: #b2b2b2;" />
+            <ComboBox fx:id="type" layoutX="250.0" layoutY="275.0" prefHeight="27.0" prefWidth="146.0" promptText="Choose Type" style="-fx-background-color: #b2b2b2;" />
          </children>
       </Pane>
    </children>

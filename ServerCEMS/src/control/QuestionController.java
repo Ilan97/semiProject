@@ -111,15 +111,17 @@ public class QuestionController {
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			DBconnector.printSQLException(e);
 		} finally {
 			try {
 				rs.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 			try {
 				pstmt.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 		}
 		return listOfQuestions;
@@ -147,12 +149,13 @@ public class QuestionController {
 			pstmt.setString(10, q.getWrongAnswer3());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			DBconnector.printSQLException(e);
 			return false;
 		} finally {
 			try {
 				pstmt.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 		}
 		UpdateQid(q.getFieldName(), q.getCourseName(), q.getQid());
@@ -175,11 +178,12 @@ public class QuestionController {
 			pstmt.setString(3, Qid);
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			DBconnector.printSQLException(e);
 		} finally {
 			try {
 				pstmt.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 		}
 	}
@@ -198,10 +202,12 @@ public class QuestionController {
 			pstmt.setString(3, courseName);
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
+			DBconnector.printSQLException(e);
 		} finally {
 			try {
 				pstmt.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 		}
 	}
@@ -225,15 +231,17 @@ public class QuestionController {
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			DBconnector.printSQLException(e);
 		} finally {
 			try {
 				rs.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 			try {
 				pstmt.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 		}
 		return Qid;

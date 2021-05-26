@@ -83,9 +83,8 @@ public class ServerPortController implements Initializable {
 	 */
 	@FXML
 	void inputPass(KeyEvent event) {
-		if (event.getCode().equals(KeyCode.ENTER)) {
+		if (event.getCode().equals(KeyCode.ENTER))
 			btnConnect.fire();
-		}
 	}
 
 	/**
@@ -146,6 +145,8 @@ public class ServerPortController implements Initializable {
 					try {
 						server.close();
 					} catch (IOException ex) {
+						System.out.println("Exception: " + ex.getMessage());
+						ex.printStackTrace();
 						display("Faild to exit server!");
 					}
 				});

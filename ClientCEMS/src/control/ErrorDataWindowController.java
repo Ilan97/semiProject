@@ -3,8 +3,6 @@ package control;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import gui.Navigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,16 +15,15 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 /**
- * This is controller class (boundary) for window TeacherErrorData. This
- * class handle all events related to this window. This class connect with
- * client.
+ * This is controller class (boundary) for window TeacherErrorData. This class
+ * handle all events related to this window. This class connect with client.
  *
  * @author
  * @version May 2021
  */
 
 public class ErrorDataWindowController implements GuiController, Initializable {
-	
+
 	// Instance variables **********************************************
 
 	/**
@@ -49,14 +46,14 @@ public class ErrorDataWindowController implements GuiController, Initializable {
 		Scene scene = new Scene(root);
 		primaryStage.setTitle("Alert");
 		primaryStage.setScene(scene);
-		//closing the current window and return to home page
+		// closing the current window and return to home page
 		primaryStage.setOnCloseRequest((event) -> {
 			primaryStage.close();
-			//Navigator.instance().clearHistory("TeacherHomeForm");
+			// Navigator.instance().clearHistory("TeacherHomeForm");
 		});
 		primaryStage.showAndWait();
 	}
-	
+
 	/**
 	 * This is FXML event handler. Handles the action of click on 'Ok' button.
 	 *
@@ -68,7 +65,7 @@ public class ErrorDataWindowController implements GuiController, Initializable {
 		final Stage stage = (Stage) source.getScene().getWindow();
 		stage.close();
 	}
-	
+
 	/**
 	 * This is FXML event handler. Handles the action of click on 'Stay' button.
 	 *
@@ -76,9 +73,9 @@ public class ErrorDataWindowController implements GuiController, Initializable {
 	 */
 	@FXML
 	void stayAction(ActionEvent event) {
-	    final Node source = (Node) event.getSource();
-	    final Stage stage = (Stage) source.getScene().getWindow();
-	    stage.close();
+		final Node source = (Node) event.getSource();
+		final Stage stage = (Stage) source.getScene().getWindow();
+		stage.close();
 	}
 
 	/**

@@ -57,6 +57,8 @@ public class ServerCrushedController implements Initializable {
 				ClientUI.client.closeConnection();
 			} catch (IOException ex) {
 				System.out.println("Fail to close client!");
+				System.out.println("Exception: " + ex.getMessage());
+				ex.printStackTrace();
 			}
 			System.exit(0);
 		});
@@ -74,6 +76,8 @@ public class ServerCrushedController implements Initializable {
 			ClientUI.client.closeConnection();
 		} catch (IOException ex) {
 			System.out.println("Fail to close client!");
+			System.out.println("Exception: " + ex.getMessage());
+			ex.printStackTrace();
 		}
 		System.exit(0);
 	}

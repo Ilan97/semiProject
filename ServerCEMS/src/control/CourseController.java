@@ -98,10 +98,12 @@ public class CourseController {
 			try {
 				rs.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 			try {
 				pstmt.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 		}
 		return Cid;
@@ -129,10 +131,12 @@ public class CourseController {
 			try {
 				rs.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 			try {
 				pstmt.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 		}
 		return Cname;
@@ -161,10 +165,12 @@ public class CourseController {
 			try {
 				rs.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 			try {
 				pstmt.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 		}
 		return listOfCoursesIds;
@@ -191,10 +197,12 @@ public class CourseController {
 			try {
 				rs.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 			try {
 				pstmt.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 		}
 		return courseList;

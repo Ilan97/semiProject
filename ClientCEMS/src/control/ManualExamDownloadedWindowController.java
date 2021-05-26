@@ -3,7 +3,7 @@ package control;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
+import client.ClientUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +17,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import logic.Message;
 
 /**
  * This is controller class (boundary) for window ManualExamDownloaded in
@@ -74,8 +75,13 @@ public class ManualExamDownloadedWindowController implements GuiController, Init
 	 */
 	@FXML
 	void startAction(ActionEvent event) {
-		// start the clock
-		ManualExamFormController.startTime = System.currentTimeMillis();
+		// start the timer
+		Message messageToServer = new Message();
+		messageToServer.setControllerName("StudentController");
+		messageToServer.setOperation("StartTimer");
+		System.out.println(messageToServer);
+		ClientUI.client.handleMessageFromClientUI(messageToServer);
+		// message to server
 		close(event);
 	}
 

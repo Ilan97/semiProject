@@ -3,6 +3,7 @@ package control;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import client.ClientUI;
 import gui.Navigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,6 +20,17 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import logic.Message;
+
+/**
+ * This is controller class (boundary) for window ComputerizedExamEnterID in
+ * Student. This class handle all events related to this window. This class
+ * connect with client.
+ *
+ * @author Ilan Meikler
+ * @author Bat-El Gardin
+ * @version May 2021
+ */
 
 public class ComputerizedExamEnterIDWindowController implements GuiController, Initializable {
 	// Instance variables **********************************************
@@ -84,8 +96,14 @@ public class ComputerizedExamEnterIDWindowController implements GuiController, I
 			lblErrID.setText("invalid ID");
 		else {
 			lblErrID.setText("");
+			// start the timer
+			Message messageToServer = new Message();
+			messageToServer.setControllerName("StudentController");
+			messageToServer.setOperation("StartTimer");
+			System.out.println(messageToServer);
+			ClientUI.client.handleMessageFromClientUI(messageToServer);
 			close(event);
-			Navigator.instance().clearHistory("ComputerizedExamFormStart");
+			Navigator.instance().clearHistory("ComputerizedExamForm");
 		}
 	}
 
@@ -110,6 +128,5 @@ public class ComputerizedExamEnterIDWindowController implements GuiController, I
 		Image img1 = new Image(this.getClass().getResource("smile.png").toString());
 		imgGoodLuck.setImage(img1);
 	}
-
 }
 //End of ComputerizedExamEnterIDWindowController class

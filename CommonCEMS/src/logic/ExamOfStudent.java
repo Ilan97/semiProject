@@ -22,6 +22,8 @@ public class ExamOfStudent implements Serializable {
 	private String code;
 	private String studentName;
 	private double realTimeDuration;
+	private int grade;
+	private String answers;
 
 	// Constructors ****************************************************
 
@@ -35,6 +37,19 @@ public class ExamOfStudent implements Serializable {
 		this.code = code;
 		this.studentName = studentName;
 		this.realTimeDuration = realTimeDuration;
+	}
+
+	/**
+	 * @param content
+	 * @param code
+	 */
+	public ExamOfStudent(String code, String studentName, double realTimeDuration, int grade, String answers) {
+		super();
+		this.code = code;
+		this.studentName = studentName;
+		this.realTimeDuration = realTimeDuration;
+		this.grade = grade;
+		this.answers = answers;
 	}
 
 	// Instance methods ************************************************
@@ -99,6 +114,34 @@ public class ExamOfStudent implements Serializable {
 	 */
 	public void setCode(String code) {
 		this.code = code;
+	}
+
+	/**
+	 * @return the grade
+	 */
+	public int getGrade() {
+		return grade;
+	}
+
+	/**
+	 * @param grade the grade to set
+	 */
+	public void setGrade(int grade) {
+		this.grade = grade;
+	}
+
+	/**
+	 * @return the answers
+	 */
+	public String getAnswers() {
+		return answers;
+	}
+
+	/**
+	 * @param answers the answers to set
+	 */
+	public void setAnswers(String answers) {
+		this.answers = answers;
 	}
 }
 //End of ExamOfStudent class

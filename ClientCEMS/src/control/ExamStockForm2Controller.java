@@ -149,17 +149,17 @@ public class ExamStockForm2Controller implements GuiController, Initializable {
 		imgBack.setImage(img1);
 		Image img2 = new Image(this.getClass().getResource("logo.png").toString());
 		imgLogo.setImage(img2);
-//		examsView.setCellFactory(param -> new ListCell<Exam>() {
-//			protected void updateItem(Exam e, boolean empty) {
-//				if (e == null || empty)
-//					setText("");
-//				else {
-//					String out = "Id:\t" + e.getExamID() + "\nAuthor:\t" + e.getAuthor() + "\nExam Type:\t"
-//							+ e.getEtype();
-//					setText(out);
-//				}
-//			}
-//		});
+		examsView.setCellFactory(param -> new ListCell<Exam>() {
+			protected void updateItem(Exam e, boolean empty) {
+				if (e == null || empty)
+					setText("");
+				else {
+					String out = "Id:\t" + e.getExamID() + "\nAuthor:\t" + e.getAuthor() + "\nExam Type:\t"
+							+ e.getEtype();
+					setText(out);
+				}
+			}
+		});
 		// set the exams list in order to the field and course that was chosen
 		ArrayList<Exam> listOfExams;
 		Exam exam = ExamStockForm1Controller.Exam;

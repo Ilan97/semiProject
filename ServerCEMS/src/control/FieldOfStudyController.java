@@ -96,6 +96,40 @@ public class FieldOfStudyController {
 		}
 		return Fid;
 	}
+	
+	/**
+	 * This method return the fname from DB.
+	 *
+	 * @param Fid the field id.
+	 * @return return Fname if Field found in dataBase else return null
+	 */
+	public static String GetFname(String Fid) {
+		String Fname = null;
+		String sql = "SELECT fname FROM fieldofstudy WHERE fid = ?";
+		try {
+			pstmt = DBconnector.conn.prepareStatement(sql);
+			pstmt.setString(1, Fid);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				Fname = rs.getString("fname");
+			}
+
+		} catch (SQLException e) {
+			DBconnector.printSQLException(e);
+		} finally {
+			try {
+				rs.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+			try {
+				pstmt.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+		}
+		return Fname;
+	}
 
 	/**
 	 * This method return the list of all fields from DB.

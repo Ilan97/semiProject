@@ -87,6 +87,8 @@ public class WriteQuestionForm2Controller implements GuiController, Initializabl
 			try {
 				popUp.start(new Stage());
 			} catch (Exception e) {
+				System.out.println("Exception: " + e.getMessage());
+				e.printStackTrace();
 			}
 		} else
 			// pop up failed

@@ -75,7 +75,10 @@ public class ComputerizedExamCodeWindowController implements GuiController, Init
 			((Node)event.getSource()).getScene().getWindow().hide();
 			popUp.start(new Stage());
 		
-		} catch (Exception e) {}
+		} catch (Exception e) {
+			System.out.println("Exception: " + e.getMessage());
+			e.printStackTrace();
+		}
 		
 	}
 

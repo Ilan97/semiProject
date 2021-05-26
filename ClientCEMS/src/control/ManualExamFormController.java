@@ -167,7 +167,9 @@ public class ManualExamFormController implements GuiController, Initializable {
 		ComputerizedExamCodeWindowController popUp = new ComputerizedExamCodeWindowController();
 		try {
 			popUp.start(new Stage());
-		} catch (Exception e) {}
+		} catch (Exception e) {
+			System.out.println("Exception: " + e.getMessage());
+			e.printStackTrace();}
 	}
 
 	/**

@@ -146,6 +146,8 @@ public class ServerPortController implements Initializable {
 					try {
 						server.close();
 					} catch (IOException ex) {
+						System.out.println("Exception: " + ex.getMessage());
+						ex.printStackTrace();
 						display("Faild to exit server!");
 					}
 				});

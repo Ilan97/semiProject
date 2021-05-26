@@ -91,7 +91,10 @@ public class TeacherHomeFormController implements GuiController, Initializable {
 		RequestChangeDurationExamTimeController popUp = new RequestChangeDurationExamTimeController();
 		try {
 				popUp.start(new Stage());
-			} catch (Exception e) {}
+			} catch (Exception e) {
+				System.out.println("Exception: " + e.getMessage());
+				e.printStackTrace();
+			}
 	}
 
 

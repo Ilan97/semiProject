@@ -189,15 +189,17 @@ public class ExamController {
 				listOfExams.add(e);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			DBconnector.printSQLException(e);
 		} finally {
 			try {
 				rs.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 			try {
 				pstmt.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 		}
 		return listOfExams;
@@ -222,16 +224,18 @@ public class ExamController {
 				examID += rs.getString("eid");
 			}
 		} catch (SQLException e) {
-			e.getStackTrace();
+			DBconnector.printSQLException(e);
 			return null;
 		} finally {
 			try {
 				rs.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 			try {
 				pstmt.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 		}
 		return examID;
@@ -258,17 +262,19 @@ public class ExamController {
 			}
 			int len = (int) fileData.length();
 			return new ExamFile(fileData.getBytes(1, len), fileName);
-		} catch (Exception e) {
-			e.getStackTrace();
+		} catch (SQLException e) {
+			DBconnector.printSQLException(e);
 			return null;
 		} finally {
 			try {
 				rs.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 			try {
 				pstmt.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 		}
 	}
@@ -295,15 +301,18 @@ public class ExamController {
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
 				type = rs.getString("etype");
-		} catch (Exception e) {
+		} catch (SQLException e) {
+			DBconnector.printSQLException(e);
 		} finally {
 			try {
 				rs.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 			try {
 				pstmt.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 		}
 		return type;
@@ -340,12 +349,13 @@ public class ExamController {
 			}
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			DBconnector.printSQLException(e);
 			return false;
 		} finally {
 			try {
 				pstmt.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 		}
 		UpdateEid(exam);
@@ -373,10 +383,12 @@ public class ExamController {
 				pstmt.setString(7, q.getStudentNote());
 				pstmt.executeUpdate();
 			} catch (SQLException e) {
+				DBconnector.printSQLException(e);
 			} finally {
 				try {
 					pstmt.close();
 				} catch (Exception e) {
+					DBconnector.printException(e);
 				}
 			}
 		}
@@ -396,10 +408,12 @@ public class ExamController {
 			pstmt.setString(3, exam.getCname());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
+			DBconnector.printSQLException(e);
 		} finally {
 			try {
 				pstmt.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 		}
 	}
@@ -422,15 +436,17 @@ public class ExamController {
 				Eid = rs.getInt("eid");
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			DBconnector.printSQLException(e);
 		} finally {
 			try {
 				rs.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 			try {
 				pstmt.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 		}
 		return Eid;
@@ -467,10 +483,12 @@ public class ExamController {
 			try {
 				rs.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 			try {
 				stmt.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 		}
 		/**
@@ -486,15 +504,17 @@ public class ExamController {
 				examDataMap.put("courseName", rs.getString("cname"));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			DBconnector.printSQLException(e);
 		} finally {
 			try {
 				rs.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 			try {
 				stmt.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 		}
 		/**
@@ -517,15 +537,17 @@ public class ExamController {
 				index++;
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			DBconnector.printSQLException(e);
 		} finally {
 			try {
 				rs.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 			try {
 				stmt.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 		}
 		return examDataMap;
@@ -553,11 +575,12 @@ public class ExamController {
 			stmt.executeUpdate(query);
 			display("DB: New exam duration time was updated");
 		} catch (SQLException e) {
-			e.printStackTrace();
+			DBconnector.printSQLException(e);
 		} finally {
 			try {
 				stmt.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 		}
 	}
@@ -586,15 +609,17 @@ public class ExamController {
 			while (rs.next())
 				duration = rs.getInt("duration");
 		} catch (SQLException e) {
-			e.printStackTrace();
+			DBconnector.printSQLException(e);
 		} finally {
 			try {
 				rs.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 			try {
 				stmt.close();
 			} catch (Exception e) {
+				DBconnector.printException(e);
 			}
 		}
 		return duration;

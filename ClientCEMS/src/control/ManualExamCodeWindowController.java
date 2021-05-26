@@ -121,6 +121,8 @@ public class ManualExamCodeWindowController implements GuiController, Initializa
 					display("file path: " + newFile.getAbsolutePath());
 				} catch (IOException e) {
 					display("fail to download the file");
+					System.out.println("Exception: " + e.getMessage());
+					e.printStackTrace();
 				}
 				// start the clock
 				ManualExamFormController.startTime = System.currentTimeMillis();

@@ -91,6 +91,8 @@ public class WriteAnExamForm3Controller implements GuiController, Initializable 
 			try {
 				popUp.start(new Stage());
 			} catch (Exception e) {
+				System.out.println("Exception: " + e.getMessage());
+				e.printStackTrace();
 			}
 		} else
 			// pop up failed

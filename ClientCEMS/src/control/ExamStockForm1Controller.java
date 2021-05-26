@@ -215,6 +215,7 @@ public class ExamStockForm1Controller implements GuiController, Initializable {
 	@SuppressWarnings({ "unchecked" })
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		Exam = null;
 		// set images
 		Image img1 = new Image(this.getClass().getResource("frameWriteQuestion1.PNG").toString());
 		imgBack.setImage(img1);

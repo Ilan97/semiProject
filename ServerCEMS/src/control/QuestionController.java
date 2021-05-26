@@ -109,7 +109,6 @@ public class QuestionController {
 				q.setWrongAnswer3(rs.getString("wrongAnswer3"));
 				listOfQuestions.add(q);
 			}
-
 		} catch (SQLException e) {
 			DBconnector.printSQLException(e);
 		} finally {
@@ -149,7 +148,6 @@ public class QuestionController {
 			pstmt.setString(10, q.getWrongAnswer3());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
-			DBconnector.printSQLException(e);
 			return false;
 		} finally {
 			try {

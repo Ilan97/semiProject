@@ -72,11 +72,16 @@
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="btnUpload" layoutX="476.0" layoutY="337.0" mnemonicParsing="false" onAction="#uploadAction" prefHeight="28.0" prefWidth="90.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="Upload" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Button fx:id="btnUpload" layoutX="476.0" layoutY="349.0" mnemonicParsing="false" onAction="#uploadAction" prefHeight="28.0" prefWidth="90.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="Upload" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Button>
+            <Label fx:id="lblFileName" layoutX="477.0" layoutY="329.0" prefHeight="17.0" prefWidth="90.0" textAlignment="CENTER" textFill="#b2b2b2">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
    </children>

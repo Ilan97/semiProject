@@ -95,7 +95,6 @@ public class StudentController {
 			display("Exam saved in DB");
 		} catch (SQLException e) {
 			display("fail to save exam in DB");
-			DBconnector.printSQLException(e);
 			return false;
 		} finally {
 			try {

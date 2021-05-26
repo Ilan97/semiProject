@@ -12,6 +12,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
@@ -80,6 +81,8 @@ public class ManualExamFormController implements GuiController, Initializable {
 	private Button btnMan;
 	@FXML
 	private Button btnGrades;
+	@FXML
+	private Label lblFileName;
 
 	// Instance methods ************************************************
 
@@ -120,6 +123,7 @@ public class ManualExamFormController implements GuiController, Initializable {
 	 */
 	@FXML
 	void uploadAction(ActionEvent event) throws IOException {
+		lblFileName.setText("");
 		// open browser to search for the file to upload
 		Stage stage = new Stage();
 		FileChooser fileChooser = new FileChooser();
@@ -130,6 +134,7 @@ public class ManualExamFormController implements GuiController, Initializable {
 			stage.close();
 		});
 		if (chosen != null) {
+			lblFileName.setText(chosen.getName());
 			// the path of the chosen file
 			Path path = chosen.toPath();
 			fileContent = Files.readAllBytes(path);

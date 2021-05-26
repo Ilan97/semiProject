@@ -68,9 +68,9 @@ public class DBconnector {
 	 * @param ex the SQL exception to be printed
 	 */
 	public static void printSQLException(SQLException ex) {
-		System.out.println("SQLException: " + ex.getMessage());
-		System.out.println("SQLState: " + ex.getSQLState());
-		System.out.println("VendorError: " + ex.getErrorCode());
+		display("SQLException: " + ex.getMessage());
+		display("SQLState: " + ex.getSQLState());
+		display("VendorError: " + ex.getErrorCode());
 		ex.printStackTrace();
 	}
 	
@@ -80,7 +80,7 @@ public class DBconnector {
 	 * @param ex the  exception to be printed
 	 */
 	public static void printException(Exception ex) {
-		System.out.println("Exception: " + ex.getMessage());
+		display("Exception: " + ex.getMessage());
 		ex.printStackTrace();
 	}
 	/**

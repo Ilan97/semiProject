@@ -190,8 +190,15 @@ public class ExamController {
 				e.setCid(Cid);
 				e.setExamID(e.getFid() + e.getCid() + e.getEid());
 				e.setAuthor(rs.getString("author"));
-				e.setDuration(rs.getDouble("Duration"));
-				e.setEtype(ExamType.valueOf(ExamType.class, rs.getString("etype")));
+				e.setDuration(rs.getDouble("duration"));
+				switch (rs.getString("etype")) {
+				case "computerized":
+					e.setEtype(ExamType.COMPUTERIZED);
+					break;
+				case "manual":
+					e.setEtype(ExamType.MANUAL);
+					break;
+				}
 				listOfExams.add(e);
 			}
 		} catch (SQLException e) {
@@ -223,14 +230,13 @@ public class ExamController {
 		try {
 			pstmt = DBconnector.conn.prepareStatement(sql);
 			pstmt.setString(1, code);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				examID = rs.getString("fid");
 				examID += rs.getString("cid");
 				examID += rs.getString("eid");
 			}
 		} catch (SQLException e) {
-			DBconnector.printSQLException(e);
 			return null;
 		} finally {
 			try {
@@ -263,15 +269,14 @@ public class ExamController {
 			pstmt = DBconnector.conn.prepareStatement(sql);
 			pstmt.setString(1, code);
 			pstmt.setString(2, type);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				fileName = rs.getString("file_Name");
 				fileData = rs.getBlob("upload_file");
 			}
 			int len = (int) fileData.length();
 			return new ExamFile(fileData.getBytes(1, len), fileName);
-		} catch (SQLException e) {
-			DBconnector.printSQLException(e);
+		} catch (Exception e) {
 			return null;
 		} finally {
 			try {
@@ -302,12 +307,11 @@ public class ExamController {
 			pstmt = DBconnector.conn.prepareStatement(sql);
 			pstmt.setString(1, type);
 			pstmt.setString(2, code);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				res = true;
 			}
 		} catch (SQLException e) {
-			DBconnector.printSQLException(e);
 			return false;
 		} finally {
 			try {
@@ -341,7 +345,7 @@ public class ExamController {
 			pstmt.setString(1, fieldID);
 			pstmt.setString(2, courseID);
 			pstmt.setString(3, examID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 				type = rs.getString("etype");
 		} catch (SQLException e) {
@@ -392,7 +396,6 @@ public class ExamController {
 			}
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
-			DBconnector.printSQLException(e);
 			return false;
 		} finally {
 			try {

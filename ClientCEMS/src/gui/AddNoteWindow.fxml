@@ -19,7 +19,7 @@
                   <Font name="Calibri Bold" size="24.0" />
                </font>
             </Text>
-            <Button fx:id="btnAddScore" layoutX="169.0" layoutY="311.0" mnemonicParsing="false" onAction="#addNoteActionButton" prefHeight="27.0" prefWidth="58.0" style="-fx-background-color: #47ce60; -fx-background-radius: 30 30 30 30;" text="Add " textFill="WHITE">
+            <Button fx:id="btnAddNote" layoutX="169.0" layoutY="311.0" mnemonicParsing="false" onAction="#addNoteActionButton" prefHeight="27.0" prefWidth="58.0" style="-fx-background-color: #47ce60; -fx-background-radius: 30 30 30 30;" text="Add " textFill="WHITE">
                <font>
                   <Font name="Calibri" size="14.0" />
                </font>

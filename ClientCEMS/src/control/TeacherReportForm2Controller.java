@@ -1,17 +1,12 @@
 package control;
 
 import java.net.URL;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 import gui.Navigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
@@ -60,7 +55,7 @@ public class TeacherReportForm2Controller implements GuiController, Initializabl
 	 */
 	@FXML
 	void saveReportAction(ActionEvent event) {
-		//successes pop up
+		// successes pop up
 		TeacherReportWasSavedWindowController popUp = new TeacherReportWasSavedWindowController();
 		try {
 			popUp.start(new Stage());
@@ -123,7 +118,7 @@ public class TeacherReportForm2Controller implements GuiController, Initializabl
 	 */
 	@FXML
 	void checkExamAction(ActionEvent event) {
-		//Navigator.instance().navigate(" ");///????
+		// Navigator.instance().navigate(" ");///????
 	}
 
 	/**

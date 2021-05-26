@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import gui.Navigator;
+import client.ClientUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,11 +12,15 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import logic.Message;
 
 /**
  * This is controller class (boundary) for window ComputerizedExamCode in
@@ -41,8 +45,28 @@ public class ComputerizedExamCodeWindowController implements GuiController, Init
 	private TextField txtCode;
 	@FXML
 	private Label lblErrCode;
-	
+	@FXML
+	private Button btnNext;
+
 	// Instance methods ************************************************
+
+	/**
+	 * @return the code from window.
+	 */
+	private String getCode() {
+		return txtCode.getText();
+	}
+
+	/**
+	 * This is FXML event handler. Handles the action of press on enter key.
+	 *
+	 * @param event The action event.
+	 */
+	@FXML
+	void inputPass(KeyEvent event) {
+		if (event.getCode().equals(KeyCode.ENTER))
+			btnNext.fire();
+	}
 
 	/**
 	 * Pop this window.
@@ -52,36 +76,53 @@ public class ComputerizedExamCodeWindowController implements GuiController, Init
 	public void start(Stage primaryStage) throws IOException {
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/ComputerizedExamCodeWindow.fxml"));
 		Scene scene = new Scene(root);
-		primaryStage.setTitle("Verify");
+		primaryStage.setTitle("Enter Code");
 		primaryStage.setScene(scene);
-		// closing the current window and return to home page
-		primaryStage.setOnCloseRequest((event) -> {
-			primaryStage.close();
-			Navigator.instance().clearHistory("StudentHomeForm");
-		});
-		primaryStage.show();
+		primaryStage.showAndWait();
 	}
-	
+
 	/**
 	 * This is FXML event handler. Handles the action of click on 'Next' button.
 	 *
 	 * @param event The action event.
 	 */
 	@FXML
-	 void nextAction(ActionEvent event){
-		// successes pop up
-		ComputerizedExamEnterIDWindowController popUp = new ComputerizedExamEnterIDWindowController();
-		try {
-			((Node)event.getSource()).getScene().getWindow().hide();
-			popUp.start(new Stage());
-		
-		} catch (Exception e) {
-			System.out.println("Exception: " + e.getMessage());
-			e.printStackTrace();
+	void nextAction(ActionEvent event) {
+		if (getCode().trim().isEmpty())
+			lblErrCode.setText("enter code");
+		else {
+			lblErrCode.setText("");
+			boolean res;
+			Message messageToServer = new Message();
+			messageToServer.setMsg(getCode() + " computerized");
+			messageToServer.setOperation("CheckCodeExists");
+			messageToServer.setControllerName("ExamController");
+			res = (boolean) ClientUI.client.handleMessageFromClientUI(messageToServer);
+			if (res) {
+				// successes pop up
+				ComputerizedExamEnterIDWindowController popUp = new ComputerizedExamEnterIDWindowController();
+				try {
+					popUp.start(new Stage());
+					close(event);
+				} catch (Exception e) {
+          System.out.println("Exception: " + e.getMessage());
+			    e.printStackTrace();
+				}
+			}
+			// code isn't exists
+			else
+				lblErrCode.setText("invalid code");
 		}
-		
 	}
 
+	/**
+	 * This method close the current stage.
+	 */
+	private void close(ActionEvent event) {
+		Node source = (Node) event.getSource();
+		Stage stage = (Stage) source.getScene().getWindow();
+		stage.close();
+	}
 
 	/**
 	 * This method called to initialize a controller after its root element has been

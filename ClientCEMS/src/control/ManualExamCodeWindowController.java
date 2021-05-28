@@ -6,7 +6,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import client.ClientUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -46,6 +45,10 @@ public class ManualExamCodeWindowController implements GuiController, Initializa
 	 * The code that is entered.
 	 */
 	public String code;
+	/**
+	 * Check if user choose directory to save the file.
+	 */
+	public boolean chooseDir;
 
 	/**
 	 * FXML variables.
@@ -104,12 +107,14 @@ public class ManualExamCodeWindowController implements GuiController, Initializa
 	 */
 	@FXML
 	void download(ActionEvent event) {
+		// message to server
+		Message messageToServer;
 		ExamFile res = null;
 		if (getCode().trim().isEmpty())
 			lblErr.setText("enter code");
 		else {
 			// message to server
-			Message messageToServer = new Message();
+			messageToServer = new Message();
 			messageToServer.setMsg(getCode() + " manual");
 			messageToServer.setControllerName("ExamController");
 			messageToServer.setOperation("downloadManualExam");
@@ -125,32 +130,36 @@ public class ManualExamCodeWindowController implements GuiController, Initializa
 				String currentUser = System.getProperty("user.home");
 				fileChooser.setInitialDirectory(new File(currentUser + "\\downloads"));
 				fileChooser.setInitialFileName(res.getFilename());
-				fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("exam file (.txt)", "*.txt"));
+				fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("exam file (.docx)", "*.docx"));
 				File newFile = fileChooser.showSaveDialog(stage);
 				stage.setOnCloseRequest((e) -> {
 					stage.close();
 				});
-				// copy the file to the desktop if no directory was chosen
-				if (newFile == null) {
-					String LocalfilePath = currentUser + "\\desktop";
-					newFile = new File(LocalfilePath + "\\" + res.getFilename());
-				}
-				try {
-					FileOutputStream fis = new FileOutputStream(newFile);
-					BufferedOutputStream bis = new BufferedOutputStream(fis);
-					bis.write(res.getContent());
-					bis.close();
-					display("download succeeded!");
-					display("file path: " + newFile.getAbsolutePath());
-					ManualExamDownloadedWindowController msg = new ManualExamDownloadedWindowController();
-					msg.start(new Stage());
-				} catch (IOException e) {
-					display("fail to download the file");
-					System.out.println("Exception: " + e.getMessage());
-					e.printStackTrace();
+				if (newFile != null) {
+					chooseDir = true;
+					try {
+						FileOutputStream fis = new FileOutputStream(newFile);
+						BufferedOutputStream bis = new BufferedOutputStream(fis);
+						bis.write(res.getContent());
+						bis.close();
+						display("download succeeded!");
+						display("file path: " + newFile.getAbsolutePath());
+						// start the timer
+						messageToServer = new Message();
+						messageToServer.setControllerName("StudentController");
+						messageToServer.setOperation("StartTimer");
+						System.out.println(messageToServer);
+						ClientUI.client.handleMessageFromClientUI(messageToServer);
+						ManualExamDownloadedWindowController msg = new ManualExamDownloadedWindowController();
+						msg.start(new Stage());
+					} catch (IOException e) {
+						display("fail to download the file");
+						System.out.println("Exception: " + e.getMessage());
+						e.printStackTrace();
 
-					// pop up ?
+						// pop up ?
 
+					}
 				}
 				close(event);
 			}
@@ -181,6 +190,7 @@ public class ManualExamCodeWindowController implements GuiController, Initializa
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		chooseDir = false;
 		code = null;
 		// set images
 		Image img = new Image(this.getClass().getResource("studentFrame.PNG").toString());

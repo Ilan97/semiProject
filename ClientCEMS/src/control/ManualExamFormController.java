@@ -79,6 +79,8 @@ public class ManualExamFormController implements GuiController, Initializable {
 	@FXML
 	private Button btnGrades;
 	@FXML
+	private Button btnCode;
+	@FXML
 	private Label lblFileName;
 
 	// Instance methods ************************************************
@@ -99,13 +101,14 @@ public class ManualExamFormController implements GuiController, Initializable {
 			// no exam was download
 			if (code == null)
 				btnUpload.setDisable(true);
-			else {
+			else if (res.chooseDir) {
 				// exam was download
 				btnUpload.setDisable(false);
 				btnHome.setDisable(true);
 				btnComp.setDisable(true);
 				btnMan.setDisable(true);
 				btnGrades.setDisable(true);
+				btnCode.setDisable(true);
 			}
 		} catch (Exception e) {
 

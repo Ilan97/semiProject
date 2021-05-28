@@ -144,6 +144,13 @@ public class ManualExamFormController implements GuiController, Initializable {
 			messageToServer.setOperation("StopTimer");
 			System.out.println(messageToServer);
 			double difference = (double) ClientUI.client.handleMessageFromClientUI(messageToServer);
+			messageToServer.setControllerName("ExamController");
+			messageToServer.setOperation("GetExamDuration");
+			messageToServer.setMsg(code);
+			double duration = (double) ClientUI.client.handleMessageFromClientUI(messageToServer);
+			//in case the student did not submit the test on time 
+			if (difference > duration)
+				difference = -1;	
 			examToUpload = new ExamOfStudent(fileContent, code, LoginController.user.getUsername(), difference);
 			// file was chosen
 			btnSubmit.setDisable(false);

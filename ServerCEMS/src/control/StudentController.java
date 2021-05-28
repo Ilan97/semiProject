@@ -131,6 +131,7 @@ public class StudentController {
 			pstmt.executeUpdate();
 			display("Exam saved in DB");
 		} catch (SQLException e) {
+			DBconnector.printSQLException(e);
 			display("fail to save exam in DB");
 			return false;
 		} finally {

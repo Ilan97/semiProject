@@ -54,7 +54,7 @@
                   <Font name="Calibri Bold" size="24.0" />
                </font>
             </Label>
-            <Button layoutX="631.0" layoutY="465.0" mnemonicParsing="false" onAction="#closeAction" prefHeight="27.0" prefWidth="73.0" style="-fx-background-color: #f86060; -fx-background-radius: 30 30 30 30;" text="Close" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Button layoutX="662.0" layoutY="465.0" mnemonicParsing="false" onAction="#closeAction" prefHeight="27.0" prefWidth="73.0" style="-fx-background-color: #f86060; -fx-background-radius: 30 30 30 30;" text="Close" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
@@ -79,7 +79,12 @@
                   <Font name="Calibri Bold" size="18.0" />
                </font>
             </Label>
-            <ListView fx:id="examsView" layoutX="253.0" layoutY="144.0" prefHeight="299.0" prefWidth="433.0" />
+            <ListView fx:id="examsView" layoutX="253.0" layoutY="144.0" prefHeight="241.0" prefWidth="463.0" />
+            <Button layoutX="460.0" layoutY="400.0" mnemonicParsing="false" onAction="#viewAction" prefHeight="27.0" prefWidth="57.0" style="-fx-background-color: #47ce60; -fx-background-radius: 30 30 30 30;" text="View" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Button>
          </children>
       </Pane>
       <Button layoutX="230.0" layoutY="465.0" mnemonicParsing="false" onAction="#back" prefHeight="6.0" prefWidth="15.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="&lt;" textAlignment="CENTER" textFill="WHITE" wrapText="true">

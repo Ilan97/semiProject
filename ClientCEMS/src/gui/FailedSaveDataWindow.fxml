@@ -12,7 +12,7 @@
    <children>
       <Pane prefHeight="213.0" prefWidth="228.0" style="-fx-background-color: #ffffff;">
          <children>
-            <ImageView fitHeight="213.0" fitWidth="228.0">
+            <ImageView fx:id="imgBack" fitHeight="213.0" fitWidth="228.0">
                <image>
                   <Image url="@../../../../photos/serverCrushed.PNG" />
                </image>

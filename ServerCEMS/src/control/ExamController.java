@@ -157,8 +157,85 @@ public class ExamController {
 			result = examMessage;
 			break;
 
+		case "CheckExamCodeIsUnique":
+			boolean isUnique = checkExamCodeIsUnique((String)request.getMsg());
+			examMessage.setMsg(isUnique);
+			result = examMessage;
+			break;
+			
+		case "InsertExamToExamToPerformTable":
+			boolean isInsert = insertExamToExamToPerformTable((Exam)request.getMsg());
+			examMessage.setMsg(isInsert);
+			result = examMessage;
+			break;
+			
+
 		} // end switch case
 		return result;
+	}
+
+	/**
+	 * This method check if exam code is unique.
+	 *
+	 * @param code The code of the exam.
+	 * @return boolean, if the code is already exist return true else return false.
+	 */
+	public static boolean checkExamCodeIsUnique(String code) {
+		String sql = "SELECT ecode FROM examtoperform WHERE ecode = ?";
+		try {
+			pstmt = DBconnector.conn.prepareStatement(sql);
+			pstmt.setString(1, code);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				if(code.equals(rs.getString("ecode")))
+					return true;
+			}
+		}catch (SQLException e) {
+			DBconnector.printSQLException(e);
+		} finally {
+			try {
+				rs.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+			try {
+				pstmt.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+		}
+		return false;	
+	}
+	
+	/**
+	 * This method insert exam to examtoperform table.
+	 *
+	 * @param code The code of the exam.
+	 * @param date the date of the exam
+	 * @return boolean, insert successfully
+	 */
+	public static boolean insertExamToExamToPerformTable(Exam exam) {
+		String sql = "INSERT INTO examToPerform VALUES (?,?,?,?,?,?)";
+		try {
+			pstmt = DBconnector.conn.prepareStatement(sql);
+			pstmt.setString(1, exam.getFid());
+			pstmt.setString(2, exam.getCid());
+			pstmt.setString(3, exam.getEid());
+			pstmt.setString(4, exam.getEcode());
+			pstmt.setString(5, "open");
+			pstmt.setString(6, exam.getEdate().toString());
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			DBconnector.printSQLException(e);
+			return false;
+		} finally {
+			try {
+				pstmt.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -522,7 +599,7 @@ public class ExamController {
 	 * @return boolean result if the save succeed.
 	 */
 	public static boolean saveExam(Exam exam) {
-		InputStream inputStream = new ByteArrayInputStream(exam.toString().getBytes(StandardCharsets.UTF_8));
+		InputStream inputStream = new ByteArrayInputStream(exam.printExamToString().getBytes(StandardCharsets.UTF_8));
 		String sql = "INSERT INTO Exam VALUES (?,?,?,?,?,?,?,?)";
 		try {
 			pstmt = DBconnector.conn.prepareStatement(sql);

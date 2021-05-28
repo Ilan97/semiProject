@@ -1,5 +1,6 @@
 package control;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -9,13 +10,13 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import logic.Exam;
 import logic.Message;
+
 
 /**
  * This is controller class (boundary) for window ExamStock (second part). This
@@ -32,6 +33,8 @@ public class ExamStockForm2Controller implements GuiController, Initializable {
 
 	// Instance variables **********************************************
 
+	public static Exam chosenExam;
+	
 	/**
 	 * FXML variables.
 	 */
@@ -131,10 +134,20 @@ public class ExamStockForm2Controller implements GuiController, Initializable {
 		Navigator.instance().alertPopUp("ExamStockForm1");
 	}
 
+	/**
+	 * This is event handler. Handles the action of click on exam to view it
+	 *
+	 * @param event - the action event.
+	 */
 	@FXML
-	void getChosenExam(MouseEvent event) {
-		// String examId = examsView.getSelectionModel().getSelectedItem();
-
+	void viewAction(ActionEvent event) {
+		if (examsView.getSelectionModel().isEmpty())
+			return;
+		chosenExam = examsView.getSelectionModel().getSelectedItem();
+		ExamViewWindowController examView = new ExamViewWindowController();
+		try {
+			examView.start(new Stage());
+		} catch (IOException e) {}
 	}
 
 	/**
@@ -144,22 +157,12 @@ public class ExamStockForm2Controller implements GuiController, Initializable {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		chosenExam = null;
 		// set images
 		Image img1 = new Image(this.getClass().getResource("frameWriteQuestion2.PNG").toString());
 		imgBack.setImage(img1);
 		Image img2 = new Image(this.getClass().getResource("logo.png").toString());
 		imgLogo.setImage(img2);
-		examsView.setCellFactory(param -> new ListCell<Exam>() {
-			protected void updateItem(Exam e, boolean empty) {
-				if (e == null || empty)
-					setText("");
-				else {
-					String out = "Id:\t" + e.getExamID() + "\nAuthor:\t" + e.getAuthor() + "\nExam Type:\t"
-							+ e.getEtype();
-					setText(out);
-				}
-			}
-		});
 		// set the exams list in order to the field and course that was chosen
 		ArrayList<Exam> listOfExams;
 		Exam exam = ExamStockForm1Controller.Exam;

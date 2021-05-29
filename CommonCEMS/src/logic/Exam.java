@@ -1,7 +1,7 @@
 package logic;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -29,7 +29,7 @@ public class Exam implements Serializable {
 	private String cid;
 	private String cname;
 	private String examID;
-	private Date edate;
+	private LocalDate edate;
 	private String ecode;
 	private String author;
 	private double duration;
@@ -96,14 +96,14 @@ public class Exam implements Serializable {
 	/**
 	 * @return the edate
 	 */
-	public Date getEdate() {
+	public LocalDate getEdate() {
 		return edate;
 	}
 
 	/**
 	 * @param edate The edate to set
 	 */
-	public void setEdate(Date edate) {
+	public void setEdate(LocalDate edate) {
 		this.edate = edate;
 	}
 
@@ -329,8 +329,13 @@ public class Exam implements Serializable {
 
 	@Override
 	public String toString() {
+		return "Id:\t" + getExamID() + "\nAuthor:\t" + getAuthor() + "\nExam Type:\t" + getEtype();
+	}
+
+	public String printExamToString() {
 		return "Field: " + getFname() + "\n" + "Course: " + getCname() + "\n" + "Author: " + getAuthor() + "\n"
 				+ "Duration: " + getDuration() + " minutes\n" + allQuestionsToString();
 	}
+
 }
 //End of Exam class

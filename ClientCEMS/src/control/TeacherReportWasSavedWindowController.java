@@ -21,7 +21,8 @@ import javafx.stage.Stage;
  * class handle all events related to this window. This class connect with
  * client.
  *
- * @author
+ * @author Sharon Vaknin
+ * @author Ohad Shamir
  * @version May 2021
  */
 

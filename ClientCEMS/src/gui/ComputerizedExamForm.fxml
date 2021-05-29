@@ -48,18 +48,18 @@
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="btnNext" layoutX="715.0" layoutY="475.0" mnemonicParsing="false" onAction="#next" prefHeight="22.0" prefWidth="23.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="&gt;" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Button fx:id="btnNext" layoutX="705.0" layoutY="465.0" mnemonicParsing="false" onAction="#next" prefHeight="22.0" prefWidth="23.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="&gt;" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Button>
             <Pane fx:id="innerPane" layoutX="191.0" layoutY="41.0" prefHeight="410.0" prefWidth="560.0" />
+            <Button fx:id="btnFinish" layoutX="684.0" layoutY="465.0" mnemonicParsing="false" onAction="#finishAction" prefHeight="27.0" prefWidth="68.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="Finish" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Button>
          </children>
       </Pane>
-      <Button fx:id="btnFinish" layoutX="678.0" layoutY="475.0" mnemonicParsing="false" onAction="#finishAction" prefHeight="27.0" prefWidth="68.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="Finish" textAlignment="CENTER" textFill="WHITE" wrapText="true">
-         <font>
-            <Font name="Calibri Bold" size="14.0" />
-         </font>
-      </Button>
    </children>
 </AnchorPane>

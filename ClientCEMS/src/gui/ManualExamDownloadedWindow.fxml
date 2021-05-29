@@ -17,28 +17,28 @@
                   <Font name="Calibri Bold" size="24.0" />
                </font>
             </Text>
-              <Button fx:id="btnStart" layoutX="150.0" layoutY="358.0" mnemonicParsing="false" onAction="#startAction" prefHeight="27.0" prefWidth="57.0" style="-fx-background-color: #19cebc; -fx-background-radius: 30 30 30 30;" text="Start" textFill="WHITE">
+              <Button fx:id="btnStart" layoutX="150.0" layoutY="358.0" mnemonicParsing="false" onAction="#startAction" prefHeight="27.0" prefWidth="57.0" style="-fx-background-color: #19cebc; -fx-background-radius: 30 30 30 30;" text="Ok" textFill="WHITE">
                <font>
                   <Font name="Calibri" size="14.0" />
                </font>
             </Button>
-            <Text fill="#f86060" fontSmoothingType="LCD" layoutX="46.0" layoutY="222.0" strokeType="OUTSIDE" strokeWidth="0.0" text="At the end of the time the option to upload the exam will be blocked automatically!" textAlignment="CENTER" wrappingWidth="263.27874755859375">
+            <Text fill="#f86060" fontSmoothingType="LCD" layoutX="46.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0" text="At the end of the time the option to upload the exam will be blocked automatically! " textAlignment="CENTER" wrappingWidth="263.27874755859375">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Text>
-            <Text fill="#b2b2b2" fontSmoothingType="LCD" layoutX="69.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="When you click the &quot;Start&quot; button the exam will start." textAlignment="CENTER" wrappingWidth="206.61212158203125">
+            <Text fill="#b2b2b2" fontSmoothingType="LCD" layoutX="68.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The exam has begun. " textAlignment="CENTER" wrappingWidth="206.61212158203125">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Text>
-            <Text fill="#f86060" fontSmoothingType="LCD" layoutX="114.0" layoutY="200.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pay Attention!" textAlignment="CENTER" wrappingWidth="115.27874755859375">
+            <Text fill="#f86060" fontSmoothingType="LCD" layoutX="114.0" layoutY="163.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pay Attention!" textAlignment="CENTER" wrappingWidth="115.27874755859375">
                <font>
                   <Font name="Calibri Bold" size="17.0" />
                </font>
             </Text>
             <ImageView fx:id="imgGoodLuck" fitHeight="100.0" fitWidth="100.0" layoutX="128.0" layoutY="242.0" />
-            <Text fill="#b2b2b2" fontSmoothingType="LCD" layoutX="34.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="* If you haven't choose a target diractory, the exam was downloaded to the desktop." textAlignment="CENTER" wrappingWidth="288.6119384765625">
+            <Text fill="#f86060" fontSmoothingType="LCD" layoutX="47.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="You will be reminded 10 minutes before the end of the exam." textAlignment="CENTER" wrappingWidth="263.27874755859375">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>

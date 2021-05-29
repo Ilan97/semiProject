@@ -133,6 +133,13 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 		messageToServer.setOperation("StopTimer");
 		System.out.println(messageToServer);
 		double difference = (double) ClientUI.client.handleMessageFromClientUI(messageToServer);
+		messageToServer.setControllerName("ExamController");
+		messageToServer.setOperation("GetExamDuration");
+		messageToServer.setMsg(ComputerizedExamCodeWindowController.code);
+		double duration = (double) ClientUI.client.handleMessageFromClientUI(messageToServer);
+		//in case the student did not submit the test on time 
+		if (difference > duration) 
+			difference = -1;
 		examToSubmit = new ExamOfStudent(ComputerizedExamCodeWindowController.code, LoginController.user.getUsername(),
 				difference, score, ans);
 		// agreement pop up

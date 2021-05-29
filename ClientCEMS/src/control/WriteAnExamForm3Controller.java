@@ -5,10 +5,12 @@ import java.util.ResourceBundle;
 
 import client.ClientUI;
 import gui.Navigator;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -31,6 +33,10 @@ import logic.Message;
 public class WriteAnExamForm3Controller implements GuiController, Initializable {
 
 	// Instance variables **********************************************
+
+	private boolean result;
+	private float progress;
+	Object monitor = new Object();
 
 	/**
 	 * FXML variables.
@@ -55,6 +61,46 @@ public class WriteAnExamForm3Controller implements GuiController, Initializable 
 	private Label lblType;
 	@FXML
 	private Label lblAuthor;
+	@FXML
+	private ProgressIndicator prog;
+
+	// Inner class ************************************************
+
+//	class MessageThread implements Runnable {
+//
+//		@Override
+//		public void run() {
+//			// create new message to the server
+//			Message messageToServer = new Message();
+//			messageToServer.setMsg(WriteAnExamForm1Controller.Exam);
+//			messageToServer.setControllerName("ExamController");
+//			messageToServer.setOperation("SaveExam");
+//			result = (boolean) ClientUI.client.handleMessageFromClientUI(messageToServer);
+//		}
+//	}
+
+	class ProgThread implements Runnable {
+
+		@Override
+		public void run() {
+			synchronized (monitor) {
+				for (float i = 0; i <= 1.1; i += 0.1) {
+					try {
+						Thread.sleep(200);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					progress = i;
+					
+					Platform.runLater(() -> {
+						System.out.println(progress);
+						prog.setProgress(progress);
+					});
+				}
+				monitor.notify();
+			}
+		}
+	}
 
 	// Instance methods ************************************************
 
@@ -72,15 +118,25 @@ public class WriteAnExamForm3Controller implements GuiController, Initializable 
 	 * This is FXML event handler. Handles the action of click on 'Save' button.
 	 *
 	 * @param event The action event.
+	 * @throws InterruptedException
 	 */
 	@FXML
-	void saveAction(ActionEvent event) {
-		// create new message to the server
+	void saveAction(ActionEvent event) throws InterruptedException {
+		//prog.setVisible(true);
+//		Thread pt = new Thread(new ProgThread());
+//		pt.start();
+//		Thread mt = new Thread(new ProgThread());
+//		mt.start();
 		Message messageToServer = new Message();
 		messageToServer.setMsg(WriteAnExamForm1Controller.Exam);
 		messageToServer.setControllerName("ExamController");
 		messageToServer.setOperation("SaveExam");
-		boolean result = (boolean) ClientUI.client.handleMessageFromClientUI(messageToServer);
+		result = (boolean) ClientUI.client.handleMessageFromClientUI(messageToServer);
+//		synchronized (monitor) {
+//			while (progress < 1)
+//				monitor.wait();
+//		}
+
 		if (result == true) {
 			// successes pop up
 			ExamWasCreatedSuccessfullyWindowController popUp = new ExamWasCreatedSuccessfullyWindowController();
@@ -264,6 +320,8 @@ public class WriteAnExamForm3Controller implements GuiController, Initializable 
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		prog.setVisible(false);
+		prog.setProgress(0);
 		// set images
 		Image img1 = new Image(this.getClass().getResource("frame3WriteAnExam.PNG").toString());
 		imgBack.setImage(img1);

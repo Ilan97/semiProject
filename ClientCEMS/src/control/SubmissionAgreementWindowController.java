@@ -77,14 +77,17 @@ public class SubmissionAgreementWindowController implements GuiController, Initi
 	@FXML
 	void submitActionButton(ActionEvent event) throws IOException {
 		boolean res;
+		double dur = 0.0;
 		// message to server
 		Message messageToServer = new Message();
 		switch (callerController) {
 		case "ManualExamCodeWindowController":
 			messageToServer.setMsg(ManualExamFormController.examToUpload);
+			dur = ManualExamFormController.examToUpload.getRealTimeDuration();
 			break;
 		case "ComputerizedExamInnerFormController":
 			messageToServer.setMsg(ComputerizedExamFormController.examToSubmit);
+			dur = ComputerizedExamFormController.examToSubmit.getRealTimeDuration();
 			break;
 		}
 		messageToServer.setControllerName("StudentController");
@@ -92,10 +95,15 @@ public class SubmissionAgreementWindowController implements GuiController, Initi
 		res = (boolean) ClientUI.client.handleMessageFromClientUI(messageToServer);
 		close(event);
 		// upload success
-		if (res) {
+		if (res && dur != -1) {
 			TheSubmissionWasSuccessfulWindowController success = new TheSubmissionWasSuccessfulWindowController();
 			success.start(new Stage());
 		}
+		else if (dur == -1) {
+			StudentDidntMakeItController pop = new StudentDidntMakeItController();
+			pop.start(new Stage());
+		}
+			
 		// upload fail
 		else
 			;

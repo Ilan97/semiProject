@@ -334,7 +334,7 @@ public class Exam implements Serializable {
 
 	public String printExamToString() {
 		return "Field: " + getFname() + "\n" + "Course: " + getCname() + "\n" + "Author: " + getAuthor() + "\n"
-				+ "Duration: " + getDuration() + " minutes\n" + allQuestionsToString();
+				+ "Duration: " + getDuration() + " minutes\n\n" + allQuestionsToString();
 	}
 
 }

@@ -1,8 +1,8 @@
 package control;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.sql.Blob;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,7 +11,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
-
+import com.spire.doc.Document;
+import com.spire.doc.FileFormat;
+import com.spire.doc.Section;
+import com.spire.doc.documents.Paragraph;
+import com.spire.doc.documents.ParagraphStyle;
 import logic.Exam;
 import logic.ExamFile;
 import logic.ExamType;
@@ -157,6 +161,11 @@ public class ExamController {
 			result = examMessage;
 			break;
 
+		case "GetExamDuration":
+			double dur = getDuration((String) request.getMsg());
+			examMessage.setMsg(dur);
+			result = examMessage;
+			break;
 		} // end switch case
 		return result;
 	}
@@ -407,13 +416,14 @@ public class ExamController {
 	 */
 	public static ExamFile getExamFile(String code, String type) {
 		String sql = "SELECT upload_file, file_Name FROM exam as e, examToPerform as ep "
-				+ "WHERE e.fid = ep.fid AND e.cid = ep.cid AND e.eid = ep.eid AND ep.ecode = ? AND e.etype = ?";
+				+ "WHERE e.fid = ep.fid AND e.cid = ep.cid AND e.eid = ep.eid AND ep.ecode = ? AND e.etype = ? AND ep.estatus = ?";
 		Blob fileData = null;
 		String fileName = null;
 		try {
 			pstmt = DBconnector.conn.prepareStatement(sql);
 			pstmt.setString(1, code);
 			pstmt.setString(2, type);
+			pstmt.setString(3, "open");
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				fileName = rs.getString("file_Name");
@@ -448,11 +458,12 @@ public class ExamController {
 		Exam exam = null;
 		String Fid = null, Cid = null, Eid = null;
 		String sql = "SELECT e.fid, e.cid, e.eid FROM exam as e, examToPerform as ep "
-				+ "WHERE e.fid = ep.fid AND e.cid = ep.cid AND e.eid = ep.eid AND e.etype = ? AND ep.ecode = ?";
+				+ "WHERE e.fid = ep.fid AND e.cid = ep.cid AND e.eid = ep.eid AND e.etype = ? AND ep.ecode = ? AND ep.estatus = ?";
 		try {
 			pstmt = DBconnector.conn.prepareStatement(sql);
 			pstmt.setString(1, type);
 			pstmt.setString(2, code);
+			pstmt.setString(3, "open");
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				Fid = rs.getString("fid");
@@ -474,6 +485,38 @@ public class ExamController {
 		if (Fid != null && Cid != null && Eid != null)
 			exam = getExam(Fid, Cid, Eid);
 		return exam;
+	}
+
+	/**
+	 * This method get the exam duration time from table exam.
+	 *
+	 * @param code - The code from examToPerform table.
+	 * @return Exam duration
+	 */
+	public static double getDuration(String code) {
+		double duration = 0.0;
+		String sql = "SELECT e.duration FROM exam as e, examToPerform as ep "
+				+ "WHERE e.fid = ep.fid AND e.cid = ep.cid AND e.eid = ep.eid AND ep.ecode = ?";
+		try {
+			pstmt = DBconnector.conn.prepareStatement(sql);
+			pstmt.setString(1, code);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				duration = rs.getDouble("duration");
+			}
+		} catch (SQLException e) {
+			return 0.0;
+		} finally {
+			try {
+				rs.close();
+			} catch (Exception e) {
+			}
+			try {
+				pstmt.close();
+			} catch (Exception e) {
+			}
+		}
+		return duration;
 	}
 
 	/**
@@ -522,7 +565,6 @@ public class ExamController {
 	 * @return boolean result if the save succeed.
 	 */
 	public static boolean saveExam(Exam exam) {
-		InputStream inputStream = new ByteArrayInputStream(exam.toString().getBytes(StandardCharsets.UTF_8));
 		String sql = "INSERT INTO Exam VALUES (?,?,?,?,?,?,?,?)";
 		try {
 			pstmt = DBconnector.conn.prepareStatement(sql);
@@ -531,7 +573,7 @@ public class ExamController {
 			pstmt.setString(3, exam.getEid());
 			pstmt.setString(4, exam.getAuthor());
 			pstmt.setDouble(5, exam.getDuration());
-			pstmt.setString(8, exam.getExamID() + ".txt");
+			pstmt.setString(8, exam.getExamID() + ".docx");
 			// set the exam type
 			pstmt.setString(6, exam.getEtype().name());
 			switch (exam.getEtype()) {
@@ -541,6 +583,23 @@ public class ExamController {
 				pstmt.setBlob(7, new ByteArrayInputStream(empty));
 				break;
 			case MANUAL:
+				// create word document
+				Document doc = new Document();
+				Section section = doc.addSection();
+				Paragraph paragraph = section.addParagraph();
+				paragraph.appendText(exam.toString());
+				// text style
+				ParagraphStyle style = new ParagraphStyle(doc);
+				style.setName("titleStyle");
+				style.getCharacterFormat().setFontName("Calibri");
+				style.getCharacterFormat().setFontSize(12f);
+				doc.getStyles().add(style);
+				paragraph.applyStyle("titleStyle");
+				ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+				doc.saveToFile(outStream, FileFormat.Docx);
+				byte[] docBytes = outStream.toByteArray();
+				// save the file
+				InputStream inputStream = new ByteArrayInputStream(docBytes);
 				pstmt.setBlob(7, inputStream);
 				break;
 			}

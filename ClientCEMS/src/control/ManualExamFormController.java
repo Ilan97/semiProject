@@ -79,6 +79,8 @@ public class ManualExamFormController implements GuiController, Initializable {
 	@FXML
 	private Button btnGrades;
 	@FXML
+	private Button btnCode;
+	@FXML
 	private Label lblFileName;
 
 	// Instance methods ************************************************
@@ -99,13 +101,14 @@ public class ManualExamFormController implements GuiController, Initializable {
 			// no exam was download
 			if (code == null)
 				btnUpload.setDisable(true);
-			else {
+			else if (res.chooseDir) {
 				// exam was download
 				btnUpload.setDisable(false);
 				btnHome.setDisable(true);
 				btnComp.setDisable(true);
 				btnMan.setDisable(true);
 				btnGrades.setDisable(true);
+				btnCode.setDisable(true);
 			}
 		} catch (Exception e) {
 
@@ -141,6 +144,13 @@ public class ManualExamFormController implements GuiController, Initializable {
 			messageToServer.setOperation("StopTimer");
 			System.out.println(messageToServer);
 			double difference = (double) ClientUI.client.handleMessageFromClientUI(messageToServer);
+			messageToServer.setControllerName("ExamController");
+			messageToServer.setOperation("GetExamDuration");
+			messageToServer.setMsg(code);
+			double duration = (double) ClientUI.client.handleMessageFromClientUI(messageToServer);
+			//in case the student did not submit the test on time 
+			if (difference > duration)
+				difference = -1;	
 			examToUpload = new ExamOfStudent(fileContent, code, LoginController.user.getUsername(), difference);
 			// file was chosen
 			btnSubmit.setDisable(false);

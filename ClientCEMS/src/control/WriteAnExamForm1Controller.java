@@ -40,7 +40,7 @@ public class WriteAnExamForm1Controller implements GuiController, Initializable 
 	 * screen, then will be save in DB.
 	 */
 	public static Exam Exam;
-
+	private Exam e = null;
 	private boolean nextInit;
 
 	/**
@@ -99,6 +99,10 @@ public class WriteAnExamForm1Controller implements GuiController, Initializable 
 		String Course = course.getSelectionModel().getSelectedItem();
 		String Type = type.getSelectionModel().getSelectedItem();
 		String Duration = txtDuration.getText();
+		// new exam object if the field and course was changed
+		if (!nextInit) {
+			e = new Exam();
+		}
 		// handle missing fields
 		if (field.getSelectionModel().isEmpty() || course.getSelectionModel().isEmpty()
 				|| type.getSelectionModel().isEmpty() || Duration.trim().isEmpty()) {
@@ -133,15 +137,24 @@ public class WriteAnExamForm1Controller implements GuiController, Initializable 
 		} else if (!durationIsValid())
 			lblErrDur.setText("invalid duration");
 		else {
-
+			// user return back but didn't change the field and course
 			if (nextInit && WriteAnExamForm1Controller.Exam.getCname().equals(Course)
 					&& WriteAnExamForm1Controller.Exam.getFname().equals(Field)) {
+				// set the exam type
+				switch (Type) {
+				case "Computerized":
+					e.setEtype(ExamType.COMPUTERIZED);
+					break;
+				case "Manual":
+					e.setEtype(ExamType.MANUAL);
+					break;
+				}
+				e.setDuration(Double.parseDouble(Duration));
 				Navigator.instance().next();
 				return;
 			}
 			clearErrLbl(lblErrDur);
-			// build the Exam object
-			Exam e = new Exam();
+			// build new Exam object
 			e.setAuthor(LoginController.user.getFirstName() + " " + LoginController.user.getLastName());
 			e.setFname(Field);
 			e.setCname(Course);

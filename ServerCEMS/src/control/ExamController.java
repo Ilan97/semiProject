@@ -641,7 +641,6 @@ public class ExamController {
 	 * @return boolean result if the save succeed.
 	 */
 	public static boolean saveExam(Exam exam) {
-		InputStream inputStream = new ByteArrayInputStream(exam.printExamToString().getBytes(StandardCharsets.UTF_8));
 		String sql = "INSERT INTO Exam VALUES (?,?,?,?,?,?,?,?)";
 		try {
 			pstmt = DBconnector.conn.prepareStatement(sql);
@@ -664,7 +663,7 @@ public class ExamController {
 				Document doc = new Document();
 				Section section = doc.addSection();
 				Paragraph paragraph = section.addParagraph();
-				paragraph.appendText(exam.toString());
+				paragraph.appendText(exam.printExamToString());
 				// text style
 				ParagraphStyle style = new ParagraphStyle(doc);
 				style.setName("titleStyle");

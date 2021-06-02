@@ -27,7 +27,7 @@
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
-            <Label fx:id="lblExamID" layoutX="106.0" layoutY="99.0" prefHeight="25.0" prefWidth="180.0" textFill="#b2b2b2">
+            <Label fx:id="lblExamID" layoutX="114.0" layoutY="99.0" prefHeight="25.0" prefWidth="180.0" textFill="#b2b2b2">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
@@ -37,7 +37,7 @@
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Button>
-            <Button layoutX="49.0" layoutY="461.0" mnemonicParsing="false" onAction="#CloseAction" prefHeight="27.0" prefWidth="57.0" style="-fx-background-color: #f86060; -fx-background-radius: 30 30 30 30;" text="Close" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Button layoutX="49.0" layoutY="461.0" mnemonicParsing="false" onAction="#closeAction" prefHeight="27.0" prefWidth="57.0" style="-fx-background-color: #f86060; -fx-background-radius: 30 30 30 30;" text="Close" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
@@ -72,12 +72,12 @@
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
-            <Label fx:id="lblField" layoutX="361.0" layoutY="99.0" prefHeight="25.0" prefWidth="132.0" textFill="#b2b2b2">
+            <Label fx:id="lblField" layoutX="373.0" layoutY="99.0" prefHeight="25.0" prefWidth="132.0" textFill="#b2b2b2">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
-            <Label fx:id="lblAuthor" layoutX="114.0" layoutY="148.0" prefHeight="25.0" prefWidth="192.0" textFill="#b2b2b2">
+            <Label fx:id="lblDuration" layoutX="114.0" layoutY="148.0" prefHeight="25.0" prefWidth="192.0" textFill="#b2b2b2">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
@@ -88,7 +88,7 @@
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
-            <Label fx:id="lblDuration" layoutX="101.0" layoutY="124.0" prefHeight="25.0" prefWidth="145.0" textFill="#b2b2b2">
+            <Label fx:id="lblAuthor" layoutX="114.0" layoutY="124.0" prefHeight="25.0" prefWidth="145.0" textFill="#b2b2b2">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
@@ -115,6 +115,16 @@
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Text>
+            <Label layoutX="322.0" layoutY="148.0" prefHeight="25.0" prefWidth="69.0" text="Type:">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblType" layoutX="373.0" layoutY="148.0" prefHeight="25.0" prefWidth="132.0" textFill="#b2b2b2">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
    </children>

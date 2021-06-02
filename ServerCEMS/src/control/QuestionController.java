@@ -21,26 +21,21 @@ public class QuestionController {
 
 	// Instance variables **********************************************
 
-	/**
-	 * messages that UserController receive from server (request) and sent to it
-	 * (result).
-	 **/
+	// messages that QuestionController receive from server (request) and sent to
+	// it.
 	private static Message request;
 	private static Message result;
-
-	/**
-	 * variables for execute queries and handle the results from DB.
-	 **/
-	private static ResultSet rs;
+	// variables for execute queries and handle the results from DB.
 	private static PreparedStatement pstmt;
+	private static ResultSet rs;
 
 	// Instance methods ************************************************
 
 	/**
 	 * This method handles all requests that comes in from the server.
 	 *
-	 * @param msg The request message from the server.
-	 * @return result The result message for the server.
+	 * @param msg {@link Message} The request message from the server.
+	 * @return result {@link Message} The result message for the server.
 	 */
 	public static Message handleRequest(Message msg) {
 		// create the result Message instance
@@ -75,10 +70,10 @@ public class QuestionController {
 	/**
 	 * This method responsible to get list of questions from DB .
 	 *
-	 * @param Fid The id of the field.
-	 * @param Cid The id of the course.
-	 * @return listOfQuestions The questions that belong to those field and course.
-	 *         If there no questions, return null.
+	 * @param Fname The name of the field.
+	 * @param Cname The name of the course.
+	 * @return listOfQuestions {@link ArrayList} The questions that belong to those
+	 *         field and course. If there no questions, return null.
 	 */
 	public static ArrayList<Question> getQuestions(String Fname, String Cname) {
 		ArrayList<Question> listOfQuestions = new ArrayList<>();
@@ -129,7 +124,7 @@ public class QuestionController {
 	/**
 	 * This method responsible to save a question in DB .
 	 *
-	 * @param question from client.
+	 * @param question {@link Question} from client.
 	 * @return boolean result if the save succeed.
 	 */
 	public static boolean saveQuestion(Question q) {
@@ -161,13 +156,15 @@ public class QuestionController {
 		questionToCourse(q.getFid(), q.getCid(), String.format("%03d", newQid));
 		return true;
 	}
-	
+
 	/**
 	 * This method responsible to update table questionInCourse in DB .
 	 *
-	 * @param fieldName,courseName,Qid from client.
+	 * @param Fid The field id from client.
+	 * @param Cid The course id from client.
+	 * @param Qid The question id from client.
 	 */
-	private static void questionToCourse(String Fid, String Cid, String Qid) {
+	public static void questionToCourse(String Fid, String Cid, String Qid) {
 		String sql = "INSERT INTO questionInCourse VALUES (?,?,?)";
 		try {
 			pstmt = DBconnector.conn.prepareStatement(sql);
@@ -189,9 +186,11 @@ public class QuestionController {
 	/**
 	 * This method responsible to update qid in DB .
 	 *
-	 * @param fieldName,courseName,Qid from client.
+	 * @param fieldName  The field name from client.
+	 * @param courseName The course name from client.
+	 * @param Qid        question id from client.
 	 */
-	private static void UpdateQid(String fieldName, String courseName, String Qid) {
+	public static void UpdateQid(String fieldName, String courseName, String Qid) {
 		String query = "UPDATE qidtable SET qid = ? WHERE fieldName = ? AND courseName = ?";
 		try {
 			pstmt = DBconnector.conn.prepareStatement(query);
@@ -213,8 +212,9 @@ public class QuestionController {
 	/**
 	 * This method return the qid from DB.
 	 *
-	 * @param fieldName,courseName from client.
-	 * @return return qid if found in dataBase else return -1
+	 * @param fieldName  The field name from client.
+	 * @param courseName The course name from client.
+	 * @return qid if found in dataBase else return -1.
 	 */
 	public static int GetQid(String FieldName, String CourseName) {
 		int Qid = -1;
@@ -248,7 +248,7 @@ public class QuestionController {
 	/**
 	 * This method get a string and parsing it in each space.
 	 *
-	 * @param string .
+	 * @param msg The message received.
 	 * @return return array of the words from the string.
 	 */
 	private static String[] parsingTheData(String msg) {

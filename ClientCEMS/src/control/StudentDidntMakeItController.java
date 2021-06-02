@@ -7,7 +7,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -28,9 +27,6 @@ public class StudentDidntMakeItController implements GuiController, Initializabl
 
 	// Instance variables **********************************************
 
-	/**
-	 * FXML variables.
-	 */
 	@FXML
 	private ImageView imgCrash;
 	@FXML
@@ -42,6 +38,7 @@ public class StudentDidntMakeItController implements GuiController, Initializabl
 	 * Pop this window.
 	 *
 	 * @param primaryStage The stage for window's scene.
+	 * @throws IOException
 	 */
 	public void start(Stage primaryStage) throws IOException {
 		FXMLLoader loader = new FXMLLoader();
@@ -57,20 +54,10 @@ public class StudentDidntMakeItController implements GuiController, Initializabl
 	 * This is FXML event handler. Handles the action of click on 'Ok' button.
 	 *
 	 * @param event The action event.
-	 * @throws IOException
 	 */
 	@FXML
 	void ok(ActionEvent event) {
-		close(event);
-	}
-
-	/**
-	 * This method close the current stage.
-	 */
-	private void close(ActionEvent event) {
-		Node source = (Node) event.getSource();
-		Stage stage = (Stage) source.getScene().getWindow();
-		stage.close();
+		UsefulMethods.instance().close(event);
 	}
 
 	/**

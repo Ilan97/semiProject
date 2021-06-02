@@ -3,13 +3,10 @@ package control;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import gui.Navigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -33,19 +30,12 @@ public class RequestChangeDurationExamTimeController implements GuiController, I
 
 	// Instance variables **********************************************
 
-	/**
-	 * FXML variables.
-	 */
 	@FXML
 	private ImageView imgBack;
 	@FXML
 	private Button btnRequest;
 	@FXML
-	private Label lblErrorPort;
-	@FXML
 	private Button btnCancel;
-	@FXML
-	private Label lblErrorPort21;
 	@FXML
 	private TextArea txtAreaExplanation;
 	@FXML
@@ -58,25 +48,25 @@ public class RequestChangeDurationExamTimeController implements GuiController, I
 	private Label lblErrorDuration;
 	@FXML
 	private Label lblErrorExplanation;
+	@FXML
+	private Label lblErrorPort;
+	@FXML
+	private Label lblErrorPort21;
 
 	// Instance methods ************************************************
-	
+
 	/**
 	 * Pop this window.
 	 *
 	 * @param primaryStage The stage for window's scene.
+	 * @throws IOException
 	 */
 	public void start(Stage primaryStage) throws IOException {
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/RequestChangeExamDurationTimeWindow.fxml"));
 		Scene scene = new Scene(root);
 		primaryStage.setTitle("CEMS");
 		primaryStage.setScene(scene);
-		// closing the current window and return to home page
-		primaryStage.setOnCloseRequest((event) -> {
-			primaryStage.close();
-			Navigator.instance().clearHistory("TeacherHomeForm");
-		});
-		primaryStage.show();
+		primaryStage.showAndWait();
 	}
 
 	/**
@@ -86,8 +76,7 @@ public class RequestChangeDurationExamTimeController implements GuiController, I
 	 */
 	@FXML
 	void cancelActionButton(ActionEvent event) {
-		((Node) event.getSource()).getScene().getWindow().hide();
-		Navigator.instance().clearHistory("TeacherHomeForm");
+		UsefulMethods.instance().close(event);
 	}
 
 	/**
@@ -97,8 +86,7 @@ public class RequestChangeDurationExamTimeController implements GuiController, I
 	 */
 	@FXML
 	void requestActionButton(ActionEvent event) {
-		((Node) event.getSource()).getScene().getWindow().hide();
-		Navigator.instance().clearHistory("TeacherHomeForm");
+		UsefulMethods.instance().close(event);
 	}
 
 	/**
@@ -111,6 +99,5 @@ public class RequestChangeDurationExamTimeController implements GuiController, I
 		Image img = new Image(this.getClass().getResource("teacherFrame.PNG").toString());
 		imgBack.setImage(img);
 	}
-
 }
 //End of RequestChangeDurationExamTimeController class

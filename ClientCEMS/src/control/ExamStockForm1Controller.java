@@ -31,11 +31,11 @@ public class ExamStockForm1Controller implements GuiController, Initializable {
 
 	// Instance variables **********************************************
 
+	/**
+	 * The chosen {@link Exam}.
+	 */
 	public static Exam Exam;
 
-	/**
-	 * FXML variables.
-	 */
 	@FXML
 	private ImageView imgBack;
 	@FXML
@@ -113,6 +113,17 @@ public class ExamStockForm1Controller implements GuiController, Initializable {
 			// go to next page
 			Navigator.instance().navigate("ExamStockForm2");
 		}
+	}
+
+	/**
+	 * This method check that there is no selected values in the form
+	 *
+	 * @return true if form isn't empty, false otherwise.
+	 */
+	private boolean formIsNotEmpty() {
+		if (!field.getSelectionModel().isEmpty())
+			return true;
+		return false;
 	}
 
 	// Menu methods ************************************************
@@ -198,17 +209,6 @@ public class ExamStockForm1Controller implements GuiController, Initializable {
 	}
 
 	/**
-	 * This method check that there is no selected values in the form
-	 *
-	 * @return boolean result.
-	 */
-	private boolean formIsNotEmpty() {
-		if (!field.getSelectionModel().isEmpty())
-			return true;
-		return false;
-	}
-
-	/**
 	 * This method called to initialize a controller after its root element has been
 	 * completely processed (after load method).
 	 */
@@ -229,6 +229,5 @@ public class ExamStockForm1Controller implements GuiController, Initializable {
 		listOfField = (ArrayList<String>) ClientUI.client.handleMessageFromClientUI(messageToServer);
 		field.setItems(FXCollections.observableArrayList(listOfField));
 	}
-
 }
 // End of ExamStockForm1Controller class

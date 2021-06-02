@@ -9,7 +9,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -33,11 +32,9 @@ import logic.Message;
  */
 
 public class ComputerizedExamEnterIDWindowController implements GuiController, Initializable {
+
 	// Instance variables **********************************************
 
-	/**
-	 * FXML variables.
-	 */
 	@FXML
 	private ImageView imgBack;
 	@FXML
@@ -52,7 +49,21 @@ public class ComputerizedExamEnterIDWindowController implements GuiController, I
 	// Instance methods ************************************************
 
 	/**
-	 * @return the ID from window.
+	 * Pop this window.
+	 *
+	 * @param primaryStage The stage for window's scene.
+	 * @throws IOException
+	 */
+	public void start(Stage primaryStage) throws IOException {
+		Parent root = FXMLLoader.load(getClass().getResource("/gui/ComputerizedExamEnterIDWindow.fxml"));
+		Scene scene = new Scene(root);
+		primaryStage.setTitle("Enter ID");
+		primaryStage.setScene(scene);
+		primaryStage.showAndWait();
+	}
+
+	/**
+	 * @return the ID from user.
 	 */
 	private String getID() {
 		return txtID.getText();
@@ -61,25 +72,12 @@ public class ComputerizedExamEnterIDWindowController implements GuiController, I
 	/**
 	 * This is FXML event handler. Handles the action of press on enter key.
 	 *
-	 * @param event The action event.
+	 * @param event The action event - user pressed on 'Enter' key.
 	 */
 	@FXML
 	void inputPass(KeyEvent event) {
 		if (event.getCode().equals(KeyCode.ENTER))
 			btnStart.fire();
-	}
-
-	/**
-	 * Pop this window.
-	 *
-	 * @param primaryStage The stage for window's scene.
-	 */
-	public void start(Stage primaryStage) throws IOException {
-		Parent root = FXMLLoader.load(getClass().getResource("/gui/ComputerizedExamEnterIDWindow.fxml"));
-		Scene scene = new Scene(root);
-		primaryStage.setTitle("Enter ID");
-		primaryStage.setScene(scene);
-		primaryStage.showAndWait();
 	}
 
 	/**
@@ -100,20 +98,10 @@ public class ComputerizedExamEnterIDWindowController implements GuiController, I
 			Message messageToServer = new Message();
 			messageToServer.setControllerName("StudentController");
 			messageToServer.setOperation("StartTimer");
-			System.out.println(messageToServer);
 			ClientUI.client.handleMessageFromClientUI(messageToServer);
-			close(event);
+			UsefulMethods.instance().close(event);
 			Navigator.instance().clearHistory("ComputerizedExamForm");
 		}
-	}
-
-	/**
-	 * This method close the current stage.
-	 */
-	private void close(ActionEvent event) {
-		Node source = (Node) event.getSource();
-		Stage stage = (Stage) source.getScene().getWindow();
-		stage.close();
 	}
 
 	/**

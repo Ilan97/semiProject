@@ -3,8 +3,8 @@ package control;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Map.Entry;
-import client.ClientUI;
 import java.util.ResourceBundle;
+import client.ClientUI;
 import gui.Navigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -34,24 +34,30 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 	// Instance variables **********************************************
 
 	/**
-	 * The details to upload the exam to DB.
+	 * The {@link ExamOfStudent} to upload to DB.
 	 */
 	public static ExamOfStudent examToSubmit;
 	/**
-	 * private variables.
+	 * The size of the qArray (number of questions in exam).
 	 */
-	private int qSize;
+	public static int qSize;
+	/**
+	 * The number of the current question (1,2,....).
+	 */
 	private int curQuestion = 0;
 	/**
 	 * To navigate between questions.
 	 */
 	private Pane qArray[];
-	private ComputerizedExamInnerFormController contArray[];
 	/**
-	 * FXML variables.
+	 * Array of controllers of type {@link ComputerizedExamInnerFormController}.
 	 */
+	private ComputerizedExamInnerFormController contArray[];
+
 	@FXML
 	private ImageView imgBack;
+	@FXML
+	private ImageView imgLogo;
 	@FXML
 	private Button btnHome;
 	@FXML
@@ -60,8 +66,6 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 	private Button btnMan;
 	@FXML
 	private Button btnGrades;
-	@FXML
-	private ImageView imgLogo;
 	@FXML
 	private Button btnBack;
 	@FXML
@@ -131,14 +135,13 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 		Message messageToServer = new Message();
 		messageToServer.setControllerName("StudentController");
 		messageToServer.setOperation("StopTimer");
-		System.out.println(messageToServer);
 		double difference = (double) ClientUI.client.handleMessageFromClientUI(messageToServer);
 		messageToServer.setControllerName("ExamController");
 		messageToServer.setOperation("GetExamDuration");
 		messageToServer.setMsg(ComputerizedExamCodeWindowController.code);
 		double duration = (double) ClientUI.client.handleMessageFromClientUI(messageToServer);
-		//in case the student did not submit the test on time 
-		if (difference > duration) 
+		// in case the student did not submit the test on time
+		if (difference > duration)
 			difference = -1;
 		examToSubmit = new ExamOfStudent(ComputerizedExamCodeWindowController.code, LoginController.user.getUsername(),
 				difference, score, ans);
@@ -147,7 +150,7 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 		try {
 			agreement.start(new Stage(), "ComputerizedExamInnerFormController");
 		} catch (IOException e) {
-			e.printStackTrace();
+			UsefulMethods.instance().printExeption(e);
 		}
 	}
 
@@ -169,8 +172,12 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 		btnGrades.setDisable(true);
 		btnBack.setVisible(false);
 		btnFinish.setVisible(false);
-		//
+		// set the controllers array
 		qSize = ComputerizedExamCodeWindowController.compExam.getQuestionsInExam().size();
+		if (qSize == 1) {
+			btnFinish.setVisible(true);
+			btnNext.setVisible(false);
+		}
 		qArray = new Pane[qSize];
 		contArray = new ComputerizedExamInnerFormController[qSize];
 		int cnt = 0;
@@ -183,7 +190,7 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 				contArray[cnt] = loader.getController();
 				contArray[cnt].setQuestion(q.getKey(), cnt + 1, q.getValue());
 			} catch (IOException e) {
-
+				UsefulMethods.instance().printExeption(e);
 			}
 			cnt++;
 		}

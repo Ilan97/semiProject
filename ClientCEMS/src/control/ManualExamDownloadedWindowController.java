@@ -7,7 +7,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -30,9 +29,6 @@ import javafx.stage.Stage;
 public class ManualExamDownloadedWindowController implements GuiController, Initializable {
 	// Instance variables **********************************************
 
-	/**
-	 * FXML variables.
-	 */
 	@FXML
 	private ImageView imgBack;
 	@FXML
@@ -41,6 +37,20 @@ public class ManualExamDownloadedWindowController implements GuiController, Init
 	private Button btnStart;
 
 	// Instance methods ************************************************
+
+	/**
+	 * Pop this window.
+	 *
+	 * @param primaryStage The stage for window's scene.
+	 * @throws IOException
+	 */
+	public void start(Stage primaryStage) throws IOException {
+		Parent root = FXMLLoader.load(getClass().getResource("/gui/ManualExamDownloadedWindow.fxml"));
+		Scene scene = new Scene(root);
+		primaryStage.setTitle("Download success!");
+		primaryStage.setScene(scene);
+		primaryStage.showAndWait();
+	}
 
 	/**
 	 * This is FXML event handler. Handles the action of press on enter key.
@@ -54,35 +64,13 @@ public class ManualExamDownloadedWindowController implements GuiController, Init
 	}
 
 	/**
-	 * Pop this window.
-	 *
-	 * @param primaryStage The stage for window's scene.
-	 */
-	public void start(Stage primaryStage) throws IOException {
-		Parent root = FXMLLoader.load(getClass().getResource("/gui/ManualExamDownloadedWindow.fxml"));
-		Scene scene = new Scene(root);
-		primaryStage.setTitle("Download success!");
-		primaryStage.setScene(scene);
-		primaryStage.showAndWait();
-	}
-
-	/**
 	 * This is FXML event handler. Handles the action of click on 'Start' button.
 	 *
 	 * @param event The action event.
 	 */
 	@FXML
 	void startAction(ActionEvent event) {
-		close(event);
-	}
-
-	/**
-	 * This method close the current stage.
-	 */
-	private void close(ActionEvent event) {
-		Node source = (Node) event.getSource();
-		Stage stage = (Stage) source.getScene().getWindow();
-		stage.close();
+		UsefulMethods.instance().close(event);
 	}
 
 	/**

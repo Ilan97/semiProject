@@ -18,6 +18,7 @@ import logic.Message;
  */
 
 public class StudentController {
+
 	// Instance variables **********************************************
 
 	/**
@@ -25,16 +26,10 @@ public class StudentController {
 	 */
 	private static long startTime = 0;
 
-	/**
-	 * messages that UserController receive from server (request) and sent to it
-	 * (result).
-	 **/
+	// messages that StudentController receive from server (request) and sent to it.
 	private static Message request;
 	private static Message result;
-
-	/**
-	 * variables for execute queries and handle the results from DB.
-	 **/
+	// variables for execute queries and handle the results from DB.
 	private static PreparedStatement pstmt;
 
 	// Instance methods ************************************************
@@ -42,8 +37,8 @@ public class StudentController {
 	/**
 	 * This method handles all requests that comes in from the server.
 	 *
-	 * @param msg The request message from the server.
-	 * @return result The result message for the server.
+	 * @param msg {@link Message} The request message from the server.
+	 * @return result {@link Message} The result message for the server.
 	 */
 	public static Message handleRequest(Message msg) {
 		// create the result Message instance
@@ -58,7 +53,6 @@ public class StudentController {
 			result = teacherMessage;
 			break;
 
-		// to be continue
 		case "StartTimer":
 			res = startTimer();
 			teacherMessage.setMsg(res);
@@ -76,6 +70,8 @@ public class StudentController {
 
 	/**
 	 * This method stop the timer of student in the exam.
+	 * 
+	 * @return difference between current time and start time.
 	 */
 	public static double stopTimer() {
 		return (System.currentTimeMillis() - startTime) / 60000.0;
@@ -83,9 +79,10 @@ public class StudentController {
 
 	/**
 	 * This method start the timer of student in the exam.
+	 * 
+	 * @return true (always).
 	 */
 	public static boolean startTimer() {
-		// need to thing about the time limit
 		startTime = System.currentTimeMillis();
 		return true;
 	}
@@ -93,13 +90,13 @@ public class StudentController {
 	/**
 	 * This method save student's finished exam in DB.
 	 *
-	 * @param file The exam to be upload by student.
+	 * @param file {@link ExamOfStudent} The exam to be upload by student.
 	 * @return true if saved, else return false.
 	 */
 	public static boolean submitExam(ExamOfStudent exam) {
 		InputStream inputStream = null;
 		// get exam's id
-		String examFullID = ExamController.getExamCode(exam.getCode());
+		String examFullID = ExamController.getExamID(exam.getCode());
 		String[] examIDcomponents = parsingTheExamId(examFullID);
 		String type = ExamController.getExamType(examFullID);
 		// data from parsingTheExamId method
@@ -129,10 +126,10 @@ public class StudentController {
 				break;
 			}
 			pstmt.executeUpdate();
-			display("Exam saved in DB");
+			DBconnector.display("Exam saved in DB");
 		} catch (SQLException e) {
+			DBconnector.display("fail to save exam in DB");
 			DBconnector.printSQLException(e);
-			display("fail to save exam in DB");
 			return false;
 		} finally {
 			try {
@@ -157,15 +154,5 @@ public class StudentController {
 		pArray[2] = examId.substring(4, 6);
 		return pArray;
 	}
-
-	/**
-	 * This method displays a message into the console.
-	 *
-	 * @param message The string to be displayed.
-	 */
-	public static void display(String message) {
-		System.out.println("> " + message);
-	}
-
 }
 //End of StudentController class

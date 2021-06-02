@@ -6,7 +6,6 @@ import control.LoginController;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-
 /**
  * This class overrides some of the methods defined in the Application
  * superclass in order to use JavaFX functionalities.
@@ -15,6 +14,7 @@ import javafx.stage.Stage;
  * @author Sharon Vaknin
  * @author Ilan Meikler
  * @author Ohad Shamir
+ * @author Moran Davidov
  * @version April 2021
  */
 
@@ -23,12 +23,12 @@ public class ClientUI extends Application {
 	// Instance variables **********************************************
 
 	/**
-	 * static variable to save the port's number.
+	 * Static variable to save the port's number.
 	 */
 	final public static int DEFAULT_PORT = 5555;
 	/**
-	 * static instance for ClientController instance. Will be create only once for
-	 * each run.
+	 * Static instance for {@link ClientController} instance. Will be create only
+	 * once for each run.
 	 */
 	public static ClientController client;
 
@@ -36,6 +36,8 @@ public class ClientUI extends Application {
 
 	/**
 	 * The main method of Application class.
+	 * 
+	 * @throws Exception
 	 */
 	public static void main(String args[]) throws Exception {
 		launch(args);
@@ -45,6 +47,7 @@ public class ClientUI extends Application {
 	 * Start the client's UI.
 	 * 
 	 * @param primaryStage The first window that shows.
+	 * @throws Exception
 	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -55,10 +58,8 @@ public class ClientUI extends Application {
 			display("Error: Can't setup connection!" + " Terminating client.");
 			System.exit(1);
 		}
-		/**
-		 * create and start Login frame.
-		 */
-		LoginController  frame = new LoginController();
+		// create and start Login frame.
+		LoginController frame = new LoginController();
 		frame.start(primaryStage);
 	}
 

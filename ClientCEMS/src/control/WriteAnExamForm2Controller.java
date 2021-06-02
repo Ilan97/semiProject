@@ -43,21 +43,18 @@ public class WriteAnExamForm2Controller implements GuiController, Initializable 
 	 */
 	public static int sum;
 
-	/**
-	 * FXML variables.
-	 */
 	@FXML
 	private ImageView imgBack;
 	@FXML
 	private ImageView imgLogo;
+	@FXML
+	private ImageView imgPencil;
 	@FXML
 	private ListView<Question> quesList;
 	@FXML
 	private ListView<Question> chosenList;
 	@FXML
 	private Label lblErr;
-	@FXML
-	private ImageView imgPencil;
 
 	// Instance methods ************************************************
 
@@ -101,6 +98,7 @@ public class WriteAnExamForm2Controller implements GuiController, Initializable 
 		try {
 			returned = (QuestionScoreWindowController) scoreWindow.start(new Stage());
 		} catch (IOException e) {
+			UsefulMethods.instance().printExeption(e);
 		}
 		// check if score is over 100
 		sum += returned.score;

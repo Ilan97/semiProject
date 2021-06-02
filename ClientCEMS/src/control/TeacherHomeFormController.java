@@ -2,12 +2,12 @@ package control;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import client.ClientUI;
 import gui.Navigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
@@ -27,13 +27,12 @@ public class TeacherHomeFormController implements GuiController, Initializable {
 
 	// Instance variables **********************************************
 
-	/**
-	 * FXML variables.
-	 */
 	@FXML
 	private ImageView imgBack;
 	@FXML
 	private ImageView imgLogo;
+	@FXML
+	private Label lblName;
 
 	// Instance methods ************************************************
 
@@ -90,13 +89,11 @@ public class TeacherHomeFormController implements GuiController, Initializable {
 	void changeDurAction(ActionEvent event) {
 		RequestChangeDurationExamTimeController popUp = new RequestChangeDurationExamTimeController();
 		try {
-				popUp.start(new Stage());
-			} catch (Exception e) {
-				System.out.println("Exception: " + e.getMessage());
-				e.printStackTrace();
-			}
+			popUp.start(new Stage());
+		} catch (Exception e) {
+			UsefulMethods.instance().printExeption(e);
+		}
 	}
-
 
 	/**
 	 * This is FXML event handler. Handles the action of click on 'Check Exam'
@@ -106,8 +103,8 @@ public class TeacherHomeFormController implements GuiController, Initializable {
 	 */
 	@FXML
 	void checkExamAction(ActionEvent event) {
-		//NO WINDOW YET
-		//Navigator.instance().navigate(" ");///????
+		// NO WINDOW YET
+		// Navigator.instance().navigate(" ");///????
 	}
 
 	/**
@@ -143,12 +140,13 @@ public class TeacherHomeFormController implements GuiController, Initializable {
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		// user's name
+		lblName.setText("Welcome " + LoginController.user.getFirstName() + " " + LoginController.user.getLastName());
 		// set images
 		Image img1 = new Image(this.getClass().getResource("teacherHomeForm.PNG").toString());
 		imgBack.setImage(img1);
 		Image img2 = new Image(this.getClass().getResource("logo.png").toString());
 		imgLogo.setImage(img2);
 	}
-
 }
 //End of TeacherHomeFormController class

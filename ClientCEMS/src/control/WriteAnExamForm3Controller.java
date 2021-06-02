@@ -2,15 +2,12 @@ package control;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import client.ClientUI;
 import gui.Navigator;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -34,13 +31,6 @@ public class WriteAnExamForm3Controller implements GuiController, Initializable 
 
 	// Instance variables **********************************************
 
-	private boolean result;
-	private float progress;
-	Object monitor = new Object();
-
-	/**
-	 * FXML variables.
-	 */
 	@FXML
 	private ImageView imgBack;
 	@FXML
@@ -61,46 +51,6 @@ public class WriteAnExamForm3Controller implements GuiController, Initializable 
 	private Label lblType;
 	@FXML
 	private Label lblAuthor;
-	@FXML
-	private ProgressIndicator prog;
-
-	// Inner class ************************************************
-
-//	class MessageThread implements Runnable {
-//
-//		@Override
-//		public void run() {
-//			// create new message to the server
-//			Message messageToServer = new Message();
-//			messageToServer.setMsg(WriteAnExamForm1Controller.Exam);
-//			messageToServer.setControllerName("ExamController");
-//			messageToServer.setOperation("SaveExam");
-//			result = (boolean) ClientUI.client.handleMessageFromClientUI(messageToServer);
-//		}
-//	}
-
-	class ProgThread implements Runnable {
-
-		@Override
-		public void run() {
-			synchronized (monitor) {
-				for (float i = 0; i <= 1.1; i += 0.1) {
-					try {
-						Thread.sleep(200);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					progress = i;
-					
-					Platform.runLater(() -> {
-						System.out.println(progress);
-						prog.setProgress(progress);
-					});
-				}
-				monitor.notify();
-			}
-		}
-	}
 
 	// Instance methods ************************************************
 
@@ -122,33 +72,30 @@ public class WriteAnExamForm3Controller implements GuiController, Initializable 
 	 */
 	@FXML
 	void saveAction(ActionEvent event) throws InterruptedException {
-		//prog.setVisible(true);
-//		Thread pt = new Thread(new ProgThread());
-//		pt.start();
-//		Thread mt = new Thread(new ProgThread());
-//		mt.start();
+		boolean result;
 		Message messageToServer = new Message();
 		messageToServer.setMsg(WriteAnExamForm1Controller.Exam);
 		messageToServer.setControllerName("ExamController");
 		messageToServer.setOperation("SaveExam");
 		result = (boolean) ClientUI.client.handleMessageFromClientUI(messageToServer);
-//		synchronized (monitor) {
-//			while (progress < 1)
-//				monitor.wait();
-//		}
-
 		if (result == true) {
 			// successes pop up
 			ExamWasCreatedSuccessfullyWindowController popUp = new ExamWasCreatedSuccessfullyWindowController();
 			try {
 				popUp.start(new Stage());
 			} catch (Exception e) {
-				System.out.println("Exception: " + e.getMessage());
-				e.printStackTrace();
+				UsefulMethods.instance().printExeption(e);
 			}
-		} else
-			// pop up failed
-			;
+		} else {
+			// Failed pop up
+			FailWindowController popUp = new FailWindowController();
+			try {
+				popUp.start(new Stage());
+			} catch (Exception e) {
+				UsefulMethods.instance().printExeption(e);
+			}
+		}
+		Navigator.instance().clearHistory("TeacherHomeForm");
 	}
 
 	/**
@@ -180,7 +127,7 @@ public class WriteAnExamForm3Controller implements GuiController, Initializable 
 		if (Eid != -1)
 			e.setEid(String.format("%02d", Eid + 1));
 		else
-			display("qid not found");
+			UsefulMethods.instance().display("qid not found");
 		e.setExamID(Fid + Cid + String.format("%02d", Eid + 1));
 		lblExamID.setText(e.getExamID());
 		questions.setText(WriteAnExamForm1Controller.Exam.allQuestionsToString());
@@ -190,7 +137,7 @@ public class WriteAnExamForm3Controller implements GuiController, Initializable 
 	 * This method request from server to return the eid from DB.
 	 *
 	 * @param fieldName,courseName from client.
-	 * @return return Eid if found in dataBase else return -1
+	 * @return return Eid if found in dataBase else return -1.
 	 */
 	private int GetEid(String fieldName, String courseName) {
 		int Eid;
@@ -206,7 +153,7 @@ public class WriteAnExamForm3Controller implements GuiController, Initializable 
 	 * This method request from server to return the fid from DB.
 	 *
 	 * @param fieldName from client.
-	 * @return return Fid if Field found in dataBase else return "Field not found"
+	 * @return return Fid if Field found in dataBase else return "Field not found".
 	 */
 	private String GetFid(String FieldName) {
 		String Fid;
@@ -224,7 +171,8 @@ public class WriteAnExamForm3Controller implements GuiController, Initializable 
 	 * This method request from server to return the cid from DB.
 	 *
 	 * @param CourseName from client.
-	 * @return return Cid if Course found in dataBase else return "Course not found"
+	 * @return return Cid if Course found in dataBase else return "Course not
+	 *         found".
 	 */
 	private String GetCid(String CourseName) {
 		String Cid;
@@ -306,22 +254,11 @@ public class WriteAnExamForm3Controller implements GuiController, Initializable 
 	}
 
 	/**
-	 * This method displays a message into the console.
-	 *
-	 * @param message The string to be displayed.
-	 */
-	public static void display(String message) {
-		System.out.println("> " + message);
-	}
-
-	/**
 	 * This method called to initialize a controller after its root element has been
 	 * completely processed (after load method).
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		prog.setVisible(false);
-		prog.setProgress(0);
 		// set images
 		Image img1 = new Image(this.getClass().getResource("frame3WriteAnExam.PNG").toString());
 		imgBack.setImage(img1);

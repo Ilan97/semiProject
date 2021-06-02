@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
 import client.ClientUI;
 import gui.Navigator;
 import javafx.collections.FXCollections;
@@ -35,17 +34,21 @@ public class WriteAnExamForm1Controller implements GuiController, Initializable 
 	// Instance variables **********************************************
 
 	/**
-	 * static instance for Exam object. Will be create each time teacher decide to
-	 * write new exam. the object initialize by the info that teacher puts in the
-	 * screen, then will be save in DB.
+	 * Static instance for {@link Exam} object. Will be create each time teacher
+	 * decide to write new exam. the object initialize by the info that teacher puts
+	 * in the screen, then will be save in DB.
 	 */
 	public static Exam Exam;
+	/**
+	 * new {@link Exam} object. Created only if user goes back and changes something
+	 * that isn't field or course.
+	 */
 	private Exam e = null;
+	/**
+	 * This is how we know if user goes back or not.
+	 */
 	private boolean nextInit;
 
-	/**
-	 * FXML variables.
-	 */
 	@FXML
 	private ImageView imgBack;
 	@FXML
@@ -138,8 +141,7 @@ public class WriteAnExamForm1Controller implements GuiController, Initializable 
 			lblErrDur.setText("invalid duration");
 		else {
 			// user return back but didn't change the field and course
-			if (nextInit && WriteAnExamForm1Controller.Exam.getCname().equals(Course)
-					&& WriteAnExamForm1Controller.Exam.getFname().equals(Field)) {
+			if (nextInit && Exam.getCname().equals(Course) && Exam.getFname().equals(Field)) {
 				// set the exam type
 				switch (Type) {
 				case "Computerized":
@@ -168,7 +170,7 @@ public class WriteAnExamForm1Controller implements GuiController, Initializable 
 				e.setEtype(ExamType.MANUAL);
 				break;
 			}
-			WriteAnExamForm1Controller.Exam = e;
+			Exam = e;
 			nextInit = true;
 			// go to next page
 			Navigator.instance().navigate("WriteAnExamForm2");
@@ -177,6 +179,8 @@ public class WriteAnExamForm1Controller implements GuiController, Initializable 
 
 	/**
 	 * This method check if duration is valid
+	 * 
+	 * @return true if duration is valid, false otherwise.
 	 */
 	private boolean durationIsValid() {
 		String durationString = getDuration();
@@ -211,6 +215,18 @@ public class WriteAnExamForm1Controller implements GuiController, Initializable 
 		listOfCourse = (ArrayList<String>) ClientUI.client.handleMessageFromClientUI(messageToServer);
 		course.setItems(FXCollections.observableArrayList(listOfCourse));
 		course.setDisable(false);
+	}
+
+	/**
+	 * This method check that there is no selected values in the form.
+	 *
+	 * @return true if form isn't empty, false otherwise.
+	 */
+	private boolean formIsNotEmpty() {
+		if (!field.getSelectionModel().isEmpty() || !type.getSelectionModel().isEmpty()
+				|| !txtDuration.getText().trim().isEmpty())
+			return true;
+		return false;
 	}
 
 	// Menu methods ************************************************
@@ -329,18 +345,6 @@ public class WriteAnExamForm1Controller implements GuiController, Initializable 
 		examTypes.add("Manual");
 		examTypes.add("Computerized");
 		type.setItems(FXCollections.observableArrayList(examTypes));
-	}
-
-	/**
-	 * This method check that there is no selected values in the form
-	 *
-	 * @return boolean result.
-	 */
-	private boolean formIsNotEmpty() {
-		if (!field.getSelectionModel().isEmpty() || !type.getSelectionModel().isEmpty()
-				|| !txtDuration.getText().trim().isEmpty())
-			return true;
-		return false;
 	}
 }
 //End of WriteAnExamForm1Controller class

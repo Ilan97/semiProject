@@ -3,15 +3,13 @@ package control;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import gui.Navigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
@@ -21,7 +19,7 @@ import javafx.stage.Stage;
  * This class handle all events related to this window. This class connect with
  * client.
  *
- * @author
+ * @author Sharon Vaknin
  * @version May 2021
  */
 
@@ -29,13 +27,12 @@ public class ExamWasCreatedSuccessfullyWindowController implements GuiController
 
 	// Instance variables **********************************************
 
-	/**
-	 * FXML variables.
-	 */
 	@FXML
 	private ImageView imgBack;
 	@FXML
 	private ImageView imgOk;
+	@FXML
+	private Button btnOk;
 
 	// Instance methods ************************************************
 
@@ -43,18 +40,16 @@ public class ExamWasCreatedSuccessfullyWindowController implements GuiController
 	 * Pop this window.
 	 *
 	 * @param primaryStage The stage for window's scene.
+	 * @throws IOException
 	 */
 	public void start(Stage primaryStage) throws IOException {
-		Parent root = FXMLLoader.load(getClass().getResource("/gui/ExamWasCreatedSuccessfullyWindow.fxml"));
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource("/gui/ExamWasCreatedSuccessfullyWindow.fxml"));
+		Parent root = loader.load();
 		Scene scene = new Scene(root);
 		primaryStage.setTitle("Success!");
 		primaryStage.setScene(scene);
-		// closing the current window and return to home page
-		primaryStage.setOnCloseRequest((event) -> {
-			primaryStage.close();
-			Navigator.instance().clearHistory("TeacherHomeForm");
-		});
-		primaryStage.show();
+		primaryStage.showAndWait();
 	}
 
 	/**
@@ -64,9 +59,7 @@ public class ExamWasCreatedSuccessfullyWindowController implements GuiController
 	 */
 	@FXML
 	void okAction(ActionEvent event) {
-		// hiding the current window
-		((Node) event.getSource()).getScene().getWindow().hide();
-		Navigator.instance().clearHistory("TeacherHomeForm");
+		UsefulMethods.instance().close(event);
 	}
 
 	/**
@@ -81,6 +74,5 @@ public class ExamWasCreatedSuccessfullyWindowController implements GuiController
 		Image img2 = new Image(this.getClass().getResource("ok.png").toString());
 		imgOk.setImage(img2);
 	}
-
 }
 //End of ExamWasCreatedSuccessfullyWindowController class

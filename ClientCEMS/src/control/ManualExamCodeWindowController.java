@@ -11,7 +11,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -50,9 +49,6 @@ public class ManualExamCodeWindowController implements GuiController, Initializa
 	 */
 	public boolean chooseDir;
 
-	/**
-	 * FXML variables.
-	 */
 	@FXML
 	private ImageView imgBack;
 	@FXML
@@ -65,27 +61,10 @@ public class ManualExamCodeWindowController implements GuiController, Initializa
 	// Instance methods ************************************************
 
 	/**
-	 * @return the code from window.
-	 */
-	private String getCode() {
-		return txtCode.getText();
-	}
-
-	/**
-	 * This is FXML event handler. Handles the action of press on enter key.
-	 *
-	 * @param event The action event.
-	 */
-	@FXML
-	void inputPass(KeyEvent event) {
-		if (event.getCode().equals(KeyCode.ENTER))
-			btnDown.fire();
-	}
-
-	/**
 	 * Pop this window.
 	 *
 	 * @param primaryStage The stage for window's scene.
+	 * @throws IOException
 	 * @return the "real" controller.
 	 */
 	public Object start(Stage primaryStage) throws IOException {
@@ -98,6 +77,24 @@ public class ManualExamCodeWindowController implements GuiController, Initializa
 		primaryStage.setScene(scene);
 		primaryStage.showAndWait();
 		return cont;
+	}
+
+	/**
+	 * @return the code from window.
+	 */
+	private String getCode() {
+		return txtCode.getText();
+	}
+
+	/**
+	 * This is FXML event handler. Handles the action of press on enter key.
+	 *
+	 * @param event The action event - user pressed on 'Enter' key.
+	 */
+	@FXML
+	void inputPass(KeyEvent event) {
+		if (event.getCode().equals(KeyCode.ENTER))
+			btnDown.fire();
 	}
 
 	/**
@@ -115,7 +112,7 @@ public class ManualExamCodeWindowController implements GuiController, Initializa
 		else {
 			// message to server
 			messageToServer = new Message();
-			messageToServer.setMsg(getCode() + " manual");
+			messageToServer.setMsg(getCode() + " manual " + LoginController.user.getUsername());
 			messageToServer.setControllerName("ExamController");
 			messageToServer.setOperation("downloadManualExam");
 			res = (ExamFile) ClientUI.client.handleMessageFromClientUI(messageToServer);
@@ -142,46 +139,23 @@ public class ManualExamCodeWindowController implements GuiController, Initializa
 						BufferedOutputStream bis = new BufferedOutputStream(fis);
 						bis.write(res.getContent());
 						bis.close();
-						display("download succeeded!");
-						display("file path: " + newFile.getAbsolutePath());
+						UsefulMethods.instance().display("download succeeded!");
+						UsefulMethods.instance().display("file path: " + newFile.getAbsolutePath());
 						// start the timer
 						messageToServer = new Message();
 						messageToServer.setControllerName("StudentController");
 						messageToServer.setOperation("StartTimer");
-						System.out.println(messageToServer);
 						ClientUI.client.handleMessageFromClientUI(messageToServer);
 						ManualExamDownloadedWindowController msg = new ManualExamDownloadedWindowController();
 						msg.start(new Stage());
 					} catch (IOException e) {
-						display("fail to download the file");
-						System.out.println("Exception: " + e.getMessage());
-						e.printStackTrace();
-
-						// pop up ?
-
+						UsefulMethods.instance().display("fail to download the file");
+						UsefulMethods.instance().printExeption(e);
 					}
 				}
-				close(event);
+				UsefulMethods.instance().close(event);
 			}
 		}
-	}
-
-	/**
-	 * This method close the current stage.
-	 */
-	private void close(ActionEvent event) {
-		Node source = (Node) event.getSource();
-		Stage stage = (Stage) source.getScene().getWindow();
-		stage.close();
-	}
-
-	/**
-	 * This method displays a message into the console.
-	 *
-	 * @param message The string to be displayed.
-	 */
-	public static void display(String message) {
-		System.out.println("> " + message);
 	}
 
 	/**

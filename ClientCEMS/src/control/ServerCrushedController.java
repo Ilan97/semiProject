@@ -3,7 +3,6 @@ package control;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import client.ClientUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -28,9 +27,6 @@ public class ServerCrushedController implements Initializable {
 
 	// Instance variables **********************************************
 
-	/**
-	 * FXML variables.
-	 */
 	@FXML
 	private ImageView imgCrash;
 	@FXML
@@ -45,6 +41,7 @@ public class ServerCrushedController implements Initializable {
 	 * window.
 	 *
 	 * @param primaryStage The stage for window's scene.
+	 * @throws Exception
 	 */
 	public void start(Stage primaryStage) throws Exception {
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/ServerCrushedWindow.fxml"));
@@ -55,10 +52,9 @@ public class ServerCrushedController implements Initializable {
 		primaryStage.setOnCloseRequest((event) -> {
 			try {
 				ClientUI.client.closeConnection();
-			} catch (IOException ex) {
-				System.out.println("Fail to close client!");
-				System.out.println("Exception: " + ex.getMessage());
-				ex.printStackTrace();
+			} catch (IOException e) {
+				UsefulMethods.instance().display("Fail to close client!");
+				UsefulMethods.instance().printExeption(e);
 			}
 			System.exit(0);
 		});
@@ -74,10 +70,9 @@ public class ServerCrushedController implements Initializable {
 	void approveActionButton(ActionEvent event) {
 		try {
 			ClientUI.client.closeConnection();
-		} catch (IOException ex) {
-			System.out.println("Fail to close client!");
-			System.out.println("Exception: " + ex.getMessage());
-			ex.printStackTrace();
+		} catch (IOException e) {
+			UsefulMethods.instance().display("Fail to close client!");
+			UsefulMethods.instance().printExeption(e);
 		}
 		System.exit(0);
 	}
@@ -94,6 +89,5 @@ public class ServerCrushedController implements Initializable {
 		Image img2 = new Image(this.getClass().getResource("error.png").toString());
 		imgErr.setImage(img2);
 	}
-
 }
 //End of ServerCrushedController class

@@ -113,7 +113,7 @@ public class PrincipalReportForm1Controller implements GuiController, Initializa
 	/**
 	 * This method check that there is no selected values in the form
 	 *
-	 * @return boolean result.
+	 * @return true if form isn't empty, false otherwise.
 	 */
 	private boolean formIsNotEmpty() {
 		return !reportType.getSelectionModel().isEmpty();
@@ -132,7 +132,7 @@ public class PrincipalReportForm1Controller implements GuiController, Initializa
 		imgLogo.setImage(img2);
 		Image img3 = new Image(this.getClass().getResource("report.png").toString());
 		imgRep.setImage(img3);
-
+		// set the options
 		ArrayList<String> reportTypes = new ArrayList<>();
 		reportTypes.add("Report By Student");
 		reportTypes.add("Report By Course");

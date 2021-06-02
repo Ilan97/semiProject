@@ -1,11 +1,6 @@
 package server;
-// This file contains material supporting section 3.7 of the textbook:
 
 import control.CourseController;
-
-// "Object Oriented Software Engineering" and is issued under the open-source
-// license found at www.lloseng.com 
-
 import control.DBconnector;
 import control.ExamController;
 import control.FieldOfStudyController;
@@ -21,15 +16,11 @@ import ocsf.server.ConnectionToClient;
  * This class overrides some of the methods in the AbstractServer superclass in
  * order to give more functionality to the server.
  *
- * @author Dr Timothy C. Lethbridge
- * @author Dr Robert Lagani&egrave;re
- * @author Fran&ccedil;ois B&eacute;langer
- * @author Paul Holden
- * @version July 2000
  * @author Bat-El Gardin
  * @author Sharon Vaknin
  * @author Ilan Meikler
  * @author Ohad Shamir
+ * @author Moran Davidov
  * @version May 2021
  */
 public class ServerController extends AbstractServer {
@@ -64,18 +55,17 @@ public class ServerController extends AbstractServer {
 	 * This method handles any messages received from the client. There are a few
 	 * different cases.
 	 *
-	 * @param msg    The message received from the client.
-	 * @param client The connection from which the message originated.
+	 * @param msg    {@link Message} The message received from the client.
+	 * @param client {@link ConnectionToClient} The connection from which the
+	 *               message originated.
 	 */
 	public void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		// message received from client is an Message instance.
 		Message messageFromClient = (Message) msg;
 		// message that returned from controller
 		Message messageFromController = new Message();
-		/**
-		 * Switch case is on controller's name which returning results from DB (execute
-		 * queries).
-		 */
+		// Switch case is on controller's name which returning results from DB (execute
+		// queries).
 		switch (messageFromClient.getControllerName()) {
 		case "ExamController":
 			messageFromController = ExamController.handleRequest(messageFromClient);
@@ -100,9 +90,7 @@ public class ServerController extends AbstractServer {
 			break;
 		} // end of switch
 
-		/**
-		 * Send the returned message to the client.
-		 */
+		// Send the returned message to the client.
 		try {
 			client.sendToClient(messageFromController);
 		} catch (Exception e) {

@@ -3,12 +3,10 @@ package control;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -32,14 +30,14 @@ public class AddNoteWindowController implements GuiController, Initializable {
 	// Instance variables **********************************************
 
 	/**
-	 * The notes that are entered
+	 * Note For teacher for specific question in exam.
 	 */
 	public String teachNote = null;
+	/**
+	 * Note For student for specific question in exam.
+	 */
 	public String studNote = null;
 
-	/**
-	 * FXML variables.
-	 */
 	@FXML
 	private ImageView imgBack;
 	@FXML
@@ -55,6 +53,7 @@ public class AddNoteWindowController implements GuiController, Initializable {
 	 * Pop this window.
 	 *
 	 * @param primaryStage The stage for window's scene.
+	 * @throws IOException
 	 * @return the "real" controller.
 	 */
 	public Object start(Stage primaryStage) throws IOException {
@@ -70,15 +69,6 @@ public class AddNoteWindowController implements GuiController, Initializable {
 	}
 
 	/**
-	 * This method close the current stage.
-	 */
-	private void close(ActionEvent event) {
-		Node source = (Node) event.getSource();
-		Stage stage = (Stage) source.getScene().getWindow();
-		stage.close();
-	}
-
-	/**
 	 * This is FXML event handler. Handles the action of click on 'Add' button.
 	 *
 	 * @param event The action event.
@@ -87,7 +77,7 @@ public class AddNoteWindowController implements GuiController, Initializable {
 	void addNoteActionButton(ActionEvent event) {
 		teachNote = txtTeachNote.getText();
 		studNote = txtStudNote.getText();
-		close(event);
+		UsefulMethods.instance().close(event);
 	}
 
 	/**
@@ -97,7 +87,7 @@ public class AddNoteWindowController implements GuiController, Initializable {
 	 */
 	@FXML
 	void cancelActionButton(ActionEvent event) {
-		close(event);
+		UsefulMethods.instance().close(event);
 	}
 
 	/**
@@ -110,6 +100,5 @@ public class AddNoteWindowController implements GuiController, Initializable {
 		Image img = new Image(this.getClass().getResource("teacherFrame.PNG").toString());
 		imgBack.setImage(img);
 	}
-
 }
 //End of QuestionScoreWindowController class

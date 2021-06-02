@@ -20,26 +20,20 @@ public class TeacherController {
 
 	// Instance variables **********************************************
 
-	/**
-	 * messages that UserController receive from server (request) and sent to it
-	 * (result).
-	 **/
+	// messages that TeacherController receive from server (request) and sent to it.
 	private static Message request;
 	private static Message result;
-
-	/**
-	 * variables for execute queries and handle the results from DB.
-	 **/
-	private static ResultSet rs;
+	// variables for execute queries and handle the results from DB.
 	private static PreparedStatement pstmt;
+	private static ResultSet rs;
 
 	// Instance methods ************************************************
 
 	/**
 	 * This method handles all requests that comes in from the server.
 	 *
-	 * @param msg The request message from the server.
-	 * @return result The result message for the server.
+	 * @param msg {@link Message} The request message from the server.
+	 * @return result {@link Message} The result message for the server.
 	 */
 	public static Message handleRequest(Message msg) {
 		ArrayList<String> listOfFields;
@@ -67,8 +61,10 @@ public class TeacherController {
 	/**
 	 * This method return the CoursesList of a teacher from DB.
 	 *
-	 * @param UserName,FieldName from client.
-	 * @return return list of courses if found in dataBase else return null
+	 * @param UserName  the course name from client.
+	 * @param FieldName the field name from client.
+	 * @return listOfCourses {@link ArrayList} if found in dataBase else return
+	 *         null.
 	 */
 	public static ArrayList<String> getCoursesList(String UserName, String FieldName) {
 
@@ -104,7 +100,8 @@ public class TeacherController {
 	 * This method return the fieldList of a teacher from DB.
 	 *
 	 * @param UserName from client.
-	 * @return return list of fields if found in dataBase else return null
+	 * @return return listOfFields {@link ArrayList} if found in dataBase else
+	 *         return null.
 	 */
 	public static ArrayList<String> getFieldList(String UserName) {
 		ArrayList<String> listOfField = new ArrayList<>();
@@ -114,7 +111,7 @@ public class TeacherController {
 			pstmt.setString(1, UserName);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				if(!listOfField.contains(rs.getString("field")))
+				if (!listOfField.contains(rs.getString("field")))
 					listOfField.add(rs.getString("field"));
 			}
 
@@ -138,7 +135,7 @@ public class TeacherController {
 	/**
 	 * This method get a string and parsing it in each space.
 	 *
-	 * @param string .
+	 * @param msg The message received.
 	 * @return return array of the words from the string.
 	 */
 	private static String[] parsingTheData(String msg) {

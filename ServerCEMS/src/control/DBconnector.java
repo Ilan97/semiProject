@@ -18,9 +18,9 @@ public class DBconnector {
 	// Instance variables **********************************************
 
 	/**
-	 * static instance for Connection object. Will be create only once for each run.
-	 * this is the connection between java code and DB. will be used for execute
-	 * queries.
+	 * Static instance for {@link Connection} object. Will be create only once for
+	 * each run. this is the connection between java code and DB. will be used for
+	 * execute queries.
 	 */
 	public static Connection conn;
 
@@ -61,7 +61,7 @@ public class DBconnector {
 			display("VendorError: " + ex.getErrorCode());
 		}
 	}
-	
+
 	/**
 	 * Print the value of SQL exception
 	 * 
@@ -73,16 +73,17 @@ public class DBconnector {
 		display("VendorError: " + ex.getErrorCode());
 		ex.printStackTrace();
 	}
-	
+
 	/**
 	 * Print the value of thrown exception
 	 * 
-	 * @param ex the  exception to be printed
+	 * @param ex the exception to be printed
 	 */
 	public static void printException(Exception ex) {
 		display("Exception: " + ex.getMessage());
 		ex.printStackTrace();
 	}
+
 	/**
 	 * This method displays a message into the console.
 	 *

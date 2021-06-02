@@ -23,26 +23,20 @@ public class UserController {
 
 	// Instance variables **********************************************
 
-	/**
-	 * messages that UserController receive from server (request) and sent to it
-	 * (result).
-	 **/
+	// messages that UserController receive from server (request) and sent to it.
 	private static Message request;
 	private static Message result;
-
-	/**
-	 * variables for execute queries and handle the results from DB.
-	 **/
-	private static ResultSet rs;
+	// variables for execute queries and handle the results from DB.
 	private static PreparedStatement pstmt;
+	private static ResultSet rs;
 
 	// Instance methods ************************************************
 
 	/**
 	 * This method handles all requests that comes in from the server.
 	 *
-	 * @param msg The request message from the server.
-	 * @return result The result message for the server.
+	 * @param msg {@link Message} The request message from the server.
+	 * @return result {@link Message} The result message for the server.
 	 */
 	public static Message handleRequest(Message msg) {
 		request = msg;
@@ -66,31 +60,31 @@ public class UserController {
 			statusOfUpdate = updateConnectionStatus((String) request.getMsg(), ConnectionStatus);
 			// check if update success
 			if (statusOfUpdate == true)
-				display("updateConnectionStatus successfully");
+				DBconnector.display("updateConnectionStatus successfully");
 			else
-				display("updateConnectionStatus faild");
+				DBconnector.display("updateConnectionStatus faild");
 			userMessage.setMsg(statusOfUpdate);
 			result = userMessage;
 			break;
 
 		case "initUsersStatus":
 			if (changeStatusToFalse())
-				display("initUsersStatus successfully");
+				DBconnector.display("initUsersStatus successfully");
 			else
-				display("initUsersStatus faild");
-			
+				DBconnector.display("initUsersStatus faild");
+
 		case "ShowAllStudents":
 			resList = getAllStudents();
 			userMessage.setMsg(resList);
 			result = userMessage;
 			break;
-			
+
 		case "ShowAllTeachers":
 			resList = getAllTeachers();
 			userMessage.setMsg(resList);
 			result = userMessage;
 			break;
-			
+
 		} // end of switch case
 		return result;
 	}
@@ -100,7 +94,7 @@ public class UserController {
 	 * password.
 	 *
 	 * @param UserDetails The userName and password.
-	 * @return user The complete User instance.
+	 * @return user {@link User} The complete User instance.
 	 */
 	public static User viewTableUserQuery(String UserDetails) {
 		String[] User = parsingTheData(UserDetails);
@@ -161,9 +155,9 @@ public class UserController {
 	 * userName.
 	 *
 	 * @param userName The userName.
-	 * @return boolean value The status.
+	 * @return true if user is logged in, false otherwise.
 	 */
-	private static boolean getConnectionStatus(String userName) {
+	public static boolean getConnectionStatus(String userName) {
 		String Query = "SELECT isLogedIn FROM users WHERE userName = ?";
 		boolean currStatus = false;
 		try {
@@ -195,9 +189,9 @@ public class UserController {
 	 * This method execute query for changing connection status to false (0) of all
 	 * users that their status have been true (1).
 	 * 
-	 * @return boolean value. If the changing success for all users.
+	 * @return true if the changing success for all users, false otherwise.
 	 */
-	private static boolean changeStatusToFalse() {
+	public static boolean changeStatusToFalse() {
 		// return all userNames that their status is true (log in)
 		String Query = "SELECT userName FROM users WHERE isLogedIn = ?";
 		// save the userNames
@@ -226,7 +220,7 @@ public class UserController {
 				DBconnector.printException(e);
 			}
 		}
-		return true; // Successes
+		return true;
 	}
 
 	/**
@@ -235,9 +229,9 @@ public class UserController {
 	 *
 	 * @param userName The userName.
 	 * @param status   The connection status of user.
-	 * @return boolean value The successes/fail of the update.
+	 * @return true if update success, false otherwise.
 	 */
-	private static boolean updateConnectionStatus(String userName, boolean status) {
+	public static boolean updateConnectionStatus(String userName, boolean status) {
 		String query;
 		boolean StatusAfterUpdate = status;
 		query = "UPDATE users SET isLogedIn = ? WHERE userName = ?";
@@ -263,12 +257,12 @@ public class UserController {
 		// update was fail
 		return false;
 	}
-	
+
 	/**
 	 * This method return the list of all students from DB.
 	 *
-	 * @return studentList The list of all students. if there isn't any student, return
-	 *         null.
+	 * @return studentList {@link ArrayList} The list of all students. if there
+	 *         isn't any student, return null.
 	 */
 	public static ArrayList<String> getAllStudents() {
 		ArrayList<String> studentList = new ArrayList<>();
@@ -301,8 +295,8 @@ public class UserController {
 	/**
 	 * This method return the list of all teachers from DB.
 	 *
-	 * @return teacherList The list of all teachers. if there isn't any student, return
-	 *         null.
+	 * @return teacherList {@link ArrayList} The list of all teachers. if there
+	 *         isn't any student, return null.
 	 */
 	public static ArrayList<String> getAllTeachers() {
 		ArrayList<String> teacherList = new ArrayList<>();
@@ -331,7 +325,7 @@ public class UserController {
 		}
 		return teacherList;
 	}
-	
+
 	/**
 	 * This method parsing the data received from msg.
 	 * 
@@ -342,14 +336,4 @@ public class UserController {
 		String[] pArray = msg.split(" ");
 		return pArray;
 	}
-
-	/**
-	 * This method displays a message into the console.
-	 *
-	 * @param message The string to be displayed.
-	 */
-	public static void display(String message) {
-		System.out.println("> " + message);
-	}
-	
 }// End of UserController class

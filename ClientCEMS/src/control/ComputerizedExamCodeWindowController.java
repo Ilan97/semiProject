@@ -3,13 +3,11 @@ package control;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import client.ClientUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -38,19 +36,15 @@ public class ComputerizedExamCodeWindowController implements GuiController, Init
 	// Instance variables **********************************************
 
 	/**
-	 * static instance for Exam object. Will be create only once for each
+	 * static instance for {@link Exam} object. Will be create only once for each
 	 * computerized exam. the object initialize by the info that return from DB.
 	 */
 	public static Exam compExam;
-
 	/**
-	 * The code that is entered.
+	 * The code that is entered by user.
 	 */
 	public static String code;
 
-	/**
-	 * FXML variables.
-	 */
 	@FXML
 	private ImageView imgBack;
 	@FXML
@@ -63,7 +57,21 @@ public class ComputerizedExamCodeWindowController implements GuiController, Init
 	// Instance methods ************************************************
 
 	/**
-	 * @return the code from window.
+	 * Pop this window.
+	 *
+	 * @param primaryStage The stage for window's scene.
+	 * @throws IOException
+	 */
+	public void start(Stage primaryStage) throws IOException {
+		Parent root = FXMLLoader.load(getClass().getResource("/gui/ComputerizedExamCodeWindow.fxml"));
+		Scene scene = new Scene(root);
+		primaryStage.setTitle("Enter Code");
+		primaryStage.setScene(scene);
+		primaryStage.showAndWait();
+	}
+
+	/**
+	 * @return the code from user.
 	 */
 	private String getCode() {
 		return txtCode.getText();
@@ -72,25 +80,12 @@ public class ComputerizedExamCodeWindowController implements GuiController, Init
 	/**
 	 * This is FXML event handler. Handles the action of press on enter key.
 	 *
-	 * @param event The action event.
+	 * @param event The action event - user pressed on 'Enter' key.
 	 */
 	@FXML
 	void inputPass(KeyEvent event) {
 		if (event.getCode().equals(KeyCode.ENTER))
 			btnNext.fire();
-	}
-
-	/**
-	 * Pop this window.
-	 *
-	 * @param primaryStage The stage for window's scene.
-	 */
-	public void start(Stage primaryStage) throws IOException {
-		Parent root = FXMLLoader.load(getClass().getResource("/gui/ComputerizedExamCodeWindow.fxml"));
-		Scene scene = new Scene(root);
-		primaryStage.setTitle("Enter Code");
-		primaryStage.setScene(scene);
-		primaryStage.showAndWait();
 	}
 
 	/**
@@ -105,7 +100,7 @@ public class ComputerizedExamCodeWindowController implements GuiController, Init
 		else {
 			lblErrCode.setText("");
 			Message messageToServer = new Message();
-			messageToServer.setMsg(getCode() + " computerized");
+			messageToServer.setMsg(getCode() + " computerized " + LoginController.user.getUsername());
 			messageToServer.setOperation("CheckCodeExists");
 			messageToServer.setControllerName("ExamController");
 			compExam = (Exam) ClientUI.client.handleMessageFromClientUI(messageToServer);
@@ -119,22 +114,12 @@ public class ComputerizedExamCodeWindowController implements GuiController, Init
 				ComputerizedExamEnterIDWindowController popUp = new ComputerizedExamEnterIDWindowController();
 				try {
 					popUp.start(new Stage());
-					close(event);
+					UsefulMethods.instance().close(event);
 				} catch (Exception e) {
-					System.out.println("Exception: " + e.getMessage());
-					e.printStackTrace();
+					UsefulMethods.instance().printExeption(e);
 				}
 			}
 		}
-	}
-
-	/**
-	 * This method close the current stage.
-	 */
-	private void close(ActionEvent event) {
-		Node source = (Node) event.getSource();
-		Stage stage = (Stage) source.getScene().getWindow();
-		stage.close();
 	}
 
 	/**
@@ -149,6 +134,5 @@ public class ComputerizedExamCodeWindowController implements GuiController, Init
 		Image img = new Image(this.getClass().getResource("studentFrame.PNG").toString());
 		imgBack.setImage(img);
 	}
-
 }
 //End of ComputerizedExamCodeWindowController class

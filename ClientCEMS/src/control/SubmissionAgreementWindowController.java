@@ -3,14 +3,12 @@ package control;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import client.ClientUI;
 import gui.Navigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -32,10 +30,11 @@ public class SubmissionAgreementWindowController implements GuiController, Initi
 
 	// Instance variables **********************************************
 
-	private String callerController;
 	/**
-	 * FXML variables.
+	 * The controller that called this window.
 	 */
+	private String callerController;
+
 	@FXML
 	private ImageView imgBack;
 
@@ -45,6 +44,7 @@ public class SubmissionAgreementWindowController implements GuiController, Initi
 	 * Pop this window.
 	 *
 	 * @param primaryStage The stage for window's scene.
+	 * @throws IOException
 	 */
 	public void start(Stage primaryStage, String controllerName) throws IOException {
 		FXMLLoader loader = new FXMLLoader();
@@ -65,7 +65,7 @@ public class SubmissionAgreementWindowController implements GuiController, Initi
 	 */
 	@FXML
 	void cancelActionButton(ActionEvent event) {
-		close(event);
+		UsefulMethods.instance().close(event);
 	}
 
 	/**
@@ -93,30 +93,24 @@ public class SubmissionAgreementWindowController implements GuiController, Initi
 		messageToServer.setControllerName("StudentController");
 		messageToServer.setOperation("SubmitExam");
 		res = (boolean) ClientUI.client.handleMessageFromClientUI(messageToServer);
-		close(event);
+		UsefulMethods.instance().close(event);
 		// upload success
 		if (res && dur != -1) {
 			TheSubmissionWasSuccessfulWindowController success = new TheSubmissionWasSuccessfulWindowController();
 			success.start(new Stage());
-		}
-		else if (dur == -1) {
+		} else if (dur == -1) {
 			StudentDidntMakeItController pop = new StudentDidntMakeItController();
 			pop.start(new Stage());
+		} else {
+			// Failed pop up
+			FailWindowController popUp = new FailWindowController();
+			try {
+				popUp.start(new Stage());
+			} catch (Exception e) {
+				UsefulMethods.instance().printExeption(e);
+			}
 		}
-			
-		// upload fail
-		else
-			;
 		Navigator.instance().clearHistory("StudentHomeForm");
-	}
-
-	/**
-	 * This method close the current stage.
-	 */
-	private void close(ActionEvent event) {
-		Node source = (Node) event.getSource();
-		Stage stage = (Stage) source.getScene().getWindow();
-		stage.close();
 	}
 
 	/**

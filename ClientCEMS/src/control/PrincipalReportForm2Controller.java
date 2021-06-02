@@ -2,7 +2,6 @@ package control;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import gui.Navigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,7 +15,7 @@ import javafx.stage.Stage;
  * This class handle all events related to this window. This class connect with
  * client.
  *
- * @author Bat-El Gardin
+ * @author
  * @version May 2021
  */
 
@@ -24,9 +23,6 @@ public class PrincipalReportForm2Controller implements GuiController, Initializa
 
 	// Instance variables **********************************************
 
-	/**
-	 * FXML variables.
-	 */
 	@FXML
 	private ImageView imgBack2;
 	@FXML
@@ -53,15 +49,17 @@ public class PrincipalReportForm2Controller implements GuiController, Initializa
 	 */
 	@FXML
 	void save(ActionEvent event) {
+		// save in DB
+		// .....
+
 		// successes pop up
 		PrincipalReportWasSavedWindowController popUp = new PrincipalReportWasSavedWindowController();
 		try {
 			popUp.start(new Stage());
 		} catch (Exception e) {
-			System.out.println("Exception: " + e.getMessage());
-			e.printStackTrace();
+			UsefulMethods.instance().printExeption(e);
 		}
-		// save in DB
+		Navigator.instance().clearHistory("PrincipalHomeForm");
 	}
 
 	// Menu methods ************************************************
@@ -112,6 +110,5 @@ public class PrincipalReportForm2Controller implements GuiController, Initializa
 		Image img3 = new Image(this.getClass().getResource("report.png").toString());
 		imgRep.setImage(img3);
 	}
-
 }
 // End of PrincipalReportForm2Controller class

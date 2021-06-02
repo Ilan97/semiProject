@@ -2,7 +2,6 @@ package control;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import client.ClientUI;
 import gui.Navigator;
 import javafx.event.ActionEvent;
@@ -30,9 +29,6 @@ public class WriteQuestionForm2Controller implements GuiController, Initializabl
 
 	// Instance variables **********************************************
 
-	/**
-	 * FXML variables.
-	 */
 	@FXML
 	private ImageView imgBack;
 	@FXML
@@ -44,11 +40,11 @@ public class WriteQuestionForm2Controller implements GuiController, Initializabl
 	@FXML
 	private Label lblCourse;
 	@FXML
-	private TextArea questionView;
-	@FXML
 	private Label lblAuthor;
 	@FXML
 	private Label lblSerialNum;
+	@FXML
+	private TextArea questionView;
 
 	// Instance methods ************************************************
 
@@ -81,12 +77,18 @@ public class WriteQuestionForm2Controller implements GuiController, Initializabl
 			try {
 				popUp.start(new Stage());
 			} catch (Exception e) {
-				System.out.println("Exception: " + e.getMessage());
-				e.printStackTrace();
+				UsefulMethods.instance().printExeption(e);
 			}
-		} else
-			// pop up failed
-			;
+		} else {
+			// Failed pop up
+			FailWindowController popUp = new FailWindowController();
+			try {
+				popUp.start(new Stage());
+			} catch (Exception e) {
+				UsefulMethods.instance().printExeption(e);
+			}
+		}
+		Navigator.instance().clearHistory("TeacherHomeForm");
 	}
 
 	/**
@@ -107,7 +109,7 @@ public class WriteQuestionForm2Controller implements GuiController, Initializabl
 		if (Qid != -1)
 			q.setQid(String.format("%03d", Qid + 1));
 		else
-			display("qid not found");
+			UsefulMethods.instance().display("qid not found");
 		q.setQuestionID(Fid + Cid + String.format("%03d", Qid + 1));
 
 		lblSerialNum.setText(q.getQuestionID());
@@ -118,7 +120,7 @@ public class WriteQuestionForm2Controller implements GuiController, Initializabl
 	 * This method request from server to return the qid from DB.
 	 *
 	 * @param fieldName,courseName from client.
-	 * @return return qid if found in dataBase else return -1
+	 * @return return qid if found in dataBase else return -1.
 	 */
 	private int GetQid(String fieldName, String courseName) {
 		int Qid;
@@ -134,7 +136,7 @@ public class WriteQuestionForm2Controller implements GuiController, Initializabl
 	 * This method request from server to return the fid from DB.
 	 *
 	 * @param fieldName from client.
-	 * @return return Fid if Field found in dataBase else return "Field not found"
+	 * @return return Fid if Field found in dataBase else return "Field not found".
 	 */
 	private String GetFid(String FieldName) {
 		String Fid;
@@ -152,7 +154,8 @@ public class WriteQuestionForm2Controller implements GuiController, Initializabl
 	 * This method request from server to return the cid from DB.
 	 *
 	 * @param CourseName from client.
-	 * @return return Cid if Course found in dataBase else return "Course not found"
+	 * @return return Cid if Course found in dataBase else return "Course not
+	 *         found".
 	 */
 	private String GetCid(String CourseName) {
 		String Cid;
@@ -231,15 +234,6 @@ public class WriteQuestionForm2Controller implements GuiController, Initializabl
 	@FXML
 	void examSearchAction(ActionEvent event) {
 		Navigator.instance().alertPopUp("ExamStockForm1");
-	}
-
-	/**
-	 * This method displays a message into the console.
-	 *
-	 * @param message The string to be displayed.
-	 */
-	public static void display(String message) {
-		System.out.println("> " + message);
 	}
 
 	/**

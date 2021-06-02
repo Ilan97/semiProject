@@ -1,11 +1,6 @@
-// This file contains material supporting section 3.7 of the textbook:
-// "Object Oriented Software Engineering" and is issued under the open-source
-// license found at www.lloseng.com 
-
 package client;
 
 import java.io.IOException;
-
 import control.ServerCrushedController;
 import javafx.application.Platform;
 import javafx.stage.Stage;
@@ -16,14 +11,11 @@ import ocsf.client.AbstractClient;
  * This class overrides some of the methods defined in the AbstractClient
  * superclass in order to give more functionality to the client.
  *
- * @author Dr Timothy C. Lethbridge
- * @author Dr Robert Lagani&egrave;
- * @author Fran&ccedil;ois B&eacute;langer
- * @version July 2000
  * @author Bat-El Gardin
  * @author Sharon Vaknin
  * @author Ilan Meikler
  * @author Ohad Shamir
+ * @author Moran Davidov
  * @version May 2021
  */
 public class ClientController extends AbstractClient {
@@ -45,9 +37,9 @@ public class ClientController extends AbstractClient {
 	/**
 	 * Constructs an instance of the ClientController.
 	 *
-	 * @param host     The server to connect to.
-	 * @param port     The port number to connect on.
-	 * @param clientUI The interface type variable.
+	 * @param host The server to connect to.
+	 * @param port The port number to connect on.
+	 * @throws IOException
 	 */
 	public ClientController(String host, int port) throws IOException {
 		super(host, port);
@@ -69,9 +61,9 @@ public class ClientController extends AbstractClient {
 	}
 
 	/**
-	 * This method handles all data coming from the UI
+	 * This method handles all data coming from the UI.
 	 *
-	 * @param msg The message from the UI.
+	 * @param msg {@link Message} The message from the UI.
 	 * @return message The result from server
 	 * 
 	 */
@@ -138,7 +130,7 @@ public class ClientController extends AbstractClient {
 				}
 			}
 			// run the specified Runnable on the JavaFX Application Thread at some
-			// unspecified time in the future (when server is suddenly disconnected).
+			// unspecified time in the future (when server is suddenly disconnected)
 			Platform.runLater(() -> {
 				// pop up window - will close the client on exit
 				ServerCrushedController serverCrushedController = new ServerCrushedController();

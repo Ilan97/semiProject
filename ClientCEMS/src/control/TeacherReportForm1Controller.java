@@ -3,7 +3,6 @@ package control;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
 import client.ClientUI;
 import gui.Navigator;
 import javafx.collections.FXCollections;
@@ -30,9 +29,6 @@ public class TeacherReportForm1Controller implements GuiController, Initializabl
 
 	// Instance variables **********************************************
 
-	/**
-	 * FXML variables.
-	 */
 	@FXML
 	private ImageView imgBack;
 	@FXML
@@ -142,6 +138,17 @@ public class TeacherReportForm1Controller implements GuiController, Initializabl
 	@FXML
 	void chooseHistAction(ActionEvent event) {
 
+	}
+
+	/**
+	 * This method check that there is no selected values in the form.
+	 *
+	 * @return true if form isn't empty, false otherwise.
+	 */
+	private boolean formIsNotEmpty() {
+		if (!field.getSelectionModel().isEmpty() || !code.getSelectionModel().isEmpty())
+			return true;
+		return false;
 	}
 
 	// Menu methods ************************************************
@@ -254,17 +261,5 @@ public class TeacherReportForm1Controller implements GuiController, Initializabl
 		listOfField = (ArrayList<String>) ClientUI.client.handleMessageFromClientUI(messageToServer);
 		field.setItems(FXCollections.observableArrayList(listOfField));
 	}
-
-	/**
-	 * This method check that there is no selected values in the form
-	 *
-	 * @return boolean result.
-	 */
-	private boolean formIsNotEmpty() {
-		if (!field.getSelectionModel().isEmpty() || !code.getSelectionModel().isEmpty())
-			return true;
-		return false;
-	}
-
 }
 //End of TeacherReportForm1Controller class

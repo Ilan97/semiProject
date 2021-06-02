@@ -3,7 +3,6 @@ package control;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
 import client.ClientUI;
 import gui.Navigator;
 import javafx.collections.FXCollections;
@@ -29,9 +28,6 @@ public class PrincipalReportFormCourseController implements GuiController, Initi
 
 	// Instance variables **********************************************
 
-	/**
-	 * FXML variables.
-	 */
 	@FXML
 	private ImageView imgBack1;
 	@FXML
@@ -168,6 +164,5 @@ public class PrincipalReportFormCourseController implements GuiController, Initi
 		listOfCourse = (ArrayList<String>) ClientUI.client.handleMessageFromClientUI(messageToServer);
 		course.setItems(FXCollections.observableArrayList(listOfCourse));
 	}
-
 }
 // End of PrincipalReportFormCourseController class

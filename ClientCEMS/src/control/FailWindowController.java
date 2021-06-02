@@ -3,12 +3,10 @@ package control;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import gui.Navigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -16,21 +14,18 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 /**
- * This is controller class (boundary) for window FailedSaveData. This
- * class handle all events related to this window. This class connect with
- * client.
+ * This is controller class (boundary) for window FailedSaveData. This class
+ * handle all events related to this window. This class connect with client.
  *
  * @author Sharon Vaknin
  * @author Moran Davidov
  * @version May 2021
  */
 
-public class FailedSaveDataWindowController implements GuiController, Initializable {
+public class FailWindowController implements GuiController, Initializable {
+
 	// Instance variables **********************************************
 
-	/**
-	 * FXML variables.
-	 */
 	@FXML
 	private ImageView imgBack;
 	@FXML
@@ -42,37 +37,25 @@ public class FailedSaveDataWindowController implements GuiController, Initializa
 	 * Pop this window.
 	 *
 	 * @param primaryStage The stage for window's scene.
+	 * @throws IOException
 	 */
-	public void start(Stage primaryStage) throws IOException {
+	public void start(Stage primaryStage) throws Exception {
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/FailedSaveDataWindow.fxml"));
 		Scene scene = new Scene(root);
 		primaryStage.setTitle("Alert");
 		primaryStage.setScene(scene);
-		//closing the current window and return to home page
-		primaryStage.setOnCloseRequest((event) -> {
-			primaryStage.close();
-			Navigator.instance().clearHistory("TeacherHomeForm");
-		});
 		primaryStage.showAndWait();
-	}
-	
-	/**
-	 * This is FXML event handler. Handles the action of click on 'Try Again' button.
-	 *
-	 * @param event The action event.
-	 */
-    @FXML
-    void tryAgainAction(ActionEvent event) {
-		close(event);
 	}
 
 	/**
-	 * This method close the current stage.
+	 * This is FXML event handler. Handles the action of click on 'Try Again'
+	 * button.
+	 *
+	 * @param event The action event.
 	 */
-	private void close(ActionEvent event) {
-		Node source = (Node) event.getSource();
-		Stage stage = (Stage) source.getScene().getWindow();
-		stage.close();
+	@FXML
+	void tryAgainAction(ActionEvent event) {
+		UsefulMethods.instance().close(event);
 	}
 
 	/**

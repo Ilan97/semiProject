@@ -159,7 +159,7 @@ public class ShowExamWindowController implements GuiController, Initializable {
 		imgBack.setImage(img);
 		Message messageToServer = new Message();
 		messageToServer.setMsg(GradesFormController.chosenExam.getCode() + " computerized");
-		messageToServer.setOperation("CheckCodeExists");
+		messageToServer.setOperation("FindExamOfStudent");
 		messageToServer.setControllerName("ExamController");
 		exam = (Exam) ClientUI.client.handleMessageFromClientUI(messageToServer);
 		if(exam != null) {

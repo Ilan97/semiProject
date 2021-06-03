@@ -11,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
@@ -35,6 +36,8 @@ public class SubmissionAgreementWindowController implements GuiController, Initi
 	 */
 	private String callerController;
 
+    @FXML
+    public Button submitbtn;
 	@FXML
 	private ImageView imgBack;
 
@@ -67,7 +70,6 @@ public class SubmissionAgreementWindowController implements GuiController, Initi
 	void cancelActionButton(ActionEvent event) {
 		UsefulMethods.instance().close(event);
 	}
-
 	/**
 	 * This is FXML event handler. Handles the action of click on 'Submit' button.
 	 *
@@ -107,7 +109,7 @@ public class SubmissionAgreementWindowController implements GuiController, Initi
 			try {
 				popUp.start(new Stage());
 			} catch (Exception e) {
-				UsefulMethods.instance().printExeption(e);
+				UsefulMethods.instance().printException(e);
 			}
 		}
 		Navigator.instance().clearHistory("StudentHomeForm");

@@ -82,6 +82,16 @@
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
+            <Label fx:id="timerLabel" layoutX="678.0" layoutY="71.0" prefHeight="17.0" prefWidth="73.0">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="titleOfTimer" layoutX="631.0" layoutY="71.0" prefHeight="17.0" prefWidth="48.0">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
    </children>

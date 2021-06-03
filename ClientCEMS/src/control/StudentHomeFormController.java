@@ -58,7 +58,7 @@ public class StudentHomeFormController implements GuiController, Initializable {
 		try {
 			popUp.start(new Stage());
 		} catch (Exception e) {
-			UsefulMethods.instance().printExeption(e);
+			UsefulMethods.instance().printException(e);
 		}
 	}
 

@@ -33,6 +33,9 @@ public class ExamStockForm2Controller implements GuiController, Initializable {
 
 	// Instance variables **********************************************
 
+	/**
+	 * static variables.
+	 */
 	public static Exam chosenExam;
 	
 	/**

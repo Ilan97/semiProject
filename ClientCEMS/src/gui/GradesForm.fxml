@@ -2,7 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
@@ -44,73 +44,37 @@
                   <Font name="Calibri Bold" size="24.0" />
                </font>
             </Label>
-            <Label fx:id="lblError" layoutX="239.0" layoutY="312.0" prefHeight="14.0" prefWidth="57.0" textFill="#f86060">
-               <font>
-                  <Font name="Calibri Bold" size="12.0" />
-               </font>
-            </Label>
             <Label layoutX="224.0" layoutY="51.0" text="Grades" textFill="#19cebc">
                <font>
                   <Font name="Calibri Bold" size="41.0" />
                </font>
             </Label>
-            <Label layoutX="375.0" layoutY="185.0" text="Student ID:">
+            <Label layoutX="415.0" layoutY="377.0" text="Grade:" textFill="#0d0d0d">
                <font>
-                  <Font name="Calibri Bold" size="14.0" />
+                  <Font name="Calibri Bold" size="33.0" />
                </font>
             </Label>
-            <TextField fx:id="txtID" layoutX="449.0" layoutY="181.0" />
-            <Label layoutX="375.0" layoutY="222.0" text="ExamCode:">
+            <Label fx:id="lblGrade" layoutX="520.0" layoutY="378.0" prefHeight="39.0" prefWidth="65.0" textFill="#b2b2b2">
                <font>
-                  <Font name="Calibri Bold" size="14.0" />
+                  <Font name="Calibri Bold" size="33.0" />
                </font>
             </Label>
-            <TextField fx:id="txtCode" layoutX="449.0" layoutY="218.0" />
-            <Label layoutX="419.0" layoutY="361.0" text="Grade:" textFill="#0d0d0d">
-               <font>
-                  <Font name="Calibri Bold" size="24.0" />
-               </font>
-            </Label>
-            <Label layoutX="368.0" layoutY="185.0" text="*" textFill="#f86060">
-               <font>
-                  <Font name="Calibri Bold" size="11.0" />
-               </font>
-            </Label>
-            <Label layoutX="369.0" layoutY="223.0" text="*" textFill="#f86060">
-               <font>
-                  <Font name="Calibri Bold" size="11.0" />
-               </font>
-            </Label>
-            <Label fx:id="lblGrade" layoutX="492.0" layoutY="362.0" prefHeight="28.0" prefWidth="42.0" textFill="#b2b2b2">
-               <font>
-                  <Font name="Calibri Bold" size="24.0" />
-               </font>
-            </Label>
-            <Button layoutX="502.0" layoutY="286.0" mnemonicParsing="false" onAction="#getGradeAction" prefHeight="27.0" prefWidth="88.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="Get Grade" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Button layoutX="510.0" layoutY="302.0" mnemonicParsing="false" onAction="#getGradeAction" prefHeight="27.0" prefWidth="88.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="Get Grade" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Button>
-            <Button layoutX="385.0" layoutY="286.0" mnemonicParsing="false" onAction="#getExamAction" prefHeight="27.0" prefWidth="88.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="Get Exam" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Button layoutX="382.0" layoutY="302.0" mnemonicParsing="false" onAction="#showExamAction" prefHeight="27.0" prefWidth="88.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="Show Exam" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Button>
-            <Label fx:id="lblError3" layoutX="608.0" layoutY="223.0" prefHeight="17.0" prefWidth="103.0" textFill="#f86060">
-               <font>
-                  <Font name="Calibri Bold" size="12.0" />
-               </font>
-            </Label>
-            <Label fx:id="lblError31" layoutX="607.0" layoutY="185.0" prefHeight="17.0" prefWidth="103.0" textFill="#f86060">
-               <font>
-                  <Font name="Calibri Bold" size="12.0" />
-               </font>
-            </Label>
-            <Button layoutX="455.0" layoutY="428.0" mnemonicParsing="false" onAction="#closeAction" prefHeight="27.0" prefWidth="65.0" style="-fx-background-color: #f86060; -fx-background-radius: 30 30 30 30;" text="Close" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Button layoutX="664.0" layoutY="463.0" mnemonicParsing="false" onAction="#closeAction" prefHeight="27.0" prefWidth="65.0" style="-fx-background-color: #f86060; -fx-background-radius: 30 30 30 30;" text="Close" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Button>
+            <ListView fx:id="examsList" layoutX="257.0" layoutY="139.0" prefHeight="125.0" prefWidth="451.0" />
          </children>
       </Pane>
    </children>

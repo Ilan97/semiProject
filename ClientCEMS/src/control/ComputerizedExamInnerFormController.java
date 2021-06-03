@@ -58,6 +58,8 @@ public class ComputerizedExamInnerFormController implements Initializable {
 	private ToggleGroup answers;
 	@FXML
 	private Label lblScore;
+    @FXML
+    private Label lblTeacherNote;
 
 	// Instance methods ************************************************
 

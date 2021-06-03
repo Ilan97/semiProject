@@ -81,10 +81,6 @@ public class ExamViewWindowController implements GuiController, Initializable {
 		Parent root = loader.load();
 		ExamViewWindowController cont = loader.getController();
 		Scene scene = new Scene(root);
-//		primaryStage.setOnCloseRequest((e) -> {
-//			cont.btnSaveScore.fire();
-//			e.consume();
-//		});
 		primaryStage.setTitle("Exam View");
 		primaryStage.setScene(scene);
 		primaryStage.showAndWait();
@@ -213,7 +209,7 @@ public class ExamViewWindowController implements GuiController, Initializable {
 		lblCourse.setText(ExamStockForm2Controller.chosenExam.getCname());
 		lblAuthor.setText(ExamStockForm2Controller.chosenExam.getAuthor());
 		lblDuration.setText(String.valueOf(ExamStockForm2Controller.chosenExam.getDuration()) + " min");
-		txtExamView.setText(ExamStockForm2Controller.chosenExam.allQuestionsToString());
+		txtExamView.setText(ExamStockForm2Controller.chosenExam.allQuestionsForTeacherToString());
 		dPickDate.setValue(LocalDate.now());
 		Callback<DatePicker, DateCell> dayCellFactory = this.getDayCellFactory();
 		dPickDate.setDayCellFactory(dayCellFactory);

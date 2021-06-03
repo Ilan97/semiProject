@@ -390,6 +390,7 @@ public class ExamController {
 				q.setQid(newRs.getString("qid"));
 				score = newRs.getInt("score");
 				q.setStudentNote(newRs.getString("studentNote"));
+				q.setTeacherNote(newRs.getString("teacherNote"));
 				getMoreFieldsForQuestion(q);
 				questionsInExam.put(q, score);
 			}

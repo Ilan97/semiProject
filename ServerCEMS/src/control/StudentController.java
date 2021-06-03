@@ -3,8 +3,9 @@ package control;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-
+import java.util.ArrayList;
 import logic.ExamOfStudent;
 import logic.Message;
 
@@ -14,6 +15,8 @@ import logic.Message;
  *
  * @author Ilan Meikler
  * @author Bat-El Gardin
+ * @author Sharon Vaknin
+ * @author Moran Davidov
  * @version May 2021
  */
 
@@ -49,6 +52,7 @@ public class StudentController {
 		// create the result Message instance
 		boolean res;
 		Message teacherMessage = new Message();
+		Message studentMessage = new Message();
 		request = msg;
 		// switch case is on the operations this controller ask to operate.
 		switch (request.getOperation()) {
@@ -70,8 +74,92 @@ public class StudentController {
 			teacherMessage.setMsg(difference);
 			result = teacherMessage;
 			break;
+			
+		case "ShowExamOfStudentList":
+			String userName = (String) request.getMsg();
+			ArrayList<ExamOfStudent> ExamsOfStudentList;
+			ExamsOfStudentList = getExamsOfStudent(userName);
+			studentMessage.setMsg(ExamsOfStudentList);
+			result = studentMessage;
+			break;
 		}
 		return result;
+	}
+	
+	/**
+	 * This method gets all the exams of student by userName .
+	 */
+	public static ArrayList<ExamOfStudent> getExamsOfStudent(String userName){
+		ArrayList<ExamOfStudent> ExamsOfStudentList = new ArrayList<>();
+		ResultSet rs1 = null;
+		// execute query
+		String sql = "SELECT * FROM examofstudent WHERE userName = ? AND teacher_check = 1";
+		try {
+			pstmt = DBconnector.conn.prepareStatement(sql);
+			pstmt.setString(1, userName);
+			rs1 = pstmt.executeQuery();
+			while (rs1.next()) {
+				ExamOfStudent es = new ExamOfStudent();
+				es.setUserName(userName);
+				es.setFid(rs1.getString("fid"));
+				es.setFname(FieldOfStudyController.GetFname(rs1.getString("fid")));
+				es.setCid(rs1.getString("cid"));
+				es.setCname(CourseController.GetCname(rs1.getString("cid")));
+				es.setEid(rs1.getString("eid"));
+				es.setGrade(rs1.getInt("grade"));
+				es.setAnswers(rs1.getString("ans"));
+				es.setCode(rs1.getString("exam_code"));
+				es.setEdate(getExamDate(es.getCode()));
+				ExamsOfStudentList.add(es);
+			}
+		} catch (SQLException e) {
+			DBconnector.printSQLException(e);
+		} finally {
+			try {
+				rs1.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+			try {
+				pstmt.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+		}
+		return ExamsOfStudentList;
+	}
+	
+	/**
+	 * This method get the exam of student date.
+	 */
+	public static String getExamDate(String code){
+		String date = new String();
+		ResultSet newRs = null;
+		String sql = "SELECT * FROM examtoperform WHERE ecode = ?";
+		try {
+			pstmt = DBconnector.conn.prepareStatement(sql);
+			pstmt.setString(1, code);
+			newRs = pstmt.executeQuery();
+			while (newRs.next()) {
+				ExamOfStudent es = new ExamOfStudent();
+				es.setEdate(newRs.getString("edate"));
+				date = es.getEdate();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				newRs.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+			try {
+				pstmt.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+		}
+		return date;
 	}
 
 	/**
@@ -109,7 +197,7 @@ public class StudentController {
 		// save details in db
 		if (exam.getContent() != null)
 			inputStream = new ByteArrayInputStream(exam.getContent());
-		String sql = "INSERT INTO examOfStudent VALUES (?,?,?,?,?,?,?,?)";
+		String sql = "INSERT INTO examOfStudent VALUES (?,?,?,?,?,?,?,?,?,?)";
 		try {
 			pstmt = DBconnector.conn.prepareStatement(sql);
 			pstmt.setString(1, exam.getStudentName());
@@ -119,6 +207,8 @@ public class StudentController {
 			pstmt.setDouble(5, exam.getRealTimeDuration());
 			pstmt.setInt(6, exam.getGrade());
 			pstmt.setString(8, exam.getAnswers());
+			pstmt.setBoolean(9, false);
+			pstmt.setString(10, exam.getCode());
 			switch (type) {
 			case "computerized":
 				byte[] empty = {};

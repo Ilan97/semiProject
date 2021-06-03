@@ -70,7 +70,7 @@ public class ExamStockForm2Controller implements GuiController, Initializable {
 		try {
 			examView.start(new Stage());
 		} catch (IOException e) {
-			UsefulMethods.instance().printExeption(e);
+			UsefulMethods.instance().printException(e);
 		}
 	}
 

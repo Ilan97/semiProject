@@ -22,5 +22,5 @@ public interface UsefulMethodsInterface {
 	 *
 	 * @param excpetion The Exception.
 	 */
-	void printExeption(Exception e);
+	void printException(Exception e);
 }

@@ -56,7 +56,7 @@ public class TeacherReportForm2Controller implements GuiController, Initializabl
 		try {
 			popUp.start(new Stage());
 		} catch (Exception e) {
-			UsefulMethods.instance().printExeption(e);
+			UsefulMethods.instance().printException(e);
 		}
 		Navigator.instance().clearHistory("TeacherHomeForm");
 	}

@@ -116,7 +116,7 @@ public class ComputerizedExamCodeWindowController implements GuiController, Init
 					popUp.start(new Stage());
 					UsefulMethods.instance().close(event);
 				} catch (Exception e) {
-					UsefulMethods.instance().printExeption(e);
+					UsefulMethods.instance().printException(e);
 				}
 			}
 		}

@@ -117,7 +117,7 @@ public class ExamController {
 			if (examID != null) {
 				if (!checkStudentDidExam(examID, data[2]))
 					resExam = checkComputerizedExamCode(data[0], data[1]);
-			}
+				}
 			examMessage.setMsg(resExam);
 			result = examMessage;
 			break;
@@ -139,8 +139,42 @@ public class ExamController {
 			examMessage.setMsg(dur);
 			result = examMessage;
 			break;
+		
+		case "GetExamStatus":
+			String status = getExamStatus((String) request.getMsg());
+			examMessage.setMsg(status);
+			result = examMessage;
+			break;
+		
 		} // end switch case
 		return result;
+	}
+
+	public static String getExamStatus(String code) {
+		String Status="";
+		String sql = "SELECT estatus FROM examtoperform WHERE ecode = ? ";
+		try {
+			pstmt = DBconnector.conn.prepareStatement(sql);
+			pstmt.setString(1, code);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				Status = rs.getString("estatus");
+			}
+		} catch (SQLException e) {
+			DBconnector.printSQLException(e);
+		} finally {
+			try {
+				rs.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+			try {
+				pstmt.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+		}
+		return Status;
 	}
 
 	/**

@@ -22,7 +22,7 @@
                   <Font name="Calibri Bold" size="24.0" />
                </font>
             </Label>
-            <Button layoutX="166.0" layoutY="182.0" mnemonicParsing="false" onAction="#submitActionButton" prefHeight="27.0" prefWidth="71.0" style="-fx-background-color: #47ce60; -fx-background-radius: 30 30 30 30;" text="Submit" textFill="WHITE">
+            <Button fx:id="submitbtn" layoutX="166.0" layoutY="182.0" mnemonicParsing="false" onAction="#submitActionButton" prefHeight="27.0" prefWidth="71.0" style="-fx-background-color: #47ce60; -fx-background-radius: 30 30 30 30;" text="Submit" textFill="WHITE">
                <font>
                   <Font name="Calibri" size="14.0" />
                </font>

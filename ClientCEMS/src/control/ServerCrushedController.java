@@ -54,7 +54,7 @@ public class ServerCrushedController implements Initializable {
 				ClientUI.client.closeConnection();
 			} catch (IOException e) {
 				UsefulMethods.instance().display("Fail to close client!");
-				UsefulMethods.instance().printExeption(e);
+				UsefulMethods.instance().printException(e);
 			}
 			System.exit(0);
 		});
@@ -72,7 +72,7 @@ public class ServerCrushedController implements Initializable {
 			ClientUI.client.closeConnection();
 		} catch (IOException e) {
 			UsefulMethods.instance().display("Fail to close client!");
-			UsefulMethods.instance().printExeption(e);
+			UsefulMethods.instance().printException(e);
 		}
 		System.exit(0);
 	}

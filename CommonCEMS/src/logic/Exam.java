@@ -242,6 +242,28 @@ public class Exam implements Serializable {
 		}
 		return QuestionView;
 	}
+	
+	/**
+	 * @return the string of all questions and their scores in the exam.
+	 */
+	public String allQuestionsForTeacherToString() {
+		int i = 1;
+		String QuestionView = "";
+		Set<Question> QuestionSet = questionsInExam.keySet();
+		for (Question q : QuestionSet) {
+			QuestionView += "Question number " + i + ": " + "(" + questionsInExam.get(q) + " points)\n";
+			
+			if(q.getStudentNote() != null ) 
+				QuestionView += "Note for student: " + q.getStudentNote() + "\n";
+			
+			if(q.getTeacherNote() != null ) 
+				QuestionView += "Note for teacher: " + q.getTeacherNote() + "\n";
+			
+			QuestionView += q.toString();
+			i++;
+		}
+		return QuestionView;
+	}
 
 	@Override
 	public int hashCode() {

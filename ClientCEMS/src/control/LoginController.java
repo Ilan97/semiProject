@@ -130,27 +130,11 @@ public class LoginController implements GuiController, Initializable {
 			user = (User) ClientUI.client.handleMessageFromClientUI(messageToServer);
 			// user isn't exists in DB
 			if (user == null) { // create pop up alert
-				Alert a = new Alert(AlertType.INFORMATION);
-				a.setTitle("CEMS");
-				a.setResizable(true);
-				a.setHeaderText("User Name or Password is incorrect");
-				Label label = new Label();
-				label.setPrefSize(100, 100);
-				label.setPadding(new Insets(10, 10, 10, 10));
-				a.setGraphic(label);
-				a.showAndWait();
+				lblErr.setText("User Name or Password is incorrect");
 			}
 			// user already log in
 			else if (user.isLogedIN() == true) { // create pop up alert
-				Alert a = new Alert(AlertType.INFORMATION);
-				a.setTitle("CEMS");
-				a.setResizable(true);
-				a.setHeaderText("User already logged in !");
-				Label label = new Label();
-				label.setPrefSize(100, 100);
-				label.setPadding(new Insets(10, 10, 10, 10));
-				a.setGraphic(label);
-				a.showAndWait();
+				lblErr.setText("User already logged in");
 			} else { // user logged in successfully
 				messageToServer.setMsg(userName);
 				messageToServer.setOperation("updateConnectionStatus");

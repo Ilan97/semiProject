@@ -181,8 +181,8 @@ public class ExamViewWindowController implements GuiController, Initializable {
 		lblCourse.setText(ExamStockForm2Controller.chosenExam.getCname());
 		lblAuthor.setText(ExamStockForm2Controller.chosenExam.getAuthor());
 		lblDuration.setText(String.valueOf(ExamStockForm2Controller.chosenExam.getDuration()) + " min");
+		txtExamView.setText(ExamStockForm2Controller.chosenExam.allQuestionsForTeacherToString());
 		lblType.setText(ExamStockForm2Controller.chosenExam.getEtype().toString());
-		txtExamView.setText(ExamStockForm2Controller.chosenExam.allQuestionsToString());
 		dPickDate.setValue(LocalDate.now());
 		Callback<DatePicker, DateCell> dayCellFactory = this.getDayCellFactory();
 		dPickDate.setDayCellFactory(dayCellFactory);

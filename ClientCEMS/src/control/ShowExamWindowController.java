@@ -159,7 +159,7 @@ public class ShowExamWindowController implements GuiController, Initializable {
 		imgBack.setImage(img);
 		Message messageToServer = new Message();
 		messageToServer.setMsg(GradesFormController.chosenExam.getCode() + " computerized");
-		messageToServer.setOperation("CheckCodeExists");
+		messageToServer.setOperation("FindExamOfStudent");
 		messageToServer.setControllerName("ExamController");
 		exam = (Exam) ClientUI.client.handleMessageFromClientUI(messageToServer);
 		if(exam != null) {
@@ -182,6 +182,9 @@ public class ShowExamWindowController implements GuiController, Initializable {
 			}
 			paneQuestions.getChildren().clear();
 			paneQuestions.getChildren().add(qArray[0]);
+			if (qSize == 1) 
+				btnNext.setVisible(false);
+
 			btnBack.setVisible(false);
 		}
 	}

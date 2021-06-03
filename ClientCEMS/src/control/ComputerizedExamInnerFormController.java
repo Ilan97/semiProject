@@ -32,39 +32,45 @@ public class ComputerizedExamInnerFormController implements Initializable {
 	 */
 	private List<Integer> a = new ArrayList<>();
 	/**
-	 * The question to show in this window.
+	 * The {@link Question} to show in this window.
 	 */
 	private Question q;
 	/**
 	 * The final score.
 	 */
 	private int score;
-	/**
-	 * FXML variables.
-	 */
+
 	@FXML
 	private Label lblNumQuestion;
+	@FXML
+	private Label lblScore;
+	@FXML
+	private Label lblCourse;
+	@FXML
+	private Label lblField;
 	@FXML
 	private TextArea question;
 	@FXML
 	private RadioButton btnAnswer1;
 	@FXML
-	private RadioButton btnAnswer4;
+	private RadioButton btnAnswer2;
 	@FXML
 	private RadioButton btnAnswer3;
 	@FXML
-	private RadioButton btnAnswer2;
+	private RadioButton btnAnswer4;
 	@FXML
 	private ToggleGroup answers;
 	@FXML
 	private Label lblScore;
-    @FXML
-    private Label lblTeacherNote;
+  @FXML
+  private Label lblTeacherNote;
 
 	// Instance methods ************************************************
 
 	/**
 	 * This method get answers (0 - 3).
+	 * 
+	 * @return the answer number: 0 is right, 1 is wrong1 2 is wrong2, 3 is wrong3.
 	 */
 	public int getAnswerOfStudent() {
 		return (int) answers.getSelectedToggle().getUserData();
@@ -72,6 +78,8 @@ public class ComputerizedExamInnerFormController implements Initializable {
 
 	/**
 	 * This method get the final score.
+	 * 
+	 * @return the score.
 	 */
 	public int getScore() {
 		return score;
@@ -86,7 +94,7 @@ public class ComputerizedExamInnerFormController implements Initializable {
 		String toShow = q.getContent() + "\n\n" + q.getInstructions();
 		if (q.getStudentNote() != null)
 			toShow += "\n\n" + q.getStudentNote();
-		lblNumQuestion.setText("" + index);
+		lblNumQuestion.setText("" + index + "/" + ComputerizedExamFormController.qSize);
 		lblScore.setText("(" + score + " points)");
 		question.setText(toShow);
 		this.score = score;
@@ -124,6 +132,9 @@ public class ComputerizedExamInnerFormController implements Initializable {
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		// set field and course
+		lblField.setText(ComputerizedExamCodeWindowController.compExam.getFname());
+		lblCourse.setText(ComputerizedExamCodeWindowController.compExam.getCname());
 		a.add(0);
 		a.add(1);
 		a.add(2);

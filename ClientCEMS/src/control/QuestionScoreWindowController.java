@@ -3,12 +3,10 @@ package control;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -41,17 +39,18 @@ public class QuestionScoreWindowController implements GuiController, Initializab
 	public int score = 0;
 
 	/**
-	 * The notes that are entered (from addNote window)
+	 * The teacher note that are entered (from addNote window).
 	 */
 	public String teachNote = null;
+	/**
+	 * The student note that are entered (from addNote window).
+	 */
 	public String studNote = null;
-	
-	
+	/**
+	 * Instance of {@link QuestionScoreWindowController}.
+	 */
 	public QuestionScoreWindowController cont;
 
-	/**
-	 * FXML variables.
-	 */
 	@FXML
 	private ImageView imgBack;
 	@FXML
@@ -66,9 +65,28 @@ public class QuestionScoreWindowController implements GuiController, Initializab
 	// Instance methods ************************************************
 
 	/**
+	 * Pop this window.
+	 *
+	 * @param primaryStage The stage for window's scene.
+	 * @throws IOException
+	 * @return the "real" controller.
+	 */
+	public Object start(Stage primaryStage) throws IOException {
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource("/gui/QuestionScoreWindow.fxml"));
+		Parent root = loader.load();
+		QuestionScoreWindowController cont = loader.getController();
+		Scene scene = new Scene(root);
+		primaryStage.setTitle("Add Score");
+		primaryStage.setScene(scene);
+		primaryStage.showAndWait();
+		return cont;
+	}
+
+	/**
 	 * This is FXML event handler. Handles the action of press on enter key.
 	 *
-	 * @param event The action event.
+	 * @param event The action event - user pressed on 'Enter' key.
 	 */
 	@FXML
 	void inputPass(KeyEvent event) {
@@ -79,30 +97,8 @@ public class QuestionScoreWindowController implements GuiController, Initializab
 	/**
 	 * @return the score from window.
 	 */
-	public String getScore() {
+	private String getScore() {
 		return txtScore.getText();
-	}
-
-	/**
-	 * Pop this window.
-	 *
-	 * @param primaryStage The stage for window's scene.
-	 * @return the "real" controller.
-	 */
-	public Object start(Stage primaryStage) throws IOException {
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("/gui/QuestionScoreWindow.fxml"));
-		Parent root = loader.load();
-		QuestionScoreWindowController cont = loader.getController();
-		Scene scene = new Scene(root);
-//		primaryStage.setOnCloseRequest((e) -> {
-//			cont.btnSaveScore.fire();
-//			e.consume();
-//		});
-		primaryStage.setTitle("Add Score");
-		primaryStage.setScene(scene);
-		primaryStage.showAndWait();
-		return cont;
 	}
 
 	/**
@@ -119,8 +115,7 @@ public class QuestionScoreWindowController implements GuiController, Initializab
 			teachNote = returned.teachNote;
 			studNote = returned.studNote;
 		} catch (IOException e) {
-			System.out.println("Exception: " + e.getMessage());
-			e.printStackTrace();
+			UsefulMethods.instance().printExeption(e);
 		}
 	}
 
@@ -141,22 +136,15 @@ public class QuestionScoreWindowController implements GuiController, Initializab
 				lblErr.setText("invalid score");
 			else {
 				score = Integer.parseInt(getScore());
-				close(event);
+				UsefulMethods.instance().close(event);
 			}
 		}
 	}
 
 	/**
-	 * This method close the current stage.
-	 */
-	private void close(ActionEvent event) {
-		Node source = (Node) event.getSource();
-		Stage stage = (Stage) source.getScene().getWindow();
-		stage.close();
-	}
-
-	/**
 	 * This method check if score is valid
+	 * 
+	 * @return true if valid, false otherwise.
 	 */
 	private boolean isValid() {
 		String scoreString = getScore();
@@ -188,6 +176,5 @@ public class QuestionScoreWindowController implements GuiController, Initializab
 		else
 			lblRange.setText("(range: 1-" + (100 - WriteAnExamForm2Controller.sum) + ")");
 	}
-
 }
 //End of QuestionScoreWindowController class

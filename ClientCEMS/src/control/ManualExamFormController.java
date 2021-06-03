@@ -6,7 +6,6 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ResourceBundle;
-
 import client.ClientUI;
 import gui.Navigator;
 import javafx.event.ActionEvent;
@@ -37,7 +36,7 @@ public class ManualExamFormController implements GuiController, Initializable {
 	// Instance variables **********************************************
 
 	/**
-	 * The details to upload the exam to DB.
+	 * The {@link ExamOfStudent} to upload to DB.
 	 */
 	public static ExamOfStudent examToUpload;
 
@@ -51,9 +50,6 @@ public class ManualExamFormController implements GuiController, Initializable {
 	 */
 	public String code = null;
 
-	/**
-	 * FXML variables.
-	 */
 	@FXML
 	private ImageView imgBack;
 	@FXML
@@ -111,7 +107,7 @@ public class ManualExamFormController implements GuiController, Initializable {
 				btnCode.setDisable(true);
 			}
 		} catch (Exception e) {
-
+			UsefulMethods.instance().printExeption(e);
 		}
 	}
 
@@ -142,15 +138,14 @@ public class ManualExamFormController implements GuiController, Initializable {
 			Message messageToServer = new Message();
 			messageToServer.setControllerName("StudentController");
 			messageToServer.setOperation("StopTimer");
-			System.out.println(messageToServer);
 			double difference = (double) ClientUI.client.handleMessageFromClientUI(messageToServer);
 			messageToServer.setControllerName("ExamController");
 			messageToServer.setOperation("GetExamDuration");
 			messageToServer.setMsg(code);
 			double duration = (double) ClientUI.client.handleMessageFromClientUI(messageToServer);
-			//in case the student did not submit the test on time 
+			// in case the student did not submit the test on time
 			if (difference > duration)
-				difference = -1;	
+				difference = -1;
 			examToUpload = new ExamOfStudent(fileContent, code, LoginController.user.getUsername(), difference);
 			// file was chosen
 			btnSubmit.setDisable(false);
@@ -196,8 +191,7 @@ public class ManualExamFormController implements GuiController, Initializable {
 		try {
 			popUp.start(new Stage());
 		} catch (Exception e) {
-			System.out.println("Exception: " + e.getMessage());
-			e.printStackTrace();
+			UsefulMethods.instance().printExeption(e);
 		}
 	}
 

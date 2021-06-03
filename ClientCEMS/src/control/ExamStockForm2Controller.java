@@ -17,7 +17,6 @@ import javafx.stage.Stage;
 import logic.Exam;
 import logic.Message;
 
-
 /**
  * This is controller class (boundary) for window ExamStock (second part). This
  * class handle all events related to this window. This class connect with
@@ -34,13 +33,10 @@ public class ExamStockForm2Controller implements GuiController, Initializable {
 	// Instance variables **********************************************
 
 	/**
-	 * static variables.
+	 * The chosen {@link Exam}.
 	 */
 	public static Exam chosenExam;
-	
-	/**
-	 * FXML variables.
-	 */
+
 	@FXML
 	private ImageView imgBack;
 	@FXML
@@ -58,6 +54,24 @@ public class ExamStockForm2Controller implements GuiController, Initializable {
 	@FXML
 	void back(ActionEvent event) {
 		Navigator.instance().back();
+	}
+
+	/**
+	 * This is event handler. Handles the action of click on exam to view it.
+	 *
+	 * @param event - the action event.
+	 */
+	@FXML
+	void viewAction(ActionEvent event) {
+		if (examsView.getSelectionModel().isEmpty())
+			return;
+		chosenExam = examsView.getSelectionModel().getSelectedItem();
+		ExamViewWindowController examView = new ExamViewWindowController();
+		try {
+			examView.start(new Stage());
+		} catch (IOException e) {
+			UsefulMethods.instance().printExeption(e);
+		}
 	}
 
 	/**
@@ -138,22 +152,6 @@ public class ExamStockForm2Controller implements GuiController, Initializable {
 	}
 
 	/**
-	 * This is event handler. Handles the action of click on exam to view it
-	 *
-	 * @param event - the action event.
-	 */
-	@FXML
-	void viewAction(ActionEvent event) {
-		if (examsView.getSelectionModel().isEmpty())
-			return;
-		chosenExam = examsView.getSelectionModel().getSelectedItem();
-		ExamViewWindowController examView = new ExamViewWindowController();
-		try {
-			examView.start(new Stage());
-		} catch (IOException e) {}
-	}
-
-	/**
 	 * This method called to initialize a controller after its root element has been
 	 * completely processed (after load method).
 	 */
@@ -173,7 +171,6 @@ public class ExamStockForm2Controller implements GuiController, Initializable {
 		messageToServer.setMsg(exam.getFname() + " " + exam.getCname());
 		messageToServer.setControllerName("ExamController");
 		messageToServer.setOperation("ShowExamList");
-		System.out.println(messageToServer);
 		listOfExams = (ArrayList<Exam>) ClientUI.client.handleMessageFromClientUI(messageToServer);
 		examsView.setItems(FXCollections.observableArrayList(listOfExams));
 	}

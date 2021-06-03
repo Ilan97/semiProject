@@ -73,5 +73,10 @@
             </Button>
          </children>
       </Pane>
+      <Label fx:id="lblName" layoutX="194.0" layoutY="20.0" prefHeight="48.0" prefWidth="359.0" textAlignment="CENTER" textFill="#b2b2b2" wrapText="true">
+         <font>
+            <Font name="Calibri Bold" size="24.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

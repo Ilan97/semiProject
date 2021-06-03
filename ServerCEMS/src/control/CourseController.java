@@ -21,18 +21,12 @@ public class CourseController {
 
 	// Instance variables **********************************************
 
-	/**
-	 * messages that UserController receive from server (request) and sent to it
-	 * (result).
-	 **/
+	// messages that CourseController receive from server (request) and sent to it.
 	private static Message request;
 	private static Message result;
-
-	/**
-	 * variables for execute queries and handle the results from DB.
-	 **/
-	private static ResultSet rs;
+	// variables for execute queries and handle the results from DB.
 	private static PreparedStatement pstmt;
+	private static ResultSet rs;
 
 	// Instance methods ************************************************
 
@@ -146,8 +140,8 @@ public class CourseController {
 	 * This method return list of courses id's that belong to specific course.
 	 *
 	 * @param fid The field id.
-	 * @return listOfCoursesIds The list of all courses ids. if not found in
-	 *         dataBase return null.
+	 * @return listOfCoursesIds {@link ArrayList} The list of all courses ids. if
+	 *         not found in dataBase return null.
 	 */
 	public static ArrayList<String> getCoursesIdList(String fid) {
 		ArrayList<String> listOfCoursesIds = new ArrayList<>();
@@ -179,8 +173,8 @@ public class CourseController {
 	/**
 	 * This method return the list of all courses from DB.
 	 *
-	 * @return courseList The list of all courses. if not found in dataBase return
-	 *         null.
+	 * @return courseList {@link ArrayList} The list of all courses. if not found in
+	 *         dataBase return null.
 	 */
 	public static ArrayList<String> getAllCourses() {
 		ArrayList<String> courseList = new ArrayList<>();

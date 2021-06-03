@@ -2,7 +2,6 @@ package control;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import gui.Navigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,7 +15,7 @@ import javafx.scene.image.ImageView;
  * class handle all events related to this window. This class connect with
  * client.
  *
- * @author Bat-El Gardin
+ * @author
  * @version May 2021
  */
 
@@ -24,9 +23,6 @@ public class PrincipalViewRequestFormController implements GuiController, Initia
 
 	// Instance variables **********************************************
 
-	/**
-	 * FXML variables.
-	 */
 	@FXML
 	private ImageView imgBack;
 	@FXML
@@ -96,6 +92,5 @@ public class PrincipalViewRequestFormController implements GuiController, Initia
 		Image img3 = new Image(this.getClass().getResource("clock.png").toString());
 		imgClock.setImage(img3);
 	}
-
 }
 // End of PrincipalViewRequestFormController class

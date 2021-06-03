@@ -25,9 +25,6 @@ public class ApproveDurationWindowController implements GuiController, Initializ
 
 	// Instance variables **********************************************
 
-	/**
-	 * FXML variables.
-	 */
 	@FXML
 	private ImageView imgBack;
 	@FXML
@@ -76,6 +73,5 @@ public class ApproveDurationWindowController implements GuiController, Initializ
 		Image img = new Image(this.getClass().getResource("principalFrame.PNG").toString());
 		imgBack.setImage(img);
 	}
-
 }
 //End of ApproveDurationWindowController class

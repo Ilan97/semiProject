@@ -2,12 +2,12 @@ package control;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import client.ClientUI;
 import gui.Navigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
@@ -26,13 +26,12 @@ public class StudentHomeFormController implements GuiController, Initializable {
 
 	// Instance variables **********************************************
 
-	/**
-	 * FXML variables.
-	 */
 	@FXML
 	private ImageView imgBack;
 	@FXML
 	private ImageView imgLogo;
+	@FXML
+	private Label lblName;
 
 	// Menu methods ************************************************
 
@@ -54,13 +53,12 @@ public class StudentHomeFormController implements GuiController, Initializable {
 	 */
 	@FXML
 	void compExamAction(ActionEvent event) {
-		//successes pop up
+		// successes pop up
 		ComputerizedExamCodeWindowController popUp = new ComputerizedExamCodeWindowController();
 		try {
 			popUp.start(new Stage());
 		} catch (Exception e) {
-			System.out.println("Exception: " + e.getMessage());
-			e.printStackTrace();
+			UsefulMethods.instance().printExeption(e);
 		}
 	}
 
@@ -107,6 +105,8 @@ public class StudentHomeFormController implements GuiController, Initializable {
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		// user's name
+		lblName.setText("Welcome " + LoginController.user.getFirstName() + " " + LoginController.user.getLastName());
 		// set images
 		Image img = new Image(this.getClass().getResource("studentHomeForm.PNG").toString());
 		imgBack.setImage(img);

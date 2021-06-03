@@ -2,7 +2,6 @@ package control;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import gui.Navigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,9 +24,6 @@ public class TeacherReportForm2Controller implements GuiController, Initializabl
 
 	// Instance variables **********************************************
 
-	/**
-	 * FXML variables.
-	 */
 	@FXML
 	private ImageView imgBack;
 	@FXML
@@ -60,9 +56,9 @@ public class TeacherReportForm2Controller implements GuiController, Initializabl
 		try {
 			popUp.start(new Stage());
 		} catch (Exception e) {
-			System.out.println("Exception: " + e.getMessage());
-			e.printStackTrace();
+			UsefulMethods.instance().printExeption(e);
 		}
+		Navigator.instance().clearHistory("TeacherHomeForm");
 	}
 
 	// Menu methods ************************************************
@@ -146,6 +142,5 @@ public class TeacherReportForm2Controller implements GuiController, Initializabl
 		Image img3 = new Image(this.getClass().getResource("report.png").toString());
 		imgRep.setImage(img3);
 	}
-
 }
 //End of TeacherReportForm2Controller class

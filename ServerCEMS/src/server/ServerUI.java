@@ -1,31 +1,35 @@
 package server;
 
+import gui.ServerPortController;
+import javafx.application.Application;
+import javafx.stage.Stage;
+
 /**
  * This class overrides some of the methods defined in the Application
  * superclass in order to use JavaFX functionalities.
  *
  * @author Bat-El Gardin
  * @author Sharon Vaknin
+ * @author Ilan Meikler
  * @author Ohad Shamir
+ * @author Moran Davidov
  * @version May 2021
  */
-
-import gui.ServerPortController;
-import javafx.application.Application;
-import javafx.stage.Stage;
 
 public class ServerUI extends Application {
 
 	// Instance methods ************************************************
 
 	/**
-	 * static instance for ServerController instance. Will be create only once for
-	 * each run.
+	 * Static instance for {@link ServerController} instance. Will be create only
+	 * once for each run.
 	 */
 	public static ServerController server;
 
 	/**
 	 * The main method of Application class.
+	 * 
+	 * @throws Exception
 	 */
 	public static void main(String args[]) throws Exception {
 		launch(args);
@@ -35,6 +39,7 @@ public class ServerUI extends Application {
 	 * Start the server's UI. Create and start ServerPort frame.
 	 * 
 	 * @param primaryStage The first window that shows.
+	 * @throws Exception
 	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {

@@ -39,9 +39,6 @@ public class WriteQuestionForm1Controller implements GuiController, Initializabl
 	 */
 	public static Question Question;
 
-	/**
-	 * FXML variables.
-	 */
 	@FXML
 	private ImageView imgBack;
 	@FXML
@@ -187,6 +184,20 @@ public class WriteQuestionForm1Controller implements GuiController, Initializabl
 		course.setDisable(false);
 	}
 
+	/**
+	 * This method check that there is no selected values in the form.
+	 *
+	 * @return true if form isn't empty, false otherwise.
+	 */
+	private boolean formIsNotEmpty() {
+		if (!field.getSelectionModel().isEmpty() || !questionCon.getText().trim().isEmpty()
+				|| !instructions.getText().trim().isEmpty() || !rightAns.getText().trim().isEmpty()
+				|| !wrongAns1.getText().trim().isEmpty() || !wrongAns2.getText().trim().isEmpty()
+				|| !wrongAns3.getText().trim().isEmpty())
+			return true;
+		return false;
+	}
+
 	// Menu methods ************************************************
 
 	/**
@@ -203,7 +214,7 @@ public class WriteQuestionForm1Controller implements GuiController, Initializabl
 	}
 
 	/**
-	 * This is FXML event handler. Handles the action of click on 'Write Question'
+	 * This is FXML event handler. Handles the action of click on 'Write Question'.
 	 * button.
 	 *
 	 * @param event The action event.
@@ -267,20 +278,6 @@ public class WriteQuestionForm1Controller implements GuiController, Initializabl
 			Navigator.instance().alertPopUp("ExamStockForm1");
 		else
 			Navigator.instance().navigate("ExamStockForm1");
-	}
-
-	/**
-	 * This method check that there is no selected values in the form
-	 *
-	 * @return boolean result.
-	 */
-	private boolean formIsNotEmpty() {
-		if (!field.getSelectionModel().isEmpty() || !questionCon.getText().trim().isEmpty()
-				|| !instructions.getText().trim().isEmpty() || !rightAns.getText().trim().isEmpty()
-				|| !wrongAns1.getText().trim().isEmpty() || !wrongAns2.getText().trim().isEmpty()
-				|| !wrongAns3.getText().trim().isEmpty())
-			return true;
-		return false;
 	}
 
 	/**

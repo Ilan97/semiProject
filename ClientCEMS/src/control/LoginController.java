@@ -3,7 +3,6 @@ package control;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import client.ClientUI;
 import gui.Navigator;
 import javafx.event.ActionEvent;
@@ -42,16 +41,17 @@ public class LoginController implements GuiController, Initializable {
 	// Instance variables **********************************************
 
 	/**
-	 * static instance for User object. Will be create only once for each run. the
-	 * object initialize by the info that return from DB.
+	 * static instance for {@link User} object. Will be create only once for each
+	 * run. the object initialize by the info that return from DB.
 	 */
 	public static User user;
 
-	/**
-	 * FXML variables.
-	 */
 	@FXML
 	private ImageView imgLogin;
+	@FXML
+	private ImageView imgCopyRights;
+	@FXML
+	private ImageView imgLogo;
 	@FXML
 	private TextField txtUserName;
 	@FXML
@@ -60,23 +60,8 @@ public class LoginController implements GuiController, Initializable {
 	private PasswordField txtPassword;
 	@FXML
 	private Label lblErr;
-	@FXML
-	private ImageView imgCopyRights;
-	@FXML
-	private ImageView imgLogo;
 
 	// Instance methods ************************************************
-
-	/**
-	 * This is FXML event handler. Handles the action of press on enter key.
-	 *
-	 * @param event The action event.
-	 */
-	@FXML
-	void inputPass(KeyEvent event) {
-		if (event.getCode().equals(KeyCode.ENTER))
-			btnLogin.fire();
-	}
 
 	/**
 	 * The client's first window and this window's first method. load and show this
@@ -84,6 +69,7 @@ public class LoginController implements GuiController, Initializable {
 	 * logged out and return to 'log in' screen.
 	 *
 	 * @param primaryStage The stage for window's scene.
+	 * @throws Exception
 	 */
 	public void start(Stage primaryStage) throws Exception {
 		Pane p = new Pane();
@@ -110,22 +96,14 @@ public class LoginController implements GuiController, Initializable {
 	}
 
 	/**
-	 * This is FXML event handler. Handles the action of click on 'Exit' button.
+	 * This is FXML event handler. Handles the action of press on enter key.
 	 *
 	 * @param event The action event.
-	 * @throws IOException
 	 */
 	@FXML
-	void exit(ActionEvent event) throws IOException {
-		// close the client
-		try {
-			ClientUI.client.closeConnection();
-		} catch (IOException ex) {
-			System.out.println("Exception: " + ex.getMessage());
-			ex.printStackTrace();
-			display("Fail to close client!");
-		}
-		System.exit(0);
+	void inputPass(KeyEvent event) {
+		if (event.getCode().equals(KeyCode.ENTER))
+			btnLogin.fire();
 	}
 
 	/**
@@ -180,12 +158,21 @@ public class LoginController implements GuiController, Initializable {
 	}
 
 	/**
-	 * This method displays a message into the console.
+	 * This is FXML event handler. Handles the action of click on 'Exit' button.
 	 *
-	 * @param message The string to be displayed.
+	 * @param event The action event.
+	 * @throws IOException
 	 */
-	public static void display(String message) {
-		System.out.println("> " + message);
+	@FXML
+	void exit(ActionEvent event) throws IOException {
+		// close the client
+		try {
+			ClientUI.client.closeConnection();
+		} catch (IOException e) {
+			UsefulMethods.instance().display("Fail to close client!");
+			UsefulMethods.instance().printExeption(e);
+		}
+		System.exit(0);
 	}
 
 	/**

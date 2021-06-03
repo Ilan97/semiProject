@@ -38,21 +38,14 @@ public class ExamController {
 
 	// Instance variables **********************************************
 
-	/**
-	 * messages that ExamController receive from server (request) and sent to it
-	 * (result).
-	 */
+	// messages that ExamController receive from server (request) and sent to it.
 	private static Message request;
 	private static Message result;
-	/**
-	 * all components of the entire exam identification number.
-	 */
+	// all components of the entire exam identification number.
 	private static String fieldID;
 	private static String courseID;
 	private static String examID;
-	/**
-	 * variables for execute queries and handle the results from DB.
-	 */
+	// variables for execute queries and handle the results from DB.
 	private static Statement stmt;
 	private static PreparedStatement pstmt;
 	private static ResultSet rs;
@@ -63,7 +56,7 @@ public class ExamController {
 	 * This method handles all requests that comes in from the server.
 	 *
 	 * @param msg {@link Message} The request message from the server.
-	 * @return result The result message for the server.
+	 * @return result {@link Message} The result message for the server.
 	 */
 	public static Message handleRequest(Message msg) {
 		Message examMessage = new Message();
@@ -71,6 +64,7 @@ public class ExamController {
 		ArrayList<Exam> listOfExams;
 		String[] FieldName_CourseName;
 		String[] data;
+		String examID;
 		// switch case is on the operations this controller ask to operate.
 		switch (request.getOperation()) {
 		case "GetEid":
@@ -86,54 +80,11 @@ public class ExamController {
 			result = examMessage;
 			break;
 
-		case "viewTableExam":
-			// receive data from DB and save it in HashMap
-			HashMap<String, String> resultMap;
-			resultMap = viewTableExamQuery((String) request.getMsg());
-			// create an Exam instance
-			Exam exam = new Exam();
-			// check if exam exists in DB
-			if ((!resultMap.containsKey("fieldID")) || (!resultMap.containsKey("courseID"))
-					|| (!resultMap.containsKey("examID")))
-				exam.setExamID("Error");
-			// exam exists
-			else {
-				// set the Exam instance
-				exam.setFid(resultMap.get("fieldID"));
-				exam.setFname(resultMap.get("fieldName"));
-				exam.setCid(resultMap.get("courseID"));
-				exam.setCname(resultMap.get("courseName"));
-				exam.setEid(resultMap.get("examID"));
-				exam.setExamID(exam.getFid() + exam.getCid() + exam.getEid());
-				exam.setDuration(Double.parseDouble(resultMap.get("duration")));
-				// set the questionsInExam HashMap (variable in Exam instance)
-				HashMap<Question, Integer> examQuestions;
-				examQuestions = exam.getQuestionsInExam();
-				int index = 1;
-				Question[] allQuestions = new Question[resultMap.size() - 6];
-				while (resultMap.containsKey("question" + index)) {
-					String[] tmp = parsingTheData(resultMap.get("question" + index));
-					Question q = new Question();
-					q.setFid(tmp[0]);
-					q.setQid(tmp[1]);
-					q.setCid(exam.getCid());
-					q.setQuestionID(q.getFid() + q.getQid());
-
-					allQuestions[index - 1] = q;
-					examQuestions.put(allQuestions[index - 1], Integer.parseInt(tmp[2]));
-					index++;
-				}
-			}
-			// create the result Message instance
-			examMessage.setMsg((Exam) exam);
-			result = examMessage;
-			break;
-
 		case "updateExamDurationTime":
 			// this msg contains the new duration time and exam's entire ID
 			String[] updateDetails = parsingTheData((String) request.getMsg());
 			double duration = Double.parseDouble(updateDetails[0]);
-			String examID = updateDetails[1];
+			examID = updateDetails[1];
 			updateExamDurationQuery(examID, duration);
 			// create the result Message instance
 			examMessage.setMsg(requestDurationTimeQuery(examID)); // return the new duration time
@@ -141,8 +92,13 @@ public class ExamController {
 			break;
 
 		case "downloadManualExam":
+			ExamFile res = null;
 			data = parsingTheData((String) request.getMsg());
-			ExamFile res = getExamFile(data[0], data[1]);
+			examID = getExamID(data[0]);
+			if (examID != null) {
+				if (!checkStudentDidExam(examID, data[2]))
+					res = getExamFile(data[0], data[1]);
+			}
 			examMessage.setMsg(res);
 			result = examMessage;
 			break;
@@ -155,20 +111,25 @@ public class ExamController {
 			break;
 
 		case "CheckCodeExists":
+			Exam resExam = null;
 			data = parsingTheData((String) request.getMsg());
-			Exam resExam = checkComputerizedExamCode(data[0], data[1]);
+			examID = getExamID(data[0]);
+			if (examID != null) {
+				if (!checkStudentDidExam(examID, data[2]))
+					resExam = checkComputerizedExamCode(data[0], data[1]);
+			}
 			examMessage.setMsg(resExam);
 			result = examMessage;
 			break;
 
 		case "CheckExamCodeIsUnique":
-			boolean isUnique = checkExamCodeIsUnique((String)request.getMsg());
+			boolean isUnique = checkExamCodeIsUnique((String) request.getMsg());
 			examMessage.setMsg(isUnique);
 			result = examMessage;
 			break;
-			
+
 		case "InsertExamToExamToPerformTable":
-			boolean isInsert = insertExamToExamToPerformTable((Exam)request.getMsg());
+			boolean isInsert = insertExamToExamToPerformTable((Exam) request.getMsg());
 			examMessage.setMsg(isInsert);
 			result = examMessage;
 			break;
@@ -186,7 +147,7 @@ public class ExamController {
 	 * This method check if exam code is unique.
 	 *
 	 * @param code The code of the exam.
-	 * @return boolean, if the code is already exist return true else return false.
+	 * @return true if the code is already exist, otherwise return false.
 	 */
 	public static boolean checkExamCodeIsUnique(String code) {
 		String sql = "SELECT ecode FROM examtoperform WHERE ecode = ?";
@@ -195,10 +156,10 @@ public class ExamController {
 			pstmt.setString(1, code);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				if(code.equals(rs.getString("ecode")))
+				if (code.equals(rs.getString("ecode")))
 					return true;
 			}
-		}catch (SQLException e) {
+		} catch (SQLException e) {
 			DBconnector.printSQLException(e);
 		} finally {
 			try {
@@ -212,15 +173,14 @@ public class ExamController {
 				DBconnector.printException(e);
 			}
 		}
-		return false;	
+		return false;
 	}
-	
+
 	/**
-	 * This method insert exam to examtoperform table.
+	 * This method insert exam to examToPerform table.
 	 *
-	 * @param code The code of the exam.
-	 * @param date the date of the exam
-	 * @return boolean, insert successfully
+	 * @param exam {@link Exam} we want to insert.
+	 * @return true if success, false otherwise, insert successfully.
 	 */
 	public static boolean insertExamToExamToPerformTable(Exam exam) {
 		String sql = "INSERT INTO examToPerform VALUES (?,?,?,?,?,?)";
@@ -278,14 +238,6 @@ public class ExamController {
 				exam.setAuthor(Rs.getString("author"));
 				exam.setDuration(Rs.getDouble("duration"));
 				exam.setQuestionsInExam(getQuestionsInExam(Fid, Cid, Eid));
-//				switch (Rs.getString("etype")) {
-//				case "computerized":
-//					exam.setEtype(ExamType.COMPUTERIZED);
-//					break;
-//				case "manual":
-//					exam.setEtype(ExamType.MANUAL);
-//					break;
-//				}
 			}
 		} catch (SQLException e) {
 			DBconnector.printSQLException(e);
@@ -309,8 +261,8 @@ public class ExamController {
 	 *
 	 * @param Fname The name of the field.
 	 * @param Cname The name of the course.
-	 * @return listOfexams The exams that belong to those field and course. If there
-	 *         is no such exams, return null.
+	 * @return listOfexams {@link ArrayList} The exams that belong to those field
+	 *         and course. If there is no such exams, return null.
 	 */
 	public static ArrayList<Exam> getExams(String Fname, String Cname) {
 		ArrayList<Exam> listOfExams = new ArrayList<>();
@@ -369,7 +321,7 @@ public class ExamController {
 	 * @param Fid of the exam.
 	 * @param Cid of The exam.
 	 * @param Eid of The exam.
-	 * @return HashMap<Question, Integer> of all the questions in this specific
+	 * @return questionsInExam {@link HashMap} of all the questions in this specific
 	 *         exam.
 	 */
 	public static HashMap<Question, Integer> getQuestionsInExam(String Fid, String Cid, String Eid) {
@@ -395,7 +347,7 @@ public class ExamController {
 				questionsInExam.put(q, score);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			DBconnector.printSQLException(e);
 		} finally {
 			try {
 				newRs.close();
@@ -414,7 +366,8 @@ public class ExamController {
 	/**
 	 * This method get a question and add it extra fields.
 	 *
-	 * @param question.
+	 * @param question {@link Question} The question we want to get more details
+	 *                 about.
 	 */
 	public static void getMoreFieldsForQuestion(Question question) {
 		String sql = "SELECT * FROM question WHERE fid = ? AND cid = ? AND qid = ?";
@@ -434,7 +387,7 @@ public class ExamController {
 				question.setWrongAnswer3(rs.getString("wrongAnswer3"));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			DBconnector.printSQLException(e);
 		} finally {
 			try {
 				rs.close();
@@ -450,12 +403,12 @@ public class ExamController {
 	}
 
 	/**
-	 * This method get the exam code from given code.
+	 * This method get the exam id from given code.
 	 *
 	 * @param code The code from examToPerform table.
 	 * @return examID The id. if not found return null.
 	 */
-	public static String getExamCode(String code) {
+	public static String getExamID(String code) {
 		String sql = "SELECT fid, cid, eid FROM examToPerform WHERE ecode = ?";
 		String examID = null;
 		try {
@@ -525,11 +478,52 @@ public class ExamController {
 	}
 
 	/**
+	 * This method check if the student already did this exam.
+	 *
+	 * @param ExamID   of the exam.
+	 * @param UserName of the logged in student.
+	 * @return true if already did the specific exam, false otherwise.
+	 */
+	public static boolean checkStudentDidExam(String ExamID, String UserName) {
+		String[] examIDcomponents = parsingTheExamId(ExamID);
+		// data from parsingTheExamId method
+		fieldID = examIDcomponents[0];
+		courseID = examIDcomponents[1];
+		examID = examIDcomponents[2];
+		boolean res = false;
+		String sql = "SELECT * FROM examOfStudent WHERE fid = ? AND cid = ? AND eid = ? AND userName = ?";
+		try {
+			pstmt = DBconnector.conn.prepareStatement(sql);
+			pstmt.setString(1, fieldID);
+			pstmt.setString(2, courseID);
+			pstmt.setString(3, examID);
+			pstmt.setString(4, UserName);
+			rs = pstmt.executeQuery();
+			while (rs.next())
+				res = true; // student already did this exam or it isn't exists
+		} catch (SQLException e) {
+			return res;
+		} finally {
+			try {
+				rs.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+			try {
+				pstmt.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+		}
+		return res;
+	}
+
+	/**
 	 * This method get the exam file from table exam.
 	 *
 	 * @param code The code from examToPerform table.
 	 * @param type The exam type.
-	 * @return Exam if code exists, null otherwise
+	 * @return exam {@link Exam} if code exists, null otherwise.
 	 */
 	public static Exam checkComputerizedExamCode(String code, String type) {
 		Exam exam = null;
@@ -567,8 +561,8 @@ public class ExamController {
 	/**
 	 * This method get the exam duration time from table exam.
 	 *
-	 * @param code - The code from examToPerform table.
-	 * @return Exam duration
+	 * @param code The code from examToPerform table.
+	 * @return exam's duration.
 	 */
 	public static double getDuration(String code) {
 		double duration = 0.0;
@@ -638,8 +632,8 @@ public class ExamController {
 	/**
 	 * This method responsible to save an exam in DB .
 	 *
-	 * @param exam The exam from client.
-	 * @return boolean result if the save succeed.
+	 * @param exam {@link Exam} The exam from client.
+	 * @return true if the save succeed, false otherwise.
 	 */
 	public static boolean saveExam(Exam exam) {
 		String sql = "INSERT INTO Exam VALUES (?,?,?,?,?,?,?,?)";
@@ -698,9 +692,9 @@ public class ExamController {
 	/**
 	 * This method update the table questions in exam.
 	 *
-	 * @param exam The exam from client.
+	 * @param exam {@link Exam} The exam from client.
 	 */
-	private static void questionsInExam(Exam exam) {
+	public static void questionsInExam(Exam exam) {
 		Set<Question> QuestionSet = exam.getQuestionsInExam().keySet();
 		for (Question q : QuestionSet) {
 			String sql = "INSERT INTO questionInExam VALUES (?,?,?,?,?,?,?)";
@@ -729,9 +723,9 @@ public class ExamController {
 	/**
 	 * This method responsible to update eid in DB .
 	 *
-	 * @param exam The exam from client.
+	 * @param exam {@link Exam} The exam from client.
 	 */
-	private static void UpdateEid(Exam exam) {
+	public static void UpdateEid(Exam exam) {
 		String query = "UPDATE eidtable SET eid = ? WHERE fieldName = ? AND courseName = ?";
 		try {
 			pstmt = DBconnector.conn.prepareStatement(query);
@@ -753,8 +747,9 @@ public class ExamController {
 	/**
 	 * This method return the eid from DB.
 	 *
-	 * @param fieldName,courseName from client.
-	 * @return return eid if found in dataBase else return -1
+	 * @param fieldName  from client.
+	 * @param courseName from client.
+	 * @return return eid if found in dataBase else return -1.
 	 */
 	public static int GetEid(String FieldName, String CourseName) {
 		int Eid = -1;
@@ -785,107 +780,6 @@ public class ExamController {
 	}
 
 	/**
-	 * This method execute query for watch exam table, by specific ID.
-	 *
-	 * @param examKey The entire exam ID.
-	 * @return examDataMap The whole exam table data.
-	 */
-	public static HashMap<String, String> viewTableExamQuery(String examKey) {
-		HashMap<String, String> examDataMap = new HashMap<>();
-		String[] examIDcomponents = parsingTheExamId(examKey);
-		// data from parsingTheExamId method
-		fieldID = examIDcomponents[0];
-		courseID = examIDcomponents[1];
-		examID = examIDcomponents[2];
-		/**
-		 * Execute query for exam's field name. Table FieldOfStudy. In case exam isn't
-		 * exists in DB, the map wont contain field's name and id.
-		 */
-		String fieldQuery = "SELECT fname FROM FieldOfStudy WHERE fid = " + fieldID;
-		try {
-			stmt = DBconnector.conn.createStatement();
-			rs = stmt.executeQuery(fieldQuery);
-			while (rs.next()) {
-				examDataMap.put("fieldID", fieldID);
-				examDataMap.put("fieldName", rs.getString("fname"));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				rs.close();
-			} catch (Exception e) {
-				DBconnector.printException(e);
-			}
-			try {
-				stmt.close();
-			} catch (Exception e) {
-				DBconnector.printException(e);
-			}
-		}
-		/**
-		 * Execute query for exam's course name. Table Course. In case exam isn't exists
-		 * in DB, the map wont contain course's name and id.
-		 */
-		String courseQuery = "SELECT cname FROM Course WHERE cid = " + courseID;
-		try {
-			stmt = DBconnector.conn.createStatement();
-			rs = stmt.executeQuery(courseQuery);
-			while (rs.next()) {
-				examDataMap.put("courseID", courseID);
-				examDataMap.put("courseName", rs.getString("cname"));
-			}
-		} catch (SQLException e) {
-			DBconnector.printSQLException(e);
-		} finally {
-			try {
-				rs.close();
-			} catch (Exception e) {
-				DBconnector.printException(e);
-			}
-			try {
-				stmt.close();
-			} catch (Exception e) {
-				DBconnector.printException(e);
-			}
-		}
-		/**
-		 * Execute query for exam's details. Join between tables Exam & QuestionInExam.
-		 */
-		String examQuery = "SELECT e.duration, qe.qid, qe.score "
-				+ "FROM Exam e JOIN QuestionInExam qe using(fid, cid, eid)" + " WHERE fid = " + fieldID + " AND "
-				+ "cid = " + courseID + " AND " + "eid = " + examID;
-		try {
-			stmt = DBconnector.conn.createStatement();
-			rs = stmt.executeQuery(examQuery);
-			int index = 1;
-			while (rs.next()) {
-				examDataMap.put("examID", examID);
-				examDataMap.put("duration", "" + rs.getDouble("duration"));
-				// put exam questions into the result map
-				String questionID = rs.getString("qid");
-				int questionScore = rs.getInt("score");
-				examDataMap.put("question" + index, fieldID + " " + questionID + " " + questionScore);
-				index++;
-			}
-		} catch (SQLException e) {
-			DBconnector.printSQLException(e);
-		} finally {
-			try {
-				rs.close();
-			} catch (Exception e) {
-				DBconnector.printException(e);
-			}
-			try {
-				stmt.close();
-			} catch (Exception e) {
-				DBconnector.printException(e);
-			}
-		}
-		return examDataMap;
-	}
-
-	/**
 	 * This method update the exam table in 'duration' column, by specific ID.
 	 *
 	 * @param examKey     The entire exam ID.
@@ -897,15 +791,13 @@ public class ExamController {
 		fieldID = examIDcomponents[0];
 		courseID = examIDcomponents[1];
 		examID = examIDcomponents[2];
-		/**
-		 * Execute query for update the exam's duration time. Table Exam.
-		 */
+		// Execute query for update the exam's duration time. Table Exam.
 		String query = "UPDATE Exam SET duration = " + newDuration + " WHERE fid = " + fieldID + " AND " + "cid = "
 				+ courseID + " AND " + "eid = " + examID;
 		try {
 			stmt = DBconnector.conn.createStatement();
 			stmt.executeUpdate(query);
-			display("DB: New exam duration time was updated");
+			DBconnector.display("DB: New exam duration time was updated");
 		} catch (SQLException e) {
 			DBconnector.printSQLException(e);
 		} finally {
@@ -930,9 +822,7 @@ public class ExamController {
 		courseID = examIDcomponents[1];
 		examID = examIDcomponents[2];
 		double duration = 0.0;
-		/**
-		 * Execute query for get the content of 'Duration' column. Table Exam.
-		 */
+		// Execute query for get the content of 'Duration' column. Table Exam.
 		String query = "SELECT duration FROM Exam WHERE fid = " + fieldID + " AND " + "cid = " + courseID + " AND "
 				+ "eid = " + examID;
 		try {
@@ -980,15 +870,6 @@ public class ExamController {
 		pArray[1] = examId.substring(2, 4);
 		pArray[2] = examId.substring(4, 6);
 		return pArray;
-	}
-
-	/**
-	 * This method displays a message into the console.
-	 *
-	 * @param message The string to be displayed.
-	 */
-	public static void display(String message) {
-		System.out.println("> " + message);
 	}
 }
 //End of ExamController class

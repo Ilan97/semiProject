@@ -20,26 +20,21 @@ public class FieldOfStudyController {
 
 	// Instance variables **********************************************
 
-	/**
-	 * messages that UserController receive from server (request) and sent to it
-	 * (result).
-	 **/
+	// messages that FieldOfStudyController receive from server (request) and sent
+	// to it.
 	private static Message request;
 	private static Message result;
-
-	/**
-	 * variables for execute queries and handle the results from DB.
-	 **/
-	private static ResultSet rs;
+	// variables for execute queries and handle the results from DB.
 	private static PreparedStatement pstmt;
+	private static ResultSet rs;
 
 	// Instance methods ************************************************
 
 	/**
 	 * This method handles all requests that comes in from the server.
 	 *
-	 * @param msg The request message from the server.
-	 * @return result The result message for the server.
+	 * @param msg {@link Message} The request message from the server.
+	 * @return result {@link Message} The result message for the server.
 	 */
 	public static Message handleRequest(Message msg) {
 		ArrayList<String> AllFields;
@@ -66,8 +61,8 @@ public class FieldOfStudyController {
 	/**
 	 * This method return the fid from DB.
 	 *
-	 * @param fieldName from client.
-	 * @return return Fid if Field found in dataBase else return null
+	 * @param FieldName from client.
+	 * @return return Fid if Field found in dataBase else return null.
 	 */
 	public static String GetFid(String FieldName) {
 		String Fid = null;
@@ -96,12 +91,12 @@ public class FieldOfStudyController {
 		}
 		return Fid;
 	}
-	
+
 	/**
 	 * This method return the fname from DB.
 	 *
 	 * @param Fid the field id.
-	 * @return return Fname if Field found in dataBase else return null
+	 * @return return Fname if Field found in dataBase else return null.
 	 */
 	public static String GetFname(String Fid) {
 		String Fname = null;
@@ -134,8 +129,8 @@ public class FieldOfStudyController {
 	/**
 	 * This method return the list of all fields from DB.
 	 *
-	 * @return fieldList The list of all fields. if there isn't any field - return
-	 *         null.
+	 * @return fieldList {@link ArrayList} The list of all fields. if there isn't
+	 *         any field - return null.
 	 */
 	public static ArrayList<String> getAllFields() {
 		ArrayList<String> fieldList = new ArrayList<>();

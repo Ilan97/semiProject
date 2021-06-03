@@ -2,13 +2,10 @@ package control;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import gui.Navigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -28,9 +25,6 @@ public class PrincipalReportWasSavedWindowController implements GuiController, I
 
 	// Instance variables **********************************************
 
-	/**
-	 * FXML variables.
-	 */
 	@FXML
 	private ImageView imgBack;
 	@FXML
@@ -42,18 +36,14 @@ public class PrincipalReportWasSavedWindowController implements GuiController, I
 	 * Pop this window.
 	 *
 	 * @param primaryStage The stage for window's scene.
+	 * @throws Exception
 	 */
 	public void start(Stage primaryStage) throws Exception {
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/PrincipalReportWasSavedWindow.fxml"));
 		Scene scene = new Scene(root);
 		primaryStage.setTitle("Success!");
 		primaryStage.setScene(scene);
-		// close the current window and return to home page
-		primaryStage.setOnCloseRequest((event) -> {
-			primaryStage.close();
-			Navigator.instance().clearHistory("PrincipalHomeForm");
-		});
-		primaryStage.show();
+		primaryStage.showAndWait();
 	}
 
 	/**
@@ -63,10 +53,7 @@ public class PrincipalReportWasSavedWindowController implements GuiController, I
 	 */
 	@FXML
 	void okAction(ActionEvent event) {
-		// hiding the current window
-		((Node) event.getSource()).getScene().getWindow().hide();
-		// go back to home
-		Navigator.instance().clearHistory("PrincipalHomeForm");
+		UsefulMethods.instance().close(event);
 	}
 
 	/**
@@ -81,6 +68,5 @@ public class PrincipalReportWasSavedWindowController implements GuiController, I
 		Image img2 = new Image(this.getClass().getResource("ok.png").toString());
 		imgOk.setImage(img2);
 	}
-
 }
 //End of PrincipalReportWasSavedWindowController class

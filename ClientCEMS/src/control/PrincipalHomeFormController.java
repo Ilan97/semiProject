@@ -2,12 +2,12 @@ package control;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import client.ClientUI;
 import gui.Navigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import logic.Message;
@@ -25,13 +25,12 @@ public class PrincipalHomeFormController implements GuiController, Initializable
 
 	// Instance variables **********************************************
 
-	/**
-	 * FXML variables.
-	 */
 	@FXML
 	private ImageView imgBack;
 	@FXML
 	private ImageView imgLogo;
+	@FXML
+	private Label lblName;
 
 	// Instance methods ************************************************
 
@@ -89,12 +88,13 @@ public class PrincipalHomeFormController implements GuiController, Initializable
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		// user's name
+		lblName.setText("Welcome " + LoginController.user.getFirstName() + " " + LoginController.user.getLastName());
 		// set images
 		Image img = new Image(this.getClass().getResource("principalHomeForm.PNG").toString());
 		imgBack.setImage(img);
 		Image img2 = new Image(this.getClass().getResource("logo.png").toString());
 		imgLogo.setImage(img2);
 	}
-
 }
 //End of PrincipalHomeFormController class

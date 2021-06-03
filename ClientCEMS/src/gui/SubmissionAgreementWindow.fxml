@@ -9,27 +9,27 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.SubmissionAgreementWindowController">
    <children>
-      <Pane prefHeight="236.0" prefWidth="277.0" style="-fx-background-color: #ffffff;">
+      <Pane prefHeight="268.0" prefWidth="334.0" style="-fx-background-color: #ffffff;">
          <children>
-            <ImageView fx:id="imgBack" fitHeight="229.0" fitWidth="273.0" layoutX="1.0" layoutY="3.0" />
-            <Button layoutX="39.0" layoutY="182.0" mnemonicParsing="false" onAction="#cancelActionButton" prefHeight="27.0" prefWidth="71.0" style="-fx-background-color: #f86060; -fx-background-radius: 30 30 30 30;" text="Cancel" textFill="WHITE">
+            <ImageView fx:id="imgBack" fitHeight="275.0" fitWidth="334.0" layoutX="1.0" layoutY="-4.0" />
+            <Button layoutX="68.0" layoutY="193.0" mnemonicParsing="false" onAction="#cancelActionButton" prefHeight="27.0" prefWidth="71.0" style="-fx-background-color: #f86060; -fx-background-radius: 30 30 30 30;" text="Cancel" textFill="WHITE">
                <font>
-                  <Font name="Calibri" size="14.0" />
+                  <Font name="Calibri Bold" size="14.0" />
                </font>
             </Button>
-            <Label layoutX="21.0" layoutY="14.0" prefHeight="60.0" prefWidth="256.0" text="Submission Agreement" textFill="#f86060" wrapText="true">
+            <Label layoutX="47.0" layoutY="25.0" prefHeight="60.0" prefWidth="245.0" text="Submission Agreement" textFill="#f86060" wrapText="true">
                <font>
                   <Font name="Calibri Bold" size="24.0" />
                </font>
             </Label>
-            <Button fx:id="submitbtn" layoutX="166.0" layoutY="182.0" mnemonicParsing="false" onAction="#submitActionButton" prefHeight="27.0" prefWidth="71.0" style="-fx-background-color: #47ce60; -fx-background-radius: 30 30 30 30;" text="Submit" textFill="WHITE">
-               <font>
-                  <Font name="Calibri" size="14.0" />
-               </font>
-            </Button>
-            <Label layoutX="52.0" layoutY="72.0" prefHeight="74.0" prefWidth="179.0" text="Are you Sure you want to submit your exam?" textAlignment="CENTER" wrapText="true">
+            <Button fx:id="submitbtn" layoutX="195.0" layoutY="193.0" mnemonicParsing="false" onAction="#submitActionButton" prefHeight="27.0" prefWidth="71.0" style="-fx-background-color: #47ce60; -fx-background-radius: 30 30 30 30;" text="Submit" textFill="WHITE">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Button>
+            <Label layoutX="71.0" layoutY="85.0" prefHeight="74.0" prefWidth="179.0" text="Are you Sure you want to submit your exam?" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font name="Calibri Bold" size="18.0" />
                </font>
             </Label>
          </children>

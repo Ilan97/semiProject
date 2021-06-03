@@ -14,14 +14,14 @@
       <Pane prefHeight="260.0" prefWidth="254.0" style="-fx-background-color: #ffffff;">
          <children>
             <ImageView fx:id="imgPort" fitHeight="254.0" fitWidth="243.0" layoutX="5.0" layoutY="3.0" />
-            <Text fill="#0070c0" layoutX="104.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Port" wrappingWidth="48.13671875">
+            <Text fill="#0070c0" layoutX="94.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Port" wrappingWidth="88.13671875">
                <font>
-                  <Font name="Calibri Bold" size="24.0" />
+                  <Font name="Calibri Bold" size="36.0" />
                </font>
             </Text>
-            <Button fx:id="btnConnect" layoutX="98.0" layoutY="194.0" mnemonicParsing="false" onAction="#connectActionButton" style="-fx-background-color: #0070C0; -fx-background-radius: 30 30 30 30;" text="connect" textFill="WHITE">
+            <Button fx:id="btnConnect" layoutX="98.0" layoutY="187.0" mnemonicParsing="false" onAction="#connectActionButton" style="-fx-background-color: #0070C0; -fx-background-radius: 30 30 30 30;" text="connect" textFill="WHITE">
                <font>
-                  <Font name="Calibri" size="14.0" />
+                  <Font name="Calibri Bold" size="14.0" />
                </font>
             </Button>
             <TextField fx:id="txtPort" layoutX="89.0" layoutY="119.0" onKeyPressed="#inputPass" prefHeight="28.0" prefWidth="79.0">

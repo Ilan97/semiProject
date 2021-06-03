@@ -182,6 +182,9 @@ public class ShowExamWindowController implements GuiController, Initializable {
 			}
 			paneQuestions.getChildren().clear();
 			paneQuestions.getChildren().add(qArray[0]);
+			if (qSize == 1) 
+				btnNext.setVisible(false);
+
 			btnBack.setVisible(false);
 		}
 	}

@@ -92,6 +92,7 @@
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
+            <ImageView fx:id="imgTimer" fitHeight="20.0" fitWidth="20.0" layoutX="599.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </Pane>
    </children>

@@ -101,7 +101,7 @@ public class SubmissionAgreementWindowController implements GuiController, Initi
 			TheSubmissionWasSuccessfulWindowController success = new TheSubmissionWasSuccessfulWindowController();
 			success.start(new Stage());
 		} else if (dur == -1) {
-			StudentDidntMakeItController pop = new StudentDidntMakeItController();
+			StudentDidNotMakeItWindowController pop = new StudentDidNotMakeItWindowController();
 			pop.start(new Stage());
 		} else {
 			// Failed pop up

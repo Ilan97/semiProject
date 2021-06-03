@@ -9,25 +9,25 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.QuestionWasCreatedSuccessfullyWindowController">
    <children>
-      <Pane prefHeight="242.0" prefWidth="228.0" style="-fx-background-color: #ffffff;">
+      <Pane prefHeight="259.0" prefWidth="343.0" style="-fx-background-color: #ffffff;">
          <children>
-            <ImageView fx:id="imgBack" fitHeight="242.0" fitWidth="228.0" />
-            <Text fill="#47ce60" layoutX="56.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Message" textAlignment="CENTER" wrappingWidth="114.8033447265625">
+            <ImageView fx:id="imgBack" fitHeight="259.0" fitWidth="343.0" />
+            <Text fill="#47ce60" layoutX="102.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Message" textAlignment="CENTER" wrappingWidth="134.8033447265625">
                <font>
-                  <Font name="Calibri Bold" size="24.0" />
+                  <Font name="Calibri Bold" size="36.0" />
                </font>
             </Text>
-            <Button layoutX="88.0" layoutY="180.0" mnemonicParsing="false" onAction="#okAction" prefHeight="27.0" prefWidth="55.0" style="-fx-background-color: #47ce60; -fx-background-radius: 30 30 30 30;" text="Ok" textFill="WHITE">
-               <font>
-                  <Font name="Calibri" size="14.0" />
-               </font>
-            </Button>
-            <Text fill="#161918" layoutX="33.0" layoutY="111.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The Question was created successfully" textAlignment="CENTER" wrappingWidth="161.4700927734375">
+            <Button layoutX="142.0" layoutY="187.0" mnemonicParsing="false" onAction="#okAction" prefHeight="27.0" prefWidth="55.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="Ok" textFill="WHITE">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
+            </Button>
+            <Text fill="#161918" layoutX="57.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The question was created successfully" textAlignment="CENTER" wrappingWidth="144.80340576171875">
+               <font>
+                  <Font name="Calibri Bold" size="18.0" />
+               </font>
             </Text>
-            <ImageView fx:id="imgOk" fitHeight="30.0" fitWidth="30.0" layoutX="32.0" layoutY="32.0" />
+            <ImageView fx:id="imgOk" fitHeight="70.0" fitWidth="70.0" layoutX="215.0" layoutY="94.0" />
          </children>
       </Pane>
    </children>

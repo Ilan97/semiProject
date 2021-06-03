@@ -85,6 +85,8 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 	private Pane innerPane;
 	@FXML
 	private Label timerLabel;
+    @FXML
+    private ImageView imgTimer;
 
 	// Instance methods ************************************************
 
@@ -181,10 +183,11 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 		messageToServer.setControllerName("StudentController");
 		messageToServer.setOperation("SubmitExam");
 		ClientUI.client.handleMessageFromClientUI(messageToServer);
-		StudentDidntMakeItController pop = new StudentDidntMakeItController();
+		StudentDidNotMakeItWindowController pop = new StudentDidNotMakeItWindowController();
 		pop.start(new Stage());
-		} catch (IOException e) {UsefulMethods.instance().printException(e);}
-		
+		} catch (IOException e) {
+			UsefulMethods.instance().printException(e);
+		}	
 	}
 	
 
@@ -199,6 +202,8 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 		imgBack.setImage(img);
 		Image img2 = new Image(this.getClass().getResource("logo.png").toString());
 		imgLogo.setImage(img2);
+		Image img3 = new Image(this.getClass().getResource("timer.png").toString());
+		imgTimer.setImage(img3);
 		// buttons not available
 		btnHome.setDisable(true);
 		btnComp.setDisable(true);
@@ -281,8 +286,17 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 					//check if A change was made during the exam
 					if (currDuration != startDuration );
 						//TODO POPUP PAY ATTENTION exam duration has changed ! 
-					if( (HourTimer*60 + MinTimer) + 10 == currDuration)
-						//TODO ADD ADD POPUP PAY ATTENTION 10 min remaining
+					if( (HourTimer * 60 + MinTimer) + 10 == currDuration) {
+						// successes pop up
+						Platform.runLater(() -> {
+							AlertTimeIsRunningOutWindowController popUp = new AlertTimeIsRunningOutWindowController();
+							try {
+								popUp.start(new Stage());
+							} catch (Exception e) {
+								UsefulMethods.instance().printException(e);
+							}
+						});
+					}
 					//request for eStatus of the exam
 					messageToServer.setControllerName("ExamController");
 					messageToServer.setOperation("GetExamStatus");

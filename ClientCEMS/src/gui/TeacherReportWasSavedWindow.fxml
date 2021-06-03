@@ -9,25 +9,25 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.TeacherReportWasSavedWindowController">
    <children>
-      <Pane prefHeight="242.0" prefWidth="228.0" style="-fx-background-color: #ffffff;">
+      <Pane prefHeight="267.0" prefWidth="263.0" style="-fx-background-color: #ffffff;">
          <children>
-            <ImageView fx:id="imgBack" fitHeight="242.0" fitWidth="228.0" />
-            <Text fill="#47ce60" layoutX="55.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Message" textAlignment="CENTER" wrappingWidth="114.8033447265625">
+            <ImageView fx:id="imgBack" fitHeight="267.0" fitWidth="263.0" layoutY="1.0" />
+            <Text fill="#47ce60" layoutX="56.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Message" textAlignment="CENTER" wrappingWidth="150.13665771484375">
                <font>
-                  <Font name="Calibri Bold" size="24.0" />
+                  <Font name="Calibri Bold" size="36.0" />
                </font>
             </Text>
-            <Button layoutX="88.0" layoutY="180.0" mnemonicParsing="false" onAction="#okAction" prefHeight="27.0" prefWidth="55.0" style="-fx-background-color: #47ce60; -fx-background-radius: 30 30 30 30;" text="Ok" textFill="WHITE">
-               <font>
-                  <Font name="Calibri" size="14.0" />
-               </font>
-            </Button>
-            <Text fill="#161918" layoutX="33.0" layoutY="111.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The report was Saved successfully" textAlignment="CENTER" wrappingWidth="161.4700927734375">
+            <Button layoutX="105.0" layoutY="185.0" mnemonicParsing="false" onAction="#okAction" prefHeight="27.0" prefWidth="55.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="Ok" textFill="WHITE">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
+            </Button>
+            <Text fill="#161918" layoutX="53.0" layoutY="104.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The report was saved successfully" textAlignment="CENTER" wrappingWidth="100.13671875">
+               <font>
+                  <Font name="Calibri Bold" size="18.0" />
+               </font>
             </Text>
-            <ImageView fx:id="imgOk" fitHeight="30.0" fitWidth="30.0" layoutX="31.0" layoutY="32.0" />
+            <ImageView fx:id="imgOk" fitHeight="70.0" fitWidth="70.0" layoutX="153.0" layoutY="86.0" />
          </children>
       </Pane>
    </children>

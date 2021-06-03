@@ -86,6 +86,8 @@ public class ManualExamFormController implements GuiController, Initializable {
     private Label timerLabel;
     @FXML
     private Label titleOfTimer;
+    @FXML
+    private ImageView imgTimer;
 
 
 
@@ -115,7 +117,8 @@ public class ManualExamFormController implements GuiController, Initializable {
 				btnMan.setDisable(true);
 				btnGrades.setDisable(true);
 				btnCode.setDisable(true);
-				
+				Image img = new Image(this.getClass().getResource("timer.png").toString());
+				imgTimer.setImage(img);
 				titleOfTimer.setText("Timer: ");
 				new Thread(() -> { //Thread for Timer
 					try {
@@ -173,8 +176,17 @@ public class ManualExamFormController implements GuiController, Initializable {
 							messageToServer.setMsg(Exam_eCode);
 							ExamStatus = (String) ClientUI.client.handleMessageFromClientUI(messageToServer);
 					
-							if( (HourTimer*60 + MinTimer) + 10 == currDuration)
-								//TODO ADD ADD POPUP PAY ATTENTION 10 min remaining
+							if( (HourTimer*60 + MinTimer) + 10 == currDuration) {
+								Platform.runLater(() -> {
+									// successes pop up
+									AlertTimeIsRunningOutWindowController pop = new AlertTimeIsRunningOutWindowController();
+									try {
+										pop.start(new Stage());
+									} catch (Exception e) {
+										UsefulMethods.instance().printException(e);
+									}
+								});
+							}
 								
 								//check if time is up or status is "locked"
 							if( ((HourTimer*60 + MinTimer) >= currDuration || ExamStatus.equals("locked")) ) {
@@ -185,7 +197,7 @@ public class ManualExamFormController implements GuiController, Initializable {
 									messageToServer.setControllerName("StudentController");
 									messageToServer.setOperation("SubmitExam");
 									ClientUI.client.handleMessageFromClientUI(messageToServer);
-									StudentDidntMakeItController pop = new StudentDidntMakeItController();
+									StudentDidNotMakeItWindowController pop = new StudentDidNotMakeItWindowController();
 									try {
 										pop.start(new Stage());
 									} catch (IOException e) {UsefulMethods.instance().printException(e);}

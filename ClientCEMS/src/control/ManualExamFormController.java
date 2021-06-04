@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.util.ResourceBundle;
 import client.ClientUI;
 import gui.Navigator;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -35,11 +36,14 @@ public class ManualExamFormController implements GuiController, Initializable {
 
 	// Instance variables **********************************************
 
+	static final int MIN = 60*1000;
+	static final int SEC = 1000;
 	/**
 	 * The {@link ExamOfStudent} to upload to DB.
 	 */
 	public static ExamOfStudent examToUpload;
-
+	public boolean flagForTimer = true;
+	public static int SecTimer = 0, MinTimer = 0,HourTimer = 0;
 	/**
 	 * The chosen file in bytes.
 	 */
@@ -78,6 +82,14 @@ public class ManualExamFormController implements GuiController, Initializable {
 	private Button btnCode;
 	@FXML
 	private Label lblFileName;
+    @FXML
+    private Label timerLabel;
+    @FXML
+    private Label titleOfTimer;
+    @FXML
+    private ImageView imgTimer;
+
+
 
 	// Instance methods ************************************************
 
@@ -105,9 +117,104 @@ public class ManualExamFormController implements GuiController, Initializable {
 				btnMan.setDisable(true);
 				btnGrades.setDisable(true);
 				btnCode.setDisable(true);
+				Image img = new Image(this.getClass().getResource("timer.png").toString());
+				imgTimer.setImage(img);
+				titleOfTimer.setText("Timer: ");
+				new Thread(() -> { //Thread for Timer
+					try {
+						while (flagForTimer) {
+							Thread.sleep(SEC);
+							if (SecTimer == 59) {
+								MinTimer += 1;
+								SecTimer = 0;
+							} else
+								SecTimer += 1;
+							if(MinTimer == 60) {
+								HourTimer +=1;
+								MinTimer = 0;
+							}
+							Platform.runLater(() -> {
+								timerLabel.setText(String.format("%02d:%02d:%02d",HourTimer ,MinTimer, SecTimer));
+							});
+
+						}
+					} catch (Exception e) {
+						UsefulMethods.instance().printException(e);
+					}
+				}).start();
+				
+				//thread for Checks if exam time is over or changed.
+				//At the end of the time closes the exam automatically
+				new Thread(() -> { //Thread 
+					try {
+						
+						double startDuration;
+						double currDuration;
+						String ExamStatus;
+						String Exam_eCode = code;
+						Message messageToServer = new Message();
+						//request for startDuration
+						messageToServer.setControllerName("ExamController");
+						messageToServer.setOperation("GetExamDuration");
+						messageToServer.setMsg(Exam_eCode);
+						startDuration = (double) ClientUI.client.handleMessageFromClientUI(messageToServer);
+						
+						while (flagForTimer) {
+					
+							Thread.sleep(MIN);
+							//request for currDuration
+							messageToServer.setControllerName("ExamController");
+							messageToServer.setOperation("GetExamDuration");
+							messageToServer.setMsg(Exam_eCode);
+							currDuration = (double) ClientUI.client.handleMessageFromClientUI(messageToServer);
+							//check if A change was made during the exam
+							if (currDuration != startDuration );
+							//TODO POPUP PAY ATTENTION exam duration has changed ! 
+							//request for eStatus of the exam
+							messageToServer.setControllerName("ExamController");
+							messageToServer.setOperation("GetExamStatus");
+							messageToServer.setMsg(Exam_eCode);
+							ExamStatus = (String) ClientUI.client.handleMessageFromClientUI(messageToServer);
+					
+							if( (HourTimer*60 + MinTimer) + 10 == currDuration) {
+								Platform.runLater(() -> {
+									// successes pop up
+									AlertTimeIsRunningOutWindowController pop = new AlertTimeIsRunningOutWindowController();
+									try {
+										pop.start(new Stage());
+									} catch (Exception e) {
+										UsefulMethods.instance().printException(e);
+									}
+								});
+							}
+								
+								//check if time is up or status is "locked"
+							if( ((HourTimer*60 + MinTimer) >= currDuration || ExamStatus.equals("locked")) ) {
+								Platform.runLater(() -> {
+									examToUpload = new ExamOfStudent(null, code, LoginController.user.getUsername(), -1);
+									btnSubmit.fire();
+									messageToServer.setMsg(examToUpload);
+									messageToServer.setControllerName("StudentController");
+									messageToServer.setOperation("SubmitExam");
+									ClientUI.client.handleMessageFromClientUI(messageToServer);
+									StudentDidNotMakeItWindowController pop = new StudentDidNotMakeItWindowController();
+									try {
+										pop.start(new Stage());
+									} catch (IOException e) {UsefulMethods.instance().printException(e);}
+									
+									Navigator.instance().clearHistory("StudentHomeForm");
+								});		
+								flagForTimer = false;
+							}
+						}
+					} catch (Exception e) {
+						UsefulMethods.instance().printException(e);
+					}
+				}).start();
+				
 			}
 		} catch (Exception e) {
-			UsefulMethods.instance().printExeption(e);
+			UsefulMethods.instance().printException(e);
 		}
 	}
 
@@ -191,7 +298,7 @@ public class ManualExamFormController implements GuiController, Initializable {
 		try {
 			popUp.start(new Stage());
 		} catch (Exception e) {
-			UsefulMethods.instance().printExeption(e);
+			UsefulMethods.instance().printException(e);
 		}
 	}
 

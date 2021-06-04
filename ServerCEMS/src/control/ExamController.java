@@ -110,6 +110,17 @@ public class ExamController {
 
 		/* TODO change case name after merge */
 		// only for computerized exam
+
+		case "FindExamOfStudent":
+			Exam rExam = null;
+			data = parsingTheData((String) request.getMsg());
+			examID = getExamID(data[0]);
+			if (examID != null) 
+				rExam = getComputerizedExam(data[0], data[1]);
+			examMessage.setMsg(rExam);
+			result = examMessage;
+			break;
+
 		case "CheckCodeExists":
 			Exam resExam = null;
 			data = parsingTheData((String) request.getMsg());
@@ -117,7 +128,7 @@ public class ExamController {
 			if (examID != null) {
 				if (!checkStudentDidExam(examID, data[2]))
 					resExam = checkComputerizedExamCode(data[0], data[1]);
-			}
+				}
 			examMessage.setMsg(resExam);
 			result = examMessage;
 			break;
@@ -152,9 +163,81 @@ public class ExamController {
 			examMessage.setMsg(isLocked);
 			result = examMessage;
 			break;
-
+		
+		case "GetExamStatus":
+			String status = getExamStatus((String) request.getMsg());
+			examMessage.setMsg(status);
+			result = examMessage;
+			break;
+		
 		} // end switch case
 		return result;
+	}
+	
+	/**
+	 * This method get the exam from table exam.
+	 *
+	 * @param code The code from examToPerform table.
+	 * @param type The exam type.
+	 * @return exam {@link Exam} if code exists, null otherwise.
+	 */
+	public static Exam getComputerizedExam(String code, String type) {
+	Exam exam = null;
+	String Fid = null, Cid = null, Eid = null;
+	String sql = "SELECT e.fid, e.cid, e.eid FROM exam as e, examToPerform as ep "
+			+ "WHERE e.fid = ep.fid AND e.cid = ep.cid AND e.eid = ep.eid AND e.etype = ? AND ep.ecode = ?";
+	try {
+		pstmt = DBconnector.conn.prepareStatement(sql);
+		pstmt.setString(1, type);
+		pstmt.setString(2, code);
+		rs = pstmt.executeQuery();
+		while (rs.next()) {
+			Fid = rs.getString("fid");
+			Cid = rs.getString("cid");
+			Eid = rs.getString("eid");
+		}
+	} catch (SQLException e) {
+		return null;
+	} finally {
+		try {
+			rs.close();
+		} catch (Exception e) {
+		}
+		try {
+			pstmt.close();
+		} catch (Exception e) {
+		}
+	}
+	if (Fid != null && Cid != null && Eid != null)
+		exam = getExam(Fid, Cid, Eid);
+	return exam;
+}
+
+	public static String getExamStatus(String code) {
+		String Status="";
+		String sql = "SELECT estatus FROM examtoperform WHERE ecode = ? ";
+		try {
+			pstmt = DBconnector.conn.prepareStatement(sql);
+			pstmt.setString(1, code);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				Status = rs.getString("estatus");
+			}
+		} catch (SQLException e) {
+			DBconnector.printSQLException(e);
+		} finally {
+			try {
+				rs.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+			try {
+				pstmt.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+		}
+		return Status;
 	}
 
 	/**
@@ -382,6 +465,7 @@ public class ExamController {
 				q.setQid(newRs.getString("qid"));
 				score = newRs.getInt("score");
 				q.setStudentNote(newRs.getString("studentNote"));
+				q.setTeacherNote(newRs.getString("teacherNote"));
 				getMoreFieldsForQuestion(q);
 				questionsInExam.put(q, score);
 			}
@@ -558,7 +642,7 @@ public class ExamController {
 	}
 
 	/**
-	 * This method get the exam file from table exam.
+	 * This method get the exam from table exam.
 	 *
 	 * @param code The code from examToPerform table.
 	 * @param type The exam type.

@@ -98,7 +98,7 @@ public class WriteAnExamForm2Controller implements GuiController, Initializable 
 		try {
 			returned = (QuestionScoreWindowController) scoreWindow.start(new Stage());
 		} catch (IOException e) {
-			UsefulMethods.instance().printExeption(e);
+			UsefulMethods.instance().printException(e);
 		}
 		// check if score is over 100
 		sum += returned.score;

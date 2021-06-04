@@ -84,7 +84,7 @@ public class WriteAnExamForm3Controller implements GuiController, Initializable 
 			try {
 				popUp.start(new Stage());
 			} catch (Exception e) {
-				UsefulMethods.instance().printExeption(e);
+				UsefulMethods.instance().printException(e);
 			}
 		} else {
 			// fail pop up
@@ -92,7 +92,7 @@ public class WriteAnExamForm3Controller implements GuiController, Initializable 
 			try {
 				popUp.start(new Stage());
 			} catch (Exception e) {
-				UsefulMethods.instance().printExeption(e);
+				UsefulMethods.instance().printException(e);
 			}
 		}
 		Navigator.instance().clearHistory("TeacherHomeForm");

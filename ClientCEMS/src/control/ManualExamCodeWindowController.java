@@ -150,7 +150,7 @@ public class ManualExamCodeWindowController implements GuiController, Initializa
 						msg.start(new Stage());
 					} catch (IOException e) {
 						UsefulMethods.instance().display("fail to download the file");
-						UsefulMethods.instance().printExeption(e);
+						UsefulMethods.instance().printException(e);
 					}
 				}
 				UsefulMethods.instance().close(event);

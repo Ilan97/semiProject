@@ -1,17 +1,23 @@
 package control;
 
+import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
-
+import client.ClientUI;
 import gui.Navigator;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import logic.ExamOfStudent;
+import logic.Message;
+import logic.User;
 
 /**
  * This is controller class (boundary) for window Grades in Student. This class
@@ -26,6 +32,11 @@ public class GradesFormController implements GuiController, Initializable {
 	// Instance variables **********************************************
 
 	/**
+	 * static variables.
+	 */
+	public static ExamOfStudent chosenExam;
+	
+	/**
 	 * FXML variables.
 	 */
 	@FXML
@@ -33,30 +44,33 @@ public class GradesFormController implements GuiController, Initializable {
 	@FXML
 	private ImageView imgLogo;
 	@FXML
-	private Label lblError;
-	@FXML
-	private TextField txtID;
-	@FXML
-	private TextField txtCode;
-	@FXML
 	private Label lblGrade;
-	@FXML
-	private Label lblError3;
-	@FXML
-	private Label lblError31;
+    @FXML
+    private ListView<ExamOfStudent> examsList;
 
 	// Instance methods ************************************************
 
 	/**
-	 * This is FXML event handler. Handles the action of click on 'Get Exam' button.
+	 * This is FXML event handler. Handles the action of click on 'Show Exam' button.
 	 *
 	 * @param event The action event.
 	 */
 	@FXML
-	void getExamAction(ActionEvent event) {
-
+	void showExamAction(ActionEvent event) {
+		checkValidExam();
+		if(chosenExam == null)
+			return;
+		ShowExamWindowController showExam = new ShowExamWindowController();
+		try {
+			showExam.start(new Stage());
+		} catch (IOException e) {}
 	}
-
+	
+	private void checkValidExam() {
+		if (examsList.getSelectionModel().isEmpty())
+			chosenExam = null;
+		chosenExam = examsList.getSelectionModel().getSelectedItem();
+	}
 	/**
 	 * This is FXML event handler. Handles the action of click on 'Get Grade'
 	 * button.
@@ -65,7 +79,10 @@ public class GradesFormController implements GuiController, Initializable {
 	 */
 	@FXML
 	void getGradeAction(ActionEvent event) {
-
+		checkValidExam();
+		if(chosenExam == null)
+			return;
+		lblGrade.setText(String.valueOf(chosenExam.getGrade())); 
 	}
 
 	/**
@@ -127,19 +144,32 @@ public class GradesFormController implements GuiController, Initializable {
 	@FXML
 	void gradesAction(ActionEvent event) {
 		Navigator.instance().navigate("GradesForm");
+		
 	}
 
 	/**
 	 * This method called to initialize a controller after its root element has been
 	 * completely processed (after load method).
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		chosenExam = null;
 		// set images
 		Image img = new Image(this.getClass().getResource("studentFrame.PNG").toString());
 		imgBack.setImage(img);
 		Image img2 = new Image(this.getClass().getResource("logo.png").toString());
 		imgLogo.setImage(img2);
+		// set the exams list in order to the UserName
+		ArrayList<ExamOfStudent> ExamsOfStudentList;
+		User user = LoginController.user;
+		Message messageToServer = new Message();
+		messageToServer.setMsg(user.getUsername());
+		messageToServer.setControllerName("StudentController");
+		messageToServer.setOperation("ShowExamOfStudentList");
+		System.out.println(messageToServer);
+		ExamsOfStudentList = (ArrayList<ExamOfStudent>) ClientUI.client.handleMessageFromClientUI(messageToServer);
+		examsList.setItems(FXCollections.observableArrayList(ExamsOfStudentList));
 	}
 
 }

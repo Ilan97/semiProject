@@ -77,7 +77,7 @@ public class WriteQuestionForm2Controller implements GuiController, Initializabl
 			try {
 				popUp.start(new Stage());
 			} catch (Exception e) {
-				UsefulMethods.instance().printExeption(e);
+				UsefulMethods.instance().printException(e);
 			}
 		} else {
 			// Failed pop up
@@ -85,7 +85,7 @@ public class WriteQuestionForm2Controller implements GuiController, Initializabl
 			try {
 				popUp.start(new Stage());
 			} catch (Exception e) {
-				UsefulMethods.instance().printExeption(e);
+				UsefulMethods.instance().printException(e);
 			}
 		}
 		Navigator.instance().clearHistory("TeacherHomeForm");

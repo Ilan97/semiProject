@@ -39,7 +39,7 @@ public class UsefulMethods implements UsefulMethodsInterface {
 	}
 
 	@Override
-	public void printExeption(Exception e) {
+	public void printException(Exception e) {
 		display("Exception: " + e.getMessage());
 		e.printStackTrace();
 	}

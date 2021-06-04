@@ -115,7 +115,7 @@ public class QuestionScoreWindowController implements GuiController, Initializab
 			teachNote = returned.teachNote;
 			studNote = returned.studNote;
 		} catch (IOException e) {
-			UsefulMethods.instance().printExeption(e);
+			UsefulMethods.instance().printException(e);
 		}
 	}
 

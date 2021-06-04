@@ -57,7 +57,7 @@ public class PrincipalReportForm2Controller implements GuiController, Initializa
 		try {
 			popUp.start(new Stage());
 		} catch (Exception e) {
-			UsefulMethods.instance().printExeption(e);
+			UsefulMethods.instance().printException(e);
 		}
 		Navigator.instance().clearHistory("PrincipalHomeForm");
 	}

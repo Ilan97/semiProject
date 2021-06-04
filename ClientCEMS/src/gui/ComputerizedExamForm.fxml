@@ -59,6 +59,17 @@
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Button>
+            <Label fx:id="timerLabel" layoutX="268.0" layoutY="12.0" prefHeight="17.0" prefWidth="73.0">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="218.0" layoutY="12.0" text="timer :">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Label>
+            <ImageView fx:id="imgTimer" fitHeight="20.0" fitWidth="20.0" layoutX="193.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </Pane>
    </children>

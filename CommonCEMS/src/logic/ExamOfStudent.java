@@ -1,7 +1,6 @@
 package logic;
 
 import java.io.Serializable;
-import java.util.Arrays;
 
 /**
  * This is an entity class that save details about each exam that is created.
@@ -9,6 +8,8 @@ import java.util.Arrays;
  * re-create it as needed.
  *
  * @author Bat-El Gardin
+ * @author Sharon Vaknin
+ * @author Moran Davidov
  * @version May 2021
  */
 
@@ -21,12 +22,22 @@ public class ExamOfStudent implements Serializable {
 	private byte[] content;
 	private String code;
 	private String studentName;
+	private String userName;
 	private double realTimeDuration;
 	private int grade;
 	private String answers;
+	private String eid;
+	private String fid;
+	private String fname;
+	private String cid;
+	private String cname;
+	private String edate;
 
 	// Constructors ****************************************************
 
+	public ExamOfStudent() {
+	}
+	
 	/**
 	 * @param content
 	 * @param code
@@ -56,8 +67,7 @@ public class ExamOfStudent implements Serializable {
 
 	@Override
 	public String toString() {
-		return "ExamOfStudent [content=" + Arrays.toString(content) + ", code=" + code + ", studentName=" + studentName
-				+ ", realTimeDuration=" + realTimeDuration + "]";
+		return "Course:\t" + getCname() + "\nField:\t" + getFname() + "\nExam Date:\t" + getEdate();
 	}
 
 	/**
@@ -143,5 +153,115 @@ public class ExamOfStudent implements Serializable {
 	public void setAnswers(String answers) {
 		this.answers = answers;
 	}
+
+	/**
+	 * @return the eid
+	 */
+	public String getEid() {
+		return eid;
+	}
+
+	/**
+	 * @param eid the eid to set
+	 */
+	public void setEid(String eid) {
+		this.eid = eid;
+	}
+
+	/**
+	 * @return the fid
+	 */
+	public String getFid() {
+		return fid;
+	}
+
+	/**
+	 * @param fid the fid to set
+	 */
+	public void setFid(String fid) {
+		this.fid = fid;
+	}
+
+	/**
+	 * @return the fname
+	 */
+	public String getFname() {
+		return fname;
+	}
+
+	/**
+	 * @param fname the fname to set
+	 */
+	public void setFname(String fname) {
+		this.fname = fname;
+	}
+
+	/**
+	 * @return the cid
+	 */
+	public String getCid() {
+		return cid;
+	}
+
+	/**
+	 * @param cid the cid to set
+	 */
+	public void setCid(String cid) {
+		this.cid = cid;
+	}
+
+	/**
+	 * @return the cname
+	 */
+	public String getCname() {
+		return cname;
+	}
+
+	/**
+	 * @param cname the cname to set
+	 */
+	public void setCname(String cname) {
+		this.cname = cname;
+	}
+
+	/**
+	 * @return the edate
+	 */
+	public String getEdate() {
+		return edate;
+	}
+
+	/**
+	 * @param edate the edate to set
+	 * @return 
+	 */
+	public void setEdate(String edate) {
+		this.edate = edate;
+	}
+
+	/**
+	 * @param realTimeDuration the realTimeDuration to set
+	 */
+	public void setRealTimeDuration(double realTimeDuration) {
+		this.realTimeDuration = realTimeDuration;
+	}
+
+	/**
+	 * @return the usertName
+	 */
+	public String getUserName() {
+		return userName;
+	}
+
+	/**
+	 * @param usertName the usertName to set
+	 */
+	public void setUserName(String usertName) {
+		this.userName = usertName;
+	}
+	
+	
+	
+	
 }
 //End of ExamOfStudent class

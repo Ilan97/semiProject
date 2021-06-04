@@ -60,6 +60,8 @@ public class ComputerizedExamInnerFormController implements Initializable {
 	private RadioButton btnAnswer4;
 	@FXML
 	private ToggleGroup answers;
+	@FXML
+	private Label lblTeacherNote;
 
 	// Instance methods ************************************************
 

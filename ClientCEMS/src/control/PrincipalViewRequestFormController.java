@@ -132,7 +132,7 @@ public class PrincipalViewRequestFormController implements GuiController, Initia
 								approve.start(new Stage());
 								requestsList.getSelectionModel().clearSelection();
 							} catch (Exception e) {
-								UsefulMethods.instance().printExeption(e);
+								UsefulMethods.instance().printException(e);
 							}
 						}
 					});

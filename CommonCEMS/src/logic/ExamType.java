@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * This is an enum class that defines the exam's optional type that it can have.
- * Implements Serilizable to save the state of ExamType object and re-create it
+ * Implements Serializable to save the state of ExamType object and re-create it
  * as needed.
  *
  * @author Bat-El Gardin

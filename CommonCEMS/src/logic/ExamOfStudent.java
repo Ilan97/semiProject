@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * This is an entity class that save details about each exam that is created.
- * Implements Serilizable to save the state of ExamOfStudent object and
+ * Implements Serializable to save the state of ExamOfStudent object and
  * re-create it as needed.
  *
  * @author Bat-El Gardin

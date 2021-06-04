@@ -21,12 +21,12 @@
             </Text>
             <Button fx:id="btnAddNote" layoutX="169.0" layoutY="311.0" mnemonicParsing="false" onAction="#addNoteActionButton" prefHeight="27.0" prefWidth="58.0" style="-fx-background-color: #47ce60; -fx-background-radius: 30 30 30 30;" text="Add " textFill="WHITE">
                <font>
-                  <Font name="Calibri" size="14.0" />
+                  <Font name="Calibri Bold" size="14.0" />
                </font>
             </Button>
             <Button fx:id="btnCancel" layoutX="67.0" layoutY="310.0" mnemonicParsing="false" onAction="#cancelActionButton" style="-fx-background-color: #f86060; -fx-background-radius: 30 30 30 30;" text="Cancel" textFill="WHITE">
                <font>
-                  <Font name="Calibri" size="14.0" />
+                  <Font name="Calibri Bold" size="14.0" />
                </font>
             </Button>
             <TextArea fx:id="txtTeachNote" layoutX="61.0" layoutY="91.0" prefHeight="82.0" prefWidth="171.0">

@@ -21,7 +21,7 @@
             </Text>
             <Button fx:id="btnSaveScore" layoutX="95.0" layoutY="189.0" mnemonicParsing="false" onAction="#saveScoreActionButton" prefHeight="17.0" prefWidth="58.0" style="-fx-background-color: #47ce60; -fx-background-radius: 30 30 30 30;" text="Save" textFill="WHITE">
                <font>
-                  <Font name="Calibri" size="14.0" />
+                  <Font name="Calibri Bold" size="14.0" />
                </font>
             </Button>
             <Label alignment="CENTER" layoutX="62.0" layoutY="106.0" prefHeight="22.0" prefWidth="84.0" text="Score:">
@@ -30,9 +30,9 @@
                </font>
             </Label>
             <TextField fx:id="txtScore" layoutX="129.0" layoutY="107.0" onKeyPressed="#inputPass" prefHeight="25.0" prefWidth="43.0" />
-            <Button layoutX="129.0" layoutY="142.0" mnemonicParsing="false" onAction="#addNoteActionButton" prefHeight="27.0" prefWidth="43.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="Add" textFill="WHITE">
+            <Button layoutX="128.0" layoutY="142.0" mnemonicParsing="false" onAction="#addNoteActionButton" prefHeight="27.0" prefWidth="45.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="Add" textFill="WHITE">
                <font>
-                  <Font name="Calibri" size="14.0" />
+                  <Font name="Calibri Bold" size="14.0" />
                </font>
             </Button>
             <Label alignment="CENTER" layoutX="60.0" layoutY="142.0" prefHeight="22.0" prefWidth="84.0" text="Note:">

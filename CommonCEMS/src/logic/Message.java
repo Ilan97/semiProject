@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * This is an entity class that save details about each Message that
- * send/recieved between client-server-controller. Implements Serilizable to
+ * send/received between client-server-controller. Implements Serializable to
  * save the state of Message object and re-create it as needed.
  *
  * @author Bat-El Gardin

@@ -87,7 +87,7 @@ public class WriteAnExamForm3Controller implements GuiController, Initializable 
 				UsefulMethods.instance().printException(e);
 			}
 		} else {
-			// Failed pop up
+			// fail pop up
 			FailWindowController popUp = new FailWindowController();
 			try {
 				popUp.start(new Stage());

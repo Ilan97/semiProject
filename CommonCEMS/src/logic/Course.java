@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 /**
  * This is an entity class that save details about each course that is
- * created. Implements Serilizable to save the state of Course object and
+ * created. Implements Serializable to save the state of Course object and
  * re-create it as needed.
  *
  * @author Moran Davidov

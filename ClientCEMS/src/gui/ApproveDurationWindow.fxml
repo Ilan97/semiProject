@@ -19,9 +19,9 @@
                   <Font name="Calibri Bold" size="24.0" />
                </font>
             </Text>
-            <Button fx:id="btnApprove" layoutX="192.0" layoutY="290.0" mnemonicParsing="false" onAction="#approveActionButton" prefHeight="27.0" prefWidth="77.0" style="-fx-background-color: #47ce60; -fx-background-radius: 30 30 30 30;" text="Approve" textFill="WHITE">
+            <Button layoutX="192.0" layoutY="290.0" mnemonicParsing="false" onAction="#approveActionButton" prefHeight="27.0" prefWidth="77.0" style="-fx-background-color: #47ce60; -fx-background-radius: 30 30 30 30;" text="Approve" textFill="WHITE">
                <font>
-                  <Font name="Calibri" size="14.0" />
+                  <Font name="Calibri Bold" size="14.0" />
                </font>
             </Button>
             <Label alignment="CENTER" layoutX="40.0" layoutY="81.0" prefHeight="22.0" prefWidth="68.0" text="Exam ID:">
@@ -29,12 +29,12 @@
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
-            <Button fx:id="btnDisapprove" layoutX="49.0" layoutY="289.0" mnemonicParsing="false" onAction="#disapproveActionButton" style="-fx-background-color: #f86060; -fx-background-radius: 30 30 30 30;" text="Disapprove" textFill="WHITE">
+            <Button layoutX="49.0" layoutY="289.0" mnemonicParsing="false" onAction="#disapproveActionButton" style="-fx-background-color: #f86060; -fx-background-radius: 30 30 30 30;" text="Disapprove" textFill="WHITE">
                <font>
-                  <Font name="Calibri" size="14.0" />
+                  <Font name="Calibri Bold" size="14.0" />
                </font>
             </Button>
-            <Label fx:id="lblDuration" alignment="CENTER" layoutX="117.0" layoutY="109.0" prefHeight="22.0" prefWidth="33.0">
+            <Label fx:id="lblDuration" alignment="CENTER" layoutX="114.0" layoutY="106.0" prefHeight="22.0" prefWidth="33.0">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
@@ -55,18 +55,18 @@
                </font>
             </Label>
             <TextArea fx:id="txtAreaExplanation" layoutX="47.0" layoutY="183.0" prefHeight="93.0" prefWidth="222.0" />
-            <Label fx:id="lblNewDuration" alignment="CENTER" layoutX="148.0" layoutY="135.0" prefHeight="22.0" prefWidth="33.0">
+            <Label fx:id="lblNewDuration" alignment="CENTER" layoutX="145.0" layoutY="132.0" prefHeight="22.0" prefWidth="33.0">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
-            <Label fx:id="lblExamID" alignment="CENTER" layoutX="122.0" layoutY="83.0" prefHeight="22.0" prefWidth="84.0">
+            <Label fx:id="lblExamID" alignment="CENTER" layoutX="107.0" layoutY="81.0" prefHeight="22.0" prefWidth="59.0">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="150.0" layoutY="113.0" prefHeight="17.0" prefWidth="11.0" text="m" />
-            <Label layoutX="181.0" layoutY="138.0" prefHeight="17.0" prefWidth="11.0" text="m" />
+            <Label layoutX="150.0" layoutY="110.0" prefHeight="17.0" prefWidth="33.0" text="min" />
+            <Label layoutX="181.0" layoutY="136.0" prefHeight="17.0" prefWidth="33.0" text="min" />
          </children>
       </Pane>
    </children>

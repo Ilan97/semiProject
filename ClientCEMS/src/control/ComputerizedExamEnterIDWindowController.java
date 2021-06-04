@@ -114,8 +114,6 @@ public class ComputerizedExamEnterIDWindowController implements GuiController, I
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		/* TODO set text with the origin duration that saved , after merge*/
-		//lblDur.setText(value);
 		// set images
 		Image img = new Image(this.getClass().getResource("studentFrame.PNG").toString());
 		imgBack.setImage(img);

@@ -3,35 +3,26 @@ package control;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
-/**
- * This is controller class (boundary) for window StudentDidntMakeIt in Student.
- * This class handle all events related to this windows. This class connect with
- * client.
- *
- * @author Ohad Shamir
- * @author Bat-El Gardin
- * @author Sharon Vaknin
- * @version May 2021
- */
-
-public class StudentDidNotMakeItWindowController implements GuiController, Initializable {
-
+public class AlertExamDurationChangedWindowController implements GuiController, Initializable {
+	
 	// Instance variables **********************************************
 
-	@FXML
-	private ImageView imgCrash;
-	@FXML
-	private ImageView imgTimer;
+    @FXML
+    private ImageView imgCrash;
+    @FXML
+    private Label lblDuration;
 
 	// Instance methods ************************************************
 
@@ -42,9 +33,7 @@ public class StudentDidNotMakeItWindowController implements GuiController, Initi
 	 * @throws IOException
 	 */
 	public void start(Stage primaryStage) throws IOException {
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("/gui/StudentDidNotMakeItWindow.fxml"));
-		Parent root = loader.load();
+		Parent root = FXMLLoader.load(getClass().getResource("/gui/AlertExamDurationChangedWindow.fxml"));
 		Scene scene = new Scene(root);
 		primaryStage.setTitle("Alert");
 		primaryStage.setScene(scene);
@@ -66,12 +55,14 @@ public class StudentDidNotMakeItWindowController implements GuiController, Initi
 	 * completely processed (after load method).
 	 */
 	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
+	public void initialize(URL location, ResourceBundle resources) {
 		// set images
-		Image img = new Image(this.getClass().getResource("serverCrushed.PNG").toString());
-		imgCrash.setImage(img);
-		Image img2 = new Image(this.getClass().getResource("timer.png").toString());
-		imgTimer.setImage(img2);
+		Image img1 = new Image(this.getClass().getResource("serverCrushed.PNG").toString());
+		imgCrash.setImage(img1);
+		
+		int extraTime = (int) (ComputerizedExamFormController.currDuration - ComputerizedExamFormController.startDuration);
+		lblDuration.setText("You have another " + extraTime + " minutes");	
 	}
 }
-//End of StudentDidNotMakeItWindowController class
+// End of AlertExamDurationChangedWindowController class
+

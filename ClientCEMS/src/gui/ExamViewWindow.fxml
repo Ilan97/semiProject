@@ -101,12 +101,12 @@
             </Text>
             <Text fx:id="lblErrCode" fill="#f86060" fontSmoothingType="LCD" layoutX="9.0" layoutY="380.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="307.6666926071048">
                <font>
-                  <Font name="Calibri Bold" size="14.0" />
+                  <Font name="Calibri Bold" size="12.0" />
                </font>
             </Text>
             <Text fx:id="lblErrDate" fill="#f86060" fontSmoothingType="LCD" layoutX="402.0" layoutY="380.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="77.99999725818634">
                <font>
-                  <Font name="Calibri Bold" size="14.0" />
+                  <Font name="Calibri Bold" size="12.0" />
                </font>
             </Text>
             <DatePicker fx:id="dPickDate" layoutX="395.0" layoutY="384.0" prefHeight="25.0" prefWidth="115.0" promptText="DD/MM/YYYY" />
@@ -125,6 +125,16 @@
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
+            <Text fill="#f86060" fontSmoothingType="LCD" layoutX="43.0" layoutY="397.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*" wrappingWidth="8.333318583667278">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Text>
+            <Text fill="#f86060" fontSmoothingType="LCD" layoutX="315.0" layoutY="397.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*" wrappingWidth="8.333318583667278">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Text>
          </children>
       </Pane>
    </children>

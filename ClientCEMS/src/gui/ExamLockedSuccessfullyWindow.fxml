@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.ExamLockedSuccessfullyWindowController">
+   <children>
+      <Pane prefHeight="259.0" prefWidth="343.0" style="-fx-background-color: #ffffff;">
+         <children>
+            <ImageView fx:id="imgBack" fitHeight="259.0" fitWidth="343.0" />
+            <Text fill="#47ce60" layoutX="102.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Message" textAlignment="CENTER" wrappingWidth="134.8033447265625">
+               <font>
+                  <Font name="Calibri Bold" size="36.0" />
+               </font>
+            </Text>
+            <Button layoutX="142.0" layoutY="187.0" mnemonicParsing="false" onAction="#okAction" prefHeight="27.0" prefWidth="55.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="Ok" textFill="WHITE">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Button>
+            <Text fill="#161918" layoutX="57.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The exam was locked successfully" textAlignment="CENTER" wrappingWidth="144.80340576171875">
+               <font>
+                  <Font name="Calibri Bold" size="18.0" />
+               </font>
+            </Text>
+            <ImageView fx:id="imgOk" fitHeight="70.0" fitWidth="70.0" layoutX="215.0" layoutY="94.0" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

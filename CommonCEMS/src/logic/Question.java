@@ -6,7 +6,7 @@ import java.util.Random;
 
 /**
  * This is an entity class that save details about each question that is
- * created. Implements Serilizable to save the state of Question object and
+ * created. Implements Serializable to save the state of Question object and
  * re-create it as needed.
  *
  * @author Bat-El Gardin

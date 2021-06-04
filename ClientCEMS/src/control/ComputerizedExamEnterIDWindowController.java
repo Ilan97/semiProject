@@ -3,6 +3,7 @@ package control;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
 import client.ClientUI;
 import gui.Navigator;
 import javafx.event.ActionEvent;
@@ -18,6 +19,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import logic.Message;
 
@@ -45,6 +47,8 @@ public class ComputerizedExamEnterIDWindowController implements GuiController, I
 	private Label lblErrID;
 	@FXML
 	private Button btnStart;
+    @FXML
+    private Text lblDur;
 
 	// Instance methods ************************************************
 
@@ -110,6 +114,8 @@ public class ComputerizedExamEnterIDWindowController implements GuiController, I
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		/* TODO set text with the origin duration that saved , after merge*/
+		//lblDur.setText(value);
 		// set images
 		Image img = new Image(this.getClass().getResource("studentFrame.PNG").toString());
 		imgBack.setImage(img);

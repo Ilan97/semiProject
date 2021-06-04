@@ -178,7 +178,7 @@ public class WriteAnExamForm1Controller implements GuiController, Initializable 
 	}
 
 	/**
-	 * This method check if duration is valid
+	 * This method check if duration is valid.
 	 * 
 	 * @return true if duration is valid, false otherwise.
 	 */

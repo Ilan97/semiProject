@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * This is an entity class that save details about each statistics that is
- * created. Implements Serilizable to save the state of Statistics object and
+ * created. Implements Serializable to save the state of Statistics object and
  * re-create it as needed.
  *
  * @author Moran Davidov

@@ -7,7 +7,7 @@ import java.util.Set;
 
 /**
  * This is an entity class that save details about each exam that is created.
- * Implements Serilizable to save the state of Exam object and re-create it as
+ * Implements Serializable to save the state of Exam object and re-create it as
  * needed.
  *
  * @author Bat-El Gardin
@@ -38,13 +38,6 @@ public class Exam implements Serializable {
 	private HashMap<Question, Integer> questionsInExam = new HashMap<>();
 
 	// Constructors ****************************************************
-
-	/**
-	 * @param questionsInExam the questionsInExam to set
-	 */
-	public void setQuestionsInExam(HashMap<Question, Integer> questionsInExam) {
-		this.questionsInExam = questionsInExam;
-	}
 
 	public Exam() {
 	}
@@ -196,6 +189,13 @@ public class Exam implements Serializable {
 	 */
 	public HashMap<Question, Integer> getQuestionsInExam() {
 		return questionsInExam;
+	}
+	
+	/**
+	 * @param questionsInExam the questionsInExam to set
+	 */
+	public void setQuestionsInExam(HashMap<Question, Integer> questionsInExam) {
+		this.questionsInExam = questionsInExam;
 	}
 
 	/**

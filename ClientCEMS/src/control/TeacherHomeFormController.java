@@ -80,14 +80,14 @@ public class TeacherHomeFormController implements GuiController, Initializable {
 	}
 
 	/**
-	 * This is FXML event handler. Handles the action of click on 'Change Exam
-	 * Duration' button.
+	 * This is FXML event handler. Handles the action of click on 'Exam Settings'
+	 * button.
 	 *
 	 * @param event The action event.
 	 */
 	@FXML
-	void changeDurAction(ActionEvent event) {
-		RequestChangeDurationExamTimeController popUp = new RequestChangeDurationExamTimeController();
+	void changeSettings(ActionEvent event) {
+		ExamSettingsWindowController popUp = new ExamSettingsWindowController();
 		try {
 			popUp.start(new Stage());
 		} catch (Exception e) {

@@ -4,6 +4,7 @@ import control.CourseController;
 import control.DBconnector;
 import control.ExamController;
 import control.FieldOfStudyController;
+import control.PrincipalController;
 import control.QuestionController;
 import control.StudentController;
 import control.TeacherController;
@@ -87,6 +88,9 @@ public class ServerController extends AbstractServer {
 			break;
 		case "StudentController":
 			messageFromController = StudentController.handleRequest(messageFromClient);
+			break;
+		case "PrincipalController":
+			messageFromController = PrincipalController.handleRequest(messageFromClient);
 			break;
 		} // end of switch
 

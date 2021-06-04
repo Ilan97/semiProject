@@ -81,13 +81,11 @@ public class ExamController {
 			break;
 
 		case "updateExamDurationTime":
-			// this msg contains the new duration time and exam's entire ID
 			String[] updateDetails = parsingTheData((String) request.getMsg());
-			double duration = Double.parseDouble(updateDetails[0]);
-			examID = updateDetails[1];
-			updateExamDurationQuery(examID, duration);
-			// create the result Message instance
-			examMessage.setMsg(requestDurationTimeQuery(examID)); // return the new duration time
+			double duration = Double.parseDouble(updateDetails[1]);
+			examID = updateDetails[0];
+			boolean isChanged = updateExamDurationQuery(examID, duration);
+			examMessage.setMsg(isChanged);
 			result = examMessage;
 			break;
 
@@ -110,6 +108,8 @@ public class ExamController {
 			result = examMessage;
 			break;
 
+		/* TODO change case name after merge */
+		// only for computerized exam
 		case "CheckCodeExists":
 			Exam resExam = null;
 			data = parsingTheData((String) request.getMsg());
@@ -139,8 +139,48 @@ public class ExamController {
 			examMessage.setMsg(dur);
 			result = examMessage;
 			break;
+
+		/* TODO change case name after merge */
+		case "CheckCodeExistsForRequest":
+			boolean isExists = checkCodeExists((String) request.getMsg());
+			examMessage.setMsg(isExists);
+			result = examMessage;
+			break;
+
+		case "LockExam":
+			boolean isLocked = lockExam((String) request.getMsg());
+			examMessage.setMsg(isLocked);
+			result = examMessage;
+			break;
+
 		} // end switch case
 		return result;
+	}
+
+	/**
+	 * This method lock an exam in examToPerform table.
+	 *
+	 * @param code The code of the exam we want to lock.
+	 * @return true if lock success, false otherwise.
+	 */
+	public static boolean lockExam(String code) {
+		String query;
+		query = "UPDATE examToPerform SET estatus = ? WHERE ecode = ?";
+		try {
+			pstmt = DBconnector.conn.prepareStatement(query);
+			pstmt.setString(1, "locked");
+			pstmt.setString(2, code);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			return false;
+		} finally {
+			try {
+				pstmt.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -180,7 +220,7 @@ public class ExamController {
 	 * This method insert exam to examToPerform table.
 	 *
 	 * @param exam {@link Exam} we want to insert.
-	 * @return true if success, false otherwise, insert successfully.
+	 * @return true if success, false otherwise.
 	 */
 	public static boolean insertExamToExamToPerformTable(Exam exam) {
 		String sql = "INSERT INTO examToPerform VALUES (?,?,?,?,?,?)";
@@ -558,6 +598,38 @@ public class ExamController {
 	}
 
 	/**
+	 * This method check if the code is exists in table examToPerform.
+	 *
+	 * @param code The code from examToPerform table.
+	 * @return true is code exists, false otherwise.
+	 */
+	public static boolean checkCodeExists(String code) {
+		boolean res = false;
+		String sql = "SELECT ecode FROM examToPerform WHERE ecode = ? AND estatus = ?";
+		try {
+			pstmt = DBconnector.conn.prepareStatement(sql);
+			pstmt.setString(1, code);
+			pstmt.setString(2, "open");
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				res = true;
+			}
+		} catch (SQLException e) {
+			return res;
+		} finally {
+			try {
+				rs.close();
+			} catch (Exception e) {
+			}
+			try {
+				pstmt.close();
+			} catch (Exception e) {
+			}
+		}
+		return res;
+	}
+
+	/**
 	 * This method get the exam duration time from table exam.
 	 *
 	 * @param code The code from examToPerform table.
@@ -783,8 +855,10 @@ public class ExamController {
 	 *
 	 * @param examKey     The entire exam ID.
 	 * @param newDuration For the new exam duration time.
+	 * @return true if success, false otherwise.
 	 */
-	public static void updateExamDurationQuery(String examKey, double newDuration) {
+	public static boolean updateExamDurationQuery(String examKey, double newDuration) {
+		boolean res = false;
 		String[] examIDcomponents = parsingTheExamId(examKey);
 		// data from parsingTheExamId method
 		fieldID = examIDcomponents[0];
@@ -798,7 +872,7 @@ public class ExamController {
 			stmt.executeUpdate(query);
 			DBconnector.display("DB: New exam duration time was updated");
 		} catch (SQLException e) {
-			DBconnector.printSQLException(e);
+			return res;
 		} finally {
 			try {
 				stmt.close();
@@ -806,6 +880,8 @@ public class ExamController {
 				DBconnector.printException(e);
 			}
 		}
+		res = true;
+		return res;
 	}
 
 	/**

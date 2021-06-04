@@ -66,8 +66,52 @@ public class CourseController {
 			courseMessage.setMsg(AllCourses);
 			result = courseMessage;
 			break;
+			
+		case "GetGradeList":
+			ArrayList<Integer> listOfGrades;
+			listOfGrades = getGrades((String) request.getMsg());
+			if (listOfGrades.isEmpty())
+				listOfGrades = null;
+			courseMessage.setMsg(listOfGrades);
+			result = courseMessage;
+			break;
 		}
 		return result;
+	}
+
+	/**
+	 * This method return the gradesList of exams from that course.
+	 *
+	 * @param name the course's name.
+	 * @return listOfGrades if found in dataBase else return null.
+	 */
+	public static ArrayList<Integer> getGrades(String name) {
+		String cid = GetCid(name);
+		ArrayList<Integer> listOfGrades = new ArrayList<>();
+		String sql = "SELECT grade FROM ExamOfStudent WHERE cid = ?";
+		try {
+			pstmt = DBconnector.conn.prepareStatement(sql);
+			pstmt.setString(1, cid);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				listOfGrades.add(rs.getInt("grade"));
+			}
+
+		} catch (SQLException e) {
+			DBconnector.printSQLException(e);
+		} finally {
+			try {
+				rs.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+			try {
+				pstmt.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+		}
+		return listOfGrades;
 	}
 
 	/**

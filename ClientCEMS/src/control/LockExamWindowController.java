@@ -102,7 +102,6 @@ public class LockExamWindowController implements GuiController, Initializable {
 			// check if code exists in DB
 			boolean isExists;
 			messageToServer.setMsg(getCode());
-			/* TODO change case name after merge */
 			messageToServer.setOperation("CheckCodeExistsForRequest");
 			messageToServer.setControllerName("ExamController");
 			isExists = (boolean) ClientUI.client.handleMessageFromClientUI(messageToServer);

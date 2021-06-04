@@ -25,8 +25,8 @@ import logic.Request;
  * class handle all events related to this window. This class connect with
  * client.
  *
- * @author
- * @version May 2021
+ * @author Bat-El Gardin
+ * @version June 2021
  */
 
 public class PrincipalViewRequestFormController implements GuiController, Initializable {
@@ -37,6 +37,8 @@ public class PrincipalViewRequestFormController implements GuiController, Initia
 	 * The {@link Request} that principal was chosen.
 	 */
 	public static Request chosenReq;
+
+	public boolean flag = true;
 
 	@FXML
 	private ImageView imgBack;
@@ -76,6 +78,7 @@ public class PrincipalViewRequestFormController implements GuiController, Initia
 	 */
 	@FXML
 	void goHome(ActionEvent event) {
+		flag = false;
 		Navigator.instance().clearHistory("PrincipalHomeForm");
 	}
 
@@ -87,6 +90,7 @@ public class PrincipalViewRequestFormController implements GuiController, Initia
 	 */
 	@FXML
 	void getReportAction(ActionEvent event) {
+		flag = false;
 		Navigator.instance().navigate("PrincipalReportForm1");
 	}
 
@@ -98,6 +102,7 @@ public class PrincipalViewRequestFormController implements GuiController, Initia
 	 */
 	@FXML
 	void viewRequestsAction(ActionEvent event) {
+		flag = false;
 		Navigator.instance().navigate("PrincipalViewRequestForm");
 	}
 
@@ -107,7 +112,19 @@ public class PrincipalViewRequestFormController implements GuiController, Initia
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		btnRefresh.fire();
+		// refresh the requests list every minute
+		new Thread(() -> {
+			while (flag) {
+				try {
+					Thread.sleep(60000);
+					Platform.runLater(() -> {
+						btnRefresh.fire();
+					});
+				} catch (Exception e) {
+					UsefulMethods.instance().printException(e);
+				}
+			}
+		}).start();
 		chosenReq = null;
 		// set images
 		Image img = new Image(this.getClass().getResource("principalFrame.PNG").toString());

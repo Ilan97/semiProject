@@ -38,6 +38,7 @@ public class TeacherController {
 	public static Message handleRequest(Message msg) {
 		ArrayList<String> listOfFields;
 		ArrayList<String> listOfCourses;
+		ArrayList<Integer> listOfGrades;
 		// create the result Message instance
 		Message teacherMessage = new Message();
 		request = msg;
@@ -48,14 +49,58 @@ public class TeacherController {
 			teacherMessage.setMsg(listOfFields);
 			result = teacherMessage;
 			break;
+
 		case "ShowCourseList":
 			String[] TeacherDetails = parsingTheData((String) request.getMsg());
 			listOfCourses = getCoursesList(TeacherDetails[0], TeacherDetails[1]);
 			teacherMessage.setMsg(listOfCourses);
 			result = teacherMessage;
 			break;
+
+		case "GetGradeList":
+			listOfGrades = getGrades((String) request.getMsg());
+			if (listOfGrades.isEmpty())
+				listOfGrades = null;
+			teacherMessage.setMsg(listOfGrades);
+			result = teacherMessage;
+			break;
 		}
 		return result;
+	}
+
+	/**
+	 * This method return the gradesList of exams that teacher wrote.
+	 *
+	 * @param name the teacher's name.
+	 * @return listOfGrades if found in dataBase else return null.
+	 */
+	public static ArrayList<Integer> getGrades(String name) {
+		ArrayList<Integer> listOfGrades = new ArrayList<>();
+		String sql = "SELECT grade FROM Exam AS e, ExamOfStudent AS es WHERE " +
+		"e.fid = es.fid AND e.cid = es.cid AND e.eid = es.eid AND e.author = ?";
+		try {
+			pstmt = DBconnector.conn.prepareStatement(sql);
+			pstmt.setString(1, name);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				listOfGrades.add(rs.getInt("grade"));
+			}
+
+		} catch (SQLException e) {
+			DBconnector.printSQLException(e);
+		} finally {
+			try {
+				rs.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+			try {
+				pstmt.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+		}
+		return listOfGrades;
 	}
 
 	/**

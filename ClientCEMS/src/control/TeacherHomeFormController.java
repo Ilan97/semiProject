@@ -103,8 +103,7 @@ public class TeacherHomeFormController implements GuiController, Initializable {
 	 */
 	@FXML
 	void checkExamAction(ActionEvent event) {
-		// NO WINDOW YET
-		// Navigator.instance().navigate(" ");///????
+		/* TODO Navigator.instance().navigate("checkExamForm"); */
 	}
 
 	/**

@@ -34,6 +34,7 @@ public class StudentController {
 	private static Message result;
 	// variables for execute queries and handle the results from DB.
 	private static PreparedStatement pstmt;
+	private static ResultSet rs;
 
 	// Instance methods ************************************************
 
@@ -68,7 +69,7 @@ public class StudentController {
 			teacherMessage.setMsg(difference);
 			result = teacherMessage;
 			break;
-			
+
 		case "ShowExamOfStudentList":
 			String userName = (String) request.getMsg();
 			ArrayList<ExamOfStudent> ExamsOfStudentList;
@@ -76,14 +77,97 @@ public class StudentController {
 			studentMessage.setMsg(ExamsOfStudentList);
 			result = studentMessage;
 			break;
+
+		case "GetGradeList":
+			ArrayList<Integer> listOfGrades;
+			listOfGrades = getGrades((String) request.getMsg());
+			if (listOfGrades.isEmpty())
+				listOfGrades = null;
+			studentMessage.setMsg(listOfGrades);
+			result = studentMessage;
+			break;
 		}
 		return result;
 	}
-	
+
+	/**
+	 * This method return the gradesList of exams that student did.
+	 *
+	 * @param name the student's name.
+	 * @return listOfGrades if found in dataBase else return null.
+	 */
+	public static ArrayList<Integer> getGrades(String name) {
+		String userName = getUserName(name);
+		ArrayList<Integer> listOfGrades = new ArrayList<>();
+		String sql = "SELECT grade FROM ExamOfStudent WHERE userName = ?";
+		try {
+			pstmt = DBconnector.conn.prepareStatement(sql);
+			pstmt.setString(1, userName);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				listOfGrades.add(rs.getInt("grade"));
+			}
+
+		} catch (SQLException e) {
+			DBconnector.printSQLException(e);
+		} finally {
+			try {
+				rs.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+			try {
+				pstmt.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+		}
+		return listOfGrades;
+	}
+
+	/**
+	 * This method return the userName of student with specific name.
+	 *
+	 * @param name the student's name.
+	 * @return userName if found in dataBase else return null.
+	 */
+	public static String getUserName(String name) {
+		String[] res = parsingTheData(name);
+		String firstName = res[0];
+		String lastName = res[1];
+		String userName = null;
+		String sql = "SELECT userName FROM Users WHERE firstName = ? AND lastName = ? AND urole = ?";
+		try {
+			pstmt = DBconnector.conn.prepareStatement(sql);
+			pstmt.setString(1, firstName);
+			pstmt.setString(2, lastName);
+			pstmt.setString(3, "student");
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				userName = rs.getString("userName");
+			}
+
+		} catch (SQLException e) {
+			DBconnector.printSQLException(e);
+		} finally {
+			try {
+				rs.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+			try {
+				pstmt.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+		}
+		return userName;
+	}
+
 	/**
 	 * This method gets all the exams of student by userName .
 	 */
-	public static ArrayList<ExamOfStudent> getExamsOfStudent(String userName){
+	public static ArrayList<ExamOfStudent> getExamsOfStudent(String userName) {
 		ArrayList<ExamOfStudent> ExamsOfStudentList = new ArrayList<>();
 		ResultSet rs1 = null;
 		// execute query
@@ -122,11 +206,11 @@ public class StudentController {
 		}
 		return ExamsOfStudentList;
 	}
-	
+
 	/**
 	 * This method get the exam of student date.
 	 */
-	public static String getExamDate(String code){
+	public static String getExamDate(String code) {
 		String date = new String();
 		ResultSet newRs = null;
 		String sql = "SELECT * FROM examtoperform WHERE ecode = ?";
@@ -229,6 +313,17 @@ public class StudentController {
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * This method parsing the data received from msg.
+	 * 
+	 * @param msg The message received.
+	 * @return pArray The parsed data.
+	 */
+	private static String[] parsingTheData(String msg) {
+		String[] pArray = msg.split(" ");
+		return pArray;
 	}
 
 	/**

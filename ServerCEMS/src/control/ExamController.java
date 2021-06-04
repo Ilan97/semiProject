@@ -108,9 +108,6 @@ public class ExamController {
 			result = examMessage;
 			break;
 
-		/* TODO change case name after merge */
-		// only for computerized exam
-
 		case "FindExamOfStudent":
 			Exam rExam = null;
 			data = parsingTheData((String) request.getMsg());
@@ -121,7 +118,7 @@ public class ExamController {
 			result = examMessage;
 			break;
 
-		case "CheckCodeExists":
+		case "StartComputerizedExam":
 			Exam resExam = null;
 			data = parsingTheData((String) request.getMsg());
 			examID = getExamID(data[0]);
@@ -151,7 +148,6 @@ public class ExamController {
 			result = examMessage;
 			break;
 
-		/* TODO change case name after merge */
 		case "CheckCodeExistsForRequest":
 			boolean isExists = checkCodeExists((String) request.getMsg());
 			examMessage.setMsg(isExists);

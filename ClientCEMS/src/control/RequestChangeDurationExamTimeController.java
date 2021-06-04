@@ -179,7 +179,6 @@ public class RequestChangeDurationExamTimeController implements GuiController, I
 			// check if code exists in DB (table examToPerform)
 			boolean isExists;
 			messageToServer.setMsg(getCode());
-			/* TODO change case name after merge */
 			messageToServer.setOperation("CheckCodeExistsForRequest");
 			messageToServer.setControllerName("ExamController");
 			isExists = (boolean) ClientUI.client.handleMessageFromClientUI(messageToServer);

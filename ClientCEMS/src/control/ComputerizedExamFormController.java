@@ -35,7 +35,7 @@ import logic.Question;
 public class ComputerizedExamFormController implements GuiController, Initializable {
 
 	// Instance variables **********************************************
-	static final int MIN = 60*1000;
+	static final int MIN = 60 * 1000;
 	static final int SEC = 1000;
 	
 	/**
@@ -49,7 +49,7 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 	 * Variables for Timer
 	 */
 	public boolean flagForTimer = true;
-	public static int SecTimer = 0, MinTimer = 0,HourTimer = 0;
+	public static int SecTimer = 0, MinTimer = 0, HourTimer = 0;
 	/**
 	 * The size of the qArray (number of questions in exam).
 	 */
@@ -89,8 +89,8 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 	private Pane innerPane;
 	@FXML
 	private Label timerLabel;
-    @FXML
-    private ImageView imgTimer;
+	@FXML
+	private ImageView imgTimer;
 
 	// Instance methods ************************************************
 
@@ -160,13 +160,12 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 		// in case the student did not submit the test on time
 		if (difference > duration) {
 			difference = -1;
-			examToSubmit = new ExamOfStudent(ComputerizedExamCodeWindowController.code, LoginController.user.getUsername(),
-				difference, 0, null);
-		}
-		else
-			examToSubmit = new ExamOfStudent(ComputerizedExamCodeWindowController.code, LoginController.user.getUsername(),
-					difference, score, ans);
-		
+			examToSubmit = new ExamOfStudent(ComputerizedExamCodeWindowController.code,
+					LoginController.user.getUsername(), difference, 0, null);
+		} else
+			examToSubmit = new ExamOfStudent(ComputerizedExamCodeWindowController.code,
+					LoginController.user.getUsername(), difference, score, ans);
+
 		flagForTimer = false;// end of thread Timer
 		// agreement pop up
 		try {
@@ -174,7 +173,7 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 		} catch (IOException e) {
 			UsefulMethods.instance().printException(e);
 		}
-		
+
 	}
 	
 	/**
@@ -185,17 +184,17 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 		examToSubmit = new ExamOfStudent(ComputerizedExamCodeWindowController.code, LoginController.user.getUsername(),
 				-1, 0, null);
 		try {
-		messageToServer .setMsg(ComputerizedExamFormController.examToSubmit);
-		messageToServer.setControllerName("StudentController");
-		messageToServer.setOperation("SubmitExam");
-		ClientUI.client.handleMessageFromClientUI(messageToServer);
-		StudentDidNotMakeItWindowController pop = new StudentDidNotMakeItWindowController();
-		pop.start(new Stage());
+			messageToServer.setMsg(ComputerizedExamFormController.examToSubmit);
+			messageToServer.setControllerName("StudentController");
+			messageToServer.setOperation("SubmitExam");
+			ClientUI.client.handleMessageFromClientUI(messageToServer);
+			StudentDidNotMakeItWindowController pop = new StudentDidNotMakeItWindowController();
+			pop.start(new Stage());
 		} catch (IOException e) {
 			UsefulMethods.instance().printException(e);
-		}	
+		}
 	}
-	
+  
 	/**
 	 * This method end exam of student if the exam has locked
 	 */
@@ -215,7 +214,7 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 		}
 		
 	}
-	
+
 	/**
 	 * This method called to initialize a controller after its root element has been
 	 * completely processed (after load method).
@@ -261,7 +260,6 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 		innerPane.getChildren().clear();
 		innerPane.getChildren().add(qArray[0]);
 
-
 		new Thread(() -> {
 			try {
 				while (flagForTimer) {
@@ -271,12 +269,12 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 						SecTimer = 0;
 					} else
 						SecTimer += 1;
-					if(MinTimer == 60) {
-						HourTimer +=1;
+					if (MinTimer == 60) {
+						HourTimer += 1;
 						MinTimer = 0;
 					}
 					Platform.runLater(() -> {
-						timerLabel.setText(String.format("%02d:%02d:%02d",HourTimer ,MinTimer, SecTimer));
+						timerLabel.setText(String.format("%02d:%02d:%02d", HourTimer, MinTimer, SecTimer));
 					});
 
 				}
@@ -284,20 +282,20 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 				UsefulMethods.instance().printException(e);
 			}
 		}).start();
-		
-		//Checks if exam time is over or changed.
-		//At the end of the time closes the exam automatically
+
+		// Checks if exam time is over or changed.
+		// At the end of the time closes the exam automatically
 		new Thread(() -> {
 			try {
 				String ExamStatus;
 				String Exam_eCode = ComputerizedExamCodeWindowController.code;
 				Message messageToServer = new Message();
-				//request for startDuration
+				// request for startDuration
 				messageToServer.setControllerName("ExamController");
 				messageToServer.setOperation("GetExamDuration");
 				messageToServer.setMsg(ComputerizedExamCodeWindowController.code);
 				startDuration = (double) ClientUI.client.handleMessageFromClientUI(messageToServer);
-				
+
 				while (flagForTimer) {
 					Thread.sleep(10 * SEC);
 					//request for currDuration
@@ -328,7 +326,7 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 							}
 						});
 					}
-					//request for eStatus of the exam
+					// request for eStatus of the exam
 					messageToServer.setControllerName("ExamController");
 					messageToServer.setOperation("GetExamStatus");
 					messageToServer.setMsg(Exam_eCode);

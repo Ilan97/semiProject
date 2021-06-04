@@ -3,32 +3,35 @@ package control;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import client.ClientUI;
 import gui.Navigator;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import logic.Message;
 
 /**
- * This is controller class (boundary) for window PrincipalReport (first part).
- * This class handle all events related to this window. This class connect with
- * client.
+ * This is controller class (boundary) for window PrincipalReport (first part)
+ * Course option. This class handle all events related to this window. This
+ * class connect with client.
  *
  * @author Bat-El Gardin
- * @version May 2021
+ * @author Sharon Vaknin
+ * @author Ilan Meikler
+ * @author Moran Davidov
+ * @version June 2021
  */
 
 public class PrincipalReportForm1Controller implements GuiController, Initializable {
 
 	// Instance variables **********************************************
 
-	/**
-	 * FXML variables.
-	 */
 	@FXML
 	private ImageView imgBack1;
 	@FXML
@@ -36,35 +39,160 @@ public class PrincipalReportForm1Controller implements GuiController, Initializa
 	@FXML
 	private ImageView imgLogo;
 	@FXML
-	private ComboBox<String> reportType;
+	private CheckBox clickAvg;
 	@FXML
-	private Label lblErr;
+	private CheckBox clickMed;
+	@FXML
+	private CheckBox clickHist;
+	@FXML
+	private Label lblStar;
+	@FXML
+	private Label lblErrStat;
+	@FXML
+	private Label lblErrOption;
+	@FXML
+	private Label lblErrType;
+	@FXML
+	private Label lblErrData;
+	@FXML
+	private ComboBox<String> typeOptions;
+	@FXML
+	private ComboBox<String> chooseType;
 
 	// Instance methods ************************************************
 
 	/**
+	 * This method clear error label.
+	 */
+	private void clearErrLbl(Label err) {
+		err.setText("");
+	}
+
+	/**
 	 * This is FXML event handler. Handles the action of click on 'next' button.
+	 *
+	 * @param event The action event.
+	 */
+	@SuppressWarnings("unchecked")
+	@FXML
+	void next(ActionEvent event) {
+		clearErrLbl(lblErrData);
+		// handle missing fields
+		if (chooseType.getSelectionModel().isEmpty() || typeOptions.getSelectionModel().isEmpty()
+				|| clickAvg.isPressed() || clickMed.isPressed() || clickHist.isPressed()) {
+			// type not chosen
+			if (chooseType.getSelectionModel().isEmpty())
+				lblErrType.setText("choose type");
+			// type chosen
+			else
+				clearErrLbl(lblErrType);
+
+			// option not chosen
+			if (typeOptions.getSelectionModel().isEmpty()) {
+				switch (chooseType.getSelectionModel().getSelectedItem()) {
+				case "Teacher":
+					lblErrOption.setText("choose teacher");
+					break;
+
+				case "Student":
+					lblErrOption.setText("choose student");
+					break;
+
+				case "Course":
+					lblErrOption.setText("choose course");
+					break;
+				}
+			}
+			// option chosen
+			else
+				clearErrLbl(lblErrOption);
+
+			// no one of the statistics was chosen
+			if (clickAvg.isPressed() || clickMed.isPressed() || clickHist.isPressed())
+				lblErrStat.setText("choose statistics");
+			// at least one statistics chosen
+			else
+				clearErrLbl(lblErrStat);
+			// all fields are chosen
+		} else {
+			Message messageToServer = new Message();
+			ArrayList<Integer> list = new ArrayList<Integer>();
+			// clear all labels
+			clearErrLbl(lblErrType);
+			clearErrLbl(lblErrOption);
+			clearErrLbl(lblErrStat);
+			// by the chosen type, set the message
+			switch (chooseType.getSelectionModel().getSelectedItem()) {
+			case "Teacher":
+				messageToServer.setMsg(typeOptions.getSelectionModel().getSelectedItem()); // teacher's name
+				messageToServer.setControllerName("TeacherController");
+				messageToServer.setOperation("GetGradeList");
+				list = (ArrayList<Integer>) ClientUI.client.handleMessageFromClientUI(messageToServer);
+				break;
+
+			case "Student":
+				messageToServer.setMsg(typeOptions.getSelectionModel().getSelectedItem()); // student's name
+				messageToServer.setControllerName("StudentController");
+				messageToServer.setOperation("GetGradeList");
+				list = (ArrayList<Integer>) ClientUI.client.handleMessageFromClientUI(messageToServer);
+				break;
+
+			case "Course":
+				messageToServer.setMsg(typeOptions.getSelectionModel().getSelectedItem()); // course's name
+				messageToServer.setControllerName("CourseController");
+				messageToServer.setOperation("GetGradeList");
+				list = (ArrayList<Integer>) ClientUI.client.handleMessageFromClientUI(messageToServer);
+
+				break;
+			}
+			if (list != null) {
+				PrincipalReportForm2Controller cont = (PrincipalReportForm2Controller) Navigator.instance()
+						.navigate("PrincipalReportForm2");
+				// set the report
+				cont.setReport(list, clickHist.isSelected(), clickAvg.isSelected(), clickMed.isSelected());
+			} else
+				lblErrData.setText("there is no data to show!");
+		}
+	}
+
+	/**
+	 * This is FXML event handler. Handles the action of click on 'Choose Type'
+	 * comboBox.
 	 * 
 	 * @param event The action event.
 	 */
+	@SuppressWarnings("unchecked")
 	@FXML
-	void next(ActionEvent event) {
-		if (formIsNotEmpty()) { // check if any type of report selected
-			lblErr.setText("");
-			switch (reportType.getSelectionModel().getSelectedItem()) {
-			case "Report By Student":
-				Navigator.instance().navigate("PrincipalReportFormStudent");
-				break;
-			case "Report By Course":
-				Navigator.instance().navigate("PrincipalReportFormCourse");
-				break;
+	void chooseTypeAction(ActionEvent event) {
+		Message messageToServer = new Message();
+		ArrayList<String> listOfOptions = null;
+		lblStar.setVisible(true);
+		typeOptions.setVisible(true);
+		// by the chosen type, show the options
+		switch (chooseType.getSelectionModel().getSelectedItem()) {
+		case "Teacher":
+			typeOptions.setPromptText("Choose Teacher");
+			messageToServer.setControllerName("UserController");
+			messageToServer.setOperation("ShowAllTeachers");
+			listOfOptions = (ArrayList<String>) ClientUI.client.handleMessageFromClientUI(messageToServer);
+			break;
 
-			case "Report By Teacher":
-				Navigator.instance().navigate("PrincipalReportFormTeacher");
-				break;
-			}
-		} else // if not write error label
-			lblErr.setText("Choose type first");
+		case "Student":
+			typeOptions.setPromptText("Choose Student");
+			messageToServer.setControllerName("UserController");
+			messageToServer.setOperation("ShowAllStudents");
+			listOfOptions = (ArrayList<String>) ClientUI.client.handleMessageFromClientUI(messageToServer);
+			break;
+
+		case "Course":
+			typeOptions.setPromptText("Choose Course");
+			messageToServer.setControllerName("CourseController");
+			messageToServer.setOperation("ShowAllCourses");
+			listOfOptions = (ArrayList<String>) ClientUI.client.handleMessageFromClientUI(messageToServer);
+
+			break;
+		}
+		typeOptions.setItems(FXCollections.observableArrayList(listOfOptions));
 	}
 
 	// Menu methods ************************************************
@@ -76,10 +204,7 @@ public class PrincipalReportForm1Controller implements GuiController, Initializa
 	 */
 	@FXML
 	void goHome(ActionEvent event) {
-		if (formIsNotEmpty())
-			Navigator.instance().alertPopUp("PrincipalHomeForm");
-		else
-			Navigator.instance().navigate("PrincipalHomeForm");
+		Navigator.instance().alertPopUp("PrincipalHomeForm");
 	}
 
 	/**
@@ -90,10 +215,7 @@ public class PrincipalReportForm1Controller implements GuiController, Initializa
 	 */
 	@FXML
 	void getReportAction(ActionEvent event) {
-		if (formIsNotEmpty())
-			Navigator.instance().alertPopUp("PrincipalReportForm1");
-		else
-			Navigator.instance().navigate("PrincipalReportForm1");
+		Navigator.instance().alertPopUp("PrincipalReportForm1");
 	}
 
 	/**
@@ -104,19 +226,7 @@ public class PrincipalReportForm1Controller implements GuiController, Initializa
 	 */
 	@FXML
 	void viewRequestsAction(ActionEvent event) {
-		if (formIsNotEmpty())
-			Navigator.instance().alertPopUp("PrincipalViewRequestForm");
-		else
-			Navigator.instance().navigate("PrincipalViewRequestForm");
-	}
-
-	/**
-	 * This method check that there is no selected values in the form
-	 *
-	 * @return true if form isn't empty, false otherwise.
-	 */
-	private boolean formIsNotEmpty() {
-		return !reportType.getSelectionModel().isEmpty();
+		Navigator.instance().alertPopUp("PrincipalViewRequestForm");
 	}
 
 	/**
@@ -125,6 +235,8 @@ public class PrincipalReportForm1Controller implements GuiController, Initializa
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		lblStar.setVisible(false);
+		typeOptions.setVisible(false);
 		// set images
 		Image img = new Image(this.getClass().getResource("frame1PrincipalReport.PNG").toString());
 		imgBack1.setImage(img);
@@ -132,12 +244,12 @@ public class PrincipalReportForm1Controller implements GuiController, Initializa
 		imgLogo.setImage(img2);
 		Image img3 = new Image(this.getClass().getResource("report.png").toString());
 		imgRep.setImage(img3);
-		// set the options
-		ArrayList<String> reportTypes = new ArrayList<>();
-		reportTypes.add("Report By Student");
-		reportTypes.add("Report By Course");
-		reportTypes.add("Report By Teacher");
-		reportType.setItems(FXCollections.observableArrayList(reportTypes));
+		// set the content in the comboBox 'choose type'
+		ArrayList<String> listOfTypes = new ArrayList<>();
+		listOfTypes.add("Teacher");
+		listOfTypes.add("Student");
+		listOfTypes.add("Course");
+		chooseType.setItems(FXCollections.observableArrayList(listOfTypes));
 	}
 }
-//End of PrincipalReportForm1Controller class
+// End of PrincipalReportFormCourseController class

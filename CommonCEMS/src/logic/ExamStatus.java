@@ -16,14 +16,19 @@ import java.io.Serializable;
  */
 
 public enum ExamStatus implements Serializable {
-	LOCKED{
+	LOCKED {
 		public String toString() {
 			return "manual";
 		}
 	},
-	OPEN{
+	OPEN {
 		public String toString() {
 			return "open";
+		}
+	},
+	DONE {
+		public String toString() {
+			return "done";
 		}
 	};
 }

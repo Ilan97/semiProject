@@ -30,6 +30,9 @@
    
 }
 
+#principal .default-color0.chart-bar { -fx-bar-fill: #f6872b;}
+#teacher .default-color0.chart-bar { -fx-bar-fill: #47ce60;}
+
 .Cancel{
     -fx-background-color: #f86060;
   

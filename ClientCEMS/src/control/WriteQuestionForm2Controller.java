@@ -125,7 +125,7 @@ public class WriteQuestionForm2Controller implements GuiController, Initializabl
 	private int GetQid(String fieldName, String courseName) {
 		int Qid;
 		Message messageToServer = new Message();
-		messageToServer.setMsg(fieldName + " " + courseName);
+		messageToServer.setMsg(WriteQuestionForm1Controller.Question);
 		messageToServer.setControllerName("QuestionController");
 		messageToServer.setOperation("GetQid");
 		Qid = (int) ClientUI.client.handleMessageFromClientUI(messageToServer);
@@ -222,7 +222,7 @@ public class WriteQuestionForm2Controller implements GuiController, Initializabl
 	 */
 	@FXML
 	void checkExamAction(ActionEvent event) {
-		// Navigator.instance().navigate(" ");///????
+		/* TODO Navigator.instance().navigate("checkExamForm"); */
 	}
 
 	/**

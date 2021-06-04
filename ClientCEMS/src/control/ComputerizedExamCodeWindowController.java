@@ -101,8 +101,7 @@ public class ComputerizedExamCodeWindowController implements GuiController, Init
 			lblErrCode.setText("");
 			Message messageToServer = new Message();
 			messageToServer.setMsg(getCode() + " computerized " + LoginController.user.getUsername());
-			/* TODO change case name after merge */
-			messageToServer.setOperation("CheckCodeExists");
+			messageToServer.setOperation("StartComputerizedExam");
 			messageToServer.setControllerName("ExamController");
 			compExam = (Exam) ClientUI.client.handleMessageFromClientUI(messageToServer);
 			// code isn't exists

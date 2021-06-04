@@ -46,8 +46,8 @@ public class QuestionController {
 		// switch case is on the operations this controller ask to operate.
 		switch (request.getOperation()) {
 		case "GetQid":
-			FieldName_CourseName = parsingTheData((String) request.getMsg());
-			int Qid = GetQid(FieldName_CourseName[0], FieldName_CourseName[1]);
+			Question q = ((Question) request.getMsg());
+			int Qid = GetQid(q.getFieldName(), q.getCourseName());
 			questionMessage.setMsg(Qid);
 			result = questionMessage;
 			break;

@@ -23,8 +23,9 @@ import logic.User;
  * This is controller class (boundary) for window Grades in Student. This class
  * handle all events related to this window. This class connect with client.
  *
- * @author
- * @version May 2021
+ * @author Sharon Vaknin
+ * @author Moran Davidov
+ * @version June 2021
  */
 
 public class GradesFormController implements GuiController, Initializable {

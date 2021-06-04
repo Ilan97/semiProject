@@ -137,7 +137,7 @@ public class ExamStockForm2Controller implements GuiController, Initializable {
 	 */
 	@FXML
 	void checkExamAction(ActionEvent event) {
-		// Navigator.instance().navigate(" ");/// ????
+		/* TODO Navigator.instance().navigate("checkExamForm"); */
 	}
 
 	/**

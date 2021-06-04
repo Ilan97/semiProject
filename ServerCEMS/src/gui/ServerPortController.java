@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
+import control.DBconnector;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -52,6 +52,8 @@ public class ServerPortController implements Initializable {
 	 * each run.
 	 */
 	public static ServerController server;
+
+	public boolean flag = true;
 	/**
 	 * FXML variables.
 	 */
@@ -65,6 +67,8 @@ public class ServerPortController implements Initializable {
 	private Label lblErrorPort;
 	@FXML
 	private Button btnConnect;
+	@FXML
+	private Button btnRefresh;
 	@FXML
 	private TableView<Client> table;
 	@FXML
@@ -224,6 +228,19 @@ public class ServerPortController implements Initializable {
 		if (imgClients != null) {
 			Image img = new Image(this.getClass().getResource("serverFrame.PNG").toString());
 			imgClients.setImage(img);
+			// refresh the clients list every minute
+			new Thread(() -> {
+				while (flag) {
+					try {
+						Thread.sleep(60000);
+						Platform.runLater(() -> {
+							btnRefresh.fire();
+						});
+					} catch (Exception e) {
+						DBconnector.printException(e);
+					}
+				}
+			}).start();
 		}
 	}
 }

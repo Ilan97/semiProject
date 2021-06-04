@@ -26,7 +26,7 @@
             </Text>
             <Button fx:id="btnNext" layoutX="145.0" layoutY="198.0" mnemonicParsing="false" onAction="#nextAction" prefHeight="27.0" prefWidth="57.0" style="-fx-background-color: #19cebc; -fx-background-radius: 30 30 30 30;" text="Next" textFill="WHITE">
                <font>
-                  <Font name="Calibri" size="14.0" />
+                  <Font name="Calibri Bold" size="14.0" />
                </font>
             </Button>
             <Text fontSmoothingType="LCD" layoutX="90.0" layoutY="103.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Exam Code:" wrappingWidth="101.2786865234375">

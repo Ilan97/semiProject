@@ -13,27 +13,27 @@
       <Pane prefHeight="261.0" prefWidth="318.0" style="-fx-background-color: #ffffff;">
          <children>
             <ImageView fx:id="imgCrash" fitHeight="261.0" fitWidth="318.0" layoutY="-1.0" />
-            <Text fill="#f86060" layoutX="40.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Time Out" textAlignment="CENTER" wrappingWidth="231.47003173828125">
+            <Text fill="#f86060" layoutX="40.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Time Out" textAlignment="CENTER" wrappingWidth="231.47003173828125">
                <font>
                   <Font name="Calibri Bold" size="36.0" />
                </font>
             </Text>
-            <Button layoutX="129.0" layoutY="190.0" mnemonicParsing="false" onAction="#okAction" prefHeight="27.0" prefWidth="60.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="Ok" textFill="WHITE">
+            <Button layoutX="129.0" layoutY="194.0" mnemonicParsing="false" onAction="#okAction" prefHeight="27.0" prefWidth="60.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="Ok" textFill="WHITE">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Button>
-            <Label alignment="CENTER" layoutX="40.0" layoutY="83.0" prefHeight="27.0" prefWidth="158.0" text="The exam is over" textAlignment="CENTER" wrapText="true">
+            <Label alignment="CENTER" layoutX="40.0" layoutY="89.0" prefHeight="27.0" prefWidth="158.0" text="The exam is over" textAlignment="CENTER" wrapText="true">
                <font>
                   <Font name="Calibri Bold" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="42.0" layoutY="107.0" prefHeight="60.0" prefWidth="158.0" text="You didn't make it on time!" textAlignment="CENTER" wrapText="true">
+            <Label layoutX="42.0" layoutY="113.0" prefHeight="60.0" prefWidth="158.0" text="You didn't make it on time!" textAlignment="CENTER" wrapText="true">
                <font>
                   <Font name="Calibri Bold" size="18.0" />
                </font>
             </Label>
-            <ImageView fx:id="imgTimer" fitHeight="70.0" fitWidth="75.0" layoutX="206.0" layoutY="90.0" />
+            <ImageView fx:id="imgTimer" fitHeight="70.0" fitWidth="70.0" layoutX="206.0" layoutY="96.0" />
          </children>
       </Pane>
    </children>

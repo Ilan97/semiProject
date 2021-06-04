@@ -19,7 +19,7 @@
             </Text>
               <Button fx:id="btnStart" layoutX="150.0" layoutY="358.0" mnemonicParsing="false" onAction="#startAction" prefHeight="27.0" prefWidth="57.0" style="-fx-background-color: #19cebc; -fx-background-radius: 30 30 30 30;" text="Ok" textFill="WHITE">
                <font>
-                  <Font name="Calibri" size="14.0" />
+                  <Font name="Calibri Bold" size="14.0" />
                </font>
             </Button>
             <Text fill="#f86060" fontSmoothingType="LCD" layoutX="46.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0" text="At the end of the time the option to upload the exam will be blocked automatically! " textAlignment="CENTER" wrappingWidth="263.27874755859375">

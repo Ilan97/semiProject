@@ -37,10 +37,14 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 	// Instance variables **********************************************
 	static final int MIN = 60 * 1000;
 	static final int SEC = 1000;
+	
 	/**
 	 * The {@link ExamOfStudent} to upload to DB.
 	 */
 	public static ExamOfStudent examToSubmit;
+	public static double currDuration;
+	public static double startDuration;	
+	
 	/**
 	 * Variables for Timer
 	 */
@@ -171,15 +175,14 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 		}
 
 	}
-
+	
 	/**
-	 * This method called when student is forced to submit his exam.
+	 * This method end exam of student if he didn't make it on time
 	 */
-	void forcedFinishAction() {
+	void forcedFinishActionTimeOut() {
 		Message messageToServer = new Message();
 		examToSubmit = new ExamOfStudent(ComputerizedExamCodeWindowController.code, LoginController.user.getUsername(),
 				-1, 0, null);
-		flagForTimer = false;// end of thread Timer
 		try {
 			messageToServer.setMsg(ComputerizedExamFormController.examToSubmit);
 			messageToServer.setControllerName("StudentController");
@@ -190,6 +193,26 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 		} catch (IOException e) {
 			UsefulMethods.instance().printException(e);
 		}
+	}
+  
+	/**
+	 * This method end exam of student if the exam has locked
+	 */
+	void forcedFinishActionCouseLocked() {
+		Message messageToServer = new Message();
+		examToSubmit = new ExamOfStudent(ComputerizedExamCodeWindowController.code, LoginController.user.getUsername(),
+				-1, 0, null);
+		try {
+		messageToServer .setMsg(ComputerizedExamFormController.examToSubmit);
+		messageToServer.setControllerName("StudentController");
+		messageToServer.setOperation("SubmitExam");
+		ClientUI.client.handleMessageFromClientUI(messageToServer);
+		AlertExamLockedWindowController popUp = new AlertExamLockedWindowController();
+			popUp.start(new Stage());
+		} catch (Exception e) {
+			UsefulMethods.instance().printException(e);
+		}
+		
 	}
 
 	/**
@@ -264,9 +287,6 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 		// At the end of the time closes the exam automatically
 		new Thread(() -> {
 			try {
-
-				double startDuration;
-				double currDuration;
 				String ExamStatus;
 				String Exam_eCode = ComputerizedExamCodeWindowController.code;
 				Message messageToServer = new Message();
@@ -277,18 +297,26 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 				startDuration = (double) ClientUI.client.handleMessageFromClientUI(messageToServer);
 
 				while (flagForTimer) {
-					Thread.sleep(MIN);
-					// request for currDuration
+					Thread.sleep(10 * SEC);
+					//request for currDuration
 					messageToServer.setControllerName("ExamController");
 					messageToServer.setOperation("GetExamDuration");
 					messageToServer.setMsg(Exam_eCode);
 					currDuration = (double) ClientUI.client.handleMessageFromClientUI(messageToServer);
-					// check if A change was made during the exam
-					if (currDuration != startDuration)
-						;
-					// TODO POPUP PAY ATTENTION exam duration has changed !
-					if ((HourTimer * 60 + MinTimer) + 10 == currDuration) {
-						// successes pop up
+					//check if A change was made during the exam
+					if (currDuration != startDuration ) {
+						// pop up
+						Platform.runLater(() -> {
+							AlertExamDurationChangedWindowController popUp = new AlertExamDurationChangedWindowController();
+							try {
+								popUp.start(new Stage());
+							} catch (Exception e) {
+								UsefulMethods.instance().printException(e);
+							}
+						}); 
+					}
+					if( (HourTimer * 60 + MinTimer) + 10 == currDuration) {
+						// pop up
 						Platform.runLater(() -> {
 							AlertTimeIsRunningOutWindowController popUp = new AlertTimeIsRunningOutWindowController();
 							try {
@@ -303,18 +331,29 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 					messageToServer.setOperation("GetExamStatus");
 					messageToServer.setMsg(Exam_eCode);
 					ExamStatus = (String) ClientUI.client.handleMessageFromClientUI(messageToServer);
-					// check if time is up or status is "locked"
-					if ((HourTimer * 60 + MinTimer) >= currDuration || ExamStatus.equals("locked"))
-						Platform.runLater(() -> {
-							forcedFinishAction();
-							Navigator.instance().clearHistory("StudentHomeForm");
-						});
+					//check if time is up or status is "locked"
+					if((HourTimer*60 + MinTimer) >= currDuration || ExamStatus.equals("locked")) {
+						if(ExamStatus.equals("locked")) {
+							flagForTimer = false; // end of thread Timer
+							Platform.runLater(() -> {
+								forcedFinishActionCouseLocked();
+								Navigator.instance().clearHistory("StudentHomeForm");
+							});	
+						}
+						else {
+							flagForTimer = false; // end of thread Timer
+							Platform.runLater(() -> {
+								forcedFinishActionTimeOut();
+								Navigator.instance().clearHistory("StudentHomeForm");
+							});	
+						}
+					}
+					startDuration = currDuration;
 				}
 			} catch (Exception e) {
 				UsefulMethods.instance().printException(e);
 			}
 		}).start();
 	}
-
 }
 //End of ComputerizedExamFormController class

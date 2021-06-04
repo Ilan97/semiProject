@@ -61,6 +61,7 @@ public class ExamController {
 	public static Message handleRequest(Message msg) {
 		Message examMessage = new Message();
 		request = msg;
+		boolean isExists; 
 		ArrayList<Exam> listOfExams;
 		String[] FieldName_CourseName;
 		String[] data;
@@ -112,7 +113,7 @@ public class ExamController {
 			Exam rExam = null;
 			data = parsingTheData((String) request.getMsg());
 			examID = getExamID(data[0]);
-			if (examID != null) 
+			if (examID != null)
 				rExam = getComputerizedExam(data[0], data[1]);
 			examMessage.setMsg(rExam);
 			result = examMessage;
@@ -125,7 +126,7 @@ public class ExamController {
 			if (examID != null) {
 				if (!checkStudentDidExam(examID, data[2]))
 					resExam = checkComputerizedExamCode(data[0], data[1]);
-				}
+			}
 			examMessage.setMsg(resExam);
 			result = examMessage;
 			break;
@@ -149,7 +150,13 @@ public class ExamController {
 			break;
 
 		case "CheckCodeExistsForRequest":
-			boolean isExists = checkCodeExists((String) request.getMsg());
+			isExists = checkCodeExistsAndOpen((String) request.getMsg());
+			examMessage.setMsg(isExists);
+			result = examMessage;
+			break;
+
+		case "CheckCodeExistsForOpenExam":
+			isExists = checkCodeExistsAndLocked((String) request.getMsg());
 			examMessage.setMsg(isExists);
 			result = examMessage;
 			break;
@@ -159,17 +166,23 @@ public class ExamController {
 			examMessage.setMsg(isLocked);
 			result = examMessage;
 			break;
-		
+
+		case "OpenExam":
+			boolean isOpend = openExam((String) request.getMsg());
+			examMessage.setMsg(isOpend);
+			result = examMessage;
+			break;
+
 		case "GetExamStatus":
 			String status = getExamStatus((String) request.getMsg());
 			examMessage.setMsg(status);
 			result = examMessage;
 			break;
-		
+
 		} // end switch case
 		return result;
 	}
-	
+
 	/**
 	 * This method get the exam from table exam.
 	 *
@@ -178,39 +191,39 @@ public class ExamController {
 	 * @return exam {@link Exam} if code exists, null otherwise.
 	 */
 	public static Exam getComputerizedExam(String code, String type) {
-	Exam exam = null;
-	String Fid = null, Cid = null, Eid = null;
-	String sql = "SELECT e.fid, e.cid, e.eid FROM exam as e, examToPerform as ep "
-			+ "WHERE e.fid = ep.fid AND e.cid = ep.cid AND e.eid = ep.eid AND e.etype = ? AND ep.ecode = ?";
-	try {
-		pstmt = DBconnector.conn.prepareStatement(sql);
-		pstmt.setString(1, type);
-		pstmt.setString(2, code);
-		rs = pstmt.executeQuery();
-		while (rs.next()) {
-			Fid = rs.getString("fid");
-			Cid = rs.getString("cid");
-			Eid = rs.getString("eid");
-		}
-	} catch (SQLException e) {
-		return null;
-	} finally {
+		Exam exam = null;
+		String Fid = null, Cid = null, Eid = null;
+		String sql = "SELECT e.fid, e.cid, e.eid FROM exam as e, examToPerform as ep "
+				+ "WHERE e.fid = ep.fid AND e.cid = ep.cid AND e.eid = ep.eid AND e.etype = ? AND ep.ecode = ?";
 		try {
-			rs.close();
-		} catch (Exception e) {
+			pstmt = DBconnector.conn.prepareStatement(sql);
+			pstmt.setString(1, type);
+			pstmt.setString(2, code);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				Fid = rs.getString("fid");
+				Cid = rs.getString("cid");
+				Eid = rs.getString("eid");
+			}
+		} catch (SQLException e) {
+			return null;
+		} finally {
+			try {
+				rs.close();
+			} catch (Exception e) {
+			}
+			try {
+				pstmt.close();
+			} catch (Exception e) {
+			}
 		}
-		try {
-			pstmt.close();
-		} catch (Exception e) {
-		}
+		if (Fid != null && Cid != null && Eid != null)
+			exam = getExam(Fid, Cid, Eid);
+		return exam;
 	}
-	if (Fid != null && Cid != null && Eid != null)
-		exam = getExam(Fid, Cid, Eid);
-	return exam;
-}
 
 	public static String getExamStatus(String code) {
-		String Status="";
+		String Status = "";
 		String sql = "SELECT estatus FROM examtoperform WHERE ecode = ? ";
 		try {
 			pstmt = DBconnector.conn.prepareStatement(sql);
@@ -248,6 +261,32 @@ public class ExamController {
 		try {
 			pstmt = DBconnector.conn.prepareStatement(query);
 			pstmt.setString(1, "locked");
+			pstmt.setString(2, code);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			return false;
+		} finally {
+			try {
+				pstmt.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * This method open an exam in examToPerform table.
+	 *
+	 * @param code The code of the exam we want to open.
+	 * @return true if open success, false otherwise.
+	 */
+	public static boolean openExam(String code) {
+		String query;
+		query = "UPDATE examToPerform SET estatus = ? WHERE ecode = ?";
+		try {
+			pstmt = DBconnector.conn.prepareStatement(query);
+			pstmt.setString(1, "open");
 			pstmt.setString(2, code);
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -309,7 +348,7 @@ public class ExamController {
 			pstmt.setString(2, exam.getCid());
 			pstmt.setString(3, exam.getEid());
 			pstmt.setString(4, exam.getEcode());
-			pstmt.setString(5, "open");
+			pstmt.setString(5, "lock");
 			pstmt.setString(6, exam.getEdate().toString());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -683,13 +722,45 @@ public class ExamController {
 	 * @param code The code from examToPerform table.
 	 * @return true is code exists, false otherwise.
 	 */
-	public static boolean checkCodeExists(String code) {
+	public static boolean checkCodeExistsAndOpen(String code) {
 		boolean res = false;
 		String sql = "SELECT ecode FROM examToPerform WHERE ecode = ? AND estatus = ?";
 		try {
 			pstmt = DBconnector.conn.prepareStatement(sql);
 			pstmt.setString(1, code);
 			pstmt.setString(2, "open");
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				res = true;
+			}
+		} catch (SQLException e) {
+			return res;
+		} finally {
+			try {
+				rs.close();
+			} catch (Exception e) {
+			}
+			try {
+				pstmt.close();
+			} catch (Exception e) {
+			}
+		}
+		return res;
+	}
+
+	/**
+	 * This method check if the code is exists in table examToPerform.
+	 *
+	 * @param code The code from examToPerform table.
+	 * @return true is code exists, false otherwise.
+	 */
+	public static boolean checkCodeExistsAndLocked(String code) {
+		boolean res = false;
+		String sql = "SELECT ecode FROM examToPerform WHERE ecode = ? AND estatus = ?";
+		try {
+			pstmt = DBconnector.conn.prepareStatement(sql);
+			pstmt.setString(1, code);
+			pstmt.setString(2, "locked");
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				res = true;

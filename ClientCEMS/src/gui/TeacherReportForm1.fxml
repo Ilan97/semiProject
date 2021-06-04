@@ -102,7 +102,7 @@
             </Label>
             <Label layoutX="413.0" layoutY="224.0" text="*" textFill="#f86060">
                <font>
-                  <Font name="Calibri Bold" size="11.0" />
+                  <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
             <Label fx:id="lblErrStat" layoutX="407.0" layoutY="207.0" prefHeight="14.0" prefWidth="114.0" textFill="#f86060">

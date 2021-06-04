@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.AlertExamIsLockedWindowController">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.AlertExamLockedWindowController">
    <children>
       <Pane prefHeight="282.0" prefWidth="356.0" style="-fx-background-color: #ffffff;">
          <children>
@@ -18,17 +18,17 @@
                   <Font name="Calibri Bold" size="36.0" />
                </font>
             </Text>
-            <Button fx:id="btnOk" layoutX="148.0" layoutY="206.0" mnemonicParsing="false" onAction="#okAction" prefHeight="27.0" prefWidth="60.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="Ok" textFill="WHITE">
+            <Button fx:id="btnOk" layoutX="148.0" layoutY="218.0" mnemonicParsing="false" onAction="#okAction" prefHeight="27.0" prefWidth="60.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="Ok" textFill="WHITE">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Button>
-            <Label layoutX="53.0" layoutY="93.0" prefHeight="81.0" prefWidth="191.0" text="The exam is locked! Please contact the teacher" textAlignment="CENTER" wrapText="true">
+            <Label layoutX="37.0" layoutY="94.0" prefHeight="81.0" prefWidth="191.0" text="The exam is locked! Please contact the teacher" textAlignment="CENTER" wrapText="true">
                <font>
                   <Font name="Calibri Bold" size="18.0" />
                </font>
             </Label>
-            <ImageView fx:id="imgLock" fitHeight="92.0" fitWidth="60.0" layoutX="244.0" layoutY="84.0" />
+            <ImageView fx:id="imgLock" fitHeight="112.0" fitWidth="74.0" layoutX="220.0" layoutY="77.0" />
          </children>
       </Pane>
    </children>

@@ -10,20 +10,21 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.LockExamWindowController">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.OpenExamWindowController">
    <children>
       <Pane style="-fx-background-color: #ffffff;">
          <children>
             <ImageView fx:id="imgBack" fitHeight="214.0" fitWidth="279.0">
                <image>
                   <Image url="@../../../../photos/teacherFrame.PNG" />
-               </image></ImageView>
-            <Text fill="#47ce60" layoutX="64.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lock Exam" textAlignment="CENTER" wrappingWidth="150.8033447265625">
+               </image>
+            </ImageView>
+            <Text fill="#47ce60" layoutX="64.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Open Exam" textAlignment="CENTER" wrappingWidth="150.8033447265625">
                <font>
                   <Font name="Calibri Bold" size="24.0" />
                </font>
             </Text>
-            <Button fx:id="btnLock" layoutX="162.0" layoutY="150.0" mnemonicParsing="false" onAction="#lockActionButton" prefHeight="27.0" prefWidth="66.0" style="-fx-background-color: #47ce60; -fx-background-radius: 30 30 30 30;" text="Lock" textFill="WHITE">
+            <Button fx:id="btnOpen" layoutX="162.0" layoutY="150.0" mnemonicParsing="false" onAction="#openActionButton" prefHeight="27.0" prefWidth="66.0" style="-fx-background-color: #47ce60; -fx-background-radius: 30 30 30 30;" text="Open" textFill="WHITE">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
@@ -33,7 +34,7 @@
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Button>
-            <Label fx:id="lblErrorExamID" layoutX="103.0" layoutY="56.0" prefHeight="14.0" prefWidth="121.0" textFill="#f86060">
+            <Label fx:id="lblErrorExamID" layoutX="119.0" layoutY="69.0" prefHeight="14.0" prefWidth="121.0" textFill="#f86060">
                <font>
                   <Font name="Calibri Bold" size="12.0" />
                </font>

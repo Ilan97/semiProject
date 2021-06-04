@@ -13,7 +13,7 @@
       <Pane prefHeight="267.0" prefWidth="314.0" style="-fx-background-color: #ffffff;">
          <children>
             <ImageView fx:id="imgCrash" fitHeight="267.0" fitWidth="314.0" layoutY="-1.0" />
-            <Text fill="#f86060" layoutX="57.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Oh no! " textAlignment="CENTER" wrappingWidth="199.47003173828125">
+            <Text fill="#f86060" layoutX="57.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Oh no! " textAlignment="CENTER" wrappingWidth="199.47003173828125">
                <font>
                   <Font name="Calibri Bold" size="36.0" />
                </font>
@@ -23,17 +23,17 @@
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Button>
-            <Label layoutX="39.0" layoutY="86.0" prefHeight="27.0" prefWidth="158.0" text="The server crushed!" textAlignment="CENTER" wrapText="true">
+            <Label layoutX="52.0" layoutY="88.0" prefHeight="27.0" prefWidth="158.0" text="The server crushed!" textAlignment="CENTER" wrapText="true">
                <font>
                   <Font name="Calibri Bold" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="35.0" layoutY="110.0" prefHeight="60.0" prefWidth="158.0" text="reconnect to the server" textAlignment="CENTER" wrapText="true">
+            <Label layoutX="48.0" layoutY="112.0" prefHeight="60.0" prefWidth="158.0" text="reconnect to the server" textAlignment="CENTER" wrapText="true">
                <font>
-                  <Font name="Calibri" size="18.0" />
+                  <Font name="Calibri Bold" size="18.0" />
                </font>
             </Label>
-            <ImageView fx:id="imgErr" fitHeight="73.0" fitWidth="79.0" layoutX="197.0" layoutY="88.0" />
+            <ImageView fx:id="imgErr" fitHeight="67.0" fitWidth="77.0" layoutX="204.0" layoutY="96.0" />
          </children>
       </Pane>
    </children>

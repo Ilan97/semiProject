@@ -131,34 +131,34 @@
                   <Font name="Calibri Bold" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="246.0" layoutY="220.0" text="*" textFill="#f86060">
+            <Label layoutX="245.0" layoutY="219.0" text="*" textFill="#f86060">
                <font>
-                  <Font name="Calibri Bold" size="11.0" />
+                  <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="246.0" layoutY="330.0" text="*" textFill="#f86060">
+            <Label layoutX="245.0" layoutY="329.0" text="*" textFill="#f86060">
                <font>
-                  <Font name="Calibri Bold" size="11.0" />
+                  <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="492.0" layoutY="182.0" text="*" textFill="#f86060">
+            <Label layoutX="491.0" layoutY="180.0" text="*" textFill="#f86060">
                <font>
-                  <Font name="Calibri Bold" size="11.0" />
+                  <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="493.0" layoutY="267.0" text="*" textFill="#f86060">
+            <Label layoutX="492.0" layoutY="266.0" text="*" textFill="#f86060">
                <font>
-                  <Font name="Calibri Bold" size="11.0" />
+                  <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
             <Label layoutX="243.0" layoutY="172.0" text="*" textFill="#f86060">
                <font>
-                  <Font name="Calibri Bold" size="11.0" />
+                  <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
             <Label layoutX="243.0" layoutY="131.0" text="*" textFill="#f86060">
                <font>
-                  <Font name="Calibri Bold" size="11.0" />
+                  <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
             <Label fx:id="lblErrField" layoutX="384.0" layoutY="139.0" prefHeight="17.0" prefWidth="76.0" textFill="#f86060">

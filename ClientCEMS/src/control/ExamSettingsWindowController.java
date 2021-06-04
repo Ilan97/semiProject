@@ -79,6 +79,23 @@ public class ExamSettingsWindowController implements GuiController, Initializabl
 		}
 		UsefulMethods.instance().close(event);
 	}
+	
+	/**
+	 * This is FXML event handler. Handles the action of click on 'Lock Exam'
+	 * button.
+	 *
+	 * @param event The action event.
+	 */
+	@FXML
+	void openExamAction(ActionEvent event) {
+		OpenExamWindowController popUp = new OpenExamWindowController();
+		try {
+			popUp.start(new Stage());
+		} catch (Exception e) {
+			UsefulMethods.instance().printException(e);
+		}
+		UsefulMethods.instance().close(event);
+	}
 
 	/**
 	 * This method called to initialize a controller after its root element has been

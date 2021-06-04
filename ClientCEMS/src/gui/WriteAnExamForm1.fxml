@@ -97,24 +97,24 @@
                <font>
                   <Font name="Calibri" size="12.0" />
                </font></Label>
-            <Label layoutX="242.0" layoutY="191.0" text="*" textFill="#f86060">
+            <Label layoutX="241.0" layoutY="188.0" text="*" textFill="#f86060">
                <font>
-                  <Font name="Calibri Bold" size="11.0" />
+                  <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="243.0" layoutY="325.0" text="*" textFill="#f86060">
+            <Label layoutX="242.0" layoutY="322.0" text="*" textFill="#f86060">
                <font>
-                  <Font name="Calibri Bold" size="11.0" />
+                  <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="243.0" layoutY="233.0" text="*" textFill="#f86060">
+            <Label layoutX="242.0" layoutY="230.0" text="*" textFill="#f86060">
                <font>
-                  <Font name="Calibri Bold" size="11.0" />
+                  <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="242.0" layoutY="273.0" text="*" textFill="#f86060">
+            <Label layoutX="241.0" layoutY="270.0" text="*" textFill="#f86060">
                <font>
-                  <Font name="Calibri Bold" size="11.0" />
+                  <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
             <Label fx:id="lblErrField" layoutX="400.0" layoutY="196.0" prefHeight="17.0" prefWidth="73.0" textAlignment="CENTER" textFill="#f86060">

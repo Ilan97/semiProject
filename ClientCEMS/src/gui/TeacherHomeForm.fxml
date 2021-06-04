@@ -47,27 +47,27 @@
                   </Button>
                </children>
             </VBox>
-            <Button layoutX="267.0" layoutY="219.0" mnemonicParsing="false" onAction="#writeQuestionAction" prefHeight="48.0" prefWidth="103.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="Write Question" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Button layoutX="273.0" layoutY="219.0" mnemonicParsing="false" onAction="#writeQuestionAction" prefHeight="48.0" prefWidth="103.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="Write Question" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Button>
-            <Label layoutX="574.0" layoutY="-4.0" text="Hello" textFill="#47ce60">
+            <Label layoutX="568.0" text="Hello" textFill="#47ce60">
                <font>
                   <Font name="Calibri Bold" size="41.0" />
                </font>
             </Label>
-            <Button layoutX="272.0" layoutY="436.0" mnemonicParsing="false" onAction="#writeExamAction" prefHeight="48.0" prefWidth="89.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="Write an Exam" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Button layoutX="278.0" layoutY="414.0" mnemonicParsing="false" onAction="#writeExamAction" prefHeight="48.0" prefWidth="89.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="Write an Exam" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Button>
-            <Button layoutX="583.0" layoutY="219.0" mnemonicParsing="false" onAction="#getReportAction" prefHeight="48.0" prefWidth="96.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="Get Report" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Button layoutX="578.0" layoutY="219.0" mnemonicParsing="false" onAction="#getReportAction" prefHeight="48.0" prefWidth="96.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="Get Report" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Button>
-            <Label layoutX="650.0" layoutY="34.0" text="Teacher" textFill="#47ce60">
+            <Label layoutX="639.0" layoutY="38.0" text="Teacher" textFill="#47ce60">
                <font>
                   <Font name="Calibri Bold" size="41.0" />
                </font>
@@ -78,7 +78,7 @@
                   <Font name="Calibri Bold" size="24.0" />
                </font>
             </Label>
-            <Button layoutX="581.0" layoutY="436.0" mnemonicParsing="false" onAction="#changeSettings" prefHeight="48.0" prefWidth="103.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="Exam Settings" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Button layoutX="575.0" layoutY="414.0" mnemonicParsing="false" onAction="#changeSettings" prefHeight="48.0" prefWidth="103.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="Exam Settings" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
@@ -88,7 +88,7 @@
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Button>
-            <Button layoutX="429.0" layoutY="436.0" mnemonicParsing="false" onAction="#examSearchAction" prefHeight="48.0" prefWidth="103.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="Exam Stock" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Button layoutX="429.0" layoutY="414.0" mnemonicParsing="false" onAction="#examSearchAction" prefHeight="48.0" prefWidth="103.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="Exam Stock" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
@@ -100,7 +100,7 @@
             </Label>
          </children>
       </Pane>
-      <Button layoutX="691.0" layoutY="475.0" mnemonicParsing="false" onAction="#logoutAction" prefHeight="10.0" prefWidth="64.0" style="-fx-background-color: #47ce60; -fx-background-radius: 30 30 30 30;" text="Log out" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+      <Button layoutX="685.0" layoutY="469.0" mnemonicParsing="false" onAction="#logoutAction" prefHeight="10.0" prefWidth="64.0" style="-fx-background-color: #47ce60; -fx-background-radius: 30 30 30 30;" text="Log out" textAlignment="CENTER" textFill="WHITE" wrapText="true">
          <font>
             <Font name="Calibri Bold" size="14.0" />
          </font>

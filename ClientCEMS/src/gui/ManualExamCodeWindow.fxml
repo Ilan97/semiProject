@@ -56,7 +56,7 @@
             </Text>
             <Button fx:id="btnDown" layoutX="130.0" layoutY="202.0" mnemonicParsing="false" onAction="#download" prefHeight="27.0" prefWidth="84.0" style="-fx-background-color: #19CEBC; -fx-background-radius: 30 30 30 30;" text="Download" textFill="WHITE">
                <font>
-                  <Font name="Calibri" size="14.0" />
+                  <Font name="Calibri Bold" size="14.0" />
                </font>
             </Button>
          </children>

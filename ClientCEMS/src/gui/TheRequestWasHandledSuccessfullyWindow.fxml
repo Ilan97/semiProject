@@ -7,27 +7,27 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="275.0" prefWidth="330.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.TheRequestWasHandledSuccessfullyWindowController">
+<AnchorPane prefHeight="275.0" prefWidth="314.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.TheRequestWasHandledSuccessfullyWindowController">
    <children>
-      <Pane layoutX="7.0" prefHeight="273.0" prefWidth="323.0" style="-fx-background-color: #ffffff;">
+      <Pane layoutY="1.0" prefHeight="275.0" prefWidth="325.0" style="-fx-background-color: #ffffff;">
          <children>
-            <ImageView fx:id="imgBack" fitHeight="275.0" fitWidth="323.0" layoutY="-1.0" />
-            <Text fill="#f6872b" layoutX="94.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Message" textAlignment="CENTER" wrappingWidth="134.8033447265625">
+            <ImageView fx:id="imgBack" fitHeight="276.0" fitWidth="325.0" layoutY="-1.0" />
+            <Text fill="#f6872b" layoutX="92.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Message" textAlignment="CENTER" wrappingWidth="134.8033447265625">
                <font>
                   <Font name="Calibri Bold" size="36.0" />
                </font>
             </Text>
-            <Button layoutX="134.0" layoutY="196.0" mnemonicParsing="false" onAction="#okAction" prefHeight="27.0" prefWidth="55.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="Ok" textFill="WHITE">
+            <Button layoutX="134.0" layoutY="201.0" mnemonicParsing="false" onAction="#okAction" prefHeight="27.0" prefWidth="55.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="Ok" textFill="WHITE">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Button>
-            <Text fill="#161918" layoutX="63.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The request was handeld successfully" textAlignment="CENTER" wrappingWidth="126.13677978515625">
+            <Text fill="#161918" layoutX="51.0" layoutY="119.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The request was handeld successfully" textAlignment="CENTER" wrappingWidth="126.13677978515625">
                <font>
                   <Font name="Calibri Bold" size="18.0" />
                </font>
             </Text>
-            <ImageView fx:id="imgOk" fitHeight="70.0" fitWidth="70.0" layoutX="192.0" layoutY="102.0" />
+            <ImageView fx:id="imgOk" fitHeight="70.0" fitWidth="70.0" layoutX="195.0" layoutY="103.0" />
          </children>
       </Pane>
    </children>

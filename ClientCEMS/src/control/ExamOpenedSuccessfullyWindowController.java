@@ -14,24 +14,22 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 /**
- * This is controller class (boundary) for window StudentDidntMakeIt in Student.
- * This class handle all events related to this windows. This class connect with
- * client.
+ * This is controller class (boundary) for window ExamOpenedSuccessfully in
+ * Teacher. This class handle all events related to this window. This class
+ * connect with client.
  *
- * @author Ohad Shamir
- * @author Bat-El Gardin
  * @author Sharon Vaknin
- * @version May 2021
+ * @version June 2021
  */
 
-public class StudentDidNotMakeItWindowController implements GuiController, Initializable {
+public class ExamOpenedSuccessfullyWindowController implements GuiController, Initializable {
 
 	// Instance variables **********************************************
 
 	@FXML
-	private ImageView imgCrash;
+	private ImageView imgBack;
 	@FXML
-	private ImageView imgTimer;
+	private ImageView imgOk;
 
 	// Instance methods ************************************************
 
@@ -42,11 +40,9 @@ public class StudentDidNotMakeItWindowController implements GuiController, Initi
 	 * @throws IOException
 	 */
 	public void start(Stage primaryStage) throws IOException {
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("/gui/StudentDidNotMakeItWindow.fxml"));
-		Parent root = loader.load();
+		Parent root = FXMLLoader.load(getClass().getResource("/gui/ExamOpenedSuccessfullyWindow.fxml"));
 		Scene scene = new Scene(root);
-		primaryStage.setTitle("Alert");
+		primaryStage.setTitle("Success!");
 		primaryStage.setScene(scene);
 		primaryStage.showAndWait();
 	}
@@ -66,12 +62,12 @@ public class StudentDidNotMakeItWindowController implements GuiController, Initi
 	 * completely processed (after load method).
 	 */
 	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
+	public void initialize(URL location, ResourceBundle resources) {
 		// set images
-		Image img = new Image(this.getClass().getResource("serverCrushed.PNG").toString());
-		imgCrash.setImage(img);
-		Image img2 = new Image(this.getClass().getResource("timer.png").toString());
-		imgTimer.setImage(img2);
+		Image img = new Image(this.getClass().getResource("teacherFrame.PNG").toString());
+		imgBack.setImage(img);
+		Image img2 = new Image(this.getClass().getResource("ok.png").toString());
+		imgOk.setImage(img2);
 	}
 }
-//End of StudentDidNotMakeItWindowController class
+//End of ExamOpenedSuccessfullyWindowController class

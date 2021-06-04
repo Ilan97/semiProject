@@ -11,20 +11,25 @@
    <children>
       <Pane style="-fx-background-color: #ffffff;">
          <children>
-            <ImageView fx:id="imgBack" fitHeight="300.0" fitWidth="300.0" />
-            <Text fill="#47ce60" layoutX="68.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="What Would You Like To Do?" textAlignment="CENTER" wrappingWidth="164.13671875">
+            <ImageView fx:id="imgBack" fitHeight="300.0" fitWidth="413.0" />
+            <Text fill="#47ce60" layoutX="120.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="What Would You Like To Do?" textAlignment="CENTER" wrappingWidth="164.13671875">
                <font>
                   <Font name="Calibri Bold" size="24.0" />
                </font>
             </Text>
-            <Button layoutX="32.0" layoutY="194.0" mnemonicParsing="false" onAction="#changeDurAction" prefHeight="47.0" prefWidth="95.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="Change Duration" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Button layoutX="44.0" layoutY="189.0" mnemonicParsing="false" onAction="#changeDurAction" prefHeight="47.0" prefWidth="95.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="Change Duration" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
-                  <Font name="Calibri" size="14.0" />
+                  <Font name="Calibri Bold" size="14.0" />
                </font>
             </Button>
-            <Button layoutX="171.0" layoutY="194.0" mnemonicParsing="false" onAction="#lockExamAction" prefHeight="47.0" prefWidth="95.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="Lock Exam" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Button layoutX="156.0" layoutY="189.0" mnemonicParsing="false" onAction="#openExamAction" prefHeight="47.0" prefWidth="95.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="Open Exam" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
-                  <Font name="Calibri" size="14.0" />
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Button>
+            <Button layoutX="269.0" layoutY="189.0" mnemonicParsing="false" onAction="#lockExamAction" prefHeight="47.0" prefWidth="95.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="Lock Exam" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
                </font>
             </Button>
          </children>

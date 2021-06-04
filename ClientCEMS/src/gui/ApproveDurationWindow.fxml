@@ -65,8 +65,14 @@
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="150.0" layoutY="110.0" prefHeight="17.0" prefWidth="33.0" text="min" />
-            <Label layoutX="181.0" layoutY="136.0" prefHeight="17.0" prefWidth="33.0" text="min" />
+            <Label layoutX="150.0" layoutY="110.0" prefHeight="17.0" prefWidth="33.0" text="min">
+               <font>
+                  <Font name="Calibri" size="12.0" />
+               </font></Label>
+            <Label layoutX="181.0" layoutY="136.0" prefHeight="17.0" prefWidth="33.0" text="min">
+               <font>
+                  <Font name="Calibri" size="12.0" />
+               </font></Label>
          </children>
       </Pane>
    </children>

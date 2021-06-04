@@ -141,11 +141,6 @@ public class ManualExamCodeWindowController implements GuiController, Initializa
 						bis.close();
 						UsefulMethods.instance().display("download succeeded!");
 						UsefulMethods.instance().display("file path: " + newFile.getAbsolutePath());
-						// start the timer
-						messageToServer = new Message();
-						messageToServer.setControllerName("StudentController");
-						messageToServer.setOperation("StartTimer");
-						ClientUI.client.handleMessageFromClientUI(messageToServer);
 						ManualExamDownloadedWindowController msg = new ManualExamDownloadedWindowController();
 						msg.start(new Stage());
 					} catch (IOException e) {

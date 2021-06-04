@@ -103,6 +103,7 @@ public class ManualExamFormController implements GuiController, Initializable {
 	void enterCodeAction(ActionEvent event) {
 		ManualExamCodeWindowController res;
 		ManualExamCodeWindowController popUp = new ManualExamCodeWindowController();
+		Message messageToServer = new Message();
 		try {
 			res = (ManualExamCodeWindowController) popUp.start(new Stage());
 			code = res.code;
@@ -122,8 +123,11 @@ public class ManualExamFormController implements GuiController, Initializable {
 				titleOfTimer.setText("Timer: ");
 				new Thread(() -> { //Thread for Timer
 					try {
+						// start the timer
+						messageToServer.setControllerName("StudentController");
+						messageToServer.setOperation("StartTimer");
+						ClientUI.client.handleMessageFromClientUI(messageToServer);
 						while (flagForTimer) {
-							Thread.sleep(SEC);
 							if (SecTimer == 59) {
 								MinTimer += 1;
 								SecTimer = 0;
@@ -136,7 +140,7 @@ public class ManualExamFormController implements GuiController, Initializable {
 							Platform.runLater(() -> {
 								timerLabel.setText(String.format("%02d:%02d:%02d",HourTimer ,MinTimer, SecTimer));
 							});
-
+							Thread.sleep(SEC);
 						}
 					} catch (Exception e) {
 						UsefulMethods.instance().printException(e);
@@ -152,15 +156,13 @@ public class ManualExamFormController implements GuiController, Initializable {
 						double currDuration;
 						String ExamStatus;
 						String Exam_eCode = code;
-						Message messageToServer = new Message();
 						//request for startDuration
 						messageToServer.setControllerName("ExamController");
 						messageToServer.setOperation("GetExamDuration");
 						messageToServer.setMsg(Exam_eCode);
 						startDuration = (double) ClientUI.client.handleMessageFromClientUI(messageToServer);
-						
+		
 						while (flagForTimer) {
-					
 							Thread.sleep(MIN);
 							//request for currDuration
 							messageToServer.setControllerName("ExamController");
@@ -179,9 +181,9 @@ public class ManualExamFormController implements GuiController, Initializable {
 							if( (HourTimer*60 + MinTimer) + 10 == currDuration) {
 								Platform.runLater(() -> {
 									// successes pop up
-									AlertTimeIsRunningOutWindowController pop = new AlertTimeIsRunningOutWindowController();
+									AlertTimeIsRunningOutWindowController pop1 = new AlertTimeIsRunningOutWindowController();
 									try {
-										pop.start(new Stage());
+										pop1.start(new Stage());
 									} catch (Exception e) {
 										UsefulMethods.instance().printException(e);
 									}
@@ -190,21 +192,35 @@ public class ManualExamFormController implements GuiController, Initializable {
 								
 								//check if time is up or status is "locked"
 							if( ((HourTimer*60 + MinTimer) >= currDuration || ExamStatus.equals("locked")) ) {
-								Platform.runLater(() -> {
-									examToUpload = new ExamOfStudent(null, code, LoginController.user.getUsername(), -1);
-									btnSubmit.fire();
-									messageToServer.setMsg(examToUpload);
-									messageToServer.setControllerName("StudentController");
-									messageToServer.setOperation("SubmitExam");
-									ClientUI.client.handleMessageFromClientUI(messageToServer);
-									StudentDidNotMakeItWindowController pop = new StudentDidNotMakeItWindowController();
-									try {
-										pop.start(new Stage());
-									} catch (IOException e) {UsefulMethods.instance().printException(e);}
-									
-									Navigator.instance().clearHistory("StudentHomeForm");
-								});		
+								messageToServer.setControllerName("StudentController");
+								messageToServer.setOperation("StopTimer");
+								ClientUI.client.handleMessageFromClientUI(messageToServer);
 								flagForTimer = false;
+								if(ExamStatus.equals("locked")) {
+									Platform.runLater(() -> {
+										AlertExamLockedWindowController pop2 = new AlertExamLockedWindowController();
+										try {
+											pop2.start(new Stage());
+										} catch (Exception e) {
+											UsefulMethods.instance().printException(e);
+										}
+									});
+								}
+								else
+									Platform.runLater(() -> {
+										examToUpload = new ExamOfStudent(null, code, LoginController.user.getUsername(), -1);
+										btnSubmit.fire();
+										messageToServer.setMsg(examToUpload);
+										messageToServer.setControllerName("StudentController");
+										messageToServer.setOperation("SubmitExam");
+										ClientUI.client.handleMessageFromClientUI(messageToServer);
+										StudentDidNotMakeItWindowController pop3 = new StudentDidNotMakeItWindowController();
+										try {
+											pop3.start(new Stage());
+										} catch (IOException e) {UsefulMethods.instance().printException(e);}
+										
+										Navigator.instance().clearHistory("StudentHomeForm");
+									});		
 							}
 						}
 					} catch (Exception e) {

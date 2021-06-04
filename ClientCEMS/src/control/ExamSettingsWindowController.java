@@ -58,7 +58,7 @@ public class ExamSettingsWindowController implements GuiController, Initializabl
 		try {
 			popUp.start(new Stage());
 		} catch (Exception e) {
-			UsefulMethods.instance().printExeption(e);
+			UsefulMethods.instance().printException(e);
 		}
 		UsefulMethods.instance().close(event);
 	}
@@ -75,7 +75,7 @@ public class ExamSettingsWindowController implements GuiController, Initializabl
 		try {
 			popUp.start(new Stage());
 		} catch (Exception e) {
-			UsefulMethods.instance().printExeption(e);
+			UsefulMethods.instance().printException(e);
 		}
 		UsefulMethods.instance().close(event);
 	}

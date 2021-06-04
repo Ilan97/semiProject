@@ -87,7 +87,7 @@ public class ApproveDurationWindowController implements GuiController, Initializ
 			try {
 				popUp.start(new Stage());
 			} catch (Exception e) {
-				UsefulMethods.instance().printExeption(e);
+				UsefulMethods.instance().printException(e);
 			}
 		} else
 			deleteRequest();
@@ -123,7 +123,7 @@ public class ApproveDurationWindowController implements GuiController, Initializ
 			try {
 				popUp.start(new Stage());
 			} catch (Exception e) {
-				UsefulMethods.instance().printExeption(e);
+				UsefulMethods.instance().printException(e);
 			}
 		} else {
 			// fail pop up
@@ -131,7 +131,7 @@ public class ApproveDurationWindowController implements GuiController, Initializ
 			try {
 				popUp.start(new Stage());
 			} catch (Exception e) {
-				UsefulMethods.instance().printExeption(e);
+				UsefulMethods.instance().printException(e);
 			}
 		}
 	}

@@ -1,0 +1,39 @@
+.alert{
+	-fx-font-family:"Calibri" ;
+    -fx-background-color: #e4e4e4;
+    -fx-font-whight: bold;
+}
+
+.alert > *.label.content{
+	-fx-font-family:"Calibri" ;
+	-fx-padding:10px;
+    -fx-font-size: 14px;
+    -fx-text-fill: black;
+    -fx-font-whight: bold;
+}
+.alert *.header-panel{
+    -fx-background-color: white;
+}
+.alert *.header-panel *.label{
+	-fx-font-family:"Calibri" ;
+    -fx-font-size: 14px;
+    -fx-text-fill: black;
+    -fx-font-whight: bold;
+}
+
+.button{
+	-fx-font-family:"Calibri" ;
+    -fx-font-size: 14px;
+    -fx-text-fill:white;
+    -fx-background-color: #b2b2b2;
+    -fx-background-radius: 30 30 30 30;
+   
+}
+
+#principal .default-color0.chart-bar { -fx-bar-fill: #f6872b;}
+#teacher .default-color0.chart-bar { -fx-bar-fill: #47ce60;}
+
+.Cancel{
+    -fx-background-color: #f86060;
+  
+}

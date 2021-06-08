@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import control.DBconnector;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -145,6 +144,7 @@ public class ServerPortController implements Initializable {
 				primaryStage.setScene(scene);
 				// close the server
 				primaryStage.setOnCloseRequest((e) -> {
+					flag = false;
 					Platform.exit();
 					try {
 						server.close();
@@ -231,13 +231,15 @@ public class ServerPortController implements Initializable {
 			// refresh the clients list every minute
 			new Thread(() -> {
 				while (flag) {
+					// TODO remember to close this thread
 					try {
-						Thread.sleep(60000);
+						Thread.sleep(1000);
 						Platform.runLater(() -> {
-							btnRefresh.fire();
+						//	btnRefresh.fire();
+							//TODO fix bug with Or Man 
 						});
 					} catch (Exception e) {
-						DBconnector.printException(e);
+						e.printStackTrace();
 					}
 				}
 			}).start();

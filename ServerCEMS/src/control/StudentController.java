@@ -1,5 +1,4 @@
 package control;
-
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.sql.PreparedStatement;
@@ -53,9 +52,18 @@ public class StudentController {
 		// switch case is on the operations this controller ask to operate.
 		switch (request.getOperation()) {
 		case "SubmitExam":
+			Message MyMessage = new Message();
+			ExamOfStudent examOfStudent =(ExamOfStudent) request.getMsg();
 			res = submitExam((ExamOfStudent) request.getMsg());
 			teacherMessage.setMsg(res);
 			result = teacherMessage;
+			
+			//Decrease action of countPerformers by -1 (as student submitted his exam)
+			MyMessage.setMsg(examOfStudent.getCode());
+			MyMessage.setControllerName("ExamController");
+			MyMessage.setOperation("DecreaseExam");
+			ExamController.handleRequest(MyMessage);
+			
 			break;
 
 		case "StartTimer":

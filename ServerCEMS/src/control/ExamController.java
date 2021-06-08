@@ -16,6 +16,8 @@ import com.spire.doc.FileFormat;
 import com.spire.doc.Section;
 import com.spire.doc.documents.Paragraph;
 import com.spire.doc.documents.ParagraphStyle;
+
+import javafx.application.Platform;
 import logic.Exam;
 import logic.ExamFile;
 import logic.ExamType;
@@ -38,6 +40,9 @@ public class ExamController {
 
 	// Instance variables **********************************************
 
+	static final int MIN = 60 * 1000;
+	static final int SEC = 1000;
+	
 	// messages that ExamController receive from server (request) and sent to it.
 	private static Message request;
 	private static Message result;
@@ -50,6 +55,11 @@ public class ExamController {
 	private static PreparedStatement pstmt;
 	private static ResultSet rs;
 
+	public static boolean flagForTimer = true;
+	public static int SecTimer = 0, MinTimer = 0, HourTimer = 0;
+
+	
+	
 	// Instance methods ************************************************
 
 	/**
@@ -124,10 +134,17 @@ public class ExamController {
 			data = parsingTheData((String) request.getMsg());
 			examID = getExamID(data[0]);
 			if (examID != null) {
-				if (!checkStudentDidExam(examID, data[2]))
-					resExam = checkComputerizedExamCode(data[0], data[1]);
+				if (!checkStudentDidExam(examID, data[2])) {
+					if(CheckTimeOfExam(data[0]) <= 10) {
+						resExam = checkComputerizedExamCode(data[0], data[1]);
+						examMessage.setMsg(resExam);
+					}
+					else
+						examMessage.setMsg("too late to get into the exam");
 			}
-			examMessage.setMsg(resExam);
+				else 
+					examMessage.setMsg("student is already did the exam");
+			}
 			result = examMessage;
 			break;
 
@@ -171,6 +188,7 @@ public class ExamController {
 			boolean isOpend = openExam((String) request.getMsg());
 			examMessage.setMsg(isOpend);
 			result = examMessage;
+			openTimer((String) request.getMsg());
 			break;
 
 		case "GetExamStatus":
@@ -178,11 +196,196 @@ public class ExamController {
 			examMessage.setMsg(status);
 			result = examMessage;
 			break;
-
+			
+		case "increaseCounter":
+			increaseExamCounter((String) request.getMsg());
+			break;
+		
+		case "DecreaseExam":
+			DecreaseExamCounter((String) request.getMsg());
+			checkforDone((String) request.getMsg());
+			break;
+		
+		case "CheckTimeOfExam":
+			int timer = CheckTimeOfExam((String) request.getMsg());
+			examMessage.setMsg(timer);
+			result = examMessage;
 		} // end switch case
 		return result;
 	}
 
+	
+
+	public static void openTimer(String code) {
+		
+		new Thread(() -> {
+			try {
+				while (flagForTimer) {
+					Thread.sleep(MIN);
+					updateTimer(code);
+					checkforDone(code);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}).start();
+	}
+
+
+	private static void updateTimer(String code) {
+		String sql = "UPDATE examtoperform SET timer = timer + 1  WHERE ecode = ? ";
+		try {
+			pstmt = DBconnector.conn.prepareStatement(sql);
+			pstmt.setString(1, code);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {DBconnector.printSQLException(e);}
+			try {
+				pstmt.close();
+			} catch (Exception e) {DBconnector.printException(e);}
+	}
+
+
+
+	/**
+	 * This method get the countPerformers from examtoperform table
+	 *
+	 * @param code - The code from examToPerform table.
+	 * 
+	 */
+	public static int GetcountPerformers(String code){
+		
+		int numberOfPerformers = 0 ;
+		String sql = "SELECT countPerformers FROM examtoperform WHERE ecode = ? ";
+		try {
+			pstmt = DBconnector.conn.prepareStatement(sql);
+			pstmt.setString(1, code);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				numberOfPerformers = rs.getInt("countPerformers");
+			}
+		} catch (SQLException e) {
+			DBconnector.printSQLException(e);
+		} finally {
+			try {
+				rs.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+			try {
+				pstmt.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+		}
+		return numberOfPerformers;
+		
+	}
+		
+
+	/**
+	 * This method check if the exam is done
+	 *
+	 * @param code - The code from examToPerform table.
+	 * 
+	 */
+	public static void checkforDone(String code) {
+		int currTime = CheckTimeOfExam(code);
+		int numberOfPerformers = GetcountPerformers(code);
+		if (currTime > 10 &&  numberOfPerformers == 0) {
+			UpdateExamToDone(code);
+			flagForTimer = false;
+		}
+	}
+
+	/**
+	 * This method update the Exam status to be done
+	 *
+	 * @param code - The code from examToPerform table.
+	 * 
+	 */
+	public static void UpdateExamToDone(String code) {
+		
+		String sql = "UPDATE examtoperform SET estatus =  ?  WHERE ecode = ? ";
+		try {
+			pstmt = DBconnector.conn.prepareStatement(sql);
+			pstmt.setString(1, "done");
+			pstmt.setString(2, code);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {DBconnector.printSQLException(e);}
+			try {
+				pstmt.close();
+			} catch (Exception e) {DBconnector.printException(e);}
+		}
+
+
+	/**
+	 * This method update the countPerformers to be countPerformers -1 in examtoperform table
+	 *
+	 * @param code - The code from examToPerform table.
+	 * 
+	 */
+	public static void DecreaseExamCounter(String code) {
+			String sql = "UPDATE examtoperform SET countPerformers =  countPerformers - 1  WHERE ecode = ? ";
+			try {
+				pstmt = DBconnector.conn.prepareStatement(sql);
+				pstmt.setString(1, code);
+				pstmt.executeUpdate();
+			} catch (SQLException e) {DBconnector.printSQLException(e);}
+				try {
+					pstmt.close();
+				} catch (Exception e) {DBconnector.printException(e);}
+			}
+
+	/**
+	 * This method update the countPerformers to be countPerformers +1 in examtoperform table
+	 *
+	 * @param code - The code from examToPerform table.
+	 * 
+	 */
+	public static void increaseExamCounter(String code) {
+		String sql = "UPDATE examtoperform SET countPerformers =  countPerformers + 1  WHERE ecode = ? ";
+		try {
+			pstmt = DBconnector.conn.prepareStatement(sql);
+			pstmt.setString(1, code);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {DBconnector.printSQLException(e);}
+			try {
+				pstmt.close();
+			} catch (Exception e) {DBconnector.printException(e);}
+		}
+
+	/**
+	 * This method get the exam timer from table examtoperform.
+	 *
+	 * @param code - The code from examToPerform table.
+	 * @return {@link int timer}
+	 */
+	public static int CheckTimeOfExam(String code) {
+		int timer = 0;
+		String sql = "SELECT timer FROM examtoperform WHERE ecode = ? ";
+		try {
+			pstmt = DBconnector.conn.prepareStatement(sql);
+			pstmt.setString(1, code);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				timer = rs.getInt("timer");
+			}
+		} catch (SQLException e) {
+			DBconnector.printSQLException(e);
+		} finally {
+			try {
+				rs.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+			try {
+				pstmt.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+		}
+		return timer;
+	}
 	/**
 	 * This method get the exam from table exam.
 	 *
@@ -341,7 +544,7 @@ public class ExamController {
 	 * @return true if success, false otherwise.
 	 */
 	public static boolean insertExamToExamToPerformTable(Exam exam) {
-		String sql = "INSERT INTO examToPerform VALUES (?,?,?,?,?,?)";
+		String sql = "INSERT INTO examToPerform VALUES (?,?,?,?,?,?,?,?)";
 		try {
 			pstmt = DBconnector.conn.prepareStatement(sql);
 			pstmt.setString(1, exam.getFid());
@@ -350,6 +553,8 @@ public class ExamController {
 			pstmt.setString(4, exam.getEcode());
 			pstmt.setString(5, "lock");
 			pstmt.setString(6, exam.getEdate().toString());
+			pstmt.setInt(7, 0);
+			pstmt.setInt(8, 0);
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			DBconnector.printSQLException(e);

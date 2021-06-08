@@ -26,6 +26,7 @@ import logic.Request;
  * client.
  *
  * @author Bat-El Gardin
+ * @author Sharon Vaknin
  * @version June 2021
  */
 
@@ -104,6 +105,42 @@ public class PrincipalViewRequestFormController implements GuiController, Initia
 	void viewRequestsAction(ActionEvent event) {
 		flag = false;
 		Navigator.instance().navigate("PrincipalViewRequestForm");
+	}
+	
+	/**
+	 * This is FXML event handler. Handles the action of click on 'View Questions'
+	 * button.
+	 *
+	 * @param event The action event.
+	 */
+	@FXML
+	void viewQuestionsAction(ActionEvent event) {
+		flag = false;
+		Navigator.instance().navigate("ViewQuestionsForm1");
+	}
+	
+	/**
+	 * This is FXML event handler. Handles the action of click on 'View Exams'
+	 * button.
+	 *
+	 * @param event The action event.
+	 */
+	@FXML
+	void viewExamsAction(ActionEvent event) {
+		flag = false;
+		Navigator.instance().navigate("ViewExamsForm1");
+	}
+
+	/**
+	 * This is FXML event handler. Handles the action of click on 'View Grades'
+	 * button.
+	 *
+	 * @param event The action event.
+	 */
+	@FXML
+	void viewGradesAction(ActionEvent event) {
+		flag = false;
+		Navigator.instance().navigate("ViewGradesForm");
 	}
 
 	/**

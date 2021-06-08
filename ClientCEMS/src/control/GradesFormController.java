@@ -67,6 +67,9 @@ public class GradesFormController implements GuiController, Initializable {
 		} catch (IOException e) {}
 	}
 	
+	/**
+	 * This method check an exam is valid 
+	 */
 	private void checkValidExam() {
 		if (examsList.getSelectionModel().isEmpty())
 			chosenExam = null;

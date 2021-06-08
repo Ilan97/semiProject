@@ -134,7 +134,7 @@ public class PrincipalReportForm2Controller implements GuiController, Initializa
 	 */
 	@FXML
 	void goHome(ActionEvent event) {
-		Navigator.instance().alertPopUp("PrincipalHomeForm");
+		Navigator.instance().clearHistory("PrincipalHomeForm");
 	}
 
 	/**
@@ -145,7 +145,7 @@ public class PrincipalReportForm2Controller implements GuiController, Initializa
 	 */
 	@FXML
 	void getReportAction(ActionEvent event) {
-		Navigator.instance().alertPopUp("PrincipalReportForm1");
+		Navigator.instance().navigate("PrincipalReportForm1");
 	}
 
 	/**
@@ -156,7 +156,40 @@ public class PrincipalReportForm2Controller implements GuiController, Initializa
 	 */
 	@FXML
 	void viewRequestsAction(ActionEvent event) {
-		Navigator.instance().alertPopUp("PrincipalViewRequestForm");
+		Navigator.instance().navigate("PrincipalViewRequestForm");
+	}
+	
+	/**
+	 * This is FXML event handler. Handles the action of click on 'View Questions'
+	 * button.
+	 *
+	 * @param event The action event.
+	 */
+	@FXML
+	void viewQuestionsAction(ActionEvent event) {
+		Navigator.instance().navigate("ViewQuestionsForm1");
+	}
+	
+	/**
+	 * This is FXML event handler. Handles the action of click on 'View Exams'
+	 * button.
+	 *
+	 * @param event The action event.
+	 */
+	@FXML
+	void viewExamsAction(ActionEvent event) {
+		Navigator.instance().navigate("ViewExamsForm1");
+	}
+
+	/**
+	 * This is FXML event handler. Handles the action of click on 'View Grades'
+	 * button.
+	 *
+	 * @param event The action event.
+	 */
+	@FXML
+	void viewGradesAction(ActionEvent event) {
+		Navigator.instance().navigate("ViewGradesForm");
 	}
 
 	/**

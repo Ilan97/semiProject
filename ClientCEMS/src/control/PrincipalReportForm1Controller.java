@@ -78,7 +78,15 @@ public class PrincipalReportForm1Controller implements GuiController, Initializa
 	void next(ActionEvent event) {
 		clearErrLbl(lblErrData);
 		// handle missing fields
-		if (chooseType.getSelectionModel().isEmpty() || typeOptions.getSelectionModel().isEmpty()
+		if(chooseType.getSelectionModel().isEmpty()) {
+			if (chooseType.getSelectionModel().isEmpty())
+				lblErrType.setText("choose type");
+			// type chosen
+			else
+				clearErrLbl(lblErrType);
+		}
+		
+		if (typeOptions.getSelectionModel().isEmpty()
 				|| clickAvg.isPressed() || clickMed.isPressed() || clickHist.isPressed()) {
 			// type not chosen
 			if (chooseType.getSelectionModel().isEmpty())
@@ -204,7 +212,7 @@ public class PrincipalReportForm1Controller implements GuiController, Initializa
 	 */
 	@FXML
 	void goHome(ActionEvent event) {
-		Navigator.instance().alertPopUp("PrincipalHomeForm");
+		Navigator.instance().clearHistory("PrincipalHomeForm");
 	}
 
 	/**
@@ -215,7 +223,7 @@ public class PrincipalReportForm1Controller implements GuiController, Initializa
 	 */
 	@FXML
 	void getReportAction(ActionEvent event) {
-		Navigator.instance().alertPopUp("PrincipalReportForm1");
+		Navigator.instance().navigate("PrincipalReportForm1");
 	}
 
 	/**
@@ -226,7 +234,40 @@ public class PrincipalReportForm1Controller implements GuiController, Initializa
 	 */
 	@FXML
 	void viewRequestsAction(ActionEvent event) {
-		Navigator.instance().alertPopUp("PrincipalViewRequestForm");
+		Navigator.instance().navigate("PrincipalViewRequestForm");
+	}
+	
+	/**
+	 * This is FXML event handler. Handles the action of click on 'View Questions'
+	 * button.
+	 *
+	 * @param event The action event.
+	 */
+	@FXML
+	void viewQuestionsAction(ActionEvent event) {
+		Navigator.instance().navigate("ViewQuestionsForm1");
+	}
+	
+	/**
+	 * This is FXML event handler. Handles the action of click on 'View Exams'
+	 * button.
+	 *
+	 * @param event The action event.
+	 */
+	@FXML
+	void viewExamsAction(ActionEvent event) {
+		Navigator.instance().navigate("ViewExamsForm1");
+	}
+
+	/**
+	 * This is FXML event handler. Handles the action of click on 'View Grades'
+	 * button.
+	 *
+	 * @param event The action event.
+	 */
+	@FXML
+	void viewGradesAction(ActionEvent event) {
+		Navigator.instance().navigate("ViewGradesForm");
 	}
 
 	/**

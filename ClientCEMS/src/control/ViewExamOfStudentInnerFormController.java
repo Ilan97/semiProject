@@ -9,19 +9,18 @@ import javafx.scene.control.TextArea;
 import logic.Question;
 
 /**
- * This is controller class (boundary) for window ComputerizedExamInner in
- * Student. This class handle all events related to this window. This class
+ * This is controller class (boundary) for window ViewExamOfStudentInner. 
+ * This class handle all events related to this window. This class
  * connect with client.
  *
  * @author Sharon Vaknin
- * @author Ohad Shamir
  * @version June 2021
  */
 
-public class ShowExamInnerWindowController implements Initializable {
+public class ViewExamOfStudentInnerFormController implements Initializable {
 
 	// Instance variables **********************************************
-	
+
 	/**
 	 * FXML variables.
 	 */
@@ -47,11 +46,11 @@ public class ShowExamInnerWindowController implements Initializable {
 	private Label lblAns4;
 	@FXML
 	private Label lblAns3;
-    @FXML
-    private Label lblField;
-    @FXML
-    private Label lblCourse;
-	
+	@FXML
+	private Label lblField;
+	@FXML
+	private Label lblCourse;
+
 	// Instance methods ************************************************
 
 	/**
@@ -62,35 +61,35 @@ public class ShowExamInnerWindowController implements Initializable {
 		String toShow = q.getContent() + "\n\n" + q.getInstructions();
 		if (q.getStudentNote() != null)
 			toShow += "\n\n" + q.getStudentNote();
-		//TODO - ADD QUERY FOR GET TEACHER NOTE
-		lblNumQuestion.setText("" + index + "/" + ShowExamWindowController.qSize);
+		// TODO - ADD QUERY FOR GET TEACHER NOTE
+		lblNumQuestion.setText("" + index + "/" + PrincipalExamOfStudentViewWindowController.qSize);
 		lblScore.setText("(" + score + " points)");
 		question.setText(toShow);
 		lblAns1Correct.setText("1. " + q.getRightAnswer());
 		switch (ans) {
-			case "0":
-				lblAns2.setText("2. " + q.getWrongAnswer1());
-				lblAns3.setText("3. "+ q.getWrongAnswer2());
-				lblAns4.setText("4. " + q.getWrongAnswer3());
-				break;
-				
-			case "1":
-				lblAns2Wrong.setText("2. " + q.getWrongAnswer1());
-				lblAns3.setText("3. " + q.getWrongAnswer2());
-				lblAns4.setText("4. " + q.getWrongAnswer3());
-				break;
-			
-			case "2":
-				lblAns2.setText("2. " + q.getWrongAnswer1());
-				lblAns3Wrong.setText("3. " + q.getWrongAnswer2());
-				lblAns4.setText("4. " + q.getWrongAnswer3());
-				break;
-				
-			case "3":
-				lblAns2.setText("2. " + q.getWrongAnswer1());
-				lblAns3.setText("3. " + q.getWrongAnswer2());
-				lblAns4Wrong.setText("4. " + q.getWrongAnswer3());
-				break;		
+		case "0":
+			lblAns2.setText("2. " + q.getWrongAnswer1());
+			lblAns3.setText("3. " + q.getWrongAnswer2());
+			lblAns4.setText("4. " + q.getWrongAnswer3());
+			break;
+
+		case "1":
+			lblAns2Wrong.setText("2. " + q.getWrongAnswer1());
+			lblAns3.setText("3. " + q.getWrongAnswer2());
+			lblAns4.setText("4. " + q.getWrongAnswer3());
+			break;
+
+		case "2":
+			lblAns2.setText("2. " + q.getWrongAnswer1());
+			lblAns3Wrong.setText("3. " + q.getWrongAnswer2());
+			lblAns4.setText("4. " + q.getWrongAnswer3());
+			break;
+
+		case "3":
+			lblAns2.setText("2. " + q.getWrongAnswer1());
+			lblAns3.setText("3. " + q.getWrongAnswer2());
+			lblAns4Wrong.setText("4. " + q.getWrongAnswer3());
+			break;
 		}
 	}
 
@@ -100,9 +99,8 @@ public class ShowExamInnerWindowController implements Initializable {
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		lblField.setText(ShowExamWindowController.exam.getFname());
-		lblCourse.setText(ShowExamWindowController.exam.getCname());
+		lblField.setText(PrincipalExamOfStudentViewWindowController.exam.getFname());
+		lblCourse.setText(PrincipalExamOfStudentViewWindowController.exam.getCname());
 	}
-
 }
-//End of ShowExamInnerWindowController class
+// End of ViewExamOfStudentInnerFormController class

@@ -25,20 +25,18 @@ import logic.Message;
 import logic.Question;
 
 /**
- * This is controller class (boundary) for window ShowExam for Student.
- * This class handle all events related to this window. This class connect with
- * client.
+ * This is controller class (boundary) for window show exam of student for
+ * principal. This class handle all events related to this window. This class
+ * connect with client.
  *
  * @author Sharon Vaknin
- * @author Moran Davidov
- * @author Ohad Shamir
  * @version June 2021
  */
 
-public class ShowExamWindowController implements GuiController, Initializable {
+public class PrincipalExamOfStudentViewWindowController implements GuiController, Initializable {
 
 	// Instance variables **********************************************
-	
+
 	public static Exam exam;
 	/**
 	 * The details to upload the exam to DB.
@@ -53,30 +51,30 @@ public class ShowExamWindowController implements GuiController, Initializable {
 	 * To navigate between questions.
 	 */
 	private Pane qArray[];
-	private ShowExamInnerWindowController contArray[];
-	
+	private ViewExamOfStudentInnerFormController contArray[];
+
 	/**
 	 * FXML variables.
 	 */
-    @FXML
-    private ImageView imgBack;
-    @FXML
-    private Pane paneQuestions;
-    @FXML
-    private Label lblNumQuestion;
-    @FXML
-    private Label lblScore;
-    @FXML
-    private Label lblWrong;
-    @FXML
-    private Label lblCorrect;
-    @FXML
-    private Button btnBack;
-    @FXML
-    private Button btnNext;
-    
+	@FXML
+	private ImageView imgBack;
+	@FXML
+	private Pane paneQuestions;
+	@FXML
+	private Label lblNumQuestion;
+	@FXML
+	private Label lblScore;
+	@FXML
+	private Label lblWrong;
+	@FXML
+	private Label lblCorrect;
+	@FXML
+	private Button btnBack;
+	@FXML
+	private Button btnNext;
+
 	// Instance methods ************************************************
-    
+
 	/**
 	 * Pop this window.
 	 *
@@ -85,16 +83,16 @@ public class ShowExamWindowController implements GuiController, Initializable {
 	 */
 	public Object start(Stage primaryStage) throws IOException {
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("/gui/ShowExamWindow.fxml"));
+		loader.setLocation(getClass().getResource("/gui/PrincipalExamOfStudentViewWindow.fxml"));
 		Parent root = loader.load();
-		ShowExamWindowController cont = loader.getController();
+		PrincipalExamOfStudentViewWindowController cont = loader.getController();
 		Scene scene = new Scene(root);
 		primaryStage.setTitle("Exam View");
 		primaryStage.setScene(scene);
 		primaryStage.showAndWait();
 		return cont;
 	}
-	
+
 	/**
 	 * This is FXML event handler. Handles the action of click on 'back' button.
 	 *
@@ -130,6 +128,7 @@ public class ShowExamWindowController implements GuiController, Initializable {
 		paneQuestions.getChildren().clear();
 		paneQuestions.getChildren().add(qArray[curQuestion]);
 	}
+
 	/**
 	 * This is FXML event handler. Handles the action of click on 'Close' button.
 	 *
@@ -156,38 +155,38 @@ public class ShowExamWindowController implements GuiController, Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// set images
-		Image img = new Image(this.getClass().getResource("studentFrame.PNG").toString());
+		Image img = new Image(this.getClass().getResource("principalFrame.PNG").toString());
 		imgBack.setImage(img);
 		Message messageToServer = new Message();
-		messageToServer.setMsg(GradesFormController.chosenExam.getCode() + " computerized");
+		messageToServer.setMsg(ViewGradesFormController.chosenExam.getCode() + " computerized");
 		messageToServer.setOperation("FindExamOfStudent");
 		messageToServer.setControllerName("ExamController");
 		exam = (Exam) ClientUI.client.handleMessageFromClientUI(messageToServer);
-		if(exam != null) {
+		if (exam != null) {
 			qSize = exam.getQuestionsInExam().size();
 			qArray = new Pane[qSize];
-			contArray = new ShowExamInnerWindowController[qSize];
+			contArray = new ViewExamOfStudentInnerFormController[qSize];
 			int cnt = 0;
-			String[] answers = GradesFormController.chosenExam.getAnswers().split("");
-			for(Entry<Question, Integer> q : exam.getQuestionsInExam().entrySet()) {
+			String[] answers = ViewGradesFormController.chosenExam.getAnswers().split("");
+			for (Entry<Question, Integer> q : exam.getQuestionsInExam().entrySet()) {
 				try {
 					FXMLLoader loader = new FXMLLoader();
-					loader.setLocation(Navigator.class.getResource("ShowExamInnerWindow.fxml"));
+					loader.setLocation(Navigator.class.getResource("ViewExamOfStudentInnerForm.fxml"));
 					qArray[cnt] = loader.load();
 					contArray[cnt] = loader.getController();
 					contArray[cnt].setQuestion(q.getKey(), cnt + 1, q.getValue(), answers[cnt]);
 				} catch (IOException e) {
-	
+
 				}
 				cnt++;
 			}
 			paneQuestions.getChildren().clear();
 			paneQuestions.getChildren().add(qArray[0]);
-			if (qSize == 1) 
+			if (qSize == 1)
 				btnNext.setVisible(false);
 
 			btnBack.setVisible(false);
 		}
 	}
 }
-//End of ShowExamWindowController class
+// End of PrincipalExamOfStudentViewWindowController class

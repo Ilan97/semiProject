@@ -32,6 +32,7 @@ public class ExamOfStudent implements Serializable {
 	private String cid;
 	private String cname;
 	private String edate;
+	private ExamType etype;
 
 	// Constructors ****************************************************
 
@@ -82,6 +83,20 @@ public class ExamOfStudent implements Serializable {
 	 */
 	public void setRealTimeDuration(int realTimeDuration) {
 		this.realTimeDuration = realTimeDuration;
+	}
+	
+	/**
+	 * @return the etype
+	 */
+	public ExamType getEtype() {
+		return etype;
+	}
+
+	/**
+	 * @param estatus the etype to set
+	 */
+	public void setEtype(ExamType etype) {
+		this.etype = etype;
 	}
 
 	/**

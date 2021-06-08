@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="411.0" prefWidth="562.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.ShowExamInnerWindowController">
+   <children>
+      <Pane prefHeight="411.0" prefWidth="561.0" style="-fx-background-color: #ffffff;">
+         <children>
+            <Label layoutX="33.0" layoutY="21.0" text="Question">
+               <font>
+                  <Font name="Calibri Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblNumQuestion" layoutX="107.0" layoutY="21.0">
+               <font>
+                  <Font name="Calibri Bold" size="18.0" />
+               </font>
+            </Label>
+            <TextArea fx:id="question" layoutX="26.0" layoutY="53.0" prefHeight="197.0" prefWidth="321.0" />
+            <Label fx:id="lblScore" layoutX="138.0" layoutY="24.0" prefHeight="17.0" prefWidth="79.0" textFill="#b2b2b2">
+               <font>
+                  <Font name="Calibri Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblAns3Wrong" layoutX="36.0" layoutY="321.0" prefHeight="22.0" prefWidth="383.0" textFill="#f86060">
+               <font>
+                  <Font name="Calibri Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblAns2Wrong" layoutX="36.0" layoutY="292.0" prefHeight="22.0" prefWidth="383.0" textFill="#f86060">
+               <font>
+                  <Font name="Calibri Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblAns1Correct" layoutX="36.0" layoutY="263.0" prefHeight="22.0" prefWidth="383.0" textFill="#47ce60">
+               <font>
+                  <Font name="Calibri Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblAns4Wrong" layoutX="36.0" layoutY="350.0" prefHeight="22.0" prefWidth="383.0" textFill="#f86060">
+               <font>
+                  <Font name="Calibri Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblAns2" layoutX="36.0" layoutY="292.0" prefHeight="22.0" prefWidth="383.0">
+               <font>
+                  <Font name="Calibri Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblAns4" layoutX="36.0" layoutY="350.0" prefHeight="22.0" prefWidth="383.0">
+               <font>
+                  <Font name="Calibri Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblAns3" layoutX="36.0" layoutY="321.0" prefHeight="22.0" prefWidth="383.0">
+               <font>
+                  <Font name="Calibri Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="227.0" layoutY="22.0" text="Feild:">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="384.0" layoutY="22.0" text="Course:">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblField" layoutX="265.0" layoutY="22.0" textFill="#b2b2b2">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblCourse" layoutX="433.0" layoutY="22.0" textFill="#b2b2b2">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Label>
+            <TextArea layoutX="359.0" layoutY="84.0" prefHeight="137.0" prefWidth="173.0" />
+            <Label layoutX="365.0" layoutY="66.0" text="Add Note:">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

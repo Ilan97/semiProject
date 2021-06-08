@@ -216,6 +216,19 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 	}
 
 	/**
+	 * This method called to update timer for client as on server
+	 * @param eCode of the exam
+	 */
+	public void updateCurrTimerForClient(String ecode) {
+		Message messageToServer = new Message();
+		messageToServer.setControllerName("ExamController");
+		messageToServer.setOperation("CheckTimeOfExam");
+		messageToServer.setMsg(ecode);
+		int temp = (int) ClientUI.client.handleMessageFromClientUI(messageToServer);
+		MinTimer = temp;
+	}
+	
+	/**
 	 * This method called to initialize a controller after its root element has been
 	 * completely processed (after load method).
 	 */
@@ -260,6 +273,9 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 		innerPane.getChildren().clear();
 		innerPane.getChildren().add(qArray[0]);
 
+		//get curr timer from server 
+		updateCurrTimerForClient(ComputerizedExamCodeWindowController.code);
+		
 		new Thread(() -> {
 			try {
 				while (flagForTimer) {
@@ -282,27 +298,55 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 				UsefulMethods.instance().printException(e);
 			}
 		}).start();
+		
+		//Thread for catch delay in time 
+		new Thread(() -> {
+			boolean flag = true;
+			Message messageToServerThread2 = new Message();
+			messageToServerThread2.setControllerName("ExamController");
+			messageToServerThread2.setOperation("CheckTimeOfExam");
+			messageToServerThread2.setMsg(ComputerizedExamCodeWindowController.code);
+			while(flag) {
+				try {
+					Thread.sleep(SEC);
+					synchronized(this) {
+					int min = (int) ClientUI.client.handleMessageFromClientUI(messageToServerThread2);
+					
+					if(min != MinTimer) {
+						MinTimer = min;
+						SecTimer = 0;
+						flag = false;
+					//	break;
+						}
+					}
+					}
+				catch (InterruptedException e) {e.printStackTrace();}
+			}
+		}).start();
 
 		// Checks if exam time is over or changed.
 		// At the end of the time closes the exam automatically
-		new Thread(() -> {
+		new Thread  (() -> {
 			try {
 				String ExamStatus;
 				String Exam_eCode = ComputerizedExamCodeWindowController.code;
-				Message messageToServer = new Message();
+				Message messageToServerThread3 = new Message();
 				// request for startDuration
-				messageToServer.setControllerName("ExamController");
-				messageToServer.setOperation("GetExamDuration");
-				messageToServer.setMsg(ComputerizedExamCodeWindowController.code);
-				startDuration = (double) ClientUI.client.handleMessageFromClientUI(messageToServer);
-
+				messageToServerThread3.setControllerName("ExamController");
+				messageToServerThread3.setOperation("GetExamDuration");
+				messageToServerThread3.setMsg(ComputerizedExamCodeWindowController.code);
+				synchronized(this) {
+				startDuration = (double) ClientUI.client.handleMessageFromClientUI(messageToServerThread3);
+				}
 				while (flagForTimer) {
 					Thread.sleep(10 * SEC);
 					//request for currDuration
-					messageToServer.setControllerName("ExamController");
-					messageToServer.setOperation("GetExamDuration");
-					messageToServer.setMsg(Exam_eCode);
-					currDuration = (double) ClientUI.client.handleMessageFromClientUI(messageToServer);
+					messageToServerThread3.setControllerName("ExamController");
+					messageToServerThread3.setOperation("GetExamDuration");
+					messageToServerThread3.setMsg(Exam_eCode);
+					synchronized(this) {
+					currDuration = (double) ClientUI.client.handleMessageFromClientUI(messageToServerThread3);
+					}
 					//check if A change was made during the exam
 					if (currDuration != startDuration ) {
 						// pop up
@@ -327,10 +371,12 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 						});
 					}
 					// request for eStatus of the exam
-					messageToServer.setControllerName("ExamController");
-					messageToServer.setOperation("GetExamStatus");
-					messageToServer.setMsg(Exam_eCode);
-					ExamStatus = (String) ClientUI.client.handleMessageFromClientUI(messageToServer);
+					messageToServerThread3.setControllerName("ExamController");
+					messageToServerThread3.setOperation("GetExamStatus");
+					messageToServerThread3.setMsg(Exam_eCode);
+					synchronized(this) {
+					ExamStatus = (String) ClientUI.client.handleMessageFromClientUI(messageToServerThread3);
+					}
 					//check if time is up or status is "locked"
 					if((HourTimer*60 + MinTimer) >= currDuration || ExamStatus.equals("locked")) {
 						if(ExamStatus.equals("locked")) {
@@ -355,5 +401,7 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 			}
 		}).start();
 	}
+
+
 }
 //End of ComputerizedExamFormController class

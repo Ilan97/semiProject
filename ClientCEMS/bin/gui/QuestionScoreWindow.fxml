@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.QuestionScoreWindowController">
+   <children>
+      <Pane style="-fx-background-color: #ffffff;">
+         <children>
+            <ImageView fx:id="imgBack" fitHeight="254.0" fitWidth="243.0" />
+            <Text fill="#47ce60" layoutX="47.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add Question Score" textAlignment="CENTER" wrappingWidth="150.8033447265625">
+               <font>
+                  <Font name="Calibri Bold" size="24.0" />
+               </font>
+            </Text>
+            <Button fx:id="btnSaveScore" layoutX="95.0" layoutY="189.0" mnemonicParsing="false" onAction="#saveScoreActionButton" prefHeight="17.0" prefWidth="58.0" style="-fx-background-color: #47ce60; -fx-background-radius: 30 30 30 30;" text="Save" textFill="WHITE">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Button>
+            <Label alignment="CENTER" layoutX="62.0" layoutY="106.0" prefHeight="22.0" prefWidth="84.0" text="Score:">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtScore" layoutX="129.0" layoutY="107.0" onKeyPressed="#inputPass" prefHeight="25.0" prefWidth="43.0" />
+            <Button layoutX="128.0" layoutY="142.0" mnemonicParsing="false" onAction="#addNoteActionButton" prefHeight="27.0" prefWidth="45.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="Add" textFill="WHITE">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Button>
+            <Label alignment="CENTER" layoutX="60.0" layoutY="142.0" prefHeight="22.0" prefWidth="84.0" text="Note:">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="79.0" layoutY="109.0" text="*" textFill="#f86060">
+               <font>
+                  <Font name="Calibri Bold" size="11.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblErr" alignment="CENTER" contentDisplay="CENTER" layoutX="66.0" layoutY="84.0" prefHeight="14.0" prefWidth="111.0" textAlignment="CENTER" textFill="#f86060">
+               <font>
+                  <Font name="Calibri Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblRange" alignment="CENTER" contentDisplay="CENTER" layoutX="4.0" layoutY="117.0" prefHeight="14.0" prefWidth="84.0" textAlignment="CENTER" textFill="#f86060">
+               <font>
+                  <Font name="Calibri Bold" size="12.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

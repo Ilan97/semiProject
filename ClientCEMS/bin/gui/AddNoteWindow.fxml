@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="368.0" prefWidth="293.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.AddNoteWindowController">
+   <children>
+      <Pane prefHeight="368.0" prefWidth="287.0" style="-fx-background-color: #ffffff;">
+         <children>
+            <ImageView fx:id="imgBack" fitHeight="379.0" fitWidth="293.0" layoutY="-4.0" />
+            <Text fill="#47ce60" layoutX="48.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add Note" textAlignment="CENTER" wrappingWidth="196.13665771484375">
+               <font>
+                  <Font name="Calibri Bold" size="24.0" />
+               </font>
+            </Text>
+            <Button fx:id="btnAddNote" layoutX="169.0" layoutY="311.0" mnemonicParsing="false" onAction="#addNoteActionButton" prefHeight="27.0" prefWidth="58.0" style="-fx-background-color: #47ce60; -fx-background-radius: 30 30 30 30;" text="Add " textFill="WHITE">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnCancel" layoutX="67.0" layoutY="310.0" mnemonicParsing="false" onAction="#cancelActionButton" style="-fx-background-color: #f86060; -fx-background-radius: 30 30 30 30;" text="Cancel" textFill="WHITE">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Button>
+            <TextArea fx:id="txtTeachNote" layoutX="61.0" layoutY="91.0" prefHeight="82.0" prefWidth="171.0">
+               <font>
+                  <Font name="Calibri" size="12.0" />
+               </font>
+            </TextArea>
+            <Label layoutX="61.0" layoutY="71.0" text="Note for Teachers">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Label>
+            <TextArea fx:id="txtStudNote" layoutX="61.0" layoutY="207.0" prefHeight="82.0" prefWidth="171.0">
+               <font>
+                  <Font name="Calibri" size="12.0" />
+               </font>
+            </TextArea>
+            <Label layoutX="61.0" layoutY="187.0" text="Note for Students">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

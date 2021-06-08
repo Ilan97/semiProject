@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="411.0" prefWidth="562.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.ComputerizedExamInnerFormController">
+   <children>
+      <Pane prefHeight="411.0" prefWidth="561.0" style="-fx-background-color: #ffffff;">
+         <children>
+            <Label layoutX="33.0" layoutY="21.0" text="Question">
+               <font>
+                  <Font name="Calibri Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblNumQuestion" layoutX="107.0" layoutY="21.0">
+               <font>
+                  <Font name="Calibri Bold" size="18.0" />
+               </font>
+            </Label>
+            <TextArea fx:id="question" layoutX="26.0" layoutY="53.0" prefHeight="197.0" prefWidth="510.0" />
+            <RadioButton fx:id="btnAnswer1" layoutX="33.0" layoutY="283.0" mnemonicParsing="false" selected="true">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+               <toggleGroup>
+                  <ToggleGroup fx:id="answers" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="btnAnswer4" layoutX="33.0" layoutY="358.0" mnemonicParsing="false" toggleGroup="$answers">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </RadioButton>
+            <RadioButton fx:id="btnAnswer3" layoutX="33.0" layoutY="333.0" mnemonicParsing="false" toggleGroup="$answers">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </RadioButton>
+            <RadioButton fx:id="btnAnswer2" layoutX="33.0" layoutY="308.0" mnemonicParsing="false" toggleGroup="$answers">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </RadioButton>
+            <Label fx:id="lblScore" layoutX="138.0" layoutY="24.0" prefHeight="17.0" prefWidth="79.0" textFill="#b2b2b2">
+               <font>
+                  <Font name="Calibri Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblCourse" layoutX="448.0" layoutY="20.0" prefHeight="25.0" prefWidth="89.0" text="Algebra1" textFill="#b2b2b2">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblField" layoutX="274.0" layoutY="18.0" prefHeight="28.0" prefWidth="119.0" text="Mathematics" textFill="#b2b2b2">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="239.0" layoutY="20.0" prefHeight="25.0" prefWidth="40.0" text="Field:">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="401.0" layoutY="18.0" prefHeight="28.0" prefWidth="52.0" text="Course:">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

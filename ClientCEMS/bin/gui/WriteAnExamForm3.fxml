@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="406.0" prefWidth="603.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.WriteAnExamForm3Controller">
+   <children>
+      <Pane prefHeight="541.0" prefWidth="794.0" style="-fx-background-color: #ffffff;">
+         <children>
+            <ImageView fx:id="imgBack" fitHeight="541.0" fitWidth="636.0" layoutX="158.0" layoutY="1.0" />
+            <VBox layoutY="115.0" prefHeight="427.0" prefWidth="164.0" style="-fx-background-color: #ffffff;">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#goHome" prefHeight="60.0" prefWidth="130.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 0 30 30 0;" text="Home" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="Calibri Bold" size="18.0" />
+                     </font>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#writeQuestionAction" prefHeight="60.0" prefWidth="130.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 0 30 30 0;" text="Write Quetions" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                     <font>
+                        <Font name="Calibri Bold" size="18.0" />
+                     </font>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#writeExamAction" prefHeight="60.0" prefWidth="160.0" style="-fx-background-color: #47ce60; -fx-background-radius: 0 30 30 0;" text="Write an Exam" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                     <font>
+                        <Font name="Calibri Bold" size="18.0" />
+                     </font>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#getReportAction" prefHeight="60.0" prefWidth="130.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 0 30 30 0;" text="Get Report" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                     <font>
+                        <Font name="Calibri Bold" size="18.0" />
+                     </font>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#checkExamAction" prefHeight="60.0" prefWidth="130.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 0 30 30 0;" text="Check Exam" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                     <font>
+                        <Font name="Calibri Bold" size="18.0" />
+                     </font>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#examSearchAction" prefHeight="60.0" prefWidth="130.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 0 30 30 0;" text="Exam Stock" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                     <font>
+                        <Font name="Calibri Bold" size="18.0" />
+                     </font>
+                  </Button>
+               </children>
+            </VBox>
+            <Label layoutX="208.0" layoutY="45.0" text="Write an Exam" textFill="#47ce60">
+               <font>
+                  <Font name="Calibri Bold" size="41.0" />
+               </font>
+            </Label>
+            <ImageView fx:id="imgLogo" fitHeight="71.0" fitWidth="73.0" layoutX="14.0" layoutY="15.0" />
+            <Label layoutX="70.0" layoutY="71.0" text="CEMS" textFill="#bebaba">
+               <font>
+                  <Font name="Calibri Bold" size="24.0" />
+               </font>
+            </Label>
+            <Button layoutX="672.0" layoutY="465.0" mnemonicParsing="false" onAction="#saveAction" prefHeight="27.0" prefWidth="57.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="Save " textAlignment="CENTER" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Button>
+            <Button layoutX="220.0" layoutY="465.0" mnemonicParsing="false" onAction="#back" prefHeight="27.0" prefWidth="21.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="&lt;" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Button>
+            <Label layoutX="211.0" layoutY="179.0" prefHeight="17.0" prefWidth="40.0" text="Field:">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font></Label>
+            <Label fx:id="lblField" layoutX="310.0" layoutY="176.0" prefHeight="17.0" prefWidth="102.0" textFill="#b2b2b2">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font></Label>
+            <Label layoutX="210.0" layoutY="215.0" prefHeight="17.0" prefWidth="66.0" text="Course:">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font></Label>
+            <Label fx:id="lblCourse" layoutX="310.0" layoutY="216.0" prefHeight="17.0" prefWidth="57.0" textFill="#b2b2b2">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font></Label>
+            <TextArea fx:id="questions" layoutX="472.0" layoutY="199.0" prefHeight="209.0" prefWidth="270.0">
+               <font>
+                  <Font name="Calibri" size="14.0" />
+               </font></TextArea>
+            <Label fx:id="lblExamID" layoutX="310.0" layoutY="289.0" prefHeight="17.0" prefWidth="102.0" textFill="#b2b2b2">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="495.0" layoutY="88.0" prefHeight="44.0" prefWidth="57.0" text="Exam Details" textAlignment="CENTER" textFill="#b2b2b2" wrapText="true">
+               <font>
+                  <Font name="Calibri Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label layoutX="592.0" layoutY="88.0" prefHeight="44.0" prefWidth="57.0" text="Choose Questions" textAlignment="CENTER" textFill="#b2b2b2" wrapText="true">
+               <font>
+                  <Font name="Calibri Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label layoutX="690.0" layoutY="88.0" prefHeight="44.0" prefWidth="57.0" text="Preview Exam" textAlignment="CENTER" textFill="#47ce60" wrapText="true">
+               <font>
+                  <Font name="Calibri Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label layoutX="210.0" layoutY="86.0" prefHeight="28.0" prefWidth="130.0" text="Preview Exam" textAlignment="CENTER" textFill="#47ce60">
+               <font>
+                  <Font name="Calibri Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="473.0" layoutY="174.0" text="Questions and Score">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="211.0" layoutY="288.0" prefHeight="17.0" prefWidth="83.0" text="Exam ID:">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="211.0" layoutY="325.0" text="Duration:">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblDur" layoutX="310.0" layoutY="326.0" prefHeight="17.0" prefWidth="44.0" textFill="#b2b2b2">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="211.0" layoutY="360.0" text="Exam Type:">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblType" layoutX="310.0" layoutY="360.0" prefHeight="17.0" prefWidth="83.0" textFill="#b2b2b2">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Label>
+            <ImageView fx:id="imgPencil" fitHeight="36.0" fitWidth="34.0" layoutX="456.0" layoutY="46.0" />
+            <Label layoutX="211.0" layoutY="254.0" text="Author:">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblAuthor" layoutX="310.0" layoutY="254.0" prefHeight="17.0" prefWidth="151.0" textFill="#b2b2b2">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="346.0" layoutY="326.0" prefHeight="17.0" prefWidth="27.0" text="min" textFill="#b2b2b2">
+               <font>
+                  <Font name="Calibri Bold" size="12.0" />
+               </font></Label>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

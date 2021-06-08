@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import logic.ExamOfStudent;
+import logic.ExamType;
 import logic.Message;
 
 /**
@@ -69,7 +70,13 @@ public class StudentController {
 			teacherMessage.setMsg(difference);
 			result = teacherMessage;
 			break;
-
+			
+		case "GetUesrName":
+			String studentName = getUserName((String) request.getMsg());
+			studentMessage.setMsg(studentName);
+			result = studentMessage;
+			break;
+			
 		case "ShowExamOfStudentList":
 			String userName = (String) request.getMsg();
 			ArrayList<ExamOfStudent> ExamsOfStudentList;
@@ -89,7 +96,7 @@ public class StudentController {
 		}
 		return result;
 	}
-
+	
 	/**
 	 * This method return the gradesList of exams that student did.
 	 *
@@ -188,7 +195,9 @@ public class StudentController {
 				es.setAnswers(rs1.getString("ans"));
 				es.setCode(rs1.getString("exam_code"));
 				es.setEdate(getExamDate(es.getCode()));
-				ExamsOfStudentList.add(es);
+				getExamType(es, es.getFid(), es.getCid(), es.getEid());
+				if(es.getEtype() == ExamType.COMPUTERIZED)
+					ExamsOfStudentList.add(es);
 			}
 		} catch (SQLException e) {
 			DBconnector.printSQLException(e);
@@ -205,6 +214,44 @@ public class StudentController {
 			}
 		}
 		return ExamsOfStudentList;
+	}
+	
+	/**
+	 * This method get the exam status.
+	 */
+	public static void getExamType(ExamOfStudent es, String Fid, String Cid, String Eid) {
+		ResultSet newRs = null;
+		String sql = "SELECT etype FROM exam WHERE fid = ? AND cid = ? AND eid = ?";
+		try {
+			pstmt = DBconnector.conn.prepareStatement(sql);
+			pstmt.setString(1, Fid);
+			pstmt.setString(2, Cid);
+			pstmt.setString(3, Eid);
+			newRs = pstmt.executeQuery();
+			while (newRs.next()) {
+				switch (newRs.getString("etype")) {
+				case "computerized":
+					es.setEtype(ExamType.COMPUTERIZED);
+					break;
+				case "manual":
+					es.setEtype(ExamType.MANUAL);
+					break;
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				newRs.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+			try {
+				pstmt.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+		}
 	}
 
 	/**

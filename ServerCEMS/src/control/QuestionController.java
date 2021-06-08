@@ -63,7 +63,9 @@ public class QuestionController {
 			listOfQuestions = getQuestions(FieldName_CourseName[0], FieldName_CourseName[1]);
 			questionMessage.setMsg(listOfQuestions);
 			result = questionMessage;
+			break;
 		}
+		
 		return result;
 	}
 

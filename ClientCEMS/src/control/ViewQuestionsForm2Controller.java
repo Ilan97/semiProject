@@ -1,36 +1,74 @@
 package control;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import client.ClientUI;
 import gui.Navigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import logic.Message;
+import logic.Question;
 
 /**
- * This is controller class (boundary) for window PrincipalHome. This class
- * handle all events related to this window. This class connect with client.
+ * This is controller class (boundary) for window ViewQuestions (second part).
+ * This class handle all events related to this window. This class connect with
+ * client.
  *
- * @author Bat-El Gardin
  * @author Sharon Vaknin
- * @version May 2021
+ * @version June 2021
  */
 
-public class PrincipalHomeFormController implements GuiController, Initializable {
+public class ViewQuestionsForm2Controller implements GuiController, Initializable {
 
 	// Instance variables **********************************************
-
+	
 	@FXML
 	private ImageView imgBack;
 	@FXML
 	private ImageView imgLogo;
+    @FXML
+    private TextArea txtQuestions;
 	@FXML
-	private Label lblName;
+	private ImageView imgClock;
+	
+	// Instance methods ************************************************
+	
+	/**
+	 * This is methods create a String of all questions.
+	 *
+	 * @param questions - a list of all questions of this course and field.
+	 * @return String of all questions
+	 */
+	public String showQuestions(ArrayList<Question> questions) {
+		String QuestionView = "";
+		for (Question q : questions) {
+			QuestionView += q.getAuthor() + "\n";
+			QuestionView += q.getContent() + "\n";
+			QuestionView += q.getInstructions() + "\n";
+			QuestionView += "1. " + q.getRightAnswer() + " (right answer)" + "\n";//TODO 
+			QuestionView += "2. " + q.getWrongAnswer1() + "\n";
+			QuestionView += "3. " + q.getWrongAnswer2() + "\n";
+			QuestionView += "4. " + q.getWrongAnswer3() + "\n";
+			QuestionView += "__________________________";
+			QuestionView += "\n\n";	
+		}
+		return QuestionView;
+	}
+	
+	/**
+	 * This is FXML event handler. Handles the action of click on 'back' button.
+	 *
+	 * @param event The action event.
+	 */
+	@FXML
+	void back(ActionEvent event) {
+		Navigator.instance().back();
+	}
 
 	// Menu methods ************************************************
 
@@ -100,34 +138,27 @@ public class PrincipalHomeFormController implements GuiController, Initializable
 	}
 
 	/**
-	 * This is FXML event handler. Handles the action of click on 'Log out' button.
-	 *
-	 * @param event The action event.
-	 */
-	@FXML
-	void logoutAction(ActionEvent event) {
-		Message messageToServer = new Message();
-		messageToServer.setMsg(LoginController.user.getUsername());
-		messageToServer.setOperation("updateConnectionStatus");
-		messageToServer.setControllerName("UserController");
-		ClientUI.client.handleMessageFromClientUI(messageToServer);
-		LoginController.user = null;
-		Navigator.instance().clearHistory();
-	}
-
-	/**
 	 * This method called to initialize a controller after its root element has been
 	 * completely processed (after load method).
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// user's name
-		lblName.setText("Welcome " + LoginController.user.getFirstName() + " " + LoginController.user.getLastName());
 		// set images
-		Image img = new Image(this.getClass().getResource("principalHomeForm.PNG").toString());
+		Image img = new Image(this.getClass().getResource("frame2PrincipalReport.PNG").toString());
 		imgBack.setImage(img);
 		Image img2 = new Image(this.getClass().getResource("logo.png").toString());
 		imgLogo.setImage(img2);
+
+		// set the questions list in order to the field and course that was chosen
+		ArrayList<Question> listOfQuestions;
+		Question q = new Question();
+		Message messageToServer = new Message();
+		messageToServer.setMsg(ViewQuestionsForm1Controller.question.getFieldName() + " " + ViewQuestionsForm1Controller.question.getCourseName());
+		messageToServer.setControllerName("QuestionController");
+		messageToServer.setOperation("ShowQuestionList");
+		listOfQuestions = (ArrayList<Question>) ClientUI.client.handleMessageFromClientUI(messageToServer);
+		txtQuestions.setText(showQuestions(listOfQuestions));
 	}
 }
-//End of PrincipalHomeFormController class
+//End of ViewQuestionsForm2Controller class

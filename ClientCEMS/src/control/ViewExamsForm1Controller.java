@@ -3,6 +3,7 @@ package control;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+
 import client.ClientUI;
 import gui.Navigator;
 import javafx.collections.FXCollections;
@@ -17,38 +18,35 @@ import logic.Exam;
 import logic.Message;
 
 /**
- * This is controller class (boundary) for window ExamStock (first part). This
- * class handle all events related to this window. This class connect with
+ * This is controller class (boundary) for window ViewExams (first part).
+ * This class handle all events related to this window. This class connect with
  * client.
  *
- * @author Bat-El Gardin
  * @author Sharon Vaknin
- * @author Moran Davidov
- * @version May 2021
+ * @version June 2021
  */
 
-public class ExamStockForm1Controller implements GuiController, Initializable {
+public class ViewExamsForm1Controller implements GuiController, Initializable {
 
 	// Instance variables **********************************************
 
-	/**
-	 * The chosen {@link Exam}.
-	 */
-	public static Exam Exam;
-
-	@FXML
-	private ImageView imgBack;
-	@FXML
-	private ImageView imgLogo;
-	@FXML
-	private ComboBox<String> field;
-	@FXML
-	private ComboBox<String> course;
-	@FXML
-	private Label lblErrField;
-	@FXML
-	private Label lblErrCourse;
-
+	public static Exam exam;
+	
+    @FXML
+    private ImageView imgBack;
+    @FXML
+    private ImageView imgLogo;
+    @FXML
+    private ImageView imgClock;
+    @FXML
+    private ComboBox<String> fieldCB;
+    @FXML
+    private ComboBox<String> courseCB;
+    @FXML
+    private Label lblErrField;
+    @FXML
+    private Label lblErrCourse;
+    
 	// Instance methods ************************************************
 
 	/**
@@ -64,7 +62,7 @@ public class ExamStockForm1Controller implements GuiController, Initializable {
 		Message messageToServer1 = new Message();
 		Message messageToServer2 = new Message();
 		String fid;
-		String ChosenField = field.getSelectionModel().getSelectedItem();
+		String ChosenField = fieldCB.getSelectionModel().getSelectedItem();
 		// get chosen field id
 		messageToServer1.setMsg(ChosenField);
 		messageToServer1.setControllerName("FieldOfStudyController");
@@ -75,8 +73,8 @@ public class ExamStockForm1Controller implements GuiController, Initializable {
 		messageToServer2.setControllerName("CourseController");
 		messageToServer2.setOperation("ShowCourseList");
 		listOfCourse = (ArrayList<String>) ClientUI.client.handleMessageFromClientUI(messageToServer2);
-		course.setItems(FXCollections.observableArrayList(listOfCourse));
-		course.setDisable(false);
+		courseCB.setItems(FXCollections.observableArrayList(listOfCourse));
+		courseCB.setDisable(false);
 	}
 
 	/**
@@ -87,44 +85,43 @@ public class ExamStockForm1Controller implements GuiController, Initializable {
 	}
 
 	/**
-	 * This is FXML event handler. Handles the action of click on 'Search' button.
+	 * This is FXML event handler. Handles the action of click on 'View Exams'
+	 * button.
 	 *
 	 * @param event The action event.
 	 */
 	@FXML
-	void searchAction(ActionEvent event) {
-		// get details from the screen
-		String Field = field.getSelectionModel().getSelectedItem();
-		String Course = course.getSelectionModel().getSelectedItem();
+	void viewExamsBtnAction(ActionEvent event) {
 		// handle missing fields
-		if (field.getSelectionModel().isEmpty()) {
+		if (fieldCB.getSelectionModel().isEmpty()) {
 			// field not chosen
-			if (field.getSelectionModel().isEmpty())
+			if (fieldCB.getSelectionModel().isEmpty())
 				lblErrField.setText("choose field");
 			// field chosen
 			else
 				clearErrLbl(lblErrField);
+		}
 
-		} else {
-			// build the Exam object
+		if (courseCB.getSelectionModel().isEmpty()) {
+			// course not chosen
+			if (courseCB.getSelectionModel().isEmpty())
+				lblErrCourse.setText("choose course");
+			// course chosen
+			else
+				clearErrLbl(lblErrCourse);
+		}
+
+		else {
 			Exam e = new Exam();
+			String Field = fieldCB.getSelectionModel().getSelectedItem();
+			String Course = courseCB.getSelectionModel().getSelectedItem();
 			e.setFname(Field);
 			e.setCname(Course);
-			Exam = e;
-			// go to next page
-			Navigator.instance().navigate("ExamStockForm2");
-		}
-	}
+			exam = e;
 
-	/**
-	 * This method check that there is no selected values in the form
-	 *
-	 * @return true if form isn't empty, false otherwise.
-	 */
-	private boolean formIsNotEmpty() {
-		if (!field.getSelectionModel().isEmpty())
-			return true;
-		return false;
+			// go to next page
+			Navigator.instance().navigate("ViewExamsForm2");
+		}
 	}
 
 	// Menu methods ************************************************
@@ -136,38 +133,7 @@ public class ExamStockForm1Controller implements GuiController, Initializable {
 	 */
 	@FXML
 	void goHome(ActionEvent event) {
-		if (formIsNotEmpty())
-			Navigator.instance().alertPopUp("TeacherHomeForm");
-		else
-			Navigator.instance().navigate("TeacherHomeForm");
-	}
-
-	/**
-	 * This is FXML event handler. Handles the action of click on 'Write Question'
-	 * button.
-	 *
-	 * @param event The action event.
-	 */
-	@FXML
-	void writeQuestionAction(ActionEvent event) {
-		if (formIsNotEmpty())
-			Navigator.instance().alertPopUp("WriteQuestionForm1");
-		else
-			Navigator.instance().navigate("WriteQuestionForm1");
-	}
-
-	/**
-	 * This is FXML event handler. Handles the action of click on 'Write an Exam'
-	 * button.
-	 *
-	 * @param event The action event.
-	 */
-	@FXML
-	void writeExamAction(ActionEvent event) {
-		if (formIsNotEmpty())
-			Navigator.instance().alertPopUp("WriteAnExamForm1");
-		else
-			Navigator.instance().navigate("WriteAnExamForm1");
+		Navigator.instance().clearHistory("PrincipalHomeForm");
 	}
 
 	/**
@@ -178,35 +144,51 @@ public class ExamStockForm1Controller implements GuiController, Initializable {
 	 */
 	@FXML
 	void getReportAction(ActionEvent event) {
-		if (formIsNotEmpty())
-			Navigator.instance().alertPopUp("TeacherReportForm1");
-		else
-			Navigator.instance().navigate("TeacherReportForm1");
+		Navigator.instance().navigate("PrincipalReportForm1");
 	}
 
 	/**
-	 * This is FXML event handler. Handles the action of click on 'Check Exam'
+	 * This is FXML event handler. Handles the action of click on 'View Request'
 	 * button.
 	 *
 	 * @param event The action event.
 	 */
 	@FXML
-	void checkExamAction(ActionEvent event) {
-		/* TODO Navigator.instance().navigate("checkExamForm"); */
+	void viewRequestsAction(ActionEvent event) {
+		Navigator.instance().navigate("PrincipalViewRequestForm");
 	}
 
 	/**
-	 * This is FXML event handler. Handles the action of click on 'Exam Stock'
+	 * This is FXML event handler. Handles the action of click on 'View Questions'
 	 * button.
 	 *
 	 * @param event The action event.
 	 */
 	@FXML
-	void examSearchAction(ActionEvent event) {
-		if (formIsNotEmpty())
-			Navigator.instance().alertPopUp("ExamStockForm1");
-		else
-			Navigator.instance().navigate("ExamStockForm1");
+	void viewQuestionsAction(ActionEvent event) {
+		Navigator.instance().navigate("ViewQuestionsForm1");
+	}
+
+	/**
+	 * This is FXML event handler. Handles the action of click on 'View Exams'
+	 * button.
+	 *
+	 * @param event The action event.
+	 */
+	@FXML
+	void viewExamsAction(ActionEvent event) {
+		Navigator.instance().navigate("ViewExamsForm1");
+	}
+
+	/**
+	 * This is FXML event handler. Handles the action of click on 'View Grades'
+	 * button.
+	 *
+	 * @param event The action event.
+	 */
+	@FXML
+	void viewGradesAction(ActionEvent event) {
+		Navigator.instance().navigate("ViewGradesForm");
 	}
 
 	/**
@@ -216,10 +198,11 @@ public class ExamStockForm1Controller implements GuiController, Initializable {
 	@SuppressWarnings({ "unchecked" })
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		Exam = null;
-		course.setDisable(true);
+		exam = null;
+		// cannot choose anything from that list
+		courseCB.setDisable(true);
 		// set images
-		Image img1 = new Image(this.getClass().getResource("frameWriteQuestion1.PNG").toString());
+		Image img1 = new Image(this.getClass().getResource("frame1PrincipalReport.PNG").toString());
 		imgBack.setImage(img1);
 		Image img2 = new Image(this.getClass().getResource("logo.png").toString());
 		imgLogo.setImage(img2);
@@ -229,7 +212,7 @@ public class ExamStockForm1Controller implements GuiController, Initializable {
 		messageToServer.setControllerName("FieldOfStudyController");
 		messageToServer.setOperation("ShowAllFields");
 		listOfField = (ArrayList<String>) ClientUI.client.handleMessageFromClientUI(messageToServer);
-		field.setItems(FXCollections.observableArrayList(listOfField));
+		fieldCB.setItems(FXCollections.observableArrayList(listOfField));
 	}
 }
-// End of ExamStockForm1Controller class
+//End of ViewExamsForm1Controller class

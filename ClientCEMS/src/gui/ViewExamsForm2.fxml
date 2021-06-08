@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="406.0" prefWidth="603.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.PrincipalViewRequestFormController">
+<AnchorPane prefHeight="406.0" prefWidth="603.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.ViewExamsForm2Controller">
    <children>
       <Pane layoutX="-2.0" prefHeight="541.0" prefWidth="794.0" style="-fx-background-color: #ffffff;">
          <children>
@@ -20,12 +20,7 @@
                   <Font name="Calibri Bold" size="24.0" />
                </font>
             </Label>
-            <Button fx:id="btnRefresh" layoutX="595.0" layoutY="465.0" mnemonicParsing="false" onAction="#refreshAction" prefHeight="27.0" prefWidth="73.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="Refresh" textAlignment="CENTER" textFill="WHITE" wrapText="true">
-               <font>
-                  <Font name="Calibri Bold" size="14.0" />
-               </font>
-            </Button>
-            <Label layoutX="283.0" layoutY="52.0" text="View Requests" textFill="#f6872b">
+            <Label layoutX="283.0" layoutY="52.0" text="View Exams" textFill="#f6872b">
                <font>
                   <Font name="Calibri Bold" size="41.0" />
                </font>
@@ -42,7 +37,7 @@
                         <Font name="Calibri Bold" size="18.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#viewRequestsAction" prefHeight="60.0" prefWidth="160.0" style="-fx-background-color: #F6872B; -fx-background-radius: 0 30 30 0;" text="View Requests" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                  <Button mnemonicParsing="false" onAction="#viewRequestsAction" prefHeight="60.0" prefWidth="130.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 0 30 30 0;" text="View Requests" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                      <font>
                         <Font name="Calibri Bold" size="18.0" />
                      </font>
@@ -52,7 +47,7 @@
                         <Font name="Calibri Bold" size="18.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#viewQuestionsAction" prefHeight="60.0" prefWidth="130.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 0 30 30 0;" text="View Questions" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                  <Button mnemonicParsing="false" onAction="#viewQuestionsAction" prefHeight="60.0" prefWidth="160.0" style="-fx-background-color: #F6872B; -fx-background-radius: 0 30 30 0;" text="View Questions" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                      <font>
                         <Font name="Calibri Bold" size="18.0" />
                      </font>
@@ -64,13 +59,38 @@
                   </Button>
                </children>
             </VBox>
-            <ListView fx:id="requestsList" layoutX="346.0" layoutY="143.0" prefHeight="241.0" prefWidth="274.0" />
-            <Button layoutX="684.0" layoutY="465.0" mnemonicParsing="false" onAction="#goHome" prefHeight="27.0" prefWidth="57.0" style="-fx-background-color: #f86060; -fx-background-radius: 30 30 30 30;" text="Close" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Button layoutX="656.0" layoutY="465.0" mnemonicParsing="false" onAction="#goHome" prefHeight="27.0" prefWidth="57.0" style="-fx-background-color: #f86060; -fx-background-radius: 30 30 30 30;" text="Close" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Button>
             <ImageView fx:id="imgClock" fitHeight="50.0" fitWidth="50.0" layoutX="222.0" layoutY="49.0" />
+            <Label layoutX="581.0" layoutY="102.0" prefHeight="35.0" prefWidth="67.0" text="Exams Details" textAlignment="CENTER" textFill="#b2b2b2" wrapText="true">
+               <font>
+                  <Font name="Calibri Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label layoutX="680.0" layoutY="102.0" prefHeight="35.0" prefWidth="57.0" text="View Exams" textAlignment="CENTER" textFill="#f6872b" wrapText="true">
+               <font>
+                  <Font name="Calibri Bold" size="12.0" />
+               </font>
+            </Label>
+            <ListView fx:id="examsList" layoutX="273.0" layoutY="165.0" prefHeight="217.0" prefWidth="421.0" />
+            <Button layoutX="447.0" layoutY="402.0" mnemonicParsing="false" onAction="#viewExams" prefHeight="27.0" prefWidth="57.0" style="-fx-background-color: #F6872B; -fx-background-radius: 30 30 30 30;" text="View" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Button>
+            <Label layoutX="290.0" layoutY="97.0" prefHeight="35.0" prefWidth="130.0" text="View Exams" textAlignment="CENTER" textFill="#f6872b" wrapText="true">
+               <font>
+                  <Font name="Calibri Bold" size="18.0" />
+               </font>
+            </Label>
+            <Button layoutX="260.0" layoutY="465.0" mnemonicParsing="false" onAction="#back" prefHeight="22.0" prefWidth="21.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="&lt;" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Button>
          </children>
       </Pane>
    </children>

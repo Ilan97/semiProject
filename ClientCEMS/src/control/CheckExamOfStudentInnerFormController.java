@@ -2,6 +2,7 @@ package control;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -9,18 +10,15 @@ import javafx.scene.control.TextArea;
 import logic.Question;
 
 /**
- * This is controller class (boundary) for window ComputerizedExamInner in
- * Student. This class handle all events related to this window. This class
+ * This is controller class (boundary) for window CheckExamOfStudentInner in
+ * Teacher. This class handle all events related to this window. This class
  * connect with client.
  *
- * @author Sharon Vaknin
- * @author Ohad Shamir
+ * @author Bat-El Gardin
  * @version June 2021
  */
 
-public class ShowExamInnerWindowController implements Initializable {
-
-	// Instance variables **********************************************
+public class CheckExamOfStudentInnerFormController implements GuiController, Initializable {
 
 	@FXML
 	private Label lblNumQuestion;
@@ -28,8 +26,6 @@ public class ShowExamInnerWindowController implements Initializable {
 	private TextArea question;
 	@FXML
 	private Label lblScore;
-	@FXML
-	private Label lblTeacherNote;
 	@FXML
 	private Label lblAns3Wrong;
 	@FXML
@@ -52,13 +48,16 @@ public class ShowExamInnerWindowController implements Initializable {
 	// Instance methods ************************************************
 
 	/**
-	 * This method set the questions in the exam that student did.
+	 * This method called to initialize a controller after its root element has been
+	 * completely processed (after load method).
 	 */
 	public void setQuestion(Question q, int index, int score, String ans) {
 		String toShow = q.getContent() + "\n\n" + q.getInstructions();
 		if (q.getStudentNote() != null)
 			toShow += "\n\n" + q.getStudentNote();
-		lblNumQuestion.setText("" + index + "/" + ShowExamWindowController.qSize);
+		if (q.getTeacherNote() != null)
+			toShow += "\n\n" + q.getTeacherNote();
+		lblNumQuestion.setText("" + index + "/" + CheckExamOfStudentFormController.qSize);
 		lblScore.setText("(" + score + " points)");
 		question.setText(toShow);
 		lblAns1Correct.setText("1. " + q.getRightAnswer());
@@ -95,9 +94,9 @@ public class ShowExamInnerWindowController implements Initializable {
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		lblField.setText(ShowExamWindowController.exam.getFname());
-		lblCourse.setText(ShowExamWindowController.exam.getCname());
+		lblField.setText(CheckExamOfStudentFormController.exam.getFname());
+		lblCourse.setText(CheckExamOfStudentFormController.exam.getCname());
 	}
 
 }
-//End of ShowExamInnerWindowController class
+//End of CheckExamOfStudentInnerFormController class

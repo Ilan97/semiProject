@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="527.0" prefWidth="545.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.CheckExamOfStudentFormController">
+   <children>
+      <Pane prefHeight="568.0" prefWidth="667.0" style="-fx-background-color: #ffffff;">
+         <children>
+            <ImageView fx:id="imgBack" fitHeight="568.0" fitWidth="667.0" layoutX="1.0" />
+            <Button fx:id="btnBack" layoutX="63.0" layoutY="497.0" mnemonicParsing="false" onAction="#back" prefHeight="22.0" prefWidth="21.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="&lt;" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnNext" layoutX="570.0" layoutY="497.0" mnemonicParsing="false" onAction="#next" prefHeight="22.0" prefWidth="21.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="&gt;" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnSave" layoutX="542.0" layoutY="54.0" mnemonicParsing="false" onAction="#saveAction" prefHeight="27.0" prefWidth="57.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="Save " textAlignment="CENTER" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Button>
+            <Label fx:id="lblGrade" layoutX="199.0" layoutY="440.0" text="Grade:">
+               <font>
+                  <Font name="Calibri Bold" size="18.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtGrade" layoutX="256.0" layoutY="439.0" prefHeight="25.0" prefWidth="59.0" />
+            <Label fx:id="lblStar" layoutX="193.0" layoutY="439.0" text="*" textFill="#f86060">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Label>
+            <TextArea fx:id="txtNote" layoutX="377.0" layoutY="384.0" prefHeight="137.0" prefWidth="173.0" />
+            <Pane fx:id="paneQuestions" layoutX="62.0" layoutY="81.0" prefHeight="303.0" prefWidth="545.0" style="-fx-background-color: #ffffff;" />
+            <Label fx:id="lblNote" layoutX="377.0" layoutY="367.0" text="Add Note:">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblErrGrade" layoutX="254.0" layoutY="423.0" prefHeight="14.0" prefWidth="70.0" textFill="#f86060">
+               <font>
+                  <Font name="Calibri Bold" size="12.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Label layoutX="50.0" layoutY="37.0" text="Check Exam" textFill="#47ce60">
+         <font>
+            <Font name="Calibri Bold" size="41.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

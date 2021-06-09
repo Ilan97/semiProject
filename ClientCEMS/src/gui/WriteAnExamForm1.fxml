@@ -140,6 +140,11 @@
             <ComboBox fx:id="field" layoutX="250.0" layoutY="192.0" onAction="#chooseFieldAction" prefHeight="27.0" prefWidth="146.0" promptText="Choose Field" style="-fx-background-color: #b2b2b2;" />
             <ComboBox fx:id="course" layoutX="250.0" layoutY="233.0" prefHeight="27.0" prefWidth="146.0" promptText="Choose Course" style="-fx-background-color: #b2b2b2;" />
             <ComboBox fx:id="type" layoutX="250.0" layoutY="275.0" prefHeight="27.0" prefWidth="146.0" promptText="Choose Type" style="-fx-background-color: #b2b2b2;" />
+            <Label fx:id="lblErrData" layoutX="505.0" layoutY="470.0" prefHeight="17.0" prefWidth="187.0" textFill="#f86060">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
    </children>

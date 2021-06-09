@@ -18,8 +18,8 @@ import logic.Exam;
 import logic.Message;
 
 /**
- * This is controller class (boundary) for window ViewExams (first part).
- * This class handle all events related to this window. This class connect with
+ * This is controller class (boundary) for window ViewExams (first part). This
+ * class handle all events related to this window. This class connect with
  * client.
  *
  * @author Sharon Vaknin
@@ -30,23 +30,32 @@ public class ViewExamsForm1Controller implements GuiController, Initializable {
 
 	// Instance variables **********************************************
 
+	/**
+	 * {@link Exam} details.
+	 */
 	public static Exam exam;
-	
-    @FXML
-    private ImageView imgBack;
-    @FXML
-    private ImageView imgLogo;
-    @FXML
-    private ImageView imgClock;
-    @FXML
-    private ComboBox<String> fieldCB;
-    @FXML
-    private ComboBox<String> courseCB;
-    @FXML
-    private Label lblErrField;
-    @FXML
-    private Label lblErrCourse;
-    
+	/**
+	 * {@link ArrayList} of {@link Exam} to show.
+	 */
+	public static ArrayList<Exam> listOfExams;
+
+	@FXML
+	private ImageView imgBack;
+	@FXML
+	private ImageView imgLogo;
+	@FXML
+	private ImageView imgClock;
+	@FXML
+	private ComboBox<String> fieldCB;
+	@FXML
+	private ComboBox<String> courseCB;
+	@FXML
+	private Label lblErrField;
+	@FXML
+	private Label lblErrCourse;
+	@FXML
+	private Label lblErrData;
+
 	// Instance methods ************************************************
 
 	/**
@@ -90,6 +99,7 @@ public class ViewExamsForm1Controller implements GuiController, Initializable {
 	 *
 	 * @param event The action event.
 	 */
+	@SuppressWarnings("unchecked")
 	@FXML
 	void viewExamsBtnAction(ActionEvent event) {
 		// handle missing fields
@@ -118,9 +128,19 @@ public class ViewExamsForm1Controller implements GuiController, Initializable {
 			e.setFname(Field);
 			e.setCname(Course);
 			exam = e;
-
-			// go to next page
-			Navigator.instance().navigate("ViewExamsForm2");
+			// check if there any exams from this field and course
+			Message messageToServer = new Message();
+			messageToServer.setMsg(exam.getFname() + " " + exam.getCname());
+			messageToServer.setControllerName("ExamController");
+			messageToServer.setOperation("ShowExamList");
+			listOfExams = (ArrayList<Exam>) ClientUI.client.handleMessageFromClientUI(messageToServer);
+			if (listOfExams == null)
+				lblErrData.setText("there is no data to show!");
+			else {
+				clearErrLbl(lblErrData);
+				// go to next page
+				Navigator.instance().navigate("ViewExamsForm2");
+			}
 		}
 	}
 
@@ -198,6 +218,7 @@ public class ViewExamsForm1Controller implements GuiController, Initializable {
 	@SuppressWarnings({ "unchecked" })
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		listOfExams = null;
 		exam = null;
 		// cannot choose anything from that list
 		courseCB.setDisable(true);

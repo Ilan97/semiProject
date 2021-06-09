@@ -65,7 +65,7 @@ public class QuestionController {
 			result = questionMessage;
 			break;
 		}
-		
+
 		return result;
 	}
 
@@ -120,6 +120,8 @@ public class QuestionController {
 				DBconnector.printException(e);
 			}
 		}
+		if (listOfQuestions.isEmpty())
+			listOfQuestions = null;
 		return listOfQuestions;
 	}
 

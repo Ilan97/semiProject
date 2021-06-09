@@ -21,8 +21,8 @@ import logic.ExamOfStudent;
 import logic.Message;
 
 /**
- * This is controller class (boundary) for window ViewGrades for principal.
- * This class handle all events related to this window. This class connect with
+ * This is controller class (boundary) for window ViewGrades for principal. This
+ * class handle all events related to this window. This class connect with
  * client.
  *
  * @author Sharon Vaknin
@@ -39,6 +39,8 @@ public class ViewGradesFormController implements GuiController, Initializable {
 	private ImageView imgLogo;
 	@FXML
 	private Label lblGrade;
+	@FXML
+	private Label lblErrData;
 	@FXML
 	private ListView<ExamOfStudent> examsList;
 	@FXML
@@ -64,11 +66,10 @@ public class ViewGradesFormController implements GuiController, Initializable {
 		ArrayList<ExamOfStudent> ExamsOfStudentList;
 		Message messageToServer = new Message();
 		// get this student's exams list
-
 		String studentName = studentCB.getSelectionModel().getSelectedItem();
 		messageToServer.setMsg(studentName);
 		messageToServer.setControllerName("StudentController");
-		messageToServer.setOperation("GetUesrName");
+		messageToServer.setOperation("GetUserName");
 		String userName = (String) ClientUI.client.handleMessageFromClientUI(messageToServer);
 		messageToServer.setMsg(userName);
 		messageToServer.setControllerName("StudentController");
@@ -81,14 +82,14 @@ public class ViewGradesFormController implements GuiController, Initializable {
 	}
 
 	/**
-	 * This method check an exam is valid 
+	 * This method check an exam is valid
 	 */
 	private void checkValidExam() {
 		if (examsList.getSelectionModel().isEmpty())
 			chosenExam = null;
 		chosenExam = examsList.getSelectionModel().getSelectedItem();
 	}
-	
+
 	/**
 	 * This is FXML event handler. Handles the action of click on 'Get Grade'
 	 * button.
@@ -98,25 +99,27 @@ public class ViewGradesFormController implements GuiController, Initializable {
 	@FXML
 	void getGradeAction(ActionEvent event) {
 		checkValidExam();
-		if(chosenExam == null)
+		if (chosenExam == null)
 			return;
-		lblGrade.setText(String.valueOf(chosenExam.getGrade())); 
+		lblGrade.setText(String.valueOf(chosenExam.getGrade()));
 	}
-	
+
 	/**
-	 * This is FXML event handler. Handles the action of click on 'Show Exam' button.
+	 * This is FXML event handler. Handles the action of click on 'Show Exam'
+	 * button.
 	 *
 	 * @param event The action event.
 	 */
 	@FXML
 	void showExamAction(ActionEvent event) {
 		checkValidExam();
-		if(chosenExam == null)
+		if (chosenExam == null)
 			return;
 		PrincipalExamOfStudentViewWindowController showExam = new PrincipalExamOfStudentViewWindowController();
 		try {
 			showExam.start(new Stage());
-		} catch (IOException e) {}
+		} catch (IOException e) {
+		}
 	}
 
 	// Menu methods ************************************************
@@ -199,18 +202,23 @@ public class ViewGradesFormController implements GuiController, Initializable {
 		imgBack.setImage(img);
 		Image img2 = new Image(this.getClass().getResource("logo.png").toString());
 		imgLogo.setImage(img2);
-
 		// set list of all students
 		ArrayList<String> listOfStudents = null;
-		// get chosen student
 		Message messageToServer = new Message();
-		messageToServer.setControllerName("UserController");
-		messageToServer.setOperation("ShowAllStudents");
+		messageToServer.setControllerName("StudentController");
+		messageToServer.setOperation("GetAllStudentsThatChecked");
 		listOfStudents = (ArrayList<String>) ClientUI.client.handleMessageFromClientUI(messageToServer);
-		studentCB.setItems(FXCollections.observableArrayList(listOfStudents));
-		examsList.setDisable(true);
-		btnShowExam.setDisable(true);
-		btnGetGrade.setDisable(true);
+		if (listOfStudents == null) {
+			lblErrData.setText("there is no data to show!");
+			studentCB.setDisable(true);
+		} else {
+			lblErrData.setText("");
+			studentCB.setDisable(false);
+			studentCB.setItems(FXCollections.observableArrayList(listOfStudents));
+			examsList.setDisable(true);
+			btnShowExam.setDisable(true);
+			btnGetGrade.setDisable(true);
+		}
 	}
 }
 // End of ViewGradesFormController class

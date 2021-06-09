@@ -139,7 +139,7 @@ public class ExamStockForm1Controller implements GuiController, Initializable {
 		if (formIsNotEmpty())
 			Navigator.instance().alertPopUp("TeacherHomeForm");
 		else
-			Navigator.instance().navigate("TeacherHomeForm");
+			Navigator.instance().clearHistory("TeacherHomeForm");
 	}
 
 	/**
@@ -192,7 +192,10 @@ public class ExamStockForm1Controller implements GuiController, Initializable {
 	 */
 	@FXML
 	void checkExamAction(ActionEvent event) {
-		/* TODO Navigator.instance().navigate("checkExamForm"); */
+		if (formIsNotEmpty())
+			Navigator.instance().alertPopUp("checkExamForm");
+		else
+			Navigator.instance().navigate("checkExamForm");
 	}
 
 	/**

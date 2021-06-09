@@ -2,8 +2,9 @@ package control;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ResourceBundle;
 import java.util.Map.Entry;
+import java.util.ResourceBundle;
+
 import client.ClientUI;
 import gui.Navigator;
 import javafx.event.ActionEvent;
@@ -15,12 +16,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import logic.Exam;
-import logic.ExamOfStudent;
 import logic.Message;
 import logic.Question;
 
@@ -37,20 +38,25 @@ public class PrincipalExamOfStudentViewWindowController implements GuiController
 
 	// Instance variables **********************************************
 
+	/**
+	 * The exam of the student.
+	 */
 	public static Exam exam;
 	/**
-	 * The details to upload the exam to DB.
-	 */
-	public static ExamOfStudent examToSubmit;
-	/**
-	 * private variables.
+	 * The size of the qArray (number of questions in exam).
 	 */
 	public static int qSize;
+	/**
+	 * The number of the current question (1,2,....).
+	 */
 	private int curQuestion = 0;
 	/**
 	 * To navigate between questions.
 	 */
 	private Pane qArray[];
+	/**
+	 * Array of controllers of type {@link ViewExamOfStudentInnerFormController}.
+	 */
 	private ViewExamOfStudentInnerFormController contArray[];
 
 	/**
@@ -61,17 +67,13 @@ public class PrincipalExamOfStudentViewWindowController implements GuiController
 	@FXML
 	private Pane paneQuestions;
 	@FXML
-	private Label lblNumQuestion;
-	@FXML
-	private Label lblScore;
-	@FXML
-	private Label lblWrong;
-	@FXML
-	private Label lblCorrect;
-	@FXML
 	private Button btnBack;
 	@FXML
 	private Button btnNext;
+	@FXML
+	private TextArea txtNote;
+	@FXML
+	private Label lblNote;
 
 	// Instance methods ************************************************
 
@@ -100,6 +102,9 @@ public class PrincipalExamOfStudentViewWindowController implements GuiController
 	 */
 	@FXML
 	void back(ActionEvent event) {
+		// hide unwanted variables
+		lblNote.setVisible(false);
+		txtNote.setVisible(false);
 		if (curQuestion == (qSize - 1)) {
 			btnNext.setVisible(true);
 		}
@@ -123,7 +128,12 @@ public class PrincipalExamOfStudentViewWindowController implements GuiController
 		}
 		curQuestion++;
 		if (curQuestion == (qSize - 1)) {
+			// last question
 			btnNext.setVisible(false);
+			lblNote.setVisible(true);
+			txtNote.setVisible(true);
+			// set the teacher note
+			txtNote.setText(ViewGradesFormController.chosenExam.getTeachNote());
 		}
 		paneQuestions.getChildren().clear();
 		paneQuestions.getChildren().add(qArray[curQuestion]);
@@ -154,6 +164,10 @@ public class PrincipalExamOfStudentViewWindowController implements GuiController
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		exam = null;
+		// hide unwanted variables
+		lblNote.setVisible(false);
+		txtNote.setVisible(false);
 		// set images
 		Image img = new Image(this.getClass().getResource("principalFrame.PNG").toString());
 		imgBack.setImage(img);
@@ -182,8 +196,13 @@ public class PrincipalExamOfStudentViewWindowController implements GuiController
 			}
 			paneQuestions.getChildren().clear();
 			paneQuestions.getChildren().add(qArray[0]);
-			if (qSize == 1)
+			if (qSize == 1) {
 				btnNext.setVisible(false);
+				lblNote.setVisible(true);
+				txtNote.setVisible(true);
+				// set the teacher note
+				txtNote.setText(ViewGradesFormController.chosenExam.getTeachNote());
+			}
 
 			btnBack.setVisible(false);
 		}

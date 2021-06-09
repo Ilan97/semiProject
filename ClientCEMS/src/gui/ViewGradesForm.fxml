@@ -92,6 +92,11 @@
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
+            <Label fx:id="lblErrData" layoutX="415.0" layoutY="137.0" prefHeight="17.0" prefWidth="158.0" textFill="#f86060">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
    </children>

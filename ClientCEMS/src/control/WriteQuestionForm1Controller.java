@@ -263,7 +263,10 @@ public class WriteQuestionForm1Controller implements GuiController, Initializabl
 	 */
 	@FXML
 	void checkExamAction(ActionEvent event) {
-		/* TODO Navigator.instance().navigate("checkExamForm"); */
+		if (formIsNotEmpty())
+			Navigator.instance().alertPopUp("checkExamForm");
+		else
+			Navigator.instance().navigate("checkExamForm");
 	}
 
 	/**

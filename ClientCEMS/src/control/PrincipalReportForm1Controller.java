@@ -3,6 +3,7 @@ package control;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+
 import client.ClientUI;
 import gui.Navigator;
 import javafx.collections.FXCollections;
@@ -78,16 +79,16 @@ public class PrincipalReportForm1Controller implements GuiController, Initializa
 	void next(ActionEvent event) {
 		clearErrLbl(lblErrData);
 		// handle missing fields
-		if(chooseType.getSelectionModel().isEmpty()) {
+		if (chooseType.getSelectionModel().isEmpty()) {
 			if (chooseType.getSelectionModel().isEmpty())
 				lblErrType.setText("choose type");
 			// type chosen
 			else
 				clearErrLbl(lblErrType);
 		}
-		
+
 		if (typeOptions.getSelectionModel().isEmpty()
-				|| clickAvg.isPressed() || clickMed.isPressed() || clickHist.isPressed()) {
+				|| (!clickAvg.isSelected() && !clickMed.isSelected() && !clickHist.isSelected())) {
 			// type not chosen
 			if (chooseType.getSelectionModel().isEmpty())
 				lblErrType.setText("choose type");
@@ -116,7 +117,7 @@ public class PrincipalReportForm1Controller implements GuiController, Initializa
 				clearErrLbl(lblErrOption);
 
 			// no one of the statistics was chosen
-			if (clickAvg.isPressed() || clickMed.isPressed() || clickHist.isPressed())
+			if (!clickAvg.isSelected() && !clickMed.isSelected() && !clickHist.isSelected())
 				lblErrStat.setText("choose statistics");
 			// at least one statistics chosen
 			else
@@ -236,7 +237,7 @@ public class PrincipalReportForm1Controller implements GuiController, Initializa
 	void viewRequestsAction(ActionEvent event) {
 		Navigator.instance().navigate("PrincipalViewRequestForm");
 	}
-	
+
 	/**
 	 * This is FXML event handler. Handles the action of click on 'View Questions'
 	 * button.
@@ -247,7 +248,7 @@ public class PrincipalReportForm1Controller implements GuiController, Initializa
 	void viewQuestionsAction(ActionEvent event) {
 		Navigator.instance().navigate("ViewQuestionsForm1");
 	}
-	
+
 	/**
 	 * This is FXML event handler. Handles the action of click on 'View Exams'
 	 * button.

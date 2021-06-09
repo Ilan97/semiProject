@@ -1,4 +1,5 @@
 package control;
+
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.sql.PreparedStatement;
@@ -47,44 +48,56 @@ public class StudentController {
 	public static Message handleRequest(Message msg) {
 		// create the result Message instance
 		boolean res;
-		Message teacherMessage = new Message();
+		ArrayList<String> listOfNames;
 		Message studentMessage = new Message();
 		request = msg;
 		// switch case is on the operations this controller ask to operate.
 		switch (request.getOperation()) {
 		case "SubmitExam":
 			Message MyMessage = new Message();
-			ExamOfStudent examOfStudent =(ExamOfStudent) request.getMsg();
+			ExamOfStudent examOfStudent = (ExamOfStudent) request.getMsg();
 			res = submitExam((ExamOfStudent) request.getMsg());
-			teacherMessage.setMsg(res);
-			result = teacherMessage;
-			
-			//Decrease action of countPerformers by -1 (as student submitted his exam)
+			studentMessage.setMsg(res);
+			result = studentMessage;
+			// Decrease action of countPerformers by -1 (as student submitted his exam)
 			MyMessage.setMsg(examOfStudent.getCode());
 			MyMessage.setControllerName("ExamController");
 			MyMessage.setOperation("DecreaseExam");
 			ExamController.handleRequest(MyMessage);
-			
 			break;
 
 		case "StartTimer":
 			res = startTimer();
-			teacherMessage.setMsg(res);
-			result = teacherMessage;
+			studentMessage.setMsg(res);
+			result = studentMessage;
 			break;
 
 		case "StopTimer":
 			double difference = stopTimer();
-			teacherMessage.setMsg(difference);
-			result = teacherMessage;
+			studentMessage.setMsg(difference);
+			result = studentMessage;
 			break;
-			
-		case "GetUesrName":
+
+		case "GetUserName":
 			String studentName = getUserName((String) request.getMsg());
 			studentMessage.setMsg(studentName);
 			result = studentMessage;
 			break;
-			
+
+		case "UpdateExam":
+			boolean isUpdate = examWasChecked((ExamOfStudent) request.getMsg());
+			studentMessage.setMsg(isUpdate);
+			result = studentMessage;
+			break;
+
+		case "GetExamOfStudent":
+			ExamOfStudent ExamOfStudent;
+			String[] data = parsingTheData((String) request.getMsg());
+			ExamOfStudent = getExam(data[0], data[1]);
+			studentMessage.setMsg(ExamOfStudent);
+			result = studentMessage;
+			break;
+
 		case "ShowExamOfStudentList":
 			String userName = (String) request.getMsg();
 			ArrayList<ExamOfStudent> ExamsOfStudentList;
@@ -96,28 +109,189 @@ public class StudentController {
 		case "GetGradeList":
 			ArrayList<Integer> listOfGrades;
 			listOfGrades = getGrades((String) request.getMsg());
-			if (listOfGrades.isEmpty())
-				listOfGrades = null;
 			studentMessage.setMsg(listOfGrades);
+			result = studentMessage;
+			break;
+
+		case "GetAllStudents":
+			listOfNames = getNames((String) request.getMsg());
+			studentMessage.setMsg(listOfNames);
+			result = studentMessage;
+			break;
+
+		case "GetAllStudentsThatChecked":
+			listOfNames = getNamesWhoChecked();
+			studentMessage.setMsg(listOfNames);
 			result = studentMessage;
 			break;
 		}
 		return result;
 	}
-	
+
+	/**
+	 * This method get list of all students names that did specific exam and wasn't
+	 * checked yet.
+	 * 
+	 * @param code The code of the wanted exam.
+	 * @return listOfNames {@link ArrayList} if found in DB success, null otherwise.
+	 */
+	public static ArrayList<String> getNames(String code) {
+		ArrayList<String> listOfNames = new ArrayList<>();
+		ResultSet newRs = null;
+		String sql = "SELECT userName FROM examOfStudent WHERE exam_code = ? AND teacher_check = ?";
+		try {
+			pstmt = DBconnector.conn.prepareStatement(sql);
+			pstmt.setString(1, code);
+			pstmt.setBoolean(2, false);
+			newRs = pstmt.executeQuery();
+			while (newRs.next()) {
+				listOfNames.add(UserController.getName(newRs.getString("userName")));
+			}
+		} catch (SQLException e) {
+			return listOfNames;
+		} finally {
+			try {
+				newRs.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+			try {
+				pstmt.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+		}
+		if (listOfNames.isEmpty())
+			listOfNames = null;
+		return listOfNames;
+	}
+
+	/**
+	 * This method get list of all students names that did specific exam and was
+	 * checked.
+	 * 
+	 * @return listOfNames {@link ArrayList} if found in DB success, null otherwise.
+	 */
+	public static ArrayList<String> getNamesWhoChecked() {
+		ArrayList<String> listOfNames = new ArrayList<>();
+		String examID;
+		ResultSet newRs = null;
+		String sql = "SELECT * FROM examOfStudent WHERE teacher_check = ?";
+		try {
+			pstmt = DBconnector.conn.prepareStatement(sql);
+			pstmt.setBoolean(1, true);
+			newRs = pstmt.executeQuery();
+			while (newRs.next()) {
+				String fullName = UserController.getName(newRs.getString("userName"));
+				examID = newRs.getString("fid") + newRs.getString("cid") + newRs.getString("eid");
+				if (ExamController.getExamType(examID).equals("computerized") && !(listOfNames.contains(fullName)))
+					listOfNames.add(fullName);
+			}
+		} catch (SQLException e) {
+			DBconnector.printSQLException(e);
+		} finally {
+			try {
+				newRs.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+			try {
+				pstmt.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+		}
+		if (listOfNames.isEmpty())
+			listOfNames = null;
+		return listOfNames;
+	}
+
+	/**
+	 * This method update exam of student that was checked by teacher.
+	 *
+	 * @param exam The {@link ExamOfStudent} that was checked.
+	 * @return true if update success, false otherwise.
+	 */
+	public static boolean examWasChecked(ExamOfStudent exam) {
+		String query;
+		query = "UPDATE examOfStudent SET teacher_check = ? , teacher_note = ?, grade = ? "
+				+ "WHERE exam_code = ? AND userName = ?";
+		try {
+			pstmt = DBconnector.conn.prepareStatement(query);
+			pstmt.setBoolean(1, true);
+			pstmt.setString(2, exam.getTeachNote());
+			pstmt.setInt(3, exam.getGrade());
+			pstmt.setString(4, exam.getCode());
+			pstmt.setString(5, exam.getUserName());
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			return false;
+		} finally {
+			try {
+				pstmt.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * This method get computerized exam of specific student.
+	 * 
+	 * @return {@link ExamOfStudent} if found in dataBase else return null.
+	 */
+	public static ExamOfStudent getExam(String userName, String code) {
+		ExamOfStudent ExamOfStudent = new ExamOfStudent();
+		// execute query
+		String sql = "SELECT * FROM examofstudent WHERE userName = ? AND exam_code = ?";
+		try {
+			pstmt = DBconnector.conn.prepareStatement(sql);
+			pstmt.setString(1, userName);
+			pstmt.setString(2, code);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				ExamOfStudent.setUserName(userName);
+				ExamOfStudent.setFid(rs.getString("fid"));
+				ExamOfStudent.setFname(FieldOfStudyController.GetFname(rs.getString("fid")));
+				ExamOfStudent.setCid(rs.getString("cid"));
+				ExamOfStudent.setCname(CourseController.GetCname(rs.getString("cid")));
+				ExamOfStudent.setEid(rs.getString("eid"));
+				ExamOfStudent.setGrade(rs.getInt("grade"));
+				ExamOfStudent.setAnswers(rs.getString("ans"));
+				ExamOfStudent.setCode(rs.getString("exam_code"));
+			}
+		} catch (SQLException e) {
+			DBconnector.printSQLException(e);
+		} finally {
+			try {
+				rs.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+			try {
+				pstmt.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+		}
+		return ExamOfStudent;
+	}
+
 	/**
 	 * This method return the gradesList of exams that student did.
 	 *
 	 * @param name the student's name.
-	 * @return listOfGrades if found in dataBase else return null.
+	 * @return listOfGrades {@link ArrayList} if found in dataBase else return null.
 	 */
 	public static ArrayList<Integer> getGrades(String name) {
 		String userName = getUserName(name);
 		ArrayList<Integer> listOfGrades = new ArrayList<>();
-		String sql = "SELECT grade FROM ExamOfStudent WHERE userName = ?";
+		String sql = "SELECT grade FROM ExamOfStudent WHERE userName = ? AND teacher_check = ?";
 		try {
 			pstmt = DBconnector.conn.prepareStatement(sql);
 			pstmt.setString(1, userName);
+			pstmt.setBoolean(2, true);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				listOfGrades.add(rs.getInt("grade"));
@@ -137,6 +311,8 @@ public class StudentController {
 				DBconnector.printException(e);
 			}
 		}
+		if (listOfGrades.isEmpty())
+			listOfGrades = null;
 		return listOfGrades;
 	}
 
@@ -180,7 +356,10 @@ public class StudentController {
 	}
 
 	/**
-	 * This method gets all the exams of student by userName .
+	 * This method gets all the exams of student by userName.
+	 * 
+	 * @return {@link ExamOfStudent} {@link ArrayList} if found in dataBase else
+	 *         return null.
 	 */
 	public static ArrayList<ExamOfStudent> getExamsOfStudent(String userName) {
 		ArrayList<ExamOfStudent> ExamsOfStudentList = new ArrayList<>();
@@ -202,9 +381,10 @@ public class StudentController {
 				es.setGrade(rs1.getInt("grade"));
 				es.setAnswers(rs1.getString("ans"));
 				es.setCode(rs1.getString("exam_code"));
+				es.setTeachNote(rs1.getString("teacher_note"));
 				es.setEdate(getExamDate(es.getCode()));
 				getExamType(es, es.getFid(), es.getCid(), es.getEid());
-				if(es.getEtype() == ExamType.COMPUTERIZED)
+				if (es.getEtype() == ExamType.COMPUTERIZED)
 					ExamsOfStudentList.add(es);
 			}
 		} catch (SQLException e) {
@@ -221,9 +401,11 @@ public class StudentController {
 				DBconnector.printException(e);
 			}
 		}
+		if (ExamsOfStudentList.isEmpty())
+			ExamsOfStudentList = null;
 		return ExamsOfStudentList;
 	}
-	
+
 	/**
 	 * This method get the exam status.
 	 */
@@ -343,15 +525,17 @@ public class StudentController {
 			pstmt.setDouble(5, exam.getRealTimeDuration());
 			pstmt.setInt(6, exam.getGrade());
 			pstmt.setString(8, exam.getAnswers());
-			pstmt.setBoolean(9, false);
 			pstmt.setString(10, exam.getCode());
 			switch (type) {
 			case "computerized":
 				byte[] empty = {};
 				pstmt.setBlob(7, new ByteArrayInputStream(empty));
+				pstmt.setBoolean(9, false);
 				break;
 			case "manual":
 				pstmt.setBlob(7, inputStream);
+				// teacher checks the exam manually
+				pstmt.setBoolean(9, true);
 				break;
 			}
 			pstmt.executeUpdate();

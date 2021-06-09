@@ -145,7 +145,7 @@ public class ServerPortController implements Initializable {
 				// close the server
 				primaryStage.setOnCloseRequest((e) -> {
 					flag = false;
-					Platform.exit();
+					System.exit(0);
 					try {
 						server.close();
 					} catch (IOException ex) {

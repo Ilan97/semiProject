@@ -156,6 +156,8 @@ public class FieldOfStudyController {
 				DBconnector.printException(e);
 			}
 		}
+		if (fieldList.isEmpty())
+			fieldList = null;
 		return fieldList;
 	}
 }

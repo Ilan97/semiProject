@@ -194,6 +194,8 @@ public class PrincipalController {
 				DBconnector.printException(e);
 			}
 		}
+		if (requestsList.isEmpty())
+			requestsList = null;
 		return requestsList;
 	}
 }

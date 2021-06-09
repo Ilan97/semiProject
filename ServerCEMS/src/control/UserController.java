@@ -90,6 +90,40 @@ public class UserController {
 	}
 
 	/**
+	 * This method found the full name of user, by given userName.
+	 *
+	 * @param userName The userName.
+	 * @return full name if user is found, null otherwise.
+	 */
+	public static String getName(String userName) {
+		String Query = "SELECT firstName, lastName FROM users WHERE userName = ?";
+		String fullName = null;
+		try {
+			pstmt = DBconnector.conn.prepareStatement(Query);
+			pstmt.setString(1, userName);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				fullName = rs.getString("firstName") + " " + rs.getString("lastName");
+			}
+
+		} catch (SQLException e) {
+			return fullName;
+		} finally {
+			try {
+				rs.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+			try {
+				pstmt.close();
+			} catch (Exception e) {
+				DBconnector.printException(e);
+			}
+		}
+		return fullName;
+	}
+
+	/**
 	 * This method execute query for watch User table, by specific userName and
 	 * password.
 	 *
@@ -289,6 +323,8 @@ public class UserController {
 				DBconnector.printException(e);
 			}
 		}
+		if (studentList.isEmpty())
+			studentList = null;
 		return studentList;
 	}
 
@@ -323,6 +359,8 @@ public class UserController {
 				DBconnector.printException(e);
 			}
 		}
+		if (teacherList.isEmpty())
+			teacherList = null;
 		return teacherList;
 	}
 

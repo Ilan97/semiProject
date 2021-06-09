@@ -2,10 +2,7 @@ package control;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
-
-import client.ClientUI;
 import gui.Navigator;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -16,34 +13,36 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import logic.Exam;
-import logic.Message;
 
 /**
- * This is controller class (boundary) for window ViewExams (second part).
- * This class handle all events related to this window. This class connect with
+ * This is controller class (boundary) for window ViewExams (second part). This
+ * class handle all events related to this window. This class connect with
  * client.
  *
  * @author Sharon Vaknin
  * @version June 2021
  */
 
-public class ViewExamsForm2Controller  implements GuiController, Initializable {
+public class ViewExamsForm2Controller implements GuiController, Initializable {
 
 	// Instance variables **********************************************
-	
-	public static Exam chosenExam;
-	
-    @FXML
-    private ImageView imgBack;
-    @FXML
-    private ImageView imgLogo;
-    @FXML
-    private ImageView imgClock;
-    @FXML
-    private ListView<Exam> examsList;
 
-    // Instance methods ************************************************
-    
+	/**
+	 * The chosen exam to show.
+	 */
+	public static Exam chosenExam;
+
+	@FXML
+	private ImageView imgBack;
+	@FXML
+	private ImageView imgLogo;
+	@FXML
+	private ImageView imgClock;
+	@FXML
+	private ListView<Exam> examsList;
+
+	// Instance methods ************************************************
+
 	/**
 	 * This is FXML event handler. Handles the action of click on 'back' button.
 	 *
@@ -53,14 +52,14 @@ public class ViewExamsForm2Controller  implements GuiController, Initializable {
 	void back(ActionEvent event) {
 		Navigator.instance().back();
 	}
-    
+
 	/**
 	 * This is event handler. Handles the action of click on exam to view it.
 	 *
 	 * @param event - the action event.
 	 */
-    @FXML
-    void viewExams(ActionEvent event) {
+	@FXML
+	void viewExams(ActionEvent event) {
 		if (examsList.getSelectionModel().isEmpty())
 			return;
 		chosenExam = examsList.getSelectionModel().getSelectedItem();
@@ -70,7 +69,7 @@ public class ViewExamsForm2Controller  implements GuiController, Initializable {
 		} catch (IOException e) {
 			UsefulMethods.instance().printException(e);
 		}
-    }
+	}
 
 	// Menu methods ************************************************
 
@@ -139,12 +138,10 @@ public class ViewExamsForm2Controller  implements GuiController, Initializable {
 		Navigator.instance().navigate("ViewGradesForm");
 	}
 
-    
 	/**
 	 * This method called to initialize a controller after its root element has been
 	 * completely processed (after load method).
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		chosenExam = null;
@@ -154,14 +151,7 @@ public class ViewExamsForm2Controller  implements GuiController, Initializable {
 		Image img2 = new Image(this.getClass().getResource("logo.png").toString());
 		imgLogo.setImage(img2);
 		// set the exams list in order to the field and course that was chosen
-		ArrayList<Exam> listOfExams;
-		Exam exam = ViewExamsForm1Controller.exam;
-		Message messageToServer = new Message();
-		messageToServer.setMsg(exam.getFname() + " " + exam.getCname());
-		messageToServer.setControllerName("ExamController");
-		messageToServer.setOperation("ShowExamList");
-		listOfExams = (ArrayList<Exam>) ClientUI.client.handleMessageFromClientUI(messageToServer);
-		examsList.setItems(FXCollections.observableArrayList(listOfExams));
+		examsList.setItems(FXCollections.observableArrayList(ViewExamsForm1Controller.listOfExams));
 	}
 }
 // End of ViewExamsForm2Controller class

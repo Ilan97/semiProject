@@ -117,7 +117,6 @@ public class OpenExamWindowController implements GuiController, Initializable {
 				messageToServer.setControllerName("ExamController");
 				isOpened = (boolean) ClientUI.client.handleMessageFromClientUI(messageToServer);
 				if (isOpened) {
-					// TODO turn on timer
 					// success pop up
 					ExamOpenedSuccessfullyWindowController popUp = new ExamOpenedSuccessfullyWindowController();
 					try {

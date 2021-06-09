@@ -134,7 +134,7 @@ public class TeacherReportForm2Controller implements GuiController, Initializabl
 	 */
 	@FXML
 	void goHome(ActionEvent event) {
-		Navigator.instance().alertPopUp("TeacherHomeForm");
+		Navigator.instance().clearHistory("TeacherHomeForm");
 	}
 
 	/**
@@ -145,7 +145,7 @@ public class TeacherReportForm2Controller implements GuiController, Initializabl
 	 */
 	@FXML
 	void writeQuestionAction(ActionEvent event) {
-		Navigator.instance().alertPopUp("WriteQuestionForm1");
+		Navigator.instance().navigate("WriteQuestionForm1");
 	}
 
 	/**
@@ -156,7 +156,7 @@ public class TeacherReportForm2Controller implements GuiController, Initializabl
 	 */
 	@FXML
 	void writeExamAction(ActionEvent event) {
-		Navigator.instance().alertPopUp("WriteAnExamForm1");
+		Navigator.instance().navigate("WriteAnExamForm1");
 	}
 
 	/**
@@ -167,7 +167,7 @@ public class TeacherReportForm2Controller implements GuiController, Initializabl
 	 */
 	@FXML
 	void getReportAction(ActionEvent event) {
-		Navigator.instance().alertPopUp("TeacherReportForm1");
+		Navigator.instance().navigate("TeacherReportForm1");
 	}
 
 	/**
@@ -178,7 +178,7 @@ public class TeacherReportForm2Controller implements GuiController, Initializabl
 	 */
 	@FXML
 	void checkExamAction(ActionEvent event) {
-		/* TODO Navigator.instance().navigate("checkExamForm"); */
+		Navigator.instance().navigate("checkExamForm");
 	}
 
 	/**
@@ -189,7 +189,7 @@ public class TeacherReportForm2Controller implements GuiController, Initializabl
 	 */
 	@FXML
 	void examSearchAction(ActionEvent event) {
-		Navigator.instance().alertPopUp("ExamStockForm1");
+		Navigator.instance().navigate("ExamStockForm1");
 	}
 
 	/**

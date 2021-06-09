@@ -222,7 +222,7 @@ public class WriteQuestionForm2Controller implements GuiController, Initializabl
 	 */
 	@FXML
 	void checkExamAction(ActionEvent event) {
-		/* TODO Navigator.instance().navigate("checkExamForm"); */
+		Navigator.instance().alertPopUp("checkExamForm");
 	}
 
 	/**

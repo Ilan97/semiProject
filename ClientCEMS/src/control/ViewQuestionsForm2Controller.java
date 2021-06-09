@@ -3,7 +3,6 @@ package control;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import client.ClientUI;
 import gui.Navigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,7 +10,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import logic.Message;
 import logic.Question;
 
 /**
@@ -26,18 +24,18 @@ import logic.Question;
 public class ViewQuestionsForm2Controller implements GuiController, Initializable {
 
 	// Instance variables **********************************************
-	
+
 	@FXML
 	private ImageView imgBack;
 	@FXML
 	private ImageView imgLogo;
-    @FXML
-    private TextArea txtQuestions;
+	@FXML
+	private TextArea txtQuestions;
 	@FXML
 	private ImageView imgClock;
-	
+
 	// Instance methods ************************************************
-	
+
 	/**
 	 * This is methods create a String of all questions.
 	 *
@@ -50,16 +48,16 @@ public class ViewQuestionsForm2Controller implements GuiController, Initializabl
 			QuestionView += q.getAuthor() + "\n";
 			QuestionView += q.getContent() + "\n";
 			QuestionView += q.getInstructions() + "\n";
-			QuestionView += "1. " + q.getRightAnswer() + " (right answer)" + "\n";//TODO 
+			QuestionView += "1. " + q.getRightAnswer() + " (right answer)" + "\n";
 			QuestionView += "2. " + q.getWrongAnswer1() + "\n";
 			QuestionView += "3. " + q.getWrongAnswer2() + "\n";
 			QuestionView += "4. " + q.getWrongAnswer3() + "\n";
 			QuestionView += "__________________________";
-			QuestionView += "\n\n";	
+			QuestionView += "\n\n";
 		}
 		return QuestionView;
 	}
-	
+
 	/**
 	 * This is FXML event handler. Handles the action of click on 'back' button.
 	 *
@@ -103,7 +101,7 @@ public class ViewQuestionsForm2Controller implements GuiController, Initializabl
 	void viewRequestsAction(ActionEvent event) {
 		Navigator.instance().navigate("PrincipalViewRequestForm");
 	}
-	
+
 	/**
 	 * This is FXML event handler. Handles the action of click on 'View Questions'
 	 * button.
@@ -114,7 +112,7 @@ public class ViewQuestionsForm2Controller implements GuiController, Initializabl
 	void viewQuestionsAction(ActionEvent event) {
 		Navigator.instance().navigate("ViewQuestionsForm1");
 	}
-	
+
 	/**
 	 * This is FXML event handler. Handles the action of click on 'View Exams'
 	 * button.
@@ -141,7 +139,6 @@ public class ViewQuestionsForm2Controller implements GuiController, Initializabl
 	 * This method called to initialize a controller after its root element has been
 	 * completely processed (after load method).
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// set images
@@ -149,16 +146,7 @@ public class ViewQuestionsForm2Controller implements GuiController, Initializabl
 		imgBack.setImage(img);
 		Image img2 = new Image(this.getClass().getResource("logo.png").toString());
 		imgLogo.setImage(img2);
-
-		// set the questions list in order to the field and course that was chosen
-		ArrayList<Question> listOfQuestions;
-		Question q = new Question();
-		Message messageToServer = new Message();
-		messageToServer.setMsg(ViewQuestionsForm1Controller.question.getFieldName() + " " + ViewQuestionsForm1Controller.question.getCourseName());
-		messageToServer.setControllerName("QuestionController");
-		messageToServer.setOperation("ShowQuestionList");
-		listOfQuestions = (ArrayList<Question>) ClientUI.client.handleMessageFromClientUI(messageToServer);
-		txtQuestions.setText(showQuestions(listOfQuestions));
+		txtQuestions.setText(showQuestions(ViewQuestionsForm1Controller.listOfQuestions));
 	}
 }
 //End of ViewQuestionsForm2Controller class

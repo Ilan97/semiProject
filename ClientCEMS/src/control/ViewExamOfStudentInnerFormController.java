@@ -21,9 +21,6 @@ public class ViewExamOfStudentInnerFormController implements Initializable {
 
 	// Instance variables **********************************************
 
-	/**
-	 * FXML variables.
-	 */
 	@FXML
 	private Label lblNumQuestion;
 	@FXML
@@ -61,7 +58,6 @@ public class ViewExamOfStudentInnerFormController implements Initializable {
 		String toShow = q.getContent() + "\n\n" + q.getInstructions();
 		if (q.getStudentNote() != null)
 			toShow += "\n\n" + q.getStudentNote();
-		// TODO - ADD QUERY FOR GET TEACHER NOTE
 		lblNumQuestion.setText("" + index + "/" + PrincipalExamOfStudentViewWindowController.qSize);
 		lblScore.setText("(" + score + " points)");
 		question.setText(toShow);

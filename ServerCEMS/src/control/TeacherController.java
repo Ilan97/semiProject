@@ -59,13 +59,50 @@ public class TeacherController {
 
 		case "GetGradeList":
 			listOfGrades = getGrades((String) request.getMsg());
-			if (listOfGrades.isEmpty())
-				listOfGrades = null;
 			teacherMessage.setMsg(listOfGrades);
+			result = teacherMessage;
+			break;
+
+		case "AllExamsChecked":
+			boolean areChecked;
+			areChecked = isAllCheck((String) request.getMsg());
+			teacherMessage.setMsg(areChecked);
 			result = teacherMessage;
 			break;
 		}
 		return result;
+	}
+
+	/**
+	 * This method check if all of the exam's with this code are checked.
+	 *
+	 * @param code The code from examToPerform table.
+	 * @return true if all exams are checked, false otherwise.
+	 */
+	public static boolean isAllCheck(String code) {
+		boolean res = true;
+		String sql = "SELECT userName FROM examOfStudent WHERE exam_code = ? AND teacher_check = ?";
+		try {
+			pstmt = DBconnector.conn.prepareStatement(sql);
+			pstmt.setString(1, code);
+			pstmt.setBoolean(2, false);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				res = false;
+			}
+		} catch (SQLException e) {
+			return res;
+		} finally {
+			try {
+				rs.close();
+			} catch (Exception e) {
+			}
+			try {
+				pstmt.close();
+			} catch (Exception e) {
+			}
+		}
+		return res;
 	}
 
 	/**
@@ -76,11 +113,12 @@ public class TeacherController {
 	 */
 	public static ArrayList<Integer> getGrades(String name) {
 		ArrayList<Integer> listOfGrades = new ArrayList<>();
-		String sql = "SELECT grade FROM Exam AS e, ExamOfStudent AS es WHERE " +
-		"e.fid = es.fid AND e.cid = es.cid AND e.eid = es.eid AND e.author = ?";
+		String sql = "SELECT grade FROM Exam AS e, ExamOfStudent AS es WHERE "
+				+ "e.fid = es.fid AND e.cid = es.cid AND e.eid = es.eid AND e.author = ? AND es.teacher_check = ?";
 		try {
 			pstmt = DBconnector.conn.prepareStatement(sql);
 			pstmt.setString(1, name);
+			pstmt.setBoolean(2, true);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				listOfGrades.add(rs.getInt("grade"));
@@ -100,6 +138,8 @@ public class TeacherController {
 				DBconnector.printException(e);
 			}
 		}
+		if (listOfGrades.isEmpty())
+			listOfGrades = null;
 		return listOfGrades;
 	}
 
@@ -138,6 +178,8 @@ public class TeacherController {
 				DBconnector.printException(e);
 			}
 		}
+		if (listOfCourses.isEmpty())
+			listOfCourses = null;
 		return listOfCourses;
 	}
 
@@ -174,6 +216,8 @@ public class TeacherController {
 				DBconnector.printException(e);
 			}
 		}
+		if (listOfField.isEmpty())
+			listOfField = null;
 		return listOfField;
 	}
 

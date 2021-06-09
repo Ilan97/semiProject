@@ -2,9 +2,7 @@ package control;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
-import client.ClientUI;
 import gui.Navigator;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -16,8 +14,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import logic.Exam;
-import logic.Message;
 import logic.Question;
 
 /**
@@ -198,7 +194,7 @@ public class WriteAnExamForm2Controller implements GuiController, Initializable 
 	 */
 	@FXML
 	void checkExamAction(ActionEvent event) {
-		/* TODO Navigator.instance().navigate("checkExamForm"); */
+		Navigator.instance().alertPopUp("checkExamForm");
 	}
 
 	/**
@@ -216,7 +212,6 @@ public class WriteAnExamForm2Controller implements GuiController, Initializable 
 	 * This method called to initialize a controller after its root element has been
 	 * completely processed (after load method).
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		sum = 0;
@@ -228,14 +223,7 @@ public class WriteAnExamForm2Controller implements GuiController, Initializable 
 		Image img3 = new Image(this.getClass().getResource("pencil.png").toString());
 		imgPencil.setImage(img3);
 		// set the questions list in order to the field and course that was chosen
-		ArrayList<Question> listOfQuestions;
-		Exam exam = WriteAnExamForm1Controller.Exam;
-		Message messageToServer = new Message();
-		messageToServer.setMsg(exam.getFname() + " " + exam.getCname());
-		messageToServer.setControllerName("QuestionController");
-		messageToServer.setOperation("ShowQuestionList");
-		listOfQuestions = (ArrayList<Question>) ClientUI.client.handleMessageFromClientUI(messageToServer);
-		quesList.setItems(FXCollections.observableArrayList(listOfQuestions));
+		quesList.setItems(FXCollections.observableArrayList(WriteAnExamForm1Controller.listOfQuestions));
 	}
 }
 //End of WriteAnExamForm2Controller class

@@ -56,7 +56,7 @@
                   <Font name="Calibri Bold" size="24.0" />
                </font>
             </Label>
-            <Button layoutX="705.0" layoutY="465.0" mnemonicParsing="false" onAction="#next" prefHeight="13.0" prefWidth="23.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="&gt;" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Button fx:id="btnNext" layoutX="705.0" layoutY="465.0" mnemonicParsing="false" onAction="#next" prefHeight="13.0" prefWidth="23.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="&gt;" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>

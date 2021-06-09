@@ -18,6 +18,7 @@ import javafx.scene.image.ImageView;
 import logic.Exam;
 import logic.ExamType;
 import logic.Message;
+import logic.Question;
 
 /**
  * This is controller class (boundary) for window WriteAnExam (first part) in
@@ -44,6 +45,10 @@ public class WriteAnExamForm1Controller implements GuiController, Initializable 
 	 * that isn't field or course.
 	 */
 	private Exam e = null;
+	/**
+	 * {@link ArrayList} of {@link Question} for this exam.
+	 */
+	public static ArrayList<Question> listOfQuestions;
 	/**
 	 * This is how we know if user goes back or not.
 	 */
@@ -73,6 +78,8 @@ public class WriteAnExamForm1Controller implements GuiController, Initializable 
 	private Label lblErrType;
 	@FXML
 	private Label lblErrDur;
+	@FXML
+	private Label lblErrData;
 
 	// Instance methods ************************************************
 
@@ -95,6 +102,7 @@ public class WriteAnExamForm1Controller implements GuiController, Initializable 
 	 *
 	 * @param event The action event.
 	 */
+	@SuppressWarnings("unchecked")
 	@FXML
 	void next(ActionEvent event) {
 		// get details from the screen
@@ -140,6 +148,7 @@ public class WriteAnExamForm1Controller implements GuiController, Initializable 
 		} else if (!durationIsValid())
 			lblErrDur.setText("invalid duration");
 		else {
+			clearErrLbl(lblErrData);
 			// user return back but didn't change the field and course
 			if (nextInit && Exam.getCname().equals(Course) && Exam.getFname().equals(Field)) {
 				// set the exam type
@@ -172,8 +181,18 @@ public class WriteAnExamForm1Controller implements GuiController, Initializable 
 			}
 			Exam = e;
 			nextInit = true;
-			// go to next page
-			Navigator.instance().navigate("WriteAnExamForm2");
+			// check if there any questions for this field and course
+			Message messageToServer = new Message();
+			messageToServer.setMsg(Exam.getFname() + " " + Exam.getCname());
+			messageToServer.setControllerName("QuestionController");
+			messageToServer.setOperation("ShowQuestionList");
+			listOfQuestions = (ArrayList<Question>) ClientUI.client.handleMessageFromClientUI(messageToServer);
+			if (listOfQuestions == null)
+				lblErrData.setText("there are no questions to show!");
+			else {
+				// go to next page
+				Navigator.instance().navigate("WriteAnExamForm2");
+			}
 		}
 	}
 
@@ -295,7 +314,10 @@ public class WriteAnExamForm1Controller implements GuiController, Initializable 
 	 */
 	@FXML
 	void checkExamAction(ActionEvent event) {
-		/* TODO Navigator.instance().navigate("checkExamForm"); */
+		if (formIsNotEmpty())
+			Navigator.instance().alertPopUp("checkExamForm");
+		else
+			Navigator.instance().navigate("checkExamForm");
 	}
 
 	/**
@@ -320,6 +342,7 @@ public class WriteAnExamForm1Controller implements GuiController, Initializable 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		Exam = null;
+		listOfQuestions = null;
 		nextInit = false;
 		// set images
 		Image img1 = new Image(this.getClass().getResource("frame1WriteAnExam.PNG").toString());

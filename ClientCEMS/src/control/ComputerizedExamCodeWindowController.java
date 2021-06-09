@@ -53,7 +53,6 @@ public class ComputerizedExamCodeWindowController implements GuiController, Init
 	private Label lblErrCode;
 	@FXML
 	private Button btnNext;
-	private Object Object;
 
 	// Instance methods ************************************************
 
@@ -105,12 +104,12 @@ public class ComputerizedExamCodeWindowController implements GuiController, Init
 			messageToServer.setMsg(getCode() + " computerized " + LoginController.user.getUsername());
 			messageToServer.setOperation("StartComputerizedExam");
 			messageToServer.setControllerName("ExamController");
-			object =  ClientUI.client.handleMessageFromClientUI(messageToServer);
+			object = ClientUI.client.handleMessageFromClientUI(messageToServer);
 			// code isn't exists
 			if (object == null)
 				lblErrCode.setText("invalid code");
-			else if (object instanceof Exam){
-				compExam = (Exam)object;
+			else if (object instanceof Exam) {
+				compExam = (Exam) object;
 				lblErrCode.setText("");
 				code = getCode();
 				// successes pop up
@@ -121,22 +120,21 @@ public class ComputerizedExamCodeWindowController implements GuiController, Init
 				} catch (Exception e) {
 					UsefulMethods.instance().printException(e);
 				}
-			}
-			else  {
-				//Message temp = (Message) object;
-				switch( (String) object ) {
-				
+			} else {
+				// Message temp = (Message) object;
+				switch ((String) object) {
+
 				case "too late to get into the exam":
 					lblErrCode.setText("too late..");
 					break;
-					
+
 				case "student is already did the exam":
 					lblErrCode.setText("already done");
 					break;
-				
+
 				}
+			}
 		}
-	}
 	}
 
 	/**

@@ -66,12 +66,10 @@ public class CourseController {
 			courseMessage.setMsg(AllCourses);
 			result = courseMessage;
 			break;
-			
+
 		case "GetGradeList":
 			ArrayList<Integer> listOfGrades;
 			listOfGrades = getGrades((String) request.getMsg());
-			if (listOfGrades.isEmpty())
-				listOfGrades = null;
 			courseMessage.setMsg(listOfGrades);
 			result = courseMessage;
 			break;
@@ -88,10 +86,11 @@ public class CourseController {
 	public static ArrayList<Integer> getGrades(String name) {
 		String cid = GetCid(name);
 		ArrayList<Integer> listOfGrades = new ArrayList<>();
-		String sql = "SELECT grade FROM ExamOfStudent WHERE cid = ?";
+		String sql = "SELECT grade FROM ExamOfStudent WHERE cid = ? AND teacher_check = ?";
 		try {
 			pstmt = DBconnector.conn.prepareStatement(sql);
 			pstmt.setString(1, cid);
+			pstmt.setBoolean(2, true);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				listOfGrades.add(rs.getInt("grade"));
@@ -111,6 +110,8 @@ public class CourseController {
 				DBconnector.printException(e);
 			}
 		}
+		if (listOfGrades.isEmpty())
+			listOfGrades = null;
 		return listOfGrades;
 	}
 
@@ -211,6 +212,8 @@ public class CourseController {
 				DBconnector.printException(e);
 			}
 		}
+		if (listOfCoursesIds.isEmpty())
+			listOfCoursesIds = null;
 		return listOfCoursesIds;
 	}
 
@@ -243,6 +246,8 @@ public class CourseController {
 				DBconnector.printException(e);
 			}
 		}
+		if (courseList.isEmpty())
+			courseList = null;
 		return courseList;
 	}
 }

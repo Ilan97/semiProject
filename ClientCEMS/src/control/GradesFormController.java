@@ -36,45 +36,45 @@ public class GradesFormController implements GuiController, Initializable {
 	 * static variables.
 	 */
 	public static ExamOfStudent chosenExam;
-	
-	/**
-	 * FXML variables.
-	 */
+
 	@FXML
 	private ImageView imgBack;
 	@FXML
 	private ImageView imgLogo;
 	@FXML
 	private Label lblGrade;
-    @FXML
-    private ListView<ExamOfStudent> examsList;
+	@FXML
+	private ListView<ExamOfStudent> examsList;
 
 	// Instance methods ************************************************
 
 	/**
-	 * This is FXML event handler. Handles the action of click on 'Show Exam' button.
+	 * This is FXML event handler. Handles the action of click on 'Show Exam'
+	 * button.
 	 *
 	 * @param event The action event.
 	 */
 	@FXML
 	void showExamAction(ActionEvent event) {
 		checkValidExam();
-		if(chosenExam == null)
+		if (chosenExam == null)
 			return;
 		ShowExamWindowController showExam = new ShowExamWindowController();
 		try {
 			showExam.start(new Stage());
-		} catch (IOException e) {}
+		} catch (IOException e) {
+		}
 	}
-	
+
 	/**
-	 * This method check an exam is valid 
+	 * This method check an exam is valid
 	 */
 	private void checkValidExam() {
 		if (examsList.getSelectionModel().isEmpty())
 			chosenExam = null;
 		chosenExam = examsList.getSelectionModel().getSelectedItem();
 	}
+
 	/**
 	 * This is FXML event handler. Handles the action of click on 'Get Grade'
 	 * button.
@@ -84,9 +84,9 @@ public class GradesFormController implements GuiController, Initializable {
 	@FXML
 	void getGradeAction(ActionEvent event) {
 		checkValidExam();
-		if(chosenExam == null)
+		if (chosenExam == null)
 			return;
-		lblGrade.setText(String.valueOf(chosenExam.getGrade())); 
+		lblGrade.setText(String.valueOf(chosenExam.getGrade()));
 	}
 
 	/**
@@ -119,7 +119,7 @@ public class GradesFormController implements GuiController, Initializable {
 	 */
 	@FXML
 	void compExamAction(ActionEvent event) {
-		//successes pop up
+		// successes pop up
 		ComputerizedExamCodeWindowController popUp = new ComputerizedExamCodeWindowController();
 		try {
 			popUp.start(new Stage());
@@ -148,7 +148,7 @@ public class GradesFormController implements GuiController, Initializable {
 	@FXML
 	void gradesAction(ActionEvent event) {
 		Navigator.instance().navigate("GradesForm");
-		
+
 	}
 
 	/**
@@ -171,7 +171,6 @@ public class GradesFormController implements GuiController, Initializable {
 		messageToServer.setMsg(user.getUsername());
 		messageToServer.setControllerName("StudentController");
 		messageToServer.setOperation("ShowExamOfStudentList");
-		System.out.println(messageToServer);
 		ExamsOfStudentList = (ArrayList<ExamOfStudent>) ClientUI.client.handleMessageFromClientUI(messageToServer);
 		examsList.setItems(FXCollections.observableArrayList(ExamsOfStudentList));
 	}

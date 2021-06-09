@@ -3,6 +3,7 @@ package control;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+
 import client.ClientUI;
 import gui.Navigator;
 import javafx.event.ActionEvent;
@@ -66,7 +67,7 @@ public class TeacherReportForm1Controller implements GuiController, Initializabl
 	void next(ActionEvent event) {
 		clearErrLbl(lblErrData);
 		// handle missing fields
-		if (clickAvg.isPressed() || clickMed.isPressed() || clickHist.isPressed())
+		if (!clickAvg.isSelected() && !clickMed.isSelected() && !clickHist.isSelected())
 			lblErrStat.setText("choose statistics");
 		// at least one statistics chosen
 		else {
@@ -96,7 +97,7 @@ public class TeacherReportForm1Controller implements GuiController, Initializabl
 	 */
 	@FXML
 	void goHome(ActionEvent event) {
-		Navigator.instance().navigate("TeacherHomeForm");
+		Navigator.instance().clearHistory("TeacherHomeForm");
 	}
 
 	/**
@@ -140,7 +141,7 @@ public class TeacherReportForm1Controller implements GuiController, Initializabl
 	 */
 	@FXML
 	void checkExamAction(ActionEvent event) {
-		/* TODO Navigator.instance().navigate("checkExamForm"); */
+		Navigator.instance().navigate("checkExamForm");
 	}
 
 	/**

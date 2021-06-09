@@ -33,6 +33,7 @@ public class ExamOfStudent implements Serializable {
 	private String cname;
 	private String edate;
 	private ExamType etype;
+	private String teachNote;
 
 	// Constructors ****************************************************
 
@@ -65,10 +66,25 @@ public class ExamOfStudent implements Serializable {
 	}
 
 	// Instance methods ************************************************
+	
 
 	@Override
 	public String toString() {
 		return "Course:\t" + getCname() + "\nField:\t" + getFname() + "\nExam Date:\t" + getEdate();
+	}
+
+	/**
+	 * @return the teachNote
+	 */
+	public String getTeachNote() {
+		return teachNote;
+	}
+
+	/**
+	 * @param teachNote the teachNote to set
+	 */
+	public void setTeachNote(String teachNote) {
+		this.teachNote = teachNote;
 	}
 
 	/**

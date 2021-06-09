@@ -29,7 +29,14 @@ public class ViewQuestionsForm1Controller implements GuiController, Initializabl
 
 	// Instance variables **********************************************
 
+	/**
+	 * The chosen {@link Question} to show.
+	 */
 	public static Question question;
+	/**
+	 * {@link ArrayList} of {@link question} to show.
+	 */
+	public static ArrayList<Question> listOfQuestions;
 
 	@FXML
 	private ImageView imgBack;
@@ -45,6 +52,8 @@ public class ViewQuestionsForm1Controller implements GuiController, Initializabl
 	private Label lblErrField;
 	@FXML
 	private Label lblErrCourse;
+	@FXML
+	private Label lblErrData;
 
 	// Instance methods ************************************************
 
@@ -89,6 +98,7 @@ public class ViewQuestionsForm1Controller implements GuiController, Initializabl
 	 *
 	 * @param event The action event.
 	 */
+	@SuppressWarnings("unchecked")
 	@FXML
 	void viewQuestionsBtnAction(ActionEvent event) {
 		// handle missing fields
@@ -117,9 +127,19 @@ public class ViewQuestionsForm1Controller implements GuiController, Initializabl
 			q.setFieldName(Field);
 			q.setCourseName(Course);
 			question = q;
-
-			// go to next page
-			Navigator.instance().navigate("ViewQuestionsForm2");
+			// check if there any questions from this field and course
+			Message messageToServer = new Message();
+			messageToServer.setMsg(question.getFieldName() + " " + question.getCourseName());
+			messageToServer.setControllerName("QuestionController");
+			messageToServer.setOperation("ShowQuestionList");
+			listOfQuestions = (ArrayList<Question>) ClientUI.client.handleMessageFromClientUI(messageToServer);
+			if (listOfQuestions == null)
+				lblErrData.setText("there is no data to show!");
+			else {
+				clearErrLbl(lblErrData);
+				// go to next page
+				Navigator.instance().navigate("ViewQuestionsForm2");
+			}
 		}
 	}
 
@@ -197,6 +217,7 @@ public class ViewQuestionsForm1Controller implements GuiController, Initializabl
 	@SuppressWarnings({ "unchecked" })
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		listOfQuestions = null;
 		question = null;
 		// cannot choose anything from that list
 		courseCB.setDisable(true);

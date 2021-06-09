@@ -237,10 +237,13 @@ public class ExamController {
 		ArrayList<String> students = new ArrayList<>();
 		String sql = "SELECT DISTINCT e1.userName ,e2.userName FROM examOfStudent as e1, examOfStudent as e2 "
 				+ "WHERE e1.userName < e2.userName AND e1.exam_code = e2.exam_code AND e1.ans = e2.ans "
-				+ "AND e1.exam_code = ?";
+				+ "AND e1.exam_code = ? AND e1.teacher_check = e2.teacher_check "
+				+ "AND e1.teacher_check = ? AND e2.teacher_check = ?";
 		try {
 			pstmt = DBconnector.conn.prepareStatement(sql);
 			pstmt.setString(1, code);
+			pstmt.setBoolean(2, false);
+			pstmt.setBoolean(3, false);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				String fullUserName1 = UserController.getName(rs.getString("e1.userName"));

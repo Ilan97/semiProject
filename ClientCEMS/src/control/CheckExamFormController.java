@@ -124,6 +124,8 @@ public class CheckExamFormController implements GuiController, Initializable {
 					}
 					// all terms are good
 					else {
+						lblSusp.setVisible(false);
+						txtSusp.setVisible(false);
 						lblErrorExamID.setText("");
 						// get list of student names that suspected of copying
 						ArrayList<String> listOfNames = null;
@@ -290,7 +292,7 @@ public class CheckExamFormController implements GuiController, Initializable {
 								check.start(new Stage());
 								studentsList.getSelectionModel().clearSelection();
 								// refresh the list
-								KeyEvent press = new KeyEvent(studentsList, txtCode, KeyEvent.KEY_PRESSED, "", "",
+								KeyEvent press = new KeyEvent(KeyEvent.KEY_PRESSED, txtCode, KeyEvent.KEY_PRESSED, "", "",
 										KeyCode.ENTER, false, false, false, false);
 								txtCode.fireEvent(press);
 							} catch (Exception e) {

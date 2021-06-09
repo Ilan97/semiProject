@@ -165,7 +165,7 @@ public class CheckExamOfStudentFormController implements GuiController, Initiali
 		try {
 			int grade = Integer.parseInt(scoreString);
 			// check if score is valid number
-			if (grade < 1 || grade > 100)
+			if (grade < 0 || grade > 100)
 				return false;
 		} catch (NumberFormatException e) {
 			return false;

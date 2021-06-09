@@ -233,7 +233,6 @@ public class ServerPortController implements Initializable {
 			// refresh the clients list every minute
 			new Thread(() -> {
 				while (flag) {
-					// TODO remember to close this thread
 					try {
 						Thread.sleep(1000);
 						Platform.runLater(() -> {

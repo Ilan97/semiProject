@@ -116,11 +116,6 @@ public class ComputerizedExamCodeWindowController implements GuiController, Init
 				ComputerizedExamEnterIDWindowController popUp = new ComputerizedExamEnterIDWindowController();
 				try {
 					popUp.start(new Stage());
-					// update the countPerformers in data base to +1
-					messageToServer.setMsg(getCode());
-					messageToServer.setOperation("increaseCounter");
-					messageToServer.setControllerName("ExamController");
-					ClientUI.client.handleMessageFromClientUI(messageToServer);
 					UsefulMethods.instance().close(event);
 				} catch (Exception e) {
 					UsefulMethods.instance().printException(e);

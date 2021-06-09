@@ -238,11 +238,14 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 	 * @param eCode of the exam
 	 */
 	public void updateCurrTimerForClient(String ecode) {
+		int temp;
 		Message messageToServer = new Message();
 		messageToServer.setControllerName("ExamController");
 		messageToServer.setOperation("CheckTimeOfExam");
 		messageToServer.setMsg(ecode);
-		int temp = (int) ClientUI.client.handleMessageFromClientUI(messageToServer);
+		synchronized (this) {
+		temp = (int) ClientUI.client.handleMessageFromClientUI(messageToServer);
+		}
 		MinTimer = temp;
 	}
 
@@ -290,8 +293,15 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 		}
 		innerPane.getChildren().clear();
 		innerPane.getChildren().add(qArray[0]);
-
-		// get curr timer from server
+		//update the countPerformers in data base to +1
+		Message messageToServer = new Message();
+		messageToServer.setMsg(ComputerizedExamCodeWindowController.code);
+		messageToServer.setOperation("increaseCounter");
+		messageToServer.setControllerName("ExamController");
+		synchronized (this) {
+		ClientUI.client.handleMessageFromClientUI(messageToServer);
+		}
+		//get curr timer from server 
 		updateCurrTimerForClient(ComputerizedExamCodeWindowController.code);
 
 		new Thread(() -> {
@@ -358,8 +368,8 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 					startDuration = (double) ClientUI.client.handleMessageFromClientUI(messageToServerThread3);
 				}
 				while (flagForTimer) {
-					Thread.sleep(10 * SEC);
-					// request for currDuration
+					Thread.sleep(MIN);
+					//request for currDuration
 					messageToServerThread3.setControllerName("ExamController");
 					messageToServerThread3.setOperation("GetExamDuration");
 					messageToServerThread3.setMsg(Exam_eCode);

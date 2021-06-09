@@ -101,10 +101,15 @@ public class ExamController {
 			data = parsingTheData((String) request.getMsg());
 			examID = getExamID(data[0]);
 			if (examID != null) {
-				if (!checkStudentDidExam(examID, data[2]))
+				if (!checkStudentDidExam(examID, data[2])) {
 					res = getExamFile(data[0], data[1]);
+					if (CheckTimeOfExam(data[0]) <= 10) {
+						examMessage.setMsg(res);
+					} else
+						examMessage.setMsg("too late to get into the exam");
+				} else
+					examMessage.setMsg("student is already did the exam");
 			}
-			examMessage.setMsg(res);
 			result = examMessage;
 			break;
 

@@ -181,6 +181,8 @@ public class ServerPortController implements Initializable {
 			clientConnected = server.getClientConnections();
 			for (Thread client : clientConnected) {
 				// get client's ip address and host's name
+				if(!(client instanceof ConnectionToClient))
+					continue;
 				clientAddress = (((ConnectionToClient) client).getInetAddress().getLocalHost()).toString();
 				ca = clientAddress.split("/");
 				hostName = ca[0];
@@ -235,8 +237,7 @@ public class ServerPortController implements Initializable {
 					try {
 						Thread.sleep(1000);
 						Platform.runLater(() -> {
-						//	btnRefresh.fire();
-							//TODO fix bug with Or Man 
+							btnRefresh.fire();
 						});
 					} catch (Exception e) {
 						e.printStackTrace();

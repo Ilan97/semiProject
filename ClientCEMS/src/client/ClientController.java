@@ -80,6 +80,7 @@ public class ClientController extends AbstractClient {
 				} catch (InterruptedException e) {
 				}
 			}
+			
 			Object ret = message;
 			message = null;
 			return ret;

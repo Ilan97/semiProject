@@ -66,6 +66,8 @@ public class ViewQuestionsForm1Controller implements GuiController, Initializabl
 	@SuppressWarnings("unchecked")
 	@FXML
 	void chooseFieldAction(ActionEvent event) {
+    	clearErrLbl(lblErrField);
+    	clearErrLbl(lblErrCourse);
 		ArrayList<String> listOfCourse;
 		Message messageToServer1 = new Message();
 		Message messageToServer2 = new Message();
@@ -84,6 +86,18 @@ public class ViewQuestionsForm1Controller implements GuiController, Initializabl
 		courseCB.setItems(FXCollections.observableArrayList(listOfCourse));
 		courseCB.setDisable(false);
 	}
+	
+	/**
+	 * This is FXML event handler. Handles the action of click on 'course' comboBox.
+	 * Get list of courses in order to the field that was chosen.
+	 *
+	 * @param event The action event.
+	 */
+    @FXML
+    void chooseCourseAction(ActionEvent event) {
+    	clearErrLbl(lblErrField);
+    	clearErrLbl(lblErrCourse);
+    }
 
 	/**
 	 * This method clear error label.
@@ -111,10 +125,12 @@ public class ViewQuestionsForm1Controller implements GuiController, Initializabl
 				clearErrLbl(lblErrField);
 		}
 
-		if (courseCB.getSelectionModel().isEmpty()) {
+		else if (courseCB.getSelectionModel().isEmpty()) {
 			// course not chosen
-			if (courseCB.getSelectionModel().isEmpty())
+			if (courseCB.getSelectionModel().isEmpty()) {
 				lblErrCourse.setText("choose course");
+				lblErrField.setText("");
+			}
 			// course chosen
 			else
 				clearErrLbl(lblErrCourse);

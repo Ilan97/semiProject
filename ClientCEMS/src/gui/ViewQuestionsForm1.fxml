@@ -71,7 +71,7 @@
             </Button>
             <ImageView fx:id="imgClock" fitHeight="50.0" fitWidth="50.0" layoutX="222.0" layoutY="49.0" />
             <ComboBox fx:id="fieldCB" layoutX="413.0" layoutY="220.0" onAction="#chooseFieldAction" prefWidth="150.0" promptText="Choose Field" style="-fx-background-color: #b2b2b2;" />
-            <ComboBox fx:id="courseCB" layoutX="413.0" layoutY="263.0" prefWidth="150.0" promptText="Choose Course" style="-fx-background-color: #b2b2b2;" />
+            <ComboBox fx:id="courseCB" layoutX="413.0" layoutY="263.0" onAction="#chooseCourseAction" prefWidth="150.0" promptText="Choose Course" style="-fx-background-color: #b2b2b2;" />
             <Label layoutX="404.0" layoutY="215.0" text="*" textFill="#f86060">
                <font>
                   <Font name="Calibri Bold" size="14.0" />

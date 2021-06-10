@@ -119,7 +119,7 @@ public class ComputerizedExamEnterIDWindowController implements GuiController, I
 		messageToServer.setOperation("GetExamDuration");
 		messageToServer.setMsg(ComputerizedExamCodeWindowController.code);
 		double duration = (double) ClientUI.client.handleMessageFromClientUI(messageToServer);
-		lblDur.setText(duration + "");
+		lblDur.setText("You have " + (int) duration + " minutes");
 		// set images
 		Image img = new Image(this.getClass().getResource("studentFrame.PNG").toString());
 		imgBack.setImage(img);

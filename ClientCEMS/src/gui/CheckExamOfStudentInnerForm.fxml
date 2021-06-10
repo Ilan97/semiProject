@@ -26,39 +26,39 @@
                   <Font name="Calibri Bold" size="12.0" />
                </font>
             </Label>
-            <Label fx:id="lblAns3Wrong" layoutX="36.0" layoutY="247.0" prefHeight="22.0" prefWidth="383.0" textFill="#f86060">
+            <Label fx:id="lblAns3Wrong" layoutX="36.0" layoutY="247.0" prefHeight="22.0" prefWidth="502.0" textFill="#f86060">
                <font>
-                  <Font name="Calibri Bold" size="18.0" />
+                  <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
-            <Label fx:id="lblAns2Wrong" layoutX="36.0" layoutY="218.0" prefHeight="22.0" prefWidth="383.0" textFill="#f86060">
+            <Label fx:id="lblAns2Wrong" layoutX="36.0" layoutY="218.0" prefHeight="22.0" prefWidth="502.0" textFill="#f86060">
                <font>
-                  <Font name="Calibri Bold" size="18.0" />
+                  <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
-            <Label fx:id="lblAns1Correct" layoutX="36.0" layoutY="189.0" prefHeight="22.0" prefWidth="383.0" textFill="#47ce60">
+            <Label fx:id="lblAns1Correct" layoutX="36.0" layoutY="189.0" prefHeight="22.0" prefWidth="502.0" textFill="#47ce60">
                <font>
-                  <Font name="Calibri Bold" size="18.0" />
+                  <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
-            <Label fx:id="lblAns4Wrong" layoutX="36.0" layoutY="276.0" prefHeight="22.0" prefWidth="383.0" textFill="#f86060">
+            <Label fx:id="lblAns4Wrong" layoutX="36.0" layoutY="276.0" prefHeight="22.0" prefWidth="502.0" textFill="#f86060">
                <font>
-                  <Font name="Calibri Bold" size="18.0" />
+                  <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
-            <Label fx:id="lblAns2" layoutX="36.0" layoutY="218.0" prefHeight="22.0" prefWidth="383.0">
+            <Label fx:id="lblAns2" layoutX="36.0" layoutY="218.0" prefHeight="22.0" prefWidth="502.0">
                <font>
-                  <Font name="Calibri Bold" size="18.0" />
+                  <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
-            <Label fx:id="lblAns4" layoutX="36.0" layoutY="276.0" prefHeight="22.0" prefWidth="383.0">
+            <Label fx:id="lblAns4" layoutX="36.0" layoutY="276.0" prefHeight="22.0" prefWidth="502.0">
                <font>
-                  <Font name="Calibri Bold" size="18.0" />
+                  <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
-            <Label fx:id="lblAns3" layoutX="36.0" layoutY="247.0" prefHeight="22.0" prefWidth="383.0">
+            <Label fx:id="lblAns3" layoutX="36.0" layoutY="247.0" prefHeight="22.0" prefWidth="502.0">
                <font>
-                  <Font name="Calibri Bold" size="18.0" />
+                  <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
             <Label layoutX="227.0" layoutY="22.0" text="Field:">

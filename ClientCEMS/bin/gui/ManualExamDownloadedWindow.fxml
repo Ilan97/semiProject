@@ -27,9 +27,9 @@
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Text>
-            <Text fill="#b2b2b2" fontSmoothingType="LCD" layoutX="68.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The exam has begun. " textAlignment="CENTER" wrappingWidth="206.61212158203125">
+            <Text fx:id="lblDur" fill="#b2b2b2" fontSmoothingType="LCD" layoutX="69.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The exam has begun" textAlignment="CENTER" wrappingWidth="206.61212158203125">
                <font>
-                  <Font name="Calibri Bold" size="14.0" />
+                  <Font name="Calibri Bold" size="18.0" />
                </font>
             </Text>
             <Text fill="#f86060" fontSmoothingType="LCD" layoutX="114.0" layoutY="163.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pay Attention!" textAlignment="CENTER" wrappingWidth="115.27874755859375">

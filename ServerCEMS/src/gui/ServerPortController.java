@@ -52,6 +52,15 @@ public class ServerPortController implements Initializable {
 	 */
 	public static ServerController server;
 	/**
+	 * The time for the thread to refresh (one minute).
+	 */
+	static final int MIN = 60 * 1000;
+	/**
+	 * One second.
+	 */
+	static final int SEC = 1000;
+	public boolean flag = true;
+	/**
 	 * The indicate if thread still alive.
 	 */
 	public boolean flag = true;
@@ -234,7 +243,7 @@ public class ServerPortController implements Initializable {
 			new Thread(() -> {
 				while (flag) {
 					try {
-						Thread.sleep(1000);
+						Thread.sleep(SEC);
 						Platform.runLater(() -> {
 							btnRefresh.fire();
 						});

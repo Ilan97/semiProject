@@ -192,7 +192,8 @@ public class ManualExamFormController implements GuiController, Initializable {
 						Message messageToServerThread3 = new Message();
 						String ExamStatus;
 						String Exam_eCode = code;
-						// request for startDuration
+						boolean FlagForAttention = true;
+            // request for startDuration
 						messageToServerThread3.setControllerName("ExamController");
 						messageToServerThread3.setOperation("GetExamDuration");
 						messageToServerThread3.setMsg(Exam_eCode);
@@ -200,8 +201,8 @@ public class ManualExamFormController implements GuiController, Initializable {
 							startDuration = (double) ClientUI.client.handleMessageFromClientUI(messageToServerThread3);
 						}
 						while (flagForTimer) {
-							Thread.sleep(MIN);
-							// request for currDuration
+							Thread.sleep(15 * SEC);
+							//request for currDuration
 							messageToServerThread3.setControllerName("ExamController");
 							messageToServerThread3.setOperation("GetExamDuration");
 							messageToServerThread3.setMsg(Exam_eCode);
@@ -228,7 +229,8 @@ public class ManualExamFormController implements GuiController, Initializable {
 							synchronized (this) {
 								ExamStatus = (String) ClientUI.client.handleMessageFromClientUI(messageToServerThread3);
 							}
-							if ((HourTimer * 60 + MinTimer) + 10 == currDuration) {
+							if( (HourTimer*60 + MinTimer) + 10 == currDuration && FlagForAttention ) {
+								FlagForAttention = false;
 								Platform.runLater(() -> {
 									// successes pop up
 									AlertTimeIsRunningOutWindowController pop1 = new AlertTimeIsRunningOutWindowController();
@@ -265,8 +267,8 @@ public class ManualExamFormController implements GuiController, Initializable {
 										messageToServerThread3.setMsg(examToUpload);
 										messageToServerThread3.setControllerName("StudentController");
 										messageToServerThread3.setOperation("SubmitExam");
-										synchronized (this) {
-											ClientUI.client.handleMessageFromClientUI(messageToServer);
+										synchronized(this) {
+										ClientUI.client.handleMessageFromClientUI(messageToServerThread3);
 										}
 										StudentDidNotMakeItWindowController pop3 = new StudentDidNotMakeItWindowController();
 										try {
@@ -278,14 +280,12 @@ public class ManualExamFormController implements GuiController, Initializable {
 										Navigator.instance().clearHistory("StudentHomeForm");
 									});
 							}
-
+							startDuration = currDuration;
 						}
 					} catch (Exception e) {
 						UsefulMethods.instance().printException(e);
 					}
 				}).start();
-
-				startDuration = currDuration;
 			}
 		} catch (Exception e) {
 			UsefulMethods.instance().printException(e);

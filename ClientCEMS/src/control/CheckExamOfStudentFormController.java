@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Map.Entry;
 import java.util.ResourceBundle;
-
 import client.ClientUI;
 import gui.Navigator;
 import javafx.event.ActionEvent;
@@ -89,6 +88,8 @@ public class CheckExamOfStudentFormController implements GuiController, Initiali
 	private Label lblExpl;
 	@FXML
 	private Label lblErrNote;
+
+	// Instance methods ************************************************
 
 	/**
 	 * Pop this window.

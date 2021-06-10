@@ -13,14 +13,22 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
+/**
+ * This is controller class (boundary) for window AlertExamLocked. This class
+ * handle all events related to this window. This class connect with client.
+ *
+ * @author Sharon Vaknin
+ * @version June 2021
+ */
+
 public class AlertExamLockedWindowController implements GuiController, Initializable {
-	
+
 	// Instance variables **********************************************
 
-    @FXML
-    private ImageView imgCrash;
-    @FXML
-    private ImageView imgLock;
+	@FXML
+	private ImageView imgCrash;
+	@FXML
+	private ImageView imgLock;
 
 	// Instance methods ************************************************
 

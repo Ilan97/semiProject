@@ -18,7 +18,7 @@ import javafx.stage.Stage;
  * QuestionWasCreatedSuccessfully. This class handle all events related to this
  * window. This class connect with client.
  *
- * @author
+ * @author Sharon Vaknin
  * @version May 2021
  */
 

@@ -38,7 +38,9 @@ public class PrincipalViewRequestFormController implements GuiController, Initia
 	 * The {@link Request} that principal was chosen.
 	 */
 	public static Request chosenReq;
-
+	/**
+	 * The indication if the thread still alive.
+	 */
 	public boolean flag = true;
 
 	@FXML
@@ -70,8 +72,7 @@ public class PrincipalViewRequestFormController implements GuiController, Initia
 		if (listOfRequests != null) {
 			requestsList.setVisible(true);
 			requestsList.setItems(FXCollections.observableArrayList(listOfRequests));
-		}
-		else
+		} else
 			requestsList.setVisible(false);
 	}
 
@@ -111,7 +112,7 @@ public class PrincipalViewRequestFormController implements GuiController, Initia
 		flag = false;
 		Navigator.instance().navigate("PrincipalViewRequestForm");
 	}
-	
+
 	/**
 	 * This is FXML event handler. Handles the action of click on 'View Questions'
 	 * button.
@@ -123,7 +124,7 @@ public class PrincipalViewRequestFormController implements GuiController, Initia
 		flag = false;
 		Navigator.instance().navigate("ViewQuestionsForm1");
 	}
-	
+
 	/**
 	 * This is FXML event handler. Handles the action of click on 'View Exams'
 	 * button.

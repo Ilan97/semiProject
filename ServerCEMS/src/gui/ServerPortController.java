@@ -47,7 +47,7 @@ public class ServerPortController implements Initializable {
 	// Instance variables **********************************************
 
 	/**
-	 * static instance for ServerController instance. Will be create only once for
+	 * Static instance for ServerController instance. Will be create only once for
 	 * each run.
 	 */
 	public static ServerController server;
@@ -61,8 +61,10 @@ public class ServerPortController implements Initializable {
 	static final int SEC = 1000;
 	public boolean flag = true;
 	/**
-	 * FXML variables.
+	 * The indicate if thread still alive.
 	 */
+	public boolean flag = true;
+
 	@FXML
 	private ImageView imgPort;
 	@FXML
@@ -188,7 +190,7 @@ public class ServerPortController implements Initializable {
 			clientConnected = server.getClientConnections();
 			for (Thread client : clientConnected) {
 				// get client's ip address and host's name
-				if(!(client instanceof ConnectionToClient))
+				if (!(client instanceof ConnectionToClient))
 					continue;
 				clientAddress = (((ConnectionToClient) client).getInetAddress().getLocalHost()).toString();
 				ca = clientAddress.split("/");

@@ -3,7 +3,6 @@ package control;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,14 +14,23 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
-public class AlertExamManualDurationChangedWindowController implements GuiController, Initializable{
+/**
+ * This is controller class (boundary) for window
+ * AlertExamManualDurationChanged. This class handle all events related to this
+ * window. This class connect with client.
+ *
+ * @author Sharon Vaknin
+ * @version June 2021
+ */
+
+public class AlertExamManualDurationChangedWindowController implements GuiController, Initializable {
 
 	// Instance variables **********************************************
 
-    @FXML
-    private ImageView imgCrash;
-    @FXML
-    private Label lblDuration;
+	@FXML
+	private ImageView imgCrash;
+	@FXML
+	private Label lblDuration;
 
 	// Instance methods ************************************************
 
@@ -59,11 +67,9 @@ public class AlertExamManualDurationChangedWindowController implements GuiContro
 		// set images
 		Image img1 = new Image(this.getClass().getResource("serverCrushed.PNG").toString());
 		imgCrash.setImage(img1);
-		
+
 		int extraTime = (int) (ManualExamFormController.currDuration - ManualExamFormController.startDuration);
-		lblDuration.setText("You have another " + extraTime + " minutes");	
+		lblDuration.setText("You have another " + extraTime + " minutes");
 	}
 }
 // End of AlertExamMenualDurationChangedWindowController class
-	
-

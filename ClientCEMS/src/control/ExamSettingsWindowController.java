@@ -79,7 +79,7 @@ public class ExamSettingsWindowController implements GuiController, Initializabl
 		}
 		UsefulMethods.instance().close(event);
 	}
-	
+
 	/**
 	 * This is FXML event handler. Handles the action of click on 'Lock Exam'
 	 * button.

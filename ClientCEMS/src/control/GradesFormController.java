@@ -179,7 +179,8 @@ public class GradesFormController implements GuiController, Initializable {
 		// remove grade label when click on exam
 		examsList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ExamOfStudent>() {
 			@Override
-			public void changed(ObservableValue<? extends ExamOfStudent> observable, ExamOfStudent oldValue, ExamOfStudent newValue) {
+			public void changed(ObservableValue<? extends ExamOfStudent> observable, ExamOfStudent oldValue,
+					ExamOfStudent newValue) {
 				// request chosen
 				if (newValue != null) {
 					Platform.runLater(() -> {

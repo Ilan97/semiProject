@@ -3,7 +3,6 @@ package control;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
 import client.ClientUI;
 import gui.Navigator;
 import javafx.application.Platform;
@@ -64,6 +63,8 @@ public class CheckExamFormController implements GuiController, Initializable {
 	private Label lblSusp;
 	@FXML
 	private TextArea txtSusp;
+
+	// Instance methods ************************************************
 
 	/**
 	 * This method check that there is no selected values in the form.

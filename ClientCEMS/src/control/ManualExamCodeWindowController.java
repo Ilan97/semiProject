@@ -33,6 +33,7 @@ import logic.Message;
  * @author Ilan Meikler
  * @author Bat-El Gardin
  * @author Moran Davidov
+ * @author Ohad Shamir
  * @version May 2021
  */
 
@@ -116,11 +117,11 @@ public class ManualExamCodeWindowController implements GuiController, Initializa
 			messageToServer.setMsg(getCode() + " manual " + LoginController.user.getUsername());
 			messageToServer.setControllerName("ExamController");
 			messageToServer.setOperation("downloadManualExam");
-			object =  ClientUI.client.handleMessageFromClientUI(messageToServer);
+			object = ClientUI.client.handleMessageFromClientUI(messageToServer);
 			if (object == null)
 				lblErr.setText("invalid code");
 			else if (object instanceof ExamFile) {
-				res = (ExamFile)object;
+				res = (ExamFile) object;
 				code = txtCode.getText();
 				// choose directory to download the file
 				Stage stage = new Stage();
@@ -151,22 +152,20 @@ public class ManualExamCodeWindowController implements GuiController, Initializa
 					}
 				}
 				UsefulMethods.instance().close(event);
-			}
-			else {
-				switch( (String) object ) {
-				
+			} else {
+				switch ((String) object) {
+
 				case "too late to get into the exam":
 					lblErr.setText("too late..");
 					break;
-					
+
 				case "student is already did the exam":
 					lblErr.setText("already done");
 					break;
-				
-					
-					}
+
 				}
 			}
+		}
 	}
 
 	/**

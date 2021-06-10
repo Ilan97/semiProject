@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Map.Entry;
 import java.util.ResourceBundle;
-
 import client.ClientUI;
 import gui.Navigator;
 import javafx.application.Platform;
@@ -29,6 +28,7 @@ import logic.Question;
  *
  * @author Bat-El Gardin
  * @author Ilan Meikler
+ * @author Ohad Shamir
  * @version May 2021
  */
 
@@ -229,7 +229,6 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 		} catch (Exception e) {
 			UsefulMethods.instance().printException(e);
 		}
-
 	}
 
 	/**
@@ -244,7 +243,7 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 		messageToServer.setOperation("CheckTimeOfExam");
 		messageToServer.setMsg(ecode);
 		synchronized (this) {
-		temp = (int) ClientUI.client.handleMessageFromClientUI(messageToServer);
+			temp = (int) ClientUI.client.handleMessageFromClientUI(messageToServer);
 		}
 		MinTimer = temp;
 	}
@@ -293,15 +292,15 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 		}
 		innerPane.getChildren().clear();
 		innerPane.getChildren().add(qArray[0]);
-		//update the countPerformers in data base to +1
+		// update the countPerformers in data base to +1
 		Message messageToServer = new Message();
 		messageToServer.setMsg(ComputerizedExamCodeWindowController.code);
 		messageToServer.setOperation("increaseCounter");
 		messageToServer.setControllerName("ExamController");
 		synchronized (this) {
-		ClientUI.client.handleMessageFromClientUI(messageToServer);
+			ClientUI.client.handleMessageFromClientUI(messageToServer);
 		}
-		//get curr timer from server 
+		// get curr timer from server
 		updateCurrTimerForClient(ComputerizedExamCodeWindowController.code);
 
 		new Thread(() -> {
@@ -431,6 +430,5 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 			}
 		}).start();
 	}
-
 }
 //End of ComputerizedExamFormController class

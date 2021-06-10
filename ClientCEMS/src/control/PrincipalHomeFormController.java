@@ -65,7 +65,7 @@ public class PrincipalHomeFormController implements GuiController, Initializable
 	void viewRequestsAction(ActionEvent event) {
 		Navigator.instance().navigate("PrincipalViewRequestForm");
 	}
-	
+
 	/**
 	 * This is FXML event handler. Handles the action of click on 'View Questions'
 	 * button.
@@ -76,7 +76,7 @@ public class PrincipalHomeFormController implements GuiController, Initializable
 	void viewQuestionsAction(ActionEvent event) {
 		Navigator.instance().navigate("ViewQuestionsForm1");
 	}
-	
+
 	/**
 	 * This is FXML event handler. Handles the action of click on 'View Exams'
 	 * button.

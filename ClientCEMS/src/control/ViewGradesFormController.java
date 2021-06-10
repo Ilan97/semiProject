@@ -34,6 +34,9 @@ import logic.Message;
 
 public class ViewGradesFormController implements GuiController, Initializable {
 
+	/*
+	 * The exam that was chosen to view.
+	 */
 	public static ExamOfStudent chosenExam;
 
 	@FXML

@@ -18,8 +18,8 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 /**
- * This is controller class (boundary) for window PrincipalViewExam. This class handle
- * all events related to this window. This class connect with client.
+ * This is controller class (boundary) for window PrincipalViewExam. This class
+ * handle all events related to this window. This class connect with client.
  *
  * @author Sharon Vaknin
  * @author Moran Davidov
@@ -46,8 +46,8 @@ public class PrincipalViewExamWindowController implements GuiController, Initial
 	private Label lblAuthor;
 	@FXML
 	private Label lblDuration;
-    @FXML
-    private Label lblType;
+	@FXML
+	private Label lblType;
 	@FXML
 	private TextField txtCode;
 	@FXML

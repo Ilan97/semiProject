@@ -96,7 +96,7 @@
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </CheckBox>
-            <Label layoutX="416.0" layoutY="276.0" prefHeight="17.0" prefWidth="112.0" text="Choose Statistic">
+            <Label fx:id="lblStatistics" layoutX="416.0" layoutY="276.0" prefHeight="17.0" prefWidth="112.0" text="Choose Statistic">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
@@ -111,7 +111,7 @@
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="408.0" layoutY="273.0" text="*" textFill="#f86060">
+            <Label fx:id="lblStar2" layoutX="408.0" layoutY="273.0" text="*" textFill="#f86060">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
@@ -126,7 +126,7 @@
                   <Font name="Calibri Bold" size="12.0" />
                </font>
             </Label>
-            <ComboBox fx:id="typeOptions" layoutX="386.0" layoutY="220.0" prefHeight="27.0" prefWidth="176.0" style="-fx-background-color: #b2b2b2;" />
+            <ComboBox fx:id="typeOptions" layoutX="386.0" layoutY="220.0" onAction="#chooseOption" prefHeight="27.0" prefWidth="176.0" style="-fx-background-color: #b2b2b2;" />
             <ComboBox fx:id="chooseType" layoutX="386.0" layoutY="166.0" onAction="#chooseTypeAction" prefHeight="27.0" prefWidth="176.0" promptText="Choose Type" style="-fx-background-color: #b2b2b2;" />
             <Label fx:id="lblErrType" layoutX="572.0" layoutY="175.0" prefHeight="14.0" prefWidth="123.0" textFill="#f86060">
                <font>

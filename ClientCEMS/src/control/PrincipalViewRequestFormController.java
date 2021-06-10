@@ -67,7 +67,12 @@ public class PrincipalViewRequestFormController implements GuiController, Initia
 		messageToServer.setControllerName("PrincipalController");
 		messageToServer.setOperation("GetAllRequests");
 		listOfRequests = (ArrayList<Request>) ClientUI.client.handleMessageFromClientUI(messageToServer);
-		requestsList.setItems(FXCollections.observableArrayList(listOfRequests));
+		if (listOfRequests != null) {
+			requestsList.setVisible(true);
+			requestsList.setItems(FXCollections.observableArrayList(listOfRequests));
+		}
+		else
+			requestsList.setVisible(false);
 	}
 
 	// Menu methods ************************************************
@@ -149,11 +154,12 @@ public class PrincipalViewRequestFormController implements GuiController, Initia
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		requestsList.setVisible(false);
 		// refresh the requests list every minute
 		new Thread(() -> {
 			while (flag) {
 				try {
-					Thread.sleep(60000);
+					Thread.sleep(1000);
 					Platform.runLater(() -> {
 						btnRefresh.fire();
 					});

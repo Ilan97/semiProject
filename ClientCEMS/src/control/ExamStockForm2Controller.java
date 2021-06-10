@@ -2,9 +2,7 @@ package control;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
-import client.ClientUI;
 import gui.Navigator;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -15,7 +13,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import logic.Exam;
-import logic.Message;
 
 /**
  * This is controller class (boundary) for window ExamStock (second part). This
@@ -155,7 +152,6 @@ public class ExamStockForm2Controller implements GuiController, Initializable {
 	 * This method called to initialize a controller after its root element has been
 	 * completely processed (after load method).
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		chosenExam = null;
@@ -165,14 +161,7 @@ public class ExamStockForm2Controller implements GuiController, Initializable {
 		Image img2 = new Image(this.getClass().getResource("logo.png").toString());
 		imgLogo.setImage(img2);
 		// set the exams list in order to the field and course that was chosen
-		ArrayList<Exam> listOfExams;
-		Exam exam = ExamStockForm1Controller.Exam;
-		Message messageToServer = new Message();
-		messageToServer.setMsg(exam.getFname() + " " + exam.getCname());
-		messageToServer.setControllerName("ExamController");
-		messageToServer.setOperation("ShowExamList");
-		listOfExams = (ArrayList<Exam>) ClientUI.client.handleMessageFromClientUI(messageToServer);
-		examsView.setItems(FXCollections.observableArrayList(listOfExams));
+		examsView.setItems(FXCollections.observableArrayList(ExamStockForm1Controller.listOfExams));
 	}
 }
 // End of ExamStockForm2Controller class

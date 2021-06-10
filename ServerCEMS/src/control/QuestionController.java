@@ -25,9 +25,6 @@ public class QuestionController {
 	// it.
 	private static Message request;
 	private static Message result;
-	// variables for execute queries and handle the results from DB.
-	private static PreparedStatement pstmt;
-	private static ResultSet rs;
 
 	// Instance methods ************************************************
 
@@ -78,6 +75,8 @@ public class QuestionController {
 	 *         field and course. If there no questions, return null.
 	 */
 	public static ArrayList<Question> getQuestions(String Fname, String Cname) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		ArrayList<Question> listOfQuestions = new ArrayList<>();
 		// get the data from the relevant controllers
 		String Fid = FieldOfStudyController.GetFid(Fname);
@@ -132,6 +131,7 @@ public class QuestionController {
 	 * @return boolean result if the save succeed.
 	 */
 	public static boolean saveQuestion(Question q) {
+		PreparedStatement pstmt = null;
 		String sql = "INSERT INTO Question VALUES (?,?,?,?,?,?,?,?,?,?)";
 		try {
 			pstmt = DBconnector.conn.prepareStatement(sql);
@@ -169,6 +169,7 @@ public class QuestionController {
 	 * @param Qid The question id from client.
 	 */
 	public static void questionToCourse(String Fid, String Cid, String Qid) {
+		PreparedStatement pstmt = null;
 		String sql = "INSERT INTO questionInCourse VALUES (?,?,?)";
 		try {
 			pstmt = DBconnector.conn.prepareStatement(sql);
@@ -195,6 +196,7 @@ public class QuestionController {
 	 * @param Qid        question id from client.
 	 */
 	public static void UpdateQid(String fieldName, String courseName, String Qid) {
+		PreparedStatement pstmt = null;
 		String query = "UPDATE qidtable SET qid = ? WHERE fieldName = ? AND courseName = ?";
 		try {
 			pstmt = DBconnector.conn.prepareStatement(query);
@@ -221,6 +223,8 @@ public class QuestionController {
 	 * @return qid if found in dataBase else return -1.
 	 */
 	public static int GetQid(String FieldName, String CourseName) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		int Qid = -1;
 		String sql = "SELECT qid FROM qidtable WHERE fieldName = ? AND CourseName = ?";
 		try {

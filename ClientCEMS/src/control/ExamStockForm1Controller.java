@@ -35,6 +35,10 @@ public class ExamStockForm1Controller implements GuiController, Initializable {
 	 * The chosen {@link Exam}.
 	 */
 	public static Exam Exam;
+	/**
+	 * {@link Exam} {@link ArrayList} all exams from specific course and field.
+	 */
+	public static ArrayList<Exam> listOfExams;
 
 	@FXML
 	private ImageView imgBack;
@@ -48,6 +52,8 @@ public class ExamStockForm1Controller implements GuiController, Initializable {
 	private Label lblErrField;
 	@FXML
 	private Label lblErrCourse;
+	@FXML
+	private Label lblErrData;
 
 	// Instance methods ************************************************
 
@@ -91,6 +97,7 @@ public class ExamStockForm1Controller implements GuiController, Initializable {
 	 *
 	 * @param event The action event.
 	 */
+	@SuppressWarnings("unchecked")
 	@FXML
 	void searchAction(ActionEvent event) {
 		// get details from the screen
@@ -111,8 +118,19 @@ public class ExamStockForm1Controller implements GuiController, Initializable {
 			e.setFname(Field);
 			e.setCname(Course);
 			Exam = e;
-			// go to next page
-			Navigator.instance().navigate("ExamStockForm2");
+			// get all exams
+			Message messageToServer = new Message();
+			messageToServer.setMsg(Exam.getFname() + " " + Exam.getCname());
+			messageToServer.setControllerName("ExamController");
+			messageToServer.setOperation("ShowExamList");
+			listOfExams = (ArrayList<Exam>) ClientUI.client.handleMessageFromClientUI(messageToServer);
+			if (listOfExams == null)
+				lblErrData.setText("there is no data to show!");
+			else {
+				clearErrLbl(lblErrData);
+				// go to next page
+				Navigator.instance().navigate("ExamStockForm2");
+			}
 		}
 	}
 
@@ -219,6 +237,7 @@ public class ExamStockForm1Controller implements GuiController, Initializable {
 	@SuppressWarnings({ "unchecked" })
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		listOfExams = null;
 		Exam = null;
 		course.setDisable(true);
 		// set images

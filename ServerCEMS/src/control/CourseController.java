@@ -24,9 +24,6 @@ public class CourseController {
 	// messages that CourseController receive from server (request) and sent to it.
 	private static Message request;
 	private static Message result;
-	// variables for execute queries and handle the results from DB.
-	private static PreparedStatement pstmt;
-	private static ResultSet rs;
 
 	// Instance methods ************************************************
 
@@ -84,6 +81,8 @@ public class CourseController {
 	 * @return listOfGrades if found in dataBase else return null.
 	 */
 	public static ArrayList<Integer> getGrades(String name) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		String cid = GetCid(name);
 		ArrayList<Integer> listOfGrades = new ArrayList<>();
 		String sql = "SELECT grade FROM ExamOfStudent WHERE cid = ? AND teacher_check = ?";
@@ -122,6 +121,8 @@ public class CourseController {
 	 * @return Cid The course id. if not found in dataBase return null.
 	 */
 	public static String GetCid(String CourseName) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		String Cid = null;
 		String sql = "SELECT cid FROM course WHERE cname = ?";
 		try {
@@ -155,6 +156,8 @@ public class CourseController {
 	 * @return cname The course name. if not found in dataBase return null.
 	 */
 	public static String GetCname(String Cid) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		String Cname = null;
 		String sql = "SELECT cname FROM course WHERE cid = ?";
 		try {
@@ -189,6 +192,8 @@ public class CourseController {
 	 *         not found in dataBase return null.
 	 */
 	public static ArrayList<String> getCoursesIdList(String fid) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		ArrayList<String> listOfCoursesIds = new ArrayList<>();
 		String sql = "SELECT cid FROM courseinfield WHERE fid = ?";
 		try {
@@ -224,6 +229,8 @@ public class CourseController {
 	 *         dataBase return null.
 	 */
 	public static ArrayList<String> getAllCourses() {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		ArrayList<String> courseList = new ArrayList<>();
 		String sql = "SELECT cname FROM course";
 		try {

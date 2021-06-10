@@ -469,7 +469,7 @@ public class ExamController {
 	 * @return timer.
 	 */
 	public static int CheckTimeOfExam(String code) {
-		int timer = 0;
+		int timer = 0; 
 		String sql = "SELECT timer FROM examtoperform WHERE ecode = ? ";
 		try {
 			pstmt = DBconnector.conn.prepareStatement(sql);

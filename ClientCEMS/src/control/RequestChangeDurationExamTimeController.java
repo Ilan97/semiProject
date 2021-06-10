@@ -185,38 +185,40 @@ public class RequestChangeDurationExamTimeController implements GuiController, I
 			// code isn't exists
 			if (!isExists)
 				lblErrorExamID.setText("invalid code");
-			// check if code already exists in the request table
-			boolean requestIsExists = false;
-			messageToServer.setMsg(getCode());
-			messageToServer.setOperation("CheckRequestExists");
-			messageToServer.setControllerName("PrincipalController");
-			requestIsExists = (boolean) ClientUI.client.handleMessageFromClientUI(messageToServer);
-			// code isn't valid
-			if (requestIsExists)
-				lblErrorExamID.setText("request already exists");
-			// code exists - all fields are good!
 			else {
-				clearErrLbl(lblErrorExamID);
-				clearErrLbl(lblErrorDuration);
-				clearErrLbl(lblErrorExplanation);
-				boolean success;
-				Request newReq = new Request(getCode(), originDur, newDur, getExplanation());
-				messageToServer.setMsg(newReq);
-				messageToServer.setOperation("AddRequest");
+				// check if code already exists in the request table
+				boolean requestIsExists = false;
+				messageToServer.setMsg(getCode());
+				messageToServer.setOperation("CheckRequestExists");
 				messageToServer.setControllerName("PrincipalController");
-				success = (boolean) ClientUI.client.handleMessageFromClientUI(messageToServer);
-				if (success) {
-					// success pop up
-					RequestSendSuccessfullyWindowController popUp = new RequestSendSuccessfullyWindowController();
-					try {
-						popUp.start(new Stage());
-					} catch (Exception e) {
-						UsefulMethods.instance().printException(e);
+				requestIsExists = (boolean) ClientUI.client.handleMessageFromClientUI(messageToServer);
+				// code isn't valid
+				if (requestIsExists)
+					lblErrorExamID.setText("request already exists");
+				// code exists - all fields are good!
+				else {
+					clearErrLbl(lblErrorExamID);
+					clearErrLbl(lblErrorDuration);
+					clearErrLbl(lblErrorExplanation);
+					boolean success;
+					Request newReq = new Request(getCode(), originDur, newDur, getExplanation());
+					messageToServer.setMsg(newReq);
+					messageToServer.setOperation("AddRequest");
+					messageToServer.setControllerName("PrincipalController");
+					success = (boolean) ClientUI.client.handleMessageFromClientUI(messageToServer);
+					if (success) {
+						// success pop up
+						RequestSendSuccessfullyWindowController popUp = new RequestSendSuccessfullyWindowController();
+						try {
+							popUp.start(new Stage());
+						} catch (Exception e) {
+							UsefulMethods.instance().printException(e);
+						}
+					} else {
+						UsefulMethods.instance().display("error in request change duration time !");
 					}
-				} else {
-					UsefulMethods.instance().display("error in request change duration time !");
+					UsefulMethods.instance().close(event);
 				}
-				UsefulMethods.instance().close(event);
 			}
 		}
 	}

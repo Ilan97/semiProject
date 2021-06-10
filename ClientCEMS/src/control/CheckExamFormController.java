@@ -94,6 +94,8 @@ public class CheckExamFormController implements GuiController, Initializable {
 		if (event.getCode().equals(KeyCode.ENTER)) {
 			if (getCode().trim().isEmpty()) {
 				lblErrorExamID.setText("enter code");
+				lblSusp.setVisible(false);
+				txtSusp.setVisible(false);
 				studentsList.setVisible(false);
 			}
 			// trim isn't empty
@@ -108,6 +110,8 @@ public class CheckExamFormController implements GuiController, Initializable {
 				// code isn't exists
 				if (!isExists) {
 					lblErrorExamID.setText("invalid code");
+					lblSusp.setVisible(false);
+					txtSusp.setVisible(false);
 					studentsList.setVisible(false);
 				}
 				// code is valid
@@ -120,12 +124,15 @@ public class CheckExamFormController implements GuiController, Initializable {
 					isChecked = (boolean) ClientUI.client.handleMessageFromClientUI(messageToServer);
 					if (isChecked) {
 						lblErrorExamID.setText("all exams are checked!");
+						lblSusp.setVisible(false);
+						txtSusp.setVisible(false);
 						studentsList.setVisible(false);
 					}
 					// all terms are good
 					else {
 						lblSusp.setVisible(false);
 						txtSusp.setVisible(false);
+						studentsList.setVisible(false);
 						lblErrorExamID.setText("");
 						// get list of student names that suspected of copying
 						ArrayList<String> listOfNames = null;
@@ -259,8 +266,8 @@ public class CheckExamFormController implements GuiController, Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		lblSusp.setVisible(false);
 		txtSusp.setVisible(false);
-		chosenExam = null;
 		studentsList.setVisible(false);
+		chosenExam = null;
 		// set images
 		Image img = new Image(this.getClass().getResource("teacherFrame.PNG").toString());
 		imgBack.setImage(img);
@@ -292,8 +299,8 @@ public class CheckExamFormController implements GuiController, Initializable {
 								check.start(new Stage());
 								studentsList.getSelectionModel().clearSelection();
 								// refresh the list
-								KeyEvent press = new KeyEvent(KeyEvent.KEY_PRESSED, txtCode, KeyEvent.KEY_PRESSED, "", "",
-										KeyCode.ENTER, false, false, false, false);
+								KeyEvent press = new KeyEvent(KeyEvent.KEY_PRESSED, txtCode, KeyEvent.KEY_PRESSED, "",
+										"", KeyCode.ENTER, false, false, false, false);
 								txtCode.fireEvent(press);
 							} catch (Exception e) {
 								UsefulMethods.instance().printException(e);

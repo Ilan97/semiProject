@@ -23,9 +23,6 @@ public class TeacherController {
 	// messages that TeacherController receive from server (request) and sent to it.
 	private static Message request;
 	private static Message result;
-	// variables for execute queries and handle the results from DB.
-	private static PreparedStatement pstmt;
-	private static ResultSet rs;
 
 	// Instance methods ************************************************
 
@@ -80,6 +77,8 @@ public class TeacherController {
 	 * @return true if all exams are checked, false otherwise.
 	 */
 	public static boolean isAllCheck(String code) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		boolean res = true;
 		String sql = "SELECT userName FROM examOfStudent WHERE exam_code = ? AND teacher_check = ?";
 		try {
@@ -112,6 +111,8 @@ public class TeacherController {
 	 * @return listOfGrades if found in dataBase else return null.
 	 */
 	public static ArrayList<Integer> getGrades(String name) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		ArrayList<Integer> listOfGrades = new ArrayList<>();
 		String sql = "SELECT grade FROM Exam AS e, ExamOfStudent AS es WHERE "
 				+ "e.fid = es.fid AND e.cid = es.cid AND e.eid = es.eid AND e.author = ? AND es.teacher_check = ?";
@@ -152,7 +153,8 @@ public class TeacherController {
 	 *         null.
 	 */
 	public static ArrayList<String> getCoursesList(String UserName, String FieldName) {
-
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		ArrayList<String> listOfCourses = new ArrayList<>();
 		String sql = "SELECT course FROM Teacher WHERE userName = ? AND field = ?";
 		try {
@@ -191,6 +193,8 @@ public class TeacherController {
 	 *         return null.
 	 */
 	public static ArrayList<String> getFieldList(String UserName) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		ArrayList<String> listOfField = new ArrayList<>();
 		String sql = "SELECT field FROM Teacher WHERE userName = ?";
 		try {

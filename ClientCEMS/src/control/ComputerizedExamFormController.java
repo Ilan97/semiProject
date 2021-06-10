@@ -360,6 +360,7 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 				String ExamStatus;
 				String Exam_eCode = ComputerizedExamCodeWindowController.code;
 				Message messageToServerThread3 = new Message();
+				boolean FlagForAttention = true;
 				// request for startDuration
 				messageToServerThread3.setControllerName("ExamController");
 				messageToServerThread3.setOperation("GetExamDuration");
@@ -368,7 +369,7 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 					startDuration = (double) ClientUI.client.handleMessageFromClientUI(messageToServerThread3);
 				}
 				while (flagForTimer) {
-					Thread.sleep(MIN);
+					Thread.sleep(15 * SEC);
 					//request for currDuration
 					messageToServerThread3.setControllerName("ExamController");
 					messageToServerThread3.setOperation("GetExamDuration");
@@ -388,7 +389,8 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 							}
 						});
 					}
-					if ((HourTimer * 60 + MinTimer) + 10 == currDuration) {
+					if ((HourTimer * 60 + MinTimer) + 10 == currDuration  && FlagForAttention) {
+						FlagForAttention = false;
 						// pop up
 						Platform.runLater(() -> {
 							AlertTimeIsRunningOutWindowController popUp = new AlertTimeIsRunningOutWindowController();

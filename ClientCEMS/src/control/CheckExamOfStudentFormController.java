@@ -43,6 +43,10 @@ public class CheckExamOfStudentFormController implements GuiController, Initiali
 	 */
 	public static Exam exam;
 	/**
+	 * The origin grade of the student.
+	 */
+	private String originGrade;
+	/**
 	 * The size of the qArray (number of questions in exam).
 	 */
 	public static int qSize;
@@ -70,17 +74,21 @@ public class CheckExamOfStudentFormController implements GuiController, Initiali
 	@FXML
 	private Button btnSave;
 	@FXML
-	private Label lblGrade;
-	@FXML
 	private TextField txtGrade;
+	@FXML
+	private TextArea txtNote;
 	@FXML
 	private Label lblStar;
 	@FXML
-	private TextArea txtNote;
+	private Label lblGrade;
 	@FXML
 	private Label lblNote;
 	@FXML
 	private Label lblErrGrade;
+	@FXML
+	private Label lblExpl;
+	@FXML
+	private Label lblErrNote;
 
 	/**
 	 * Pop this window.
@@ -112,6 +120,7 @@ public class CheckExamOfStudentFormController implements GuiController, Initiali
 		btnSave.setVisible(false);
 		lblNote.setVisible(false);
 		txtNote.setVisible(false);
+		lblExpl.setVisible(false);
 		if (curQuestion == (qSize - 1)) {
 			btnNext.setVisible(true);
 		}
@@ -138,11 +147,11 @@ public class CheckExamOfStudentFormController implements GuiController, Initiali
 			// last question
 			btnNext.setVisible(false);
 			lblGrade.setVisible(true);
-			lblStar.setVisible(true);
 			txtGrade.setVisible(true);
 			btnSave.setVisible(true);
 			lblNote.setVisible(true);
 			txtNote.setVisible(true);
+			lblExpl.setVisible(true);
 		}
 		paneQuestions.getChildren().clear();
 		paneQuestions.getChildren().add(qArray[curQuestion]);
@@ -187,27 +196,39 @@ public class CheckExamOfStudentFormController implements GuiController, Initiali
 			lblErrGrade.setText("invalid grade");
 		// grade is valid
 		else {
-			CheckExamFormController.chosenExam.setGrade(Integer.parseInt(getGrade()));
-			if (!(txtNote.getText().trim().isEmpty()))
-				CheckExamFormController.chosenExam.setTeachNote(txtNote.getText());
-			// update exam of student
-			Message messageToServer = new Message();
-			messageToServer.setMsg(CheckExamFormController.chosenExam);
-			messageToServer.setOperation("UpdateExam");
-			messageToServer.setControllerName("StudentController");
-			boolean isUpdate = (boolean) ClientUI.client.handleMessageFromClientUI(messageToServer);
-			if (isUpdate) {
-				// successes pop up
-				TheChangesHasUpdatedSuccessfullyController popUp = new TheChangesHasUpdatedSuccessfullyController();
-				try {
-					popUp.start(new Stage());
-				} catch (Exception e) {
-					UsefulMethods.instance().printException(e);
-				}
-			} else {
-				UsefulMethods.instance().display("error in save!");
+			// the grade was changed
+			if (!originGrade.equals(getGrade())) {
+				lblStar.setVisible(true);
+				CheckExamFormController.chosenExam.setGrade(Integer.parseInt(getGrade()));
+				// must add note
+				if (txtNote.getText().trim().isEmpty())
+					lblErrNote.setText("enter explanation");
+				else
+					lblErrNote.setText("");
 			}
-			UsefulMethods.instance().close(event);
+			if ((originGrade.equals(getGrade()))
+					|| ((!originGrade.equals(getGrade())) && (!(txtNote.getText().trim().isEmpty())))) {
+				lblStar.setVisible(false);
+				CheckExamFormController.chosenExam.setTeachNote(txtNote.getText());
+				// update exam of student
+				Message messageToServer = new Message();
+				messageToServer.setMsg(CheckExamFormController.chosenExam);
+				messageToServer.setOperation("UpdateExam");
+				messageToServer.setControllerName("StudentController");
+				boolean isUpdate = (boolean) ClientUI.client.handleMessageFromClientUI(messageToServer);
+				if (isUpdate) {
+					// successes pop up
+					TheChangesHasUpdatedSuccessfullyController popUp = new TheChangesHasUpdatedSuccessfullyController();
+					try {
+						popUp.start(new Stage());
+					} catch (Exception e) {
+						UsefulMethods.instance().printException(e);
+					}
+				} else {
+					UsefulMethods.instance().display("error in save!");
+				}
+				UsefulMethods.instance().close(event);
+			}
 		}
 	}
 
@@ -217,6 +238,7 @@ public class CheckExamOfStudentFormController implements GuiController, Initiali
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		originGrade = CheckExamFormController.chosenExam.getGrade() + "";
 		// hide unwanted variables
 		lblGrade.setVisible(false);
 		lblStar.setVisible(false);
@@ -225,8 +247,9 @@ public class CheckExamOfStudentFormController implements GuiController, Initiali
 		btnSave.setVisible(false);
 		lblNote.setVisible(false);
 		txtNote.setVisible(false);
+		lblExpl.setVisible(false);
 		// set the grade
-		txtGrade.setText(CheckExamFormController.chosenExam.getGrade() + "");
+		txtGrade.setText(originGrade);
 		// set images
 		Image img = new Image(this.getClass().getResource("teacherFrame.PNG").toString());
 		imgBack.setImage(img);
@@ -259,11 +282,11 @@ public class CheckExamOfStudentFormController implements GuiController, Initiali
 			if (qSize == 1) {
 				btnNext.setVisible(false);
 				lblGrade.setVisible(true);
-				lblStar.setVisible(true);
 				txtGrade.setVisible(true);
 				btnSave.setVisible(true);
 				lblNote.setVisible(true);
 				txtNote.setVisible(true);
+				lblExpl.setVisible(true);
 			}
 
 			btnBack.setVisible(false);

@@ -3,7 +3,6 @@ package control;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import client.ClientUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,12 +11,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import logic.Message;
 
@@ -39,7 +38,7 @@ public class LockExamWindowController implements GuiController, Initializable {
 	@FXML
 	private Button btnLock;
 	@FXML
-	private Label lblErrorExamID;
+	private Text lblError;
 	@FXML
 	private TextField txtExamID;
 
@@ -95,7 +94,7 @@ public class LockExamWindowController implements GuiController, Initializable {
 	@FXML
 	void lockActionButton(ActionEvent event) {
 		if (getCode().trim().isEmpty())
-			lblErrorExamID.setText("enter code");
+			lblError.setText("enter code");
 		// trim isn't empty
 		else {
 			Message messageToServer = new Message();
@@ -107,10 +106,10 @@ public class LockExamWindowController implements GuiController, Initializable {
 			isExists = (boolean) ClientUI.client.handleMessageFromClientUI(messageToServer);
 			// code isn't exists
 			if (!isExists)
-				lblErrorExamID.setText("invalid code");
+				lblError.setText("invalid code");
 			// code is valid
 			else {
-				lblErrorExamID.setText("");
+				lblError.setText("");
 				boolean isLocked;
 				messageToServer.setMsg(getCode());
 				messageToServer.setOperation("LockExam");

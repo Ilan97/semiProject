@@ -33,9 +33,6 @@ public class StudentController {
 	// messages that StudentController receive from server (request) and sent to it.
 	private static Message request;
 	private static Message result;
-	// variables for execute queries and handle the results from DB.
-	private static PreparedStatement pstmt;
-	private static ResultSet rs;
 
 	// Instance methods ************************************************
 
@@ -136,6 +133,7 @@ public class StudentController {
 	 * @return listOfNames {@link ArrayList} if found in DB success, null otherwise.
 	 */
 	public static ArrayList<String> getNames(String code) {
+		PreparedStatement pstmt = null;
 		ArrayList<String> listOfNames = new ArrayList<>();
 		ResultSet newRs = null;
 		String sql = "SELECT userName FROM examOfStudent WHERE exam_code = ? AND teacher_check = ?";
@@ -173,6 +171,7 @@ public class StudentController {
 	 * @return listOfNames {@link ArrayList} if found in DB success, null otherwise.
 	 */
 	public static ArrayList<String> getNamesWhoChecked() {
+		PreparedStatement pstmt = null;
 		ArrayList<String> listOfNames = new ArrayList<>();
 		String examID;
 		ResultSet newRs = null;
@@ -213,6 +212,7 @@ public class StudentController {
 	 * @return true if update success, false otherwise.
 	 */
 	public static boolean examWasChecked(ExamOfStudent exam) {
+		PreparedStatement pstmt = null;
 		String query;
 		query = "UPDATE examOfStudent SET teacher_check = ? , teacher_note = ?, grade = ? "
 				+ "WHERE exam_code = ? AND userName = ?";
@@ -242,6 +242,8 @@ public class StudentController {
 	 * @return {@link ExamOfStudent} if found in dataBase else return null.
 	 */
 	public static ExamOfStudent getExam(String userName, String code) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		ExamOfStudent ExamOfStudent = new ExamOfStudent();
 		// execute query
 		String sql = "SELECT * FROM examofstudent WHERE userName = ? AND exam_code = ?";
@@ -285,6 +287,8 @@ public class StudentController {
 	 * @return listOfGrades {@link ArrayList} if found in dataBase else return null.
 	 */
 	public static ArrayList<Integer> getGrades(String name) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		String userName = getUserName(name);
 		ArrayList<Integer> listOfGrades = new ArrayList<>();
 		String sql = "SELECT grade FROM ExamOfStudent WHERE userName = ? AND teacher_check = ?";
@@ -323,6 +327,8 @@ public class StudentController {
 	 * @return userName if found in dataBase else return null.
 	 */
 	public static String getUserName(String name) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		String[] res = parsingTheData(name);
 		String firstName = res[0];
 		String lastName = res[1];
@@ -362,6 +368,7 @@ public class StudentController {
 	 *         return null.
 	 */
 	public static ArrayList<ExamOfStudent> getExamsOfStudent(String userName) {
+		PreparedStatement pstmt = null;
 		ArrayList<ExamOfStudent> ExamsOfStudentList = new ArrayList<>();
 		ResultSet rs1 = null;
 		// execute query
@@ -410,6 +417,7 @@ public class StudentController {
 	 * This method get the exam status.
 	 */
 	public static void getExamType(ExamOfStudent es, String Fid, String Cid, String Eid) {
+		PreparedStatement pstmt = null;
 		ResultSet newRs = null;
 		String sql = "SELECT etype FROM exam WHERE fid = ? AND cid = ? AND eid = ?";
 		try {
@@ -448,6 +456,7 @@ public class StudentController {
 	 * This method get the exam of student date.
 	 */
 	public static String getExamDate(String code) {
+		PreparedStatement pstmt = null;
 		String date = new String();
 		ResultSet newRs = null;
 		String sql = "SELECT * FROM examtoperform WHERE ecode = ?";
@@ -503,6 +512,7 @@ public class StudentController {
 	 * @return true if saved, else return false.
 	 */
 	public static boolean submitExam(ExamOfStudent exam) {
+		PreparedStatement pstmt = null;
 		InputStream inputStream = null;
 		// get exam's id
 		String examFullID = ExamController.getExamID(exam.getCode());
@@ -515,7 +525,7 @@ public class StudentController {
 		// save details in db
 		if (exam.getContent() != null)
 			inputStream = new ByteArrayInputStream(exam.getContent());
-		String sql = "INSERT INTO examOfStudent VALUES (?,?,?,?,?,?,?,?,?,?)";
+		String sql = "INSERT INTO examOfStudent VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 		try {
 			pstmt = DBconnector.conn.prepareStatement(sql);
 			pstmt.setString(1, exam.getStudentName());
@@ -526,6 +536,7 @@ public class StudentController {
 			pstmt.setInt(6, exam.getGrade());
 			pstmt.setString(8, exam.getAnswers());
 			pstmt.setString(10, exam.getCode());
+			pstmt.setString(11, "");
 			switch (type) {
 			case "computerized":
 				byte[] empty = {};

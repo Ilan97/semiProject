@@ -72,6 +72,10 @@ public class ShowExamWindowController implements GuiController, Initializable {
 	private TextArea txtNote;
 	@FXML
 	private Label lblNote;
+	@FXML
+	private Label lblGrade;
+	@FXML
+	private Label lblGradeNum;
 
 	// Instance methods ************************************************
 
@@ -98,15 +102,19 @@ public class ShowExamWindowController implements GuiController, Initializable {
 	 */
 	@FXML
 	void back(ActionEvent event) {
-		// hide unwanted variables
-		lblNote.setVisible(false);
-		txtNote.setVisible(false);
 		if (curQuestion == (qSize - 1)) {
+			// last question
 			btnNext.setVisible(true);
 		}
 		curQuestion--;
 		if (curQuestion == 0) {
+			// first question
 			btnBack.setVisible(false);
+			// show wanted variables
+			lblNote.setVisible(true);
+			txtNote.setVisible(true);
+			lblGrade.setVisible(true);
+			lblGradeNum.setVisible(true);
 		}
 		paneQuestions.getChildren().clear();
 		paneQuestions.getChildren().add(qArray[curQuestion]);
@@ -119,17 +127,20 @@ public class ShowExamWindowController implements GuiController, Initializable {
 	 */
 	@FXML
 	void next(ActionEvent event) {
+		// hide unwanted variables
+		lblNote.setVisible(false);
+		txtNote.setVisible(false);
+		lblGrade.setVisible(false);
+		lblGradeNum.setVisible(false);
+
 		if (curQuestion == 0) {
+			// first question
 			btnBack.setVisible(true);
 		}
 		curQuestion++;
 		if (curQuestion == (qSize - 1)) {
 			// last question
 			btnNext.setVisible(false);
-			lblNote.setVisible(true);
-			txtNote.setVisible(true);
-			// set the teacher note
-			txtNote.setText(GradesFormController.chosenExam.getTeachNote());
 		}
 		paneQuestions.getChildren().clear();
 		paneQuestions.getChildren().add(qArray[curQuestion]);
@@ -152,9 +163,15 @@ public class ShowExamWindowController implements GuiController, Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		exam = null;
-		// hide unwanted variables
-		lblNote.setVisible(false);
-		txtNote.setVisible(false);
+		// show wanted variables
+		lblNote.setVisible(true);
+		txtNote.setVisible(true);
+		lblGrade.setVisible(true);
+		lblGradeNum.setVisible(true);
+		// set the teacher note
+		txtNote.setText(GradesFormController.chosenExam.getTeachNote());
+		// set the student's grade
+		lblGradeNum.setText(GradesFormController.chosenExam.getGrade() + "");
 		// set images
 		Image img = new Image(this.getClass().getResource("studentFrame.PNG").toString());
 		imgBack.setImage(img);
@@ -186,10 +203,6 @@ public class ShowExamWindowController implements GuiController, Initializable {
 			paneQuestions.getChildren().add(qArray[0]);
 			if (qSize == 1) {
 				btnNext.setVisible(false);
-				lblNote.setVisible(true);
-				txtNote.setVisible(true);
-				// set the teacher note
-				txtNote.setText(GradesFormController.chosenExam.getTeachNote());
 			}
 
 			btnBack.setVisible(false);

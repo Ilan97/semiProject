@@ -29,25 +29,35 @@
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Button>
-            <Label fx:id="lblGrade" layoutX="199.0" layoutY="440.0" text="Grade:">
+            <Label fx:id="lblGrade" layoutX="133.0" layoutY="486.0" text="Grade:">
                <font>
                   <Font name="Calibri Bold" size="18.0" />
                </font>
             </Label>
-            <TextField fx:id="txtGrade" layoutX="256.0" layoutY="439.0" prefHeight="25.0" prefWidth="59.0" />
-            <Label fx:id="lblStar" layoutX="193.0" layoutY="439.0" text="*" textFill="#f86060">
+            <TextField fx:id="txtGrade" layoutX="190.0" layoutY="485.0" prefHeight="25.0" prefWidth="59.0" />
+            <Label fx:id="lblStar" layoutX="130.0" layoutY="413.0" text="*" textFill="#f86060">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
-            <TextArea fx:id="txtNote" layoutX="377.0" layoutY="384.0" prefHeight="137.0" prefWidth="173.0" />
             <Pane fx:id="paneQuestions" layoutX="62.0" layoutY="81.0" prefHeight="303.0" prefWidth="545.0" style="-fx-background-color: #ffffff;" />
-            <Label fx:id="lblNote" layoutX="377.0" layoutY="367.0" text="Add Note:">
+            <Label fx:id="lblNote" layoutX="136.0" layoutY="415.0" text="Add Note:">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
-            <Label fx:id="lblErrGrade" layoutX="254.0" layoutY="423.0" prefHeight="14.0" prefWidth="70.0" textFill="#f86060">
+            <Label fx:id="lblErrGrade" layoutX="259.0" layoutY="491.0" prefHeight="14.0" prefWidth="70.0" textFill="#f86060">
+               <font>
+                  <Font name="Calibri Bold" size="12.0" />
+               </font>
+            </Label>
+            <TextArea fx:id="txtNote" layoutX="132.0" layoutY="431.0" prefHeight="48.0" prefWidth="416.0" />
+            <Label fx:id="lblExpl" layoutX="133.0" layoutY="516.0" prefHeight="17.0" prefWidth="355.0" text="*To change the grade you must add an explanation!" textFill="#b2b2b2">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblErrNote" layoutX="205.0" layoutY="416.0" prefHeight="14.0" prefWidth="117.0" textFill="#f86060">
                <font>
                   <Font name="Calibri Bold" size="12.0" />
                </font>

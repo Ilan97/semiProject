@@ -38,9 +38,6 @@ public class ExamController {
 
 	// Instance variables **********************************************
 
-	static final int MIN = 60 * 1000;
-	static final int SEC = 1000;
-
 	// messages that ExamController receive from server (request) and sent to it.
 	private static Message request;
 	private static Message result;
@@ -48,11 +45,9 @@ public class ExamController {
 	private static String fieldID;
 	private static String courseID;
 	private static String examID;
-	// variables for execute queries and handle the results from DB.
-	private static Statement stmt;
-	private static PreparedStatement pstmt;
-	private static ResultSet rs;
-
+	// time variables
+	static final int MIN = 60 * 1000;
+	static final int SEC = 1000;
 	public static boolean flagForTimer = true;
 	public static int SecTimer = 0, MinTimer = 0, HourTimer = 0;
 
@@ -234,6 +229,8 @@ public class ExamController {
 	 * 
 	 */
 	public static ArrayList<String> checkCopies(String code) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		ArrayList<String> students = new ArrayList<>();
 		String sql = "SELECT DISTINCT e1.userName ,e2.userName FROM examOfStudent as e1, examOfStudent as e2 "
 				+ "WHERE e1.userName < e2.userName AND e1.exam_code = e2.exam_code AND e1.ans = e2.ans "
@@ -280,6 +277,8 @@ public class ExamController {
 	 * @return true is code exists, false otherwise.
 	 */
 	public static boolean checkCodeExistsAndDone(String code) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		boolean res = false;
 		String sql = "SELECT ecode FROM examToPerform WHERE ecode = ? AND estatus = ?";
 		try {
@@ -329,6 +328,7 @@ public class ExamController {
 	 * 
 	 */
 	private static void updateTimer(String code) {
+		PreparedStatement pstmt = null;
 		String sql = "UPDATE examtoperform SET timer = timer + 1  WHERE ecode = ? ";
 		try {
 			pstmt = DBconnector.conn.prepareStatement(sql);
@@ -351,6 +351,8 @@ public class ExamController {
 	 * 
 	 */
 	public static int GetcountPerformers(String code) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		int numberOfPerformers = 0;
 		String sql = "SELECT countPerformers FROM examtoperform WHERE ecode = ? ";
 		try {
@@ -400,6 +402,7 @@ public class ExamController {
 	 * 
 	 */
 	public static void UpdateExamToDone(String code) {
+		PreparedStatement pstmt = null;
 		String sql = "UPDATE examtoperform SET estatus =  ?  WHERE ecode = ? ";
 		try {
 			pstmt = DBconnector.conn.prepareStatement(sql);
@@ -424,6 +427,7 @@ public class ExamController {
 	 * 
 	 */
 	public static void DecreaseExamCounter(String code) {
+		PreparedStatement pstmt = null;
 		String sql = "UPDATE examtoperform SET countPerformers =  countPerformers - 1  WHERE ecode = ? ";
 		try {
 			pstmt = DBconnector.conn.prepareStatement(sql);
@@ -447,6 +451,7 @@ public class ExamController {
 	 * 
 	 */
 	public static void increaseExamCounter(String code) {
+		PreparedStatement pstmt = null;
 		String sql = "UPDATE examtoperform SET countPerformers =  countPerformers + 1  WHERE ecode = ? ";
 		try {
 			pstmt = DBconnector.conn.prepareStatement(sql);
@@ -469,6 +474,8 @@ public class ExamController {
 	 * @return timer.
 	 */
 	public static int CheckTimeOfExam(String code) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		int timer = 0;
 		String sql = "SELECT timer FROM examtoperform WHERE ecode = ? ";
 		try {
@@ -503,6 +510,8 @@ public class ExamController {
 	 * @return exam {@link Exam} if code exists, null otherwise.
 	 */
 	public static Exam getComputerizedExam(String code, String type) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		Exam exam = null;
 		String Fid = null, Cid = null, Eid = null;
 		String sql = "SELECT e.fid, e.cid, e.eid FROM exam as e, examToPerform as ep "
@@ -535,6 +544,8 @@ public class ExamController {
 	}
 
 	public static String getExamStatus(String code) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		String Status = "";
 		String sql = "SELECT estatus FROM examtoperform WHERE ecode = ? ";
 		try {
@@ -568,6 +579,7 @@ public class ExamController {
 	 * @return true if lock success, false otherwise.
 	 */
 	public static boolean lockExam(String code) {
+		PreparedStatement pstmt = null;
 		String query;
 		query = "UPDATE examToPerform SET estatus = ? WHERE ecode = ?";
 		try {
@@ -594,6 +606,7 @@ public class ExamController {
 	 * @return true if open success, false otherwise.
 	 */
 	public static boolean openExam(String code) {
+		PreparedStatement pstmt = null;
 		String query;
 		query = "UPDATE examToPerform SET estatus = ? WHERE ecode = ?";
 		try {
@@ -620,6 +633,8 @@ public class ExamController {
 	 * @return true if the code is already exist, otherwise return false.
 	 */
 	public static boolean checkExamCodeIsUnique(String code) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		String sql = "SELECT ecode FROM examtoperform WHERE ecode = ?";
 		try {
 			pstmt = DBconnector.conn.prepareStatement(sql);
@@ -653,6 +668,7 @@ public class ExamController {
 	 * @return true if success, false otherwise.
 	 */
 	public static boolean insertExamToExamToPerformTable(Exam exam) {
+		PreparedStatement pstmt = null;
 		String sql = "INSERT INTO examToPerform VALUES (?,?,?,?,?,?,?,?)";
 		try {
 			pstmt = DBconnector.conn.prepareStatement(sql);
@@ -660,7 +676,7 @@ public class ExamController {
 			pstmt.setString(2, exam.getCid());
 			pstmt.setString(3, exam.getEid());
 			pstmt.setString(4, exam.getEcode());
-			pstmt.setString(5, "lock");
+			pstmt.setString(5, "locked");
 			pstmt.setString(6, exam.getEdate().toString());
 			pstmt.setInt(7, 0);
 			pstmt.setInt(8, 0);
@@ -687,6 +703,7 @@ public class ExamController {
 	 * @return exam The exam that we want to show. If not found, return null.
 	 */
 	public static Exam getExam(String Fid, String Cid, String Eid) {
+		PreparedStatement pstmt = null;
 		Exam exam = new Exam();
 		ResultSet Rs = null;
 		// get the data from the relevant controllers
@@ -737,6 +754,7 @@ public class ExamController {
 	 *         and course. If there is no such exams, return null.
 	 */
 	public static ArrayList<Exam> getExams(String Fname, String Cname) {
+		PreparedStatement pstmt = null;
 		ArrayList<Exam> listOfExams = new ArrayList<>();
 		ResultSet rs1 = null;
 		// get the data from the relevant controllers
@@ -799,6 +817,7 @@ public class ExamController {
 	 *         exam.
 	 */
 	public static HashMap<Question, Integer> getQuestionsInExam(String Fid, String Cid, String Eid) {
+		PreparedStatement pstmt = null;
 		HashMap<Question, Integer> questionsInExam = new HashMap<>();
 		int score;
 		ResultSet newRs = null;
@@ -844,6 +863,8 @@ public class ExamController {
 	 *                 about.
 	 */
 	public static void getMoreFieldsForQuestion(Question question) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		String sql = "SELECT * FROM question WHERE fid = ? AND cid = ? AND qid = ?";
 		try {
 			pstmt = DBconnector.conn.prepareStatement(sql);
@@ -883,6 +904,8 @@ public class ExamController {
 	 * @return examID The id. if not found return null.
 	 */
 	public static String getExamID(String code) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		String sql = "SELECT fid, cid, eid FROM examToPerform WHERE ecode = ?";
 		String examID = null;
 		try {
@@ -919,6 +942,8 @@ public class ExamController {
 	 * @return ExamFile {@link ExamFile} The file from DB.
 	 */
 	public static ExamFile getExamFile(String code, String type) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		String sql = "SELECT upload_file, file_Name FROM exam as e, examToPerform as ep "
 				+ "WHERE e.fid = ep.fid AND e.cid = ep.cid AND e.eid = ep.eid AND ep.ecode = ? AND e.etype = ? AND ep.estatus = ?";
 		Blob fileData = null;
@@ -959,6 +984,8 @@ public class ExamController {
 	 * @return true if already did the specific exam, false otherwise.
 	 */
 	public static boolean checkStudentDidExam(String ExamID, String UserName) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		String[] examIDcomponents = parsingTheExamId(ExamID);
 		// data from parsingTheExamId method
 		fieldID = examIDcomponents[0];
@@ -1000,6 +1027,8 @@ public class ExamController {
 	 * @return exam {@link Exam} if code exists, null otherwise.
 	 */
 	public static Exam checkComputerizedExamCode(String code, String type) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		Exam exam = null;
 		String Fid = null, Cid = null, Eid = null;
 		String sql = "SELECT e.fid, e.cid, e.eid FROM exam as e, examToPerform as ep "
@@ -1039,6 +1068,8 @@ public class ExamController {
 	 * @return true is code exists, false otherwise.
 	 */
 	public static boolean checkCodeExistsAndOpen(String code) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		boolean res = false;
 		String sql = "SELECT ecode FROM examToPerform WHERE ecode = ? AND estatus = ?";
 		try {
@@ -1071,6 +1102,8 @@ public class ExamController {
 	 * @return true is code exists, false otherwise.
 	 */
 	public static boolean checkCodeExistsAndLocked(String code) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		boolean res = false;
 		String sql = "SELECT ecode FROM examToPerform WHERE ecode = ? AND estatus = ?";
 		try {
@@ -1103,6 +1136,8 @@ public class ExamController {
 	 * @return exam's duration.
 	 */
 	public static double getDuration(String code) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		double duration = 0.0;
 		String sql = "SELECT e.duration FROM exam as e, examToPerform as ep "
 				+ "WHERE e.fid = ep.fid AND e.cid = ep.cid AND e.eid = ep.eid AND ep.ecode = ?";
@@ -1135,6 +1170,8 @@ public class ExamController {
 	 * @return type The type of the exam.
 	 */
 	public static String getExamType(String examKey) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		String[] examIDcomponents = parsingTheExamId(examKey);
 		String type = null;
 		// data from parsingTheExamId method
@@ -1174,6 +1211,7 @@ public class ExamController {
 	 * @return true if the save succeed, false otherwise.
 	 */
 	public static boolean saveExam(Exam exam) {
+		PreparedStatement pstmt = null;
 		String sql = "INSERT INTO Exam VALUES (?,?,?,?,?,?,?,?)";
 		try {
 			pstmt = DBconnector.conn.prepareStatement(sql);
@@ -1233,6 +1271,7 @@ public class ExamController {
 	 * @param exam {@link Exam} The exam from client.
 	 */
 	public static void questionsInExam(Exam exam) {
+		PreparedStatement pstmt = null;
 		Set<Question> QuestionSet = exam.getQuestionsInExam().keySet();
 		for (Question q : QuestionSet) {
 			String sql = "INSERT INTO questionInExam VALUES (?,?,?,?,?,?,?)";
@@ -1264,6 +1303,7 @@ public class ExamController {
 	 * @param exam {@link Exam} The exam from client.
 	 */
 	public static void UpdateEid(Exam exam) {
+		PreparedStatement pstmt = null;
 		String query = "UPDATE eidtable SET eid = ? WHERE fieldName = ? AND courseName = ?";
 		try {
 			pstmt = DBconnector.conn.prepareStatement(query);
@@ -1290,6 +1330,8 @@ public class ExamController {
 	 * @return return eid if found in dataBase else return -1.
 	 */
 	public static int GetEid(String FieldName, String CourseName) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		int Eid = -1;
 		String sql = "SELECT eid FROM eidtable WHERE fieldName = ? AND CourseName = ?";
 		try {
@@ -1325,6 +1367,7 @@ public class ExamController {
 	 * @return true if success, false otherwise.
 	 */
 	public static boolean updateExamDurationQuery(String examKey, double newDuration) {
+		Statement stmt = null;
 		boolean res = false;
 		String[] examIDcomponents = parsingTheExamId(examKey);
 		// data from parsingTheExamId method
@@ -1358,6 +1401,8 @@ public class ExamController {
 	 * @return duration The exam's duration time.
 	 */
 	public static double requestDurationTimeQuery(String examKey) {
+		Statement stmt = null;
+		ResultSet rs = null;
 		String[] examIDcomponents = parsingTheExamId(examKey);
 		// data from parsingTheExamId method
 		fieldID = examIDcomponents[0];

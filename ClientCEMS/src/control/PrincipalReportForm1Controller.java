@@ -48,6 +48,10 @@ public class PrincipalReportForm1Controller implements GuiController, Initializa
 	@FXML
 	private Label lblStar;
 	@FXML
+	private Label lblStatistics;
+	@FXML
+	private Label lblStar2;
+	@FXML
 	private Label lblErrStat;
 	@FXML
 	private Label lblErrOption;
@@ -85,82 +89,83 @@ public class PrincipalReportForm1Controller implements GuiController, Initializa
 			// type chosen
 			else
 				clearErrLbl(lblErrType);
-		}
+		} else {
 
-		if (typeOptions.getSelectionModel().isEmpty()
-				|| (!clickAvg.isSelected() && !clickMed.isSelected() && !clickHist.isSelected())) {
-			// type not chosen
-			if (chooseType.getSelectionModel().isEmpty())
-				lblErrType.setText("choose type");
-			// type chosen
-			else
+			if (typeOptions.getSelectionModel().isEmpty()
+					|| (!clickAvg.isSelected() && !clickMed.isSelected() && !clickHist.isSelected())) {
+				// type not chosen
+				if (chooseType.getSelectionModel().isEmpty())
+					lblErrType.setText("choose type");
+				// type chosen
+				else
+					clearErrLbl(lblErrType);
+
+				// option not chosen
+				if (typeOptions.getSelectionModel().isEmpty()) {
+					switch (chooseType.getSelectionModel().getSelectedItem()) {
+					case "Teacher":
+						lblErrOption.setText("choose teacher");
+						break;
+
+					case "Student":
+						lblErrOption.setText("choose student");
+						break;
+
+					case "Course":
+						lblErrOption.setText("choose course");
+						break;
+					}
+				}
+				// option chosen
+				else
+					clearErrLbl(lblErrOption);
+
+				// no one of the statistics was chosen
+				if (!clickAvg.isSelected() && !clickMed.isSelected() && !clickHist.isSelected())
+					lblErrStat.setText("choose statistics");
+				// at least one statistics chosen
+				else
+					clearErrLbl(lblErrStat);
+				// all fields are chosen
+			} else {
+				Message messageToServer = new Message();
+				ArrayList<Integer> list = new ArrayList<Integer>();
+				// clear all labels
 				clearErrLbl(lblErrType);
-
-			// option not chosen
-			if (typeOptions.getSelectionModel().isEmpty()) {
+				clearErrLbl(lblErrOption);
+				clearErrLbl(lblErrStat);
+				// by the chosen type, set the message
 				switch (chooseType.getSelectionModel().getSelectedItem()) {
 				case "Teacher":
-					lblErrOption.setText("choose teacher");
+					messageToServer.setMsg(typeOptions.getSelectionModel().getSelectedItem()); // teacher's name
+					messageToServer.setControllerName("TeacherController");
+					messageToServer.setOperation("GetGradeList");
+					list = (ArrayList<Integer>) ClientUI.client.handleMessageFromClientUI(messageToServer);
 					break;
 
 				case "Student":
-					lblErrOption.setText("choose student");
+					messageToServer.setMsg(typeOptions.getSelectionModel().getSelectedItem()); // student's name
+					messageToServer.setControllerName("StudentController");
+					messageToServer.setOperation("GetGradeList");
+					list = (ArrayList<Integer>) ClientUI.client.handleMessageFromClientUI(messageToServer);
 					break;
 
 				case "Course":
-					lblErrOption.setText("choose course");
+					messageToServer.setMsg(typeOptions.getSelectionModel().getSelectedItem()); // course's name
+					messageToServer.setControllerName("CourseController");
+					messageToServer.setOperation("GetGradeList");
+					list = (ArrayList<Integer>) ClientUI.client.handleMessageFromClientUI(messageToServer);
+
 					break;
 				}
+				if (list != null) {
+					PrincipalReportForm2Controller cont = (PrincipalReportForm2Controller) Navigator.instance()
+							.navigate("PrincipalReportForm2");
+					// set the report
+					cont.setReport(list, clickHist.isSelected(), clickAvg.isSelected(), clickMed.isSelected());
+				} else
+					lblErrData.setText("there is no data to show!");
 			}
-			// option chosen
-			else
-				clearErrLbl(lblErrOption);
-
-			// no one of the statistics was chosen
-			if (!clickAvg.isSelected() && !clickMed.isSelected() && !clickHist.isSelected())
-				lblErrStat.setText("choose statistics");
-			// at least one statistics chosen
-			else
-				clearErrLbl(lblErrStat);
-			// all fields are chosen
-		} else {
-			Message messageToServer = new Message();
-			ArrayList<Integer> list = new ArrayList<Integer>();
-			// clear all labels
-			clearErrLbl(lblErrType);
-			clearErrLbl(lblErrOption);
-			clearErrLbl(lblErrStat);
-			// by the chosen type, set the message
-			switch (chooseType.getSelectionModel().getSelectedItem()) {
-			case "Teacher":
-				messageToServer.setMsg(typeOptions.getSelectionModel().getSelectedItem()); // teacher's name
-				messageToServer.setControllerName("TeacherController");
-				messageToServer.setOperation("GetGradeList");
-				list = (ArrayList<Integer>) ClientUI.client.handleMessageFromClientUI(messageToServer);
-				break;
-
-			case "Student":
-				messageToServer.setMsg(typeOptions.getSelectionModel().getSelectedItem()); // student's name
-				messageToServer.setControllerName("StudentController");
-				messageToServer.setOperation("GetGradeList");
-				list = (ArrayList<Integer>) ClientUI.client.handleMessageFromClientUI(messageToServer);
-				break;
-
-			case "Course":
-				messageToServer.setMsg(typeOptions.getSelectionModel().getSelectedItem()); // course's name
-				messageToServer.setControllerName("CourseController");
-				messageToServer.setOperation("GetGradeList");
-				list = (ArrayList<Integer>) ClientUI.client.handleMessageFromClientUI(messageToServer);
-
-				break;
-			}
-			if (list != null) {
-				PrincipalReportForm2Controller cont = (PrincipalReportForm2Controller) Navigator.instance()
-						.navigate("PrincipalReportForm2");
-				// set the report
-				cont.setReport(list, clickHist.isSelected(), clickAvg.isSelected(), clickMed.isSelected());
-			} else
-				lblErrData.setText("there is no data to show!");
 		}
 	}
 
@@ -202,6 +207,21 @@ public class PrincipalReportForm1Controller implements GuiController, Initializa
 			break;
 		}
 		typeOptions.setItems(FXCollections.observableArrayList(listOfOptions));
+	}
+
+	/**
+	 * This is FXML event handler. Handles the action of click on 'Choose Option'
+	 * comboBox.
+	 * 
+	 * @param event The action event.
+	 */
+	@FXML
+	void chooseOption(ActionEvent event) {
+		lblStatistics.setVisible(true);
+		lblStar2.setVisible(true);
+		clickAvg.setVisible(true);
+		clickMed.setVisible(true);
+		clickHist.setVisible(true);
 	}
 
 	// Menu methods ************************************************
@@ -277,6 +297,12 @@ public class PrincipalReportForm1Controller implements GuiController, Initializa
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		// hide unwanted variables
+		lblStatistics.setVisible(false);
+		lblStar2.setVisible(false);
+		clickAvg.setVisible(false);
+		clickMed.setVisible(false);
+		clickHist.setVisible(false);
 		lblStar.setVisible(false);
 		typeOptions.setVisible(false);
 		// set images

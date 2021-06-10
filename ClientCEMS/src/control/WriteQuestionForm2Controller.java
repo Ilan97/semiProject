@@ -80,13 +80,7 @@ public class WriteQuestionForm2Controller implements GuiController, Initializabl
 				UsefulMethods.instance().printException(e);
 			}
 		} else {
-			// Failed pop up
-			FailWindowController popUp = new FailWindowController();
-			try {
-				popUp.start(new Stage());
-			} catch (Exception e) {
-				UsefulMethods.instance().printException(e);
-			}
+			UsefulMethods.instance().display("error in save a question!");
 		}
 		Navigator.instance().clearHistory("TeacherHomeForm");
 	}

@@ -101,6 +101,11 @@
             </Label>
             <ComboBox fx:id="field" layoutX="415.0" layoutY="185.0" onAction="#chooseFieldAction" prefHeight="27.0" prefWidth="130.0" promptText="Choose Field" style="-fx-background-color: #b2b2b2;" />
             <ComboBox fx:id="course" layoutX="415.0" layoutY="232.0" prefHeight="27.0" prefWidth="130.0" promptText="Choose Course" style="-fx-background-color: #b2b2b2;" />
+            <Label fx:id="lblErrData" layoutX="409.0" layoutY="331.0" prefHeight="17.0" prefWidth="158.0" textFill="#f86060">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
    </children>

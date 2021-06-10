@@ -24,9 +24,6 @@ public class PrincipalController {
 	// it.
 	private static Message request;
 	private static Message result;
-	// variables for execute queries and handle the results from DB.
-	private static PreparedStatement pstmt;
-	private static ResultSet rs;
 
 	// Instance methods ************************************************
 
@@ -79,6 +76,7 @@ public class PrincipalController {
 	 * @return true if success, false otherwise.
 	 */
 	public static boolean addNewRequest(Request request) {
+		PreparedStatement pstmt = null;
 		String sql = "INSERT INTO request VALUES (?,?,?,?)";
 		try {
 			pstmt = DBconnector.conn.prepareStatement(sql);
@@ -107,6 +105,7 @@ public class PrincipalController {
 	 * @return true if success, false otherwise.
 	 */
 	public static boolean deleteRequest(String code) {
+		PreparedStatement pstmt = null;
 		String sql = "DELETE FROM request WHERE ecode = ?";
 		try {
 			pstmt = DBconnector.conn.prepareStatement(sql);
@@ -132,6 +131,8 @@ public class PrincipalController {
 	 * @return true is request exists, false otherwise.
 	 */
 	public static boolean checkRequestExists(String code) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		boolean res = false;
 		String sql = "SELECT ecode FROM request WHERE ecode = ?";
 		try {
@@ -163,6 +164,8 @@ public class PrincipalController {
 	 *         in dataBase return null.
 	 */
 	public static ArrayList<Request> getAllRequests() {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		ArrayList<Request> requestsList = new ArrayList<>();
 		String sql = "SELECT * FROM request AS r, examToPerform As ep WHERE r.ecode = ep.ecode";
 		try {

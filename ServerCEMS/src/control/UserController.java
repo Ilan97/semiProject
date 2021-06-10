@@ -26,9 +26,6 @@ public class UserController {
 	// messages that UserController receive from server (request) and sent to it.
 	private static Message request;
 	private static Message result;
-	// variables for execute queries and handle the results from DB.
-	private static PreparedStatement pstmt;
-	private static ResultSet rs;
 
 	// Instance methods ************************************************
 
@@ -96,6 +93,8 @@ public class UserController {
 	 * @return full name if user is found, null otherwise.
 	 */
 	public static String getName(String userName) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		String Query = "SELECT firstName, lastName FROM users WHERE userName = ?";
 		String fullName = null;
 		try {
@@ -131,6 +130,8 @@ public class UserController {
 	 * @return user {@link User} The complete User instance.
 	 */
 	public static User viewTableUserQuery(String UserDetails) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		String[] User = parsingTheData(UserDetails);
 		// data from parsingTheData method
 		String UserName = User[0];
@@ -192,6 +193,8 @@ public class UserController {
 	 * @return true if user is logged in, false otherwise.
 	 */
 	public static boolean getConnectionStatus(String userName) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		String Query = "SELECT isLogedIn FROM users WHERE userName = ?";
 		boolean currStatus = false;
 		try {
@@ -226,6 +229,8 @@ public class UserController {
 	 * @return true if the changing success for all users, false otherwise.
 	 */
 	public static boolean changeStatusToFalse() {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		// return all userNames that their status is true (log in)
 		String Query = "SELECT userName FROM users WHERE isLogedIn = ?";
 		// save the userNames
@@ -266,6 +271,7 @@ public class UserController {
 	 * @return true if update success, false otherwise.
 	 */
 	public static boolean updateConnectionStatus(String userName, boolean status) {
+		PreparedStatement pstmt = null;
 		String query;
 		boolean StatusAfterUpdate = status;
 		query = "UPDATE users SET isLogedIn = ? WHERE userName = ?";
@@ -299,6 +305,8 @@ public class UserController {
 	 *         isn't any student, return null.
 	 */
 	public static ArrayList<String> getAllStudents() {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		ArrayList<String> studentList = new ArrayList<>();
 		String sql = "SELECT firstName, lastName FROM users WHERE urole = ?";
 		try {
@@ -335,6 +343,8 @@ public class UserController {
 	 *         isn't any student, return null.
 	 */
 	public static ArrayList<String> getAllTeachers() {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		ArrayList<String> teacherList = new ArrayList<>();
 		String sql = "SELECT firstName, lastName FROM users WHERE urole = ?";
 		try {

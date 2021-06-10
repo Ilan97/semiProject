@@ -24,9 +24,6 @@ public class FieldOfStudyController {
 	// to it.
 	private static Message request;
 	private static Message result;
-	// variables for execute queries and handle the results from DB.
-	private static PreparedStatement pstmt;
-	private static ResultSet rs;
 
 	// Instance methods ************************************************
 
@@ -65,6 +62,8 @@ public class FieldOfStudyController {
 	 * @return return Fid if Field found in dataBase else return null.
 	 */
 	public static String GetFid(String FieldName) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		String Fid = null;
 		String sql = "SELECT fid FROM fieldofstudy WHERE fname = ?";
 		try {
@@ -99,6 +98,8 @@ public class FieldOfStudyController {
 	 * @return return Fname if Field found in dataBase else return null.
 	 */
 	public static String GetFname(String Fid) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		String Fname = null;
 		String sql = "SELECT fname FROM fieldofstudy WHERE fid = ?";
 		try {
@@ -133,6 +134,8 @@ public class FieldOfStudyController {
 	 *         any field - return null.
 	 */
 	public static ArrayList<String> getAllFields() {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		ArrayList<String> fieldList = new ArrayList<>();
 		String sql = "SELECT fname FROM fieldofstudy";
 		try {

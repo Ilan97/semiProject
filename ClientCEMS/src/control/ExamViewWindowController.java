@@ -159,13 +159,7 @@ public class ExamViewWindowController implements GuiController, Initializable {
 			}
 
 			else {
-				// Failed pop up
-				FailWindowController popUp = new FailWindowController();
-				try {
-					popUp.start(new Stage());
-				} catch (Exception e) {
-					UsefulMethods.instance().printException(e);
-				}
+				UsefulMethods.instance().display("error in update!");
 			}
 			closeAction(event);
 			Navigator.instance().clearHistory("TeacherHomeForm");

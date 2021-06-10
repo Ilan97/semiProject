@@ -190,7 +190,7 @@ public class Exam implements Serializable {
 	public HashMap<Question, Integer> getQuestionsInExam() {
 		return questionsInExam;
 	}
-	
+
 	/**
 	 * @param questionsInExam the questionsInExam to set
 	 */
@@ -242,7 +242,7 @@ public class Exam implements Serializable {
 		}
 		return QuestionView;
 	}
-	
+
 	/**
 	 * @return the string of all questions and their scores in the exam.
 	 */
@@ -252,13 +252,13 @@ public class Exam implements Serializable {
 		Set<Question> QuestionSet = questionsInExam.keySet();
 		for (Question q : QuestionSet) {
 			QuestionView += "Question number " + i + ": " + "(" + questionsInExam.get(q) + " points)\n";
-			
-			if(q.getStudentNote() != null ) 
+
+			if (q.getStudentNote() != null && !q.getStudentNote().equals(""))
 				QuestionView += "Note for student: " + q.getStudentNote() + "\n";
-			
-			if(q.getTeacherNote() != null ) 
+
+			if (q.getTeacherNote() != null && !q.getTeacherNote().equals(""))
 				QuestionView += "Note for teacher: " + q.getTeacherNote() + "\n";
-			
+
 			QuestionView += q.toString();
 			i++;
 		}

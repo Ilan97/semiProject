@@ -104,13 +104,7 @@ public class SubmissionAgreementWindowController implements GuiController, Initi
 			StudentDidNotMakeItWindowController pop = new StudentDidNotMakeItWindowController();
 			pop.start(new Stage());
 		} else {
-			// Failed pop up
-			FailWindowController popUp = new FailWindowController();
-			try {
-				popUp.start(new Stage());
-			} catch (Exception e) {
-				UsefulMethods.instance().printException(e);
-			}
+			UsefulMethods.instance().display("error in submition");
 		}
 		Navigator.instance().clearHistory("StudentHomeForm");
 	}

@@ -82,13 +82,7 @@ public class ApproveDurationWindowController implements GuiController, Initializ
 		messageToServer.setControllerName("ExamController");
 		res = (boolean) ClientUI.client.handleMessageFromClientUI(messageToServer);
 		if (!res) {
-			// fail pop up
-			FailWindowController popUp = new FailWindowController();
-			try {
-				popUp.start(new Stage());
-			} catch (Exception e) {
-				UsefulMethods.instance().printException(e);
-			}
+			UsefulMethods.instance().display("error in approval duration!");
 		} else
 			deleteRequest();
 		UsefulMethods.instance().close(event);
@@ -126,13 +120,7 @@ public class ApproveDurationWindowController implements GuiController, Initializ
 				UsefulMethods.instance().printException(e);
 			}
 		} else {
-			// fail pop up
-			FailWindowController popUp = new FailWindowController();
-			try {
-				popUp.start(new Stage());
-			} catch (Exception e) {
-				UsefulMethods.instance().printException(e);
-			}
+			UsefulMethods.instance().display("error in deleting request!");
 		}
 	}
 

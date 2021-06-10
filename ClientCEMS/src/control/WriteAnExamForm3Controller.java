@@ -87,13 +87,7 @@ public class WriteAnExamForm3Controller implements GuiController, Initializable 
 				UsefulMethods.instance().printException(e);
 			}
 		} else {
-			// fail pop up
-			FailWindowController popUp = new FailWindowController();
-			try {
-				popUp.start(new Stage());
-			} catch (Exception e) {
-				UsefulMethods.instance().printException(e);
-			}
+			UsefulMethods.instance().display("error in save an exam!");
 		}
 		Navigator.instance().clearHistory("TeacherHomeForm");
 	}

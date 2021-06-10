@@ -215,13 +215,7 @@ public class RequestChangeDurationExamTimeController implements GuiController, I
 							UsefulMethods.instance().printException(e);
 						}
 					} else {
-						// fail pop up
-						FailWindowController popUp = new FailWindowController();
-						try {
-							popUp.start(new Stage());
-						} catch (Exception e) {
-							UsefulMethods.instance().printException(e);
-						}
+						UsefulMethods.instance().display("error in request change duration time !");
 					}
 					UsefulMethods.instance().close(event);
 				}

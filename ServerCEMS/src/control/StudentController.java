@@ -525,7 +525,7 @@ public class StudentController {
 		// save details in db
 		if (exam.getContent() != null)
 			inputStream = new ByteArrayInputStream(exam.getContent());
-		String sql = "INSERT INTO examOfStudent VALUES (?,?,?,?,?,?,?,?,?,?)";
+		String sql = "INSERT INTO examOfStudent VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 		try {
 			pstmt = DBconnector.conn.prepareStatement(sql);
 			pstmt.setString(1, exam.getStudentName());
@@ -536,6 +536,7 @@ public class StudentController {
 			pstmt.setInt(6, exam.getGrade());
 			pstmt.setString(8, exam.getAnswers());
 			pstmt.setString(10, exam.getCode());
+			pstmt.setString(11, "");
 			switch (type) {
 			case "computerized":
 				byte[] empty = {};

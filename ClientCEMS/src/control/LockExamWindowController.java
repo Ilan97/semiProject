@@ -125,13 +125,7 @@ public class LockExamWindowController implements GuiController, Initializable {
 						UsefulMethods.instance().printException(e);
 					}
 				} else {
-					// fail pop up
-					FailWindowController popUp = new FailWindowController();
-					try {
-						popUp.start(new Stage());
-					} catch (Exception e) {
-						UsefulMethods.instance().printException(e);
-					}
+					UsefulMethods.instance().display("error in lock!");
 				}
 				UsefulMethods.instance().close(event);
 			}

@@ -13,46 +13,46 @@
    <children>
       <Pane style="-fx-background-color: #ffffff;">
          <children>
-            <ImageView fx:id="imgBack" fitHeight="254.0" fitWidth="243.0" />
-            <Text fill="#47ce60" layoutX="47.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add Question Score" textAlignment="CENTER" wrappingWidth="150.8033447265625">
+            <ImageView fx:id="imgBack" fitHeight="280.0" fitWidth="295.0" />
+            <Text fill="#47ce60" layoutX="22.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add Question Score" textAlignment="CENTER" wrappingWidth="250.8033447265625">
                <font>
                   <Font name="Calibri Bold" size="24.0" />
                </font>
             </Text>
-            <Button fx:id="btnSaveScore" layoutX="95.0" layoutY="189.0" mnemonicParsing="false" onAction="#saveScoreActionButton" prefHeight="17.0" prefWidth="58.0" style="-fx-background-color: #47ce60; -fx-background-radius: 30 30 30 30;" text="Save" textFill="WHITE">
+            <Button fx:id="btnSaveScore" layoutX="120.0" layoutY="220.0" mnemonicParsing="false" onAction="#saveScoreActionButton" prefHeight="17.0" prefWidth="58.0" style="-fx-background-color: #47ce60; -fx-background-radius: 30 30 30 30;" text="Save" textFill="WHITE">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Button>
-            <Label alignment="CENTER" layoutX="62.0" layoutY="106.0" prefHeight="22.0" prefWidth="84.0" text="Score:">
+            <Label alignment="CENTER" layoutX="85.0" layoutY="115.0" prefHeight="22.0" prefWidth="84.0" text="Score:">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="txtScore" layoutX="129.0" layoutY="107.0" onKeyPressed="#inputPass" prefHeight="25.0" prefWidth="43.0" />
-            <Button layoutX="128.0" layoutY="142.0" mnemonicParsing="false" onAction="#addNoteActionButton" prefHeight="27.0" prefWidth="45.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="Add" textFill="WHITE">
+            <TextField fx:id="txtScore" layoutX="152.0" layoutY="116.0" onKeyPressed="#inputPass" prefHeight="25.0" prefWidth="43.0" />
+            <Button layoutX="151.0" layoutY="161.0" mnemonicParsing="false" onAction="#addNoteActionButton" prefHeight="27.0" prefWidth="45.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 30 30 30 30;" text="Add" textFill="WHITE">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Button>
-            <Label alignment="CENTER" layoutX="60.0" layoutY="142.0" prefHeight="22.0" prefWidth="84.0" text="Note:">
+            <Label alignment="CENTER" layoutX="83.0" layoutY="161.0" prefHeight="22.0" prefWidth="84.0" text="Note:">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="79.0" layoutY="109.0" text="*" textFill="#f86060">
+            <Label layoutX="101.0" layoutY="116.0" text="*" textFill="#f86060">
                <font>
-                  <Font name="Calibri Bold" size="11.0" />
+                  <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
-            <Label fx:id="lblErr" alignment="CENTER" contentDisplay="CENTER" layoutX="66.0" layoutY="84.0" prefHeight="14.0" prefWidth="111.0" textAlignment="CENTER" textFill="#f86060">
+            <Label fx:id="lblErr" alignment="CENTER" contentDisplay="CENTER" layoutX="118.0" layoutY="100.0" prefHeight="14.0" prefWidth="111.0" textAlignment="CENTER" textFill="#f86060">
                <font>
                   <Font name="Calibri Bold" size="12.0" />
                </font>
             </Label>
-            <Label fx:id="lblRange" alignment="CENTER" contentDisplay="CENTER" layoutX="4.0" layoutY="117.0" prefHeight="14.0" prefWidth="84.0" textAlignment="CENTER" textFill="#f86060">
+            <Label fx:id="lblRange" alignment="CENTER" contentDisplay="CENTER" layoutX="92.0" layoutY="64.0" prefHeight="17.0" prefWidth="111.0" textAlignment="CENTER" textFill="#b2b2b2">
                <font>
-                  <Font name="Calibri Bold" size="12.0" />
+                  <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
          </children>

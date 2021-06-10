@@ -67,7 +67,8 @@ public class PrincipalViewRequestFormController implements GuiController, Initia
 		messageToServer.setControllerName("PrincipalController");
 		messageToServer.setOperation("GetAllRequests");
 		listOfRequests = (ArrayList<Request>) ClientUI.client.handleMessageFromClientUI(messageToServer);
-		requestsList.setItems(FXCollections.observableArrayList(listOfRequests));
+		if (listOfRequests != null)
+			requestsList.setItems(FXCollections.observableArrayList(listOfRequests));
 	}
 
 	// Menu methods ************************************************

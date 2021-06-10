@@ -34,22 +34,22 @@
                </font>
             </Button>
             <Pane fx:id="paneQuestions" layoutX="62.0" layoutY="81.0" prefHeight="303.0" prefWidth="545.0" style="-fx-background-color: #ffffff;" />
-            <TextArea fx:id="txtNote" layoutX="347.0" layoutY="387.0" prefHeight="137.0" prefWidth="173.0" />
-            <Label fx:id="lblNote" layoutX="347.0" layoutY="370.0" text="Teacher Note:">
+            <Label fx:id="lblNote" layoutX="122.0" layoutY="405.0" text="Teacher Note:">
                <font>
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
-            <Label fx:id="lblGrade" layoutX="144.0" layoutY="429.0" text="Grade:" textFill="#0d0d0d">
+            <Label fx:id="lblGrade" layoutX="122.0" layoutY="475.0" text="Grade:" textFill="#0d0d0d">
                <font>
                   <Font name="Calibri Bold" size="24.0" />
                </font>
             </Label>
-            <Label fx:id="lblGradeNum" layoutX="227.0" layoutY="424.0" prefHeight="39.0" prefWidth="65.0" textFill="#b2b2b2">
+            <Label fx:id="lblGradeNum" layoutX="205.0" layoutY="470.0" prefHeight="39.0" prefWidth="65.0" textFill="#b2b2b2">
                <font>
                   <Font name="Calibri Bold" size="24.0" />
                </font>
             </Label>
+            <TextArea fx:id="txtNote" layoutX="122.0" layoutY="422.0" prefHeight="48.0" prefWidth="416.0" />
          </children>
       </Pane>
    </children>

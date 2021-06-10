@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import client.ClientUI;
 import gui.Navigator;
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -173,7 +176,22 @@ public class GradesFormController implements GuiController, Initializable {
 		messageToServer.setOperation("ShowExamOfStudentList");
 		ExamsOfStudentList = (ArrayList<ExamOfStudent>) ClientUI.client.handleMessageFromClientUI(messageToServer);
 		examsList.setItems(FXCollections.observableArrayList(ExamsOfStudentList));
+		// remove grade label when click on exam
+		examsList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ExamOfStudent>() {
+			@Override
+			public void changed(ObservableValue<? extends ExamOfStudent> observable, ExamOfStudent oldValue, ExamOfStudent newValue) {
+				// request chosen
+				if (newValue != null) {
+					Platform.runLater(() -> {
+						if (examsList.getSelectionModel().isEmpty())
+							return;
+						else {
+							lblGrade.setText("");
+						}
+					});
+				}
+			}
+		});
 	}
-
 }
 //End of GradesFormController class

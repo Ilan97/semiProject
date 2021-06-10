@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import client.ClientUI;
 import gui.Navigator;
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -219,6 +222,23 @@ public class ViewGradesFormController implements GuiController, Initializable {
 			btnShowExam.setDisable(true);
 			btnGetGrade.setDisable(true);
 		}
+		// remove grade label when click on exam
+		examsList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ExamOfStudent>() {
+			@Override
+			public void changed(ObservableValue<? extends ExamOfStudent> observable, ExamOfStudent oldValue,
+					ExamOfStudent newValue) {
+				// request chosen
+				if (newValue != null) {
+					Platform.runLater(() -> {
+						if (examsList.getSelectionModel().isEmpty())
+							return;
+						else {
+							lblGrade.setText("");
+						}
+					});
+				}
+			}
+		});
 	}
 }
 // End of ViewGradesFormController class

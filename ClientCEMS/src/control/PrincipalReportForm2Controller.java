@@ -158,7 +158,7 @@ public class PrincipalReportForm2Controller implements GuiController, Initializa
 	void viewRequestsAction(ActionEvent event) {
 		Navigator.instance().navigate("PrincipalViewRequestForm");
 	}
-	
+
 	/**
 	 * This is FXML event handler. Handles the action of click on 'View Questions'
 	 * button.
@@ -169,7 +169,7 @@ public class PrincipalReportForm2Controller implements GuiController, Initializa
 	void viewQuestionsAction(ActionEvent event) {
 		Navigator.instance().navigate("ViewQuestionsForm1");
 	}
-	
+
 	/**
 	 * This is FXML event handler. Handles the action of click on 'View Exams'
 	 * button.

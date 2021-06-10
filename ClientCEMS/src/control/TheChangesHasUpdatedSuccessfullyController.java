@@ -18,8 +18,8 @@ import javafx.stage.Stage;
  * TheChangesHasUpdatedSuccessfully. This class handle all events related to
  * this window. This class connect with client.
  *
- * @author
- * @version May 2021
+ * @author Bat-El Gardin
+ * @version June 2021
  */
 
 public class TheChangesHasUpdatedSuccessfullyController implements GuiController, Initializable {

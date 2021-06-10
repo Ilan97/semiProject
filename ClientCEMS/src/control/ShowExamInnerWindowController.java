@@ -98,6 +98,5 @@ public class ShowExamInnerWindowController implements Initializable {
 		lblField.setText(ShowExamWindowController.exam.getFname());
 		lblCourse.setText(ShowExamWindowController.exam.getCname());
 	}
-
 }
 //End of ShowExamInnerWindowController class

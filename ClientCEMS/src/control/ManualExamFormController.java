@@ -29,6 +29,7 @@ import logic.Message;
  * @author Ilan Meikler
  * @author Bat-El Gardin
  * @author Moran Davidov
+ * @author Ohad Shamir
  * @version May 2021
  */
 
@@ -36,17 +37,17 @@ public class ManualExamFormController implements GuiController, Initializable {
 
 	// Instance variables **********************************************
 
-	static final int MIN = 60*1000;
+	static final int MIN = 60 * 1000;
 	static final int SEC = 1000;
 	/**
 	 * The {@link ExamOfStudent} to upload to DB.
 	 */
 	public static ExamOfStudent examToUpload;
 	public boolean flagForTimer = true;
-	public static int SecTimer = 0, MinTimer = 0,HourTimer = 0;
+	public static int SecTimer = 0, MinTimer = 0, HourTimer = 0;
 	public static double currDuration;
-	public static double startDuration;	
-	
+	public static double startDuration;
+
 	/**
 	 * The chosen file in bytes.
 	 */
@@ -85,14 +86,12 @@ public class ManualExamFormController implements GuiController, Initializable {
 	private Button btnCode;
 	@FXML
 	private Label lblFileName;
-    @FXML
-    private Label timerLabel;
-    @FXML
-    private Label titleOfTimer;
-    @FXML
-    private ImageView imgTimer;
-
-
+	@FXML
+	private Label timerLabel;
+	@FXML
+	private Label titleOfTimer;
+	@FXML
+	private ImageView imgTimer;
 
 	// Instance methods ************************************************
 
@@ -124,22 +123,21 @@ public class ManualExamFormController implements GuiController, Initializable {
 				Image img = new Image(this.getClass().getResource("timer.png").toString());
 				imgTimer.setImage(img);
 				titleOfTimer.setText("Timer: ");
-				
-				
+
 				messageToServer.setMsg(code);
 				messageToServer.setOperation("increaseCounter");
 				messageToServer.setControllerName("ExamController");
 				synchronized (this) {
 					ClientUI.client.handleMessageFromClientUI(messageToServer);
-					}
+				}
 				updateCurrTimerForClient(code);
-				new Thread(() -> { //Thread for Timer
+				new Thread(() -> { // Thread for Timer
 					try {
 						// start the timer
 						messageToServer.setControllerName("StudentController");
 						messageToServer.setOperation("StartTimer");
-						synchronized(this){
-						ClientUI.client.handleMessageFromClientUI(messageToServer);
+						synchronized (this) {
+							ClientUI.client.handleMessageFromClientUI(messageToServer);
 						}
 						while (flagForTimer) {
 							if (SecTimer == 59) {
@@ -147,12 +145,12 @@ public class ManualExamFormController implements GuiController, Initializable {
 								SecTimer = 0;
 							} else
 								SecTimer += 1;
-							if(MinTimer == 60) {
-								HourTimer +=1;
+							if (MinTimer == 60) {
+								HourTimer += 1;
 								MinTimer = 0;
 							}
 							Platform.runLater(() -> {
-								timerLabel.setText(String.format("%02d:%02d:%02d",HourTimer ,MinTimer, SecTimer));
+								timerLabel.setText(String.format("%02d:%02d:%02d", HourTimer, MinTimer, SecTimer));
 							});
 							Thread.sleep(SEC);
 						}
@@ -160,76 +158,77 @@ public class ManualExamFormController implements GuiController, Initializable {
 						UsefulMethods.instance().printException(e);
 					}
 				}).start();
-				
-				
-				//Thread for catch delay in time 
+
+				// Thread for catch delay in time
 				new Thread(() -> {
 					boolean flag = true;
 					Message messageToServerThread2 = new Message();
 					messageToServerThread2.setControllerName("ExamController");
 					messageToServerThread2.setOperation("CheckTimeOfExam");
 					messageToServerThread2.setMsg(code);
-					while(flag) {
+					while (flag) {
 						try {
 							Thread.sleep(SEC);
-							synchronized(this) {
-							int min = (int) ClientUI.client.handleMessageFromClientUI(messageToServerThread2);
-							
-							if(min != MinTimer) {
-								MinTimer = min;
-								SecTimer = 0;
-								flag = false;
-							//	break;
+							synchronized (this) {
+								int min = (int) ClientUI.client.handleMessageFromClientUI(messageToServerThread2);
+
+								if (min != MinTimer) {
+									MinTimer = min;
+									SecTimer = 0;
+									flag = false;
+									// break;
 								}
 							}
-							}
-						catch (InterruptedException e) {e.printStackTrace();}
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
 					}
 				}).start();
-				
-				
-				//thread for Checks if exam time is over or changed.
-				//At the end of the time closes the exam automatically
-				new Thread(() -> { //Thread 
+
+				// thread for Checks if exam time is over or changed.
+				// At the end of the time closes the exam automatically
+				new Thread(() -> { // Thread
 					try {
 						Message messageToServerThread3 = new Message();
 						String ExamStatus;
 						String Exam_eCode = code;
-						//request for startDuration
+						// request for startDuration
 						messageToServerThread3.setControllerName("ExamController");
 						messageToServerThread3.setOperation("GetExamDuration");
 						messageToServerThread3.setMsg(Exam_eCode);
-						synchronized(this) {
-						startDuration = (double) ClientUI.client.handleMessageFromClientUI(messageToServerThread3);
+						synchronized (this) {
+							startDuration = (double) ClientUI.client.handleMessageFromClientUI(messageToServerThread3);
 						}
 						while (flagForTimer) {
 							Thread.sleep(MIN);
-							//request for currDuration
+							// request for currDuration
 							messageToServerThread3.setControllerName("ExamController");
 							messageToServerThread3.setOperation("GetExamDuration");
 							messageToServerThread3.setMsg(Exam_eCode);
 							synchronized (this) {
-							currDuration = (double) ClientUI.client.handleMessageFromClientUI(messageToServerThread3);
+								currDuration = (double) ClientUI.client
+										.handleMessageFromClientUI(messageToServerThread3);
 							}
-							//check if A change was made during the exam
-							if (currDuration != startDuration ) {
-							Platform.runLater(() -> {
-								// successes pop up
-								AlertExamManualDurationChangedWindowController PopUp = new AlertExamManualDurationChangedWindowController();								try {
-									PopUp.start(new Stage());
-								} catch (Exception e) {
-									UsefulMethods.instance().printException(e);
-								}
-							});
+							// check if A change was made during the exam
+							if (currDuration != startDuration) {
+								Platform.runLater(() -> {
+									// successes pop up
+									AlertExamManualDurationChangedWindowController PopUp = new AlertExamManualDurationChangedWindowController();
+									try {
+										PopUp.start(new Stage());
+									} catch (Exception e) {
+										UsefulMethods.instance().printException(e);
+									}
+								});
 							}
-							//request for eStatus of the exam
+							// request for eStatus of the exam
 							messageToServerThread3.setControllerName("ExamController");
 							messageToServerThread3.setOperation("GetExamStatus");
 							messageToServerThread3.setMsg(Exam_eCode);
-							synchronized(this) {
-							ExamStatus = (String) ClientUI.client.handleMessageFromClientUI(messageToServerThread3);
+							synchronized (this) {
+								ExamStatus = (String) ClientUI.client.handleMessageFromClientUI(messageToServerThread3);
 							}
-							if( (HourTimer*60 + MinTimer) + 10 == currDuration) {
+							if ((HourTimer * 60 + MinTimer) + 10 == currDuration) {
 								Platform.runLater(() -> {
 									// successes pop up
 									AlertTimeIsRunningOutWindowController pop1 = new AlertTimeIsRunningOutWindowController();
@@ -240,16 +239,16 @@ public class ManualExamFormController implements GuiController, Initializable {
 									}
 								});
 							}
-								
-								//check if time is up or status is "locked"
-							if( ((HourTimer*60 + MinTimer) >= currDuration || ExamStatus.equals("locked")) ) {
+
+							// check if time is up or status is "locked"
+							if (((HourTimer * 60 + MinTimer) >= currDuration || ExamStatus.equals("locked"))) {
 								messageToServerThread3.setControllerName("StudentController");
 								messageToServerThread3.setOperation("StopTimer");
-								synchronized(this) {
-								ClientUI.client.handleMessageFromClientUI(messageToServerThread3);
+								synchronized (this) {
+									ClientUI.client.handleMessageFromClientUI(messageToServerThread3);
 								}
 								flagForTimer = false;
-								if(ExamStatus.equals("locked")) {
+								if (ExamStatus.equals("locked")) {
 									Platform.runLater(() -> {
 										AlertExamLockedWindowController pop2 = new AlertExamLockedWindowController();
 										try {
@@ -258,33 +257,34 @@ public class ManualExamFormController implements GuiController, Initializable {
 											UsefulMethods.instance().printException(e);
 										}
 									});
-								}
-								else
+								} else
 									Platform.runLater(() -> {
-										examToUpload = new ExamOfStudent(null, code, LoginController.user.getUsername(), -1);
+										examToUpload = new ExamOfStudent(null, code, LoginController.user.getUsername(),
+												-1);
 										btnSubmit.fire();
 										messageToServerThread3.setMsg(examToUpload);
 										messageToServerThread3.setControllerName("StudentController");
 										messageToServerThread3.setOperation("SubmitExam");
-										synchronized(this) {
-										ClientUI.client.handleMessageFromClientUI(messageToServer);
+										synchronized (this) {
+											ClientUI.client.handleMessageFromClientUI(messageToServer);
 										}
 										StudentDidNotMakeItWindowController pop3 = new StudentDidNotMakeItWindowController();
 										try {
 											pop3.start(new Stage());
-										} catch (IOException e) {UsefulMethods.instance().printException(e);}
-										
+										} catch (IOException e) {
+											UsefulMethods.instance().printException(e);
+										}
+
 										Navigator.instance().clearHistory("StudentHomeForm");
-									});		
+									});
 							}
-							
+
 						}
 					} catch (Exception e) {
 						UsefulMethods.instance().printException(e);
 					}
 				}).start();
-				
-			
+
 				startDuration = currDuration;
 			}
 		} catch (Exception e) {
@@ -399,6 +399,7 @@ public class ManualExamFormController implements GuiController, Initializable {
 
 	/**
 	 * This method called to update timer for client as on server
+	 * 
 	 * @param eCode of the exam
 	 */
 	public void updateCurrTimerForClient(String ecode) {
@@ -409,8 +410,7 @@ public class ManualExamFormController implements GuiController, Initializable {
 		int temp = (int) ClientUI.client.handleMessageFromClientUI(messageToServer);
 		MinTimer = temp;
 	}
-	
-	
+
 	/**
 	 * This method called to initialize a controller after its root element has been
 	 * completely processed (after load method).

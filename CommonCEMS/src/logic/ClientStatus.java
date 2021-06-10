@@ -1,7 +1,8 @@
 package logic;
 
 /**
- * This is an enum class that defines the client's optional status that he can be.
+ * This is an enum class that defines the client's optional status that he can
+ * be.
  *
  * @author Bat-El Gardin
  * @author Sharon Vaknin

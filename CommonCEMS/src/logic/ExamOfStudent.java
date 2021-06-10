@@ -39,7 +39,7 @@ public class ExamOfStudent implements Serializable {
 
 	public ExamOfStudent() {
 	}
-	
+
 	/**
 	 * @param content
 	 * @param code
@@ -66,7 +66,6 @@ public class ExamOfStudent implements Serializable {
 	}
 
 	// Instance methods ************************************************
-	
 
 	@Override
 	public String toString() {
@@ -100,7 +99,7 @@ public class ExamOfStudent implements Serializable {
 	public void setRealTimeDuration(int realTimeDuration) {
 		this.realTimeDuration = realTimeDuration;
 	}
-	
+
 	/**
 	 * @return the etype
 	 */
@@ -264,7 +263,7 @@ public class ExamOfStudent implements Serializable {
 
 	/**
 	 * @param edate the edate to set
-	 * @return 
+	 * @return
 	 */
 	public void setEdate(String edate) {
 		this.edate = edate;
@@ -290,9 +289,6 @@ public class ExamOfStudent implements Serializable {
 	public void setUserName(String usertName) {
 		this.userName = usertName;
 	}
-	
-	
-	
-	
+
 }
 //End of ExamOfStudent class

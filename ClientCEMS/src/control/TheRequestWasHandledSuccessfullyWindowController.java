@@ -14,9 +14,9 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 /**
- * This is controller class (boundary) for window TheRequestWasHandledSuccessfully in
- * Teacher. This class handle all events related to this window. This class
- * connect with client.
+ * This is controller class (boundary) for window
+ * TheRequestWasHandledSuccessfully in Teacher. This class handle all events
+ * related to this window. This class connect with client.
  *
  * @author Bat-El Gardin
  * @version June 2021

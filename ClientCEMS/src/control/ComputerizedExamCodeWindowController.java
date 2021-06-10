@@ -28,6 +28,7 @@ import logic.Message;
  *
  * @author Sharon Vaknin
  * @author Bat-El Gardin
+ * @author Ohad Shamir
  * @version May 2021
  */
 
@@ -121,7 +122,6 @@ public class ComputerizedExamCodeWindowController implements GuiController, Init
 					UsefulMethods.instance().printException(e);
 				}
 			} else {
-				// Message temp = (Message) object;
 				switch ((String) object) {
 
 				case "too late to get into the exam":

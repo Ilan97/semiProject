@@ -23,8 +23,8 @@ import logic.Request;
  * This class handle all events related to this windows. This class connect with
  * client.
  *
- * @author
- * @version May 2021
+ * @author Bat-El Gardin
+ * @version June 2021
  */
 
 public class ApproveDurationWindowController implements GuiController, Initializable {

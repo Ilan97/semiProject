@@ -36,8 +36,8 @@ public class SubmissionAgreementWindowController implements GuiController, Initi
 	 */
 	private String callerController;
 
-    @FXML
-    public Button submitbtn;
+	@FXML
+	public Button submitbtn;
 	@FXML
 	private ImageView imgBack;
 
@@ -70,6 +70,7 @@ public class SubmissionAgreementWindowController implements GuiController, Initi
 	void cancelActionButton(ActionEvent event) {
 		UsefulMethods.instance().close(event);
 	}
+
 	/**
 	 * This is FXML event handler. Handles the action of click on 'Submit' button.
 	 *

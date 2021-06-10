@@ -3,7 +3,6 @@ package control;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,14 +13,23 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
+/**
+ * This is controller class (boundary) for window AlertTimeIsRunningOut. This
+ * class handle all events related to this window. This class connect with
+ * client.
+ *
+ * @author Sharon Vaknin
+ * @version June 2021
+ */
+
 public class AlertTimeIsRunningOutWindowController implements GuiController, Initializable {
-	
+
 	// Instance variables **********************************************
 
-    @FXML
-    private ImageView imgCrash;
-    @FXML
-    private ImageView imgTimer;
+	@FXML
+	private ImageView imgCrash;
+	@FXML
+	private ImageView imgTimer;
 
 	// Instance methods ************************************************
 
@@ -63,4 +71,3 @@ public class AlertTimeIsRunningOutWindowController implements GuiController, Ini
 	}
 }
 // End of AlertTimeIsRunningOutWindowController class
-

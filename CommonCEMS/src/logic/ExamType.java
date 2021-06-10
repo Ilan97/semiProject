@@ -16,16 +16,16 @@ import java.io.Serializable;
  */
 
 public enum ExamType implements Serializable {
-	MANUAL{
+	MANUAL {
 		public String toString() {
 			return "manual";
 		}
 	},
-	COMPUTERIZED{
+	COMPUTERIZED {
 		public String toString() {
 			return "computerized";
 		}
 	};
-	
+
 }
 //End of ExamType class

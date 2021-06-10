@@ -4,62 +4,63 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * This is an entity class that save details about each course that is
- * created. Implements Serializable to save the state of Course object and
- * re-create it as needed.
+ * This is an entity class that save details about each course that is created.
+ * Implements Serializable to save the state of Course object and re-create it
+ * as needed.
  *
  * @author Moran Davidov
  * @version May 2021
  */
 @SuppressWarnings("serial")
 public class Course implements Serializable {
-	
+
 	// Instance variables **********************************************
 	private String cid;
 	private String cname;
 	private ArrayList<Question> questions = new ArrayList<>();
-	
+
 	// Constructors ****************************************************
 	public Course() {
-	
+
 	}
 
 	// Instance methods ************************************************
-	
+
 	/**
 	 * @return the cid
 	 */
 	public String getCid() {
 		return cid;
 	}
-	
+
 	/**
 	 * @param cid The courses to set
 	 */
 	public void setCid(String cid) {
 		this.cid = cid;
 	}
-	
+
 	/**
 	 * @return the cname
 	 */
 	public String getCname() {
 		return cname;
 	}
-	
+
 	/**
 	 * @param cname The cname to set
 	 */
 	public void setCname(String cname) {
 		this.cname = cname;
 	}
-	
+
 	/**
 	 * @return the questions
 	 */
 	public ArrayList<Question> getQuestions() {
 		return questions;
 	}
+
 	/**
 	 * @param questions The questions to set
 	 */
@@ -109,6 +110,5 @@ public class Course implements Serializable {
 			return false;
 		return true;
 	}
-
 }
 //End of Course class

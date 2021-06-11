@@ -178,7 +178,7 @@ public class TeacherReportForm2Controller implements GuiController, Initializabl
 	 */
 	@FXML
 	void checkExamAction(ActionEvent event) {
-		Navigator.instance().navigate("checkExamForm");
+		Navigator.instance().navigate("CheckExamForm");
 	}
 
 	/**

@@ -85,6 +85,7 @@ public class PrincipalExamOfStudentViewWindowController implements GuiController
 	 *
 	 * @param primaryStage The stage for window's scene.
 	 * @return the "real" controller.
+	 * @throws IOException if an I/O error occurs when opening.
 	 */
 	public Object start(Stage primaryStage) throws IOException {
 		FXMLLoader loader = new FXMLLoader();
@@ -114,8 +115,13 @@ public class PrincipalExamOfStudentViewWindowController implements GuiController
 			// first question
 			btnBack.setVisible(false);
 			// show wanted variables
-			lblNote.setVisible(true);
-			txtNote.setVisible(true);
+			if (!ViewGradesFormController.chosenExam.getTeachNote().equals("")) {
+				lblNote.setVisible(true);
+				txtNote.setVisible(true);
+			} else {
+				lblNote.setVisible(false);
+				txtNote.setVisible(false);
+			}
 			lblGrade.setVisible(true);
 			lblGradeNum.setVisible(true);
 		}
@@ -161,6 +167,8 @@ public class PrincipalExamOfStudentViewWindowController implements GuiController
 
 	/**
 	 * This method close the current stage.
+	 * 
+	 * @param event The action event.
 	 */
 	private void close(ActionEvent event) {
 		Node source = (Node) event.getSource();
@@ -176,8 +184,13 @@ public class PrincipalExamOfStudentViewWindowController implements GuiController
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		exam = null;
 		// show wanted variables
-		lblNote.setVisible(true);
-		txtNote.setVisible(true);
+		if (!ViewGradesFormController.chosenExam.getTeachNote().equals("")) {
+			lblNote.setVisible(true);
+			txtNote.setVisible(true);
+		} else {
+			lblNote.setVisible(false);
+			txtNote.setVisible(false);
+		}
 		lblGrade.setVisible(true);
 		lblGradeNum.setVisible(true);
 		// set the teacher note

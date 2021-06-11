@@ -134,7 +134,7 @@ public class ExamStockForm2Controller implements GuiController, Initializable {
 	 */
 	@FXML
 	void checkExamAction(ActionEvent event) {
-		Navigator.instance().alertPopUp("checkExamForm");
+		Navigator.instance().alertPopUp("CheckExamForm");
 	}
 
 	/**

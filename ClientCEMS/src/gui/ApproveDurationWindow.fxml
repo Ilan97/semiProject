@@ -54,7 +54,7 @@
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
-            <TextArea fx:id="txtAreaExplanation" layoutX="47.0" layoutY="183.0" prefHeight="93.0" prefWidth="222.0" />
+            <TextArea fx:id="txtAreaExplanation" editable="false" layoutX="47.0" layoutY="183.0" prefHeight="93.0" prefWidth="222.0" />
             <Label fx:id="lblNewDuration" alignment="CENTER" layoutX="145.0" layoutY="132.0" prefHeight="22.0" prefWidth="33.0">
                <font>
                   <Font name="Calibri Bold" size="14.0" />

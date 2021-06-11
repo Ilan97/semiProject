@@ -113,7 +113,8 @@ public class WriteQuestionForm2Controller implements GuiController, Initializabl
 	/**
 	 * This method request from server to return the qid from DB.
 	 *
-	 * @param fieldName,courseName from client.
+	 * @param fieldName  from client.
+	 * @param courseName from client.
 	 * @return return qid if found in dataBase else return -1.
 	 */
 	private int GetQid(String fieldName, String courseName) {
@@ -129,7 +130,7 @@ public class WriteQuestionForm2Controller implements GuiController, Initializabl
 	/**
 	 * This method request from server to return the fid from DB.
 	 *
-	 * @param fieldName from client.
+	 * @param FieldName from client.
 	 * @return return Fid if Field found in dataBase else return "Field not found".
 	 */
 	private String GetFid(String FieldName) {
@@ -216,7 +217,7 @@ public class WriteQuestionForm2Controller implements GuiController, Initializabl
 	 */
 	@FXML
 	void checkExamAction(ActionEvent event) {
-		Navigator.instance().alertPopUp("checkExamForm");
+		Navigator.instance().alertPopUp("CheckExamForm");
 	}
 
 	/**

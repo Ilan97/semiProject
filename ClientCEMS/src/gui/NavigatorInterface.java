@@ -6,6 +6,9 @@ public interface NavigatorInterface {
 
 	/**
 	 * navigate to the given file(window) and push the current view to the history
+	 * 
+	 * @param destenation of the file.
+	 * @return {@link GuiController}.
 	 */
 	GuiController navigate(String destenation);
 

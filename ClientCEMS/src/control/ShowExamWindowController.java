@@ -82,7 +82,7 @@ public class ShowExamWindowController implements GuiController, Initializable {
 	 * Pop this window.
 	 *
 	 * @param primaryStage The stage for window's scene.
-	 * @throws IOException
+	 * @throws IOException if an I/O error occurs when opening.
 	 */
 	public void start(Stage primaryStage) throws IOException {
 		FXMLLoader loader = new FXMLLoader();
@@ -110,8 +110,13 @@ public class ShowExamWindowController implements GuiController, Initializable {
 			// first question
 			btnBack.setVisible(false);
 			// show wanted variables
-			lblNote.setVisible(true);
-			txtNote.setVisible(true);
+			if (!GradesFormController.chosenExam.getTeachNote().equals("")) {
+				lblNote.setVisible(true);
+				txtNote.setVisible(true);
+			} else {
+				lblNote.setVisible(false);
+				txtNote.setVisible(false);
+			}
 			lblGrade.setVisible(true);
 			lblGradeNum.setVisible(true);
 		}
@@ -163,8 +168,13 @@ public class ShowExamWindowController implements GuiController, Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		exam = null;
 		// show wanted variables
-		lblNote.setVisible(true);
-		txtNote.setVisible(true);
+		if (!GradesFormController.chosenExam.getTeachNote().equals("")) {
+			lblNote.setVisible(true);
+			txtNote.setVisible(true);
+		} else {
+			lblNote.setVisible(false);
+			txtNote.setVisible(false);
+		}
 		lblGrade.setVisible(true);
 		lblGradeNum.setVisible(true);
 		// set the teacher note

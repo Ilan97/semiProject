@@ -37,7 +37,8 @@ public class ClientUI extends Application {
 	/**
 	 * The main method of Application class.
 	 * 
-	 * @throws Exception
+	 * @param args.
+	 * @throws Exception if an error occurs when launching.
 	 */
 	public static void main(String args[]) throws Exception {
 		launch(args);
@@ -47,7 +48,7 @@ public class ClientUI extends Application {
 	 * Start the client's UI.
 	 * 
 	 * @param primaryStage The first window that shows.
-	 * @throws Exception
+	 * @throws Exception if error occurs when opening.
 	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {

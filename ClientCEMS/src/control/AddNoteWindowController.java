@@ -53,7 +53,7 @@ public class AddNoteWindowController implements GuiController, Initializable {
 	 * Pop this window.
 	 *
 	 * @param primaryStage The stage for window's scene.
-	 * @throws IOException
+	 * @throws IOException if an I/O error occurs when opening.
 	 * @return the "real" controller.
 	 */
 	public Object start(Stage primaryStage) throws IOException {

@@ -166,14 +166,14 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 				score += cont.getScore();
 		}
 		// calculate the difference between start and end time
-		Message messageToServer = new Message();
-		messageToServer.setControllerName("StudentController");
-		messageToServer.setOperation("StopTimer");
-		double difference = (double) ClientUI.client.handleMessageFromClientUI(messageToServer);
-		messageToServer.setControllerName("ExamController");
-		messageToServer.setOperation("GetExamDuration");
-		messageToServer.setMsg(ComputerizedExamCodeWindowController.code);
-		double duration = (double) ClientUI.client.handleMessageFromClientUI(messageToServer);
+		Message messageToServer2 = new Message();
+		messageToServer2.setControllerName("StudentController");
+		messageToServer2.setOperation("StopTimer");
+		double difference = (double) ClientUI.client.handleMessageFromClientUI(messageToServer2);
+		messageToServer2.setControllerName("ExamController");
+		messageToServer2.setOperation("GetExamDuration");
+		messageToServer2.setMsg(ComputerizedExamCodeWindowController.code);
+		double duration = (double) ClientUI.client.handleMessageFromClientUI(messageToServer2);
 		// in case the student did not submit the test on time
 		if (difference > duration) {
 			difference = -1;
@@ -205,6 +205,7 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 			messageToServer.setControllerName("StudentController");
 			messageToServer.setOperation("SubmitExam");
 			ClientUI.client.handleMessageFromClientUI(messageToServer);
+			// alert pop up
 			StudentDidNotMakeItWindowController pop = new StudentDidNotMakeItWindowController();
 			pop.start(new Stage());
 		} catch (IOException e) {
@@ -224,6 +225,7 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 			messageToServer.setControllerName("StudentController");
 			messageToServer.setOperation("SubmitExam");
 			ClientUI.client.handleMessageFromClientUI(messageToServer);
+			// alert pop up
 			AlertExamLockedWindowController popUp = new AlertExamLockedWindowController();
 			popUp.start(new Stage());
 		} catch (Exception e) {
@@ -234,7 +236,7 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 	/**
 	 * This method called to update timer for client as on server
 	 * 
-	 * @param eCode of the exam
+	 * @param ecode of the exam
 	 */
 	public void updateCurrTimerForClient(String ecode) {
 		int temp;
@@ -337,13 +339,12 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 				try {
 					Thread.sleep(SEC);
 					synchronized (this) {
-						int min = (int) ClientUI.client.handleMessageFromClientUI(messageToServerThread2);
+						int min = (int)ClientUI.client.handleMessageFromClientUI(messageToServerThread2);
 
 						if (min != MinTimer) {
 							MinTimer = min;
 							SecTimer = 0;
 							flag = false;
-							// break;
 						}
 					}
 				} catch (InterruptedException e) {
@@ -369,7 +370,7 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 				}
 				while (flagForTimer) {
 					Thread.sleep(15 * SEC);
-					//request for currDuration
+					// request for currDuration
 					messageToServerThread3.setControllerName("ExamController");
 					messageToServerThread3.setOperation("GetExamDuration");
 					messageToServerThread3.setMsg(Exam_eCode);
@@ -380,6 +381,7 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 					if (currDuration != startDuration) {
 						// pop up
 						Platform.runLater(() -> {
+							// alert pop up
 							AlertExamDurationChangedWindowController popUp = new AlertExamDurationChangedWindowController();
 							try {
 								popUp.start(new Stage());
@@ -388,10 +390,11 @@ public class ComputerizedExamFormController implements GuiController, Initializa
 							}
 						});
 					}
-					if ((HourTimer * 60 + MinTimer) + 10 == currDuration  && FlagForAttention) {
+					if ((HourTimer * 60 + MinTimer) + 10 == currDuration && FlagForAttention) {
 						FlagForAttention = false;
 						// pop up
 						Platform.runLater(() -> {
+							// alert pop up
 							AlertTimeIsRunningOutWindowController popUp = new AlertTimeIsRunningOutWindowController();
 							try {
 								popUp.start(new Stage());

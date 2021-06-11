@@ -29,7 +29,8 @@ public class ServerUI extends Application {
 	/**
 	 * The main method of Application class.
 	 * 
-	 * @throws Exception
+	 * @param args.
+	 * @throws Exception if an error occurs when launching.
 	 */
 	public static void main(String args[]) throws Exception {
 		launch(args);
@@ -39,7 +40,7 @@ public class ServerUI extends Application {
 	 * Start the server's UI. Create and start ServerPort frame.
 	 * 
 	 * @param primaryStage The first window that shows.
-	 * @throws Exception
+	 * @throws Exception if an error occurs when launching.
 	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {

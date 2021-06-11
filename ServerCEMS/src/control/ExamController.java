@@ -98,7 +98,7 @@ public class ExamController {
 			if (examID != null) {
 				if (!checkStudentDidExam(examID, data[2])) {
 					res = getExamFile(data[0], data[1]);
-					if (CheckTimeOfExam(data[0]) <= 10) {
+					if (getExamStatus(data[0]).equals("open")) {
 						examMessage.setMsg(res);
 					} else
 						examMessage.setMsg("too late to get into the exam");
@@ -131,7 +131,7 @@ public class ExamController {
 			examID = getExamID(data[0]);
 			if (examID != null) {
 				if (!checkStudentDidExam(examID, data[2])) {
-					if (CheckTimeOfExam(data[0]) <= 10) {
+					if (getExamStatus(data[0]).equals("open")) {
 						resExam = checkComputerizedExamCode(data[0], data[1]);
 						examMessage.setMsg(resExam);
 					} else
@@ -307,6 +307,7 @@ public class ExamController {
 	/**
 	 * This method open the exam's timer.
 	 * 
+	 * @param code the exam code to open the timer for.
 	 */
 	public static void openTimer(String code) {
 
@@ -326,6 +327,7 @@ public class ExamController {
 	/**
 	 * This method update the exam's timer.
 	 * 
+	 * @param code the exam code to update the timer for.
 	 */
 	private static void updateTimer(String code) {
 		PreparedStatement pstmt = null;
@@ -348,7 +350,7 @@ public class ExamController {
 	 * This method get the countPerformers from examToPerform table
 	 *
 	 * @param code - The code from examToPerform table.
-	 * 
+	 * @return numberOfPerformers how many students started the exam.
 	 */
 	public static int GetcountPerformers(String code) {
 		PreparedStatement pstmt = null;
@@ -389,7 +391,7 @@ public class ExamController {
 	public static void checkforDone(String code) {
 		int currTime = CheckTimeOfExam(code);
 		int numberOfPerformers = GetcountPerformers(code);
-		if (currTime > 10 && numberOfPerformers == 0) {
+		if ((currTime > 10 && numberOfPerformers == 0) || (currTime >= getDuration(code))) {
 			UpdateExamToDone(code);
 			flagForTimer = false;
 		}
@@ -669,7 +671,7 @@ public class ExamController {
 	 */
 	public static boolean insertExamToExamToPerformTable(Exam exam) {
 		PreparedStatement pstmt = null;
-		String sql = "INSERT INTO examToPerform VALUES (?,?,?,?,?,?,?,?)";
+		String sql = "INSERT INTO examToPerform VALUES (?,?,?,?,?,?,?,?,?)";
 		try {
 			pstmt = DBconnector.conn.prepareStatement(sql);
 			pstmt.setString(1, exam.getFid());
@@ -680,6 +682,7 @@ public class ExamController {
 			pstmt.setString(6, exam.getEdate().toString());
 			pstmt.setInt(7, 0);
 			pstmt.setInt(8, 0);
+			pstmt.setDouble(9, getOriginDuration(exam.getFid(), exam.getCid(), exam.getEid()));
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			DBconnector.printSQLException(e);
@@ -1130,7 +1133,44 @@ public class ExamController {
 	}
 
 	/**
-	 * This method get the exam duration time from table exam.
+	 * This method get the exam original duration time from table exam.
+	 *
+	 * @param Fid The id of the field.
+	 * @param Cid The id of the course.
+	 * @param Eid The id of the exam.
+	 * @return exam's duration.
+	 */
+	public static double getOriginDuration(String Fid, String Cid, String Eid) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		double duration = 0.0;
+		String sql = "SELECT duration FROM exam WHERE fid = ? AND cid = ? AND eid = ?";
+		try {
+			pstmt = DBconnector.conn.prepareStatement(sql);
+			pstmt.setString(1, Fid);
+			pstmt.setString(2, Cid);
+			pstmt.setString(3, Eid);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				duration = rs.getDouble("duration");
+			}
+		} catch (SQLException e) {
+			return 0.0;
+		} finally {
+			try {
+				rs.close();
+			} catch (Exception e) {
+			}
+			try {
+				pstmt.close();
+			} catch (Exception e) {
+			}
+		}
+		return duration;
+	}
+
+	/**
+	 * This method get the exam duration time from table examToPerform.
 	 *
 	 * @param code The code from examToPerform table.
 	 * @return exam's duration.
@@ -1139,8 +1179,7 @@ public class ExamController {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		double duration = 0.0;
-		String sql = "SELECT e.duration FROM exam as e, examToPerform as ep "
-				+ "WHERE e.fid = ep.fid AND e.cid = ep.cid AND e.eid = ep.eid AND ep.ecode = ?";
+		String sql = "SELECT duration FROM examToPerform WHERE ecode = ?";
 		try {
 			pstmt = DBconnector.conn.prepareStatement(sql);
 			pstmt.setString(1, code);
@@ -1149,7 +1188,7 @@ public class ExamController {
 				duration = rs.getDouble("duration");
 			}
 		} catch (SQLException e) {
-			return 0.0;
+			return duration;
 		} finally {
 			try {
 				rs.close();
@@ -1325,8 +1364,8 @@ public class ExamController {
 	/**
 	 * This method return the eid from DB.
 	 *
-	 * @param fieldName  from client.
-	 * @param courseName from client.
+	 * @param FieldName  from client.
+	 * @param CourseName from client.
 	 * @return return eid if found in dataBase else return -1.
 	 */
 	public static int GetEid(String FieldName, String CourseName) {
@@ -1360,7 +1399,8 @@ public class ExamController {
 	}
 
 	/**
-	 * This method update the exam table in 'duration' column, by specific ID.
+	 * This method update the ExamToPerform table in 'duration' column, by specific
+	 * ID.
 	 *
 	 * @param examKey     The entire exam ID.
 	 * @param newDuration For the new exam duration time.
@@ -1375,8 +1415,8 @@ public class ExamController {
 		courseID = examIDcomponents[1];
 		examID = examIDcomponents[2];
 		// Execute query for update the exam's duration time. Table Exam.
-		String query = "UPDATE Exam SET duration = " + newDuration + " WHERE fid = " + fieldID + " AND " + "cid = "
-				+ courseID + " AND " + "eid = " + examID;
+		String query = "UPDATE ExamToPerform SET duration = " + newDuration + " WHERE fid = " + fieldID + " AND "
+				+ "cid = " + courseID + " AND " + "eid = " + examID;
 		try {
 			stmt = DBconnector.conn.createStatement();
 			stmt.executeUpdate(query);
@@ -1392,46 +1432,6 @@ public class ExamController {
 		}
 		res = true;
 		return res;
-	}
-
-	/**
-	 * This method execute query for get exam's duration time, by specific ID.
-	 *
-	 * @param examKey The entire exam ID.
-	 * @return duration The exam's duration time.
-	 */
-	public static double requestDurationTimeQuery(String examKey) {
-		Statement stmt = null;
-		ResultSet rs = null;
-		String[] examIDcomponents = parsingTheExamId(examKey);
-		// data from parsingTheExamId method
-		fieldID = examIDcomponents[0];
-		courseID = examIDcomponents[1];
-		examID = examIDcomponents[2];
-		double duration = 0.0;
-		// Execute query for get the content of 'Duration' column. Table Exam.
-		String query = "SELECT duration FROM Exam WHERE fid = " + fieldID + " AND " + "cid = " + courseID + " AND "
-				+ "eid = " + examID;
-		try {
-			stmt = DBconnector.conn.createStatement();
-			rs = stmt.executeQuery(query);
-			while (rs.next())
-				duration = rs.getDouble("duration");
-		} catch (SQLException e) {
-			DBconnector.printSQLException(e);
-		} finally {
-			try {
-				rs.close();
-			} catch (Exception e) {
-				DBconnector.printException(e);
-			}
-			try {
-				stmt.close();
-			} catch (Exception e) {
-				DBconnector.printException(e);
-			}
-		}
-		return duration;
 	}
 
 	/**

@@ -126,7 +126,7 @@ public class QuestionController {
 	/**
 	 * This method responsible to save a question in DB .
 	 *
-	 * @param question {@link Question} from client.
+	 * @param q {@link Question} from client.
 	 * @return boolean result if the save succeed.
 	 */
 	public static boolean saveQuestion(Question q) {
@@ -217,8 +217,8 @@ public class QuestionController {
 	/**
 	 * This method return the qid from DB.
 	 *
-	 * @param fieldName  The field name from client.
-	 * @param courseName The course name from client.
+	 * @param FieldName  The field name from client.
+	 * @param CourseName The course name from client.
 	 * @return qid if found in dataBase else return -1.
 	 */
 	public static int GetQid(String FieldName, String CourseName) {

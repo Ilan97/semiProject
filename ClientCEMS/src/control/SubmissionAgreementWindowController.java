@@ -46,8 +46,9 @@ public class SubmissionAgreementWindowController implements GuiController, Initi
 	/**
 	 * Pop this window.
 	 *
-	 * @param primaryStage The stage for window's scene.
-	 * @throws IOException
+	 * @param primaryStage   The stage for window's scene.
+	 * @param controllerName The controller's name (who called it).
+	 * @throws IOException if an I/O error occurs when opening.
 	 */
 	public void start(Stage primaryStage, String controllerName) throws IOException {
 		FXMLLoader loader = new FXMLLoader();
@@ -75,27 +76,27 @@ public class SubmissionAgreementWindowController implements GuiController, Initi
 	 * This is FXML event handler. Handles the action of click on 'Submit' button.
 	 *
 	 * @param event The action event.
-	 * @throws IOException
+	 * @throws IOException if an I/O error occurs when opening.
 	 */
 	@FXML
 	void submitActionButton(ActionEvent event) throws IOException {
 		boolean res;
 		double dur = 0.0;
 		// message to server
-		Message messageToServer = new Message();
+		Message messageToServer1 = new Message();
 		switch (callerController) {
 		case "ManualExamCodeWindowController":
-			messageToServer.setMsg(ManualExamFormController.examToUpload);
+			messageToServer1.setMsg(ManualExamFormController.examToUpload);
 			dur = ManualExamFormController.examToUpload.getRealTimeDuration();
 			break;
 		case "ComputerizedExamInnerFormController":
-			messageToServer.setMsg(ComputerizedExamFormController.examToSubmit);
+			messageToServer1.setMsg(ComputerizedExamFormController.examToSubmit);
 			dur = ComputerizedExamFormController.examToSubmit.getRealTimeDuration();
 			break;
 		}
-		messageToServer.setControllerName("StudentController");
-		messageToServer.setOperation("SubmitExam");
-		res = (boolean) ClientUI.client.handleMessageFromClientUI(messageToServer);
+		messageToServer1.setControllerName("StudentController");
+		messageToServer1.setOperation("SubmitExam");
+		res = (boolean) ClientUI.client.handleMessageFromClientUI(messageToServer1);
 		UsefulMethods.instance().close(event);
 		// upload success
 		if (res && dur != -1) {

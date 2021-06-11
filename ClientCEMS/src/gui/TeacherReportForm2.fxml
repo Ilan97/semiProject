@@ -109,7 +109,7 @@
             <Font name="Calibri Bold" size="14.0" />
          </font>
       </Label>
-      <BarChart fx:id="graph" layoutX="236.0" layoutY="197.0" legendVisible="false" prefHeight="271.0" prefWidth="500.0" title="Histogram Distribution">
+      <BarChart fx:id="graph" animated="false" layoutX="236.0" layoutY="197.0" legendVisible="false" prefHeight="271.0" prefWidth="500.0" title="Histogram Distribution">
          <xAxis>
             <CategoryAxis animated="false" label="Grade Range" side="BOTTOM" />
          </xAxis>

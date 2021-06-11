@@ -34,7 +34,7 @@
                </font>
             </Button>
             <Pane fx:id="paneQuestions" layoutX="62.0" layoutY="81.0" prefHeight="303.0" prefWidth="545.0" style="-fx-background-color: #ffffff;" />
-            <TextArea fx:id="txtNote" layoutX="126.0" layoutY="418.0" prefHeight="48.0" prefWidth="416.0" />
+            <TextArea fx:id="txtNote" editable="false" layoutX="126.0" layoutY="418.0" prefHeight="48.0" prefWidth="416.0" />
             <Label fx:id="lblNote" layoutX="127.0" layoutY="401.0" text="Teacher Note:">
                <font>
                   <Font name="Calibri Bold" size="14.0" />

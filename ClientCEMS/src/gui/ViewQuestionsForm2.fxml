@@ -75,7 +75,7 @@
                   <Font name="Calibri Bold" size="12.0" />
                </font>
             </Label>
-            <TextArea fx:id="txtQuestions" layoutX="259.0" layoutY="167.0" prefHeight="254.0" prefWidth="449.0" />
+            <TextArea fx:id="txtQuestions" editable="false" layoutX="259.0" layoutY="167.0" prefHeight="254.0" prefWidth="449.0" />
             <Label layoutX="289.0" layoutY="98.0" prefHeight="35.0" prefWidth="142.0" text="View Questions" textAlignment="CENTER" textFill="#f6872b" wrapText="true">
                <font>
                   <Font name="Calibri Bold" size="18.0" />

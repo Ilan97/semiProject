@@ -51,6 +51,8 @@ public class TeacherReportForm1Controller implements GuiController, Initializabl
 
 	/**
 	 * This method clear error label.
+	 * 
+	 * @param err the label to clear.
 	 */
 	private void clearErrLbl(Label err) {
 		err.setText("");
@@ -140,7 +142,7 @@ public class TeacherReportForm1Controller implements GuiController, Initializabl
 	 */
 	@FXML
 	void checkExamAction(ActionEvent event) {
-		Navigator.instance().navigate("checkExamForm");
+		Navigator.instance().navigate("CheckExamForm");
 	}
 
 	/**

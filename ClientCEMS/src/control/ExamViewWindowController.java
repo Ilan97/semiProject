@@ -54,8 +54,8 @@ public class ExamViewWindowController implements GuiController, Initializable {
 	private Label lblAuthor;
 	@FXML
 	private Label lblDuration;
-    @FXML
-    private Label lblType;
+	@FXML
+	private Label lblType;
 	@FXML
 	private TextField txtCode;
 	@FXML
@@ -71,7 +71,7 @@ public class ExamViewWindowController implements GuiController, Initializable {
 	 * Pop this window.
 	 *
 	 * @param primaryStage The stage for window's scene.
-	 * @throws IOException
+	 * @throws IOException if an I/O error occurs when opening.
 	 */
 	public void start(Stage primaryStage) throws IOException {
 		FXMLLoader loader = new FXMLLoader();

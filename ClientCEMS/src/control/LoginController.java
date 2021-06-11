@@ -66,7 +66,7 @@ public class LoginController implements GuiController, Initializable {
 	 * logged out and return to 'log in' screen.
 	 *
 	 * @param primaryStage The stage for window's scene.
-	 * @throws Exception
+	 * @throws Exception if an error occurs when opening.
 	 */
 	public void start(Stage primaryStage) throws Exception {
 		Pane p = new Pane();
@@ -107,7 +107,7 @@ public class LoginController implements GuiController, Initializable {
 	 * This is FXML event handler. Handles the action of click on 'Log in' button.
 	 *
 	 * @param event The action event.
-	 * @throws IOException
+	 * @throws IOException if an I/O error occurs when opening.
 	 */
 	@FXML
 	void login(ActionEvent event) throws IOException {
@@ -158,7 +158,7 @@ public class LoginController implements GuiController, Initializable {
 	 * This is FXML event handler. Handles the action of click on 'Exit' button.
 	 *
 	 * @param event The action event.
-	 * @throws IOException
+	 * @throws IOException if an I/O error occurs when opening.
 	 */
 	@FXML
 	void exit(ActionEvent event) throws IOException {

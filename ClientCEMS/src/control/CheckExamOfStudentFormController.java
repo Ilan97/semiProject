@@ -95,7 +95,7 @@ public class CheckExamOfStudentFormController implements GuiController, Initiali
 	 * Pop this window.
 	 *
 	 * @param primaryStage The stage for window's scene.
-	 * @throws IOException
+	 * @throws IOException if an I/O error occurs when opening.
 	 */
 	public void start(Stage primaryStage) throws IOException {
 		FXMLLoader loader = new FXMLLoader();
@@ -187,7 +187,7 @@ public class CheckExamOfStudentFormController implements GuiController, Initiali
 	 * This is FXML event handler. Handles the action of click on 'Save' button.
 	 *
 	 * @param event The action event.
-	 * @throws InterruptedException
+	 * @throws InterruptedException if an interrupt error occurs.
 	 */
 	@FXML
 	void saveAction(ActionEvent event) throws InterruptedException {

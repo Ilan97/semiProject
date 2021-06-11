@@ -20,7 +20,7 @@ public interface UsefulMethodsInterface {
 	/**
 	 * This method displays the exception.
 	 *
-	 * @param excpetion The Exception.
+	 * @param e The {@link Exception}.
 	 */
 	void printException(Exception e);
 }

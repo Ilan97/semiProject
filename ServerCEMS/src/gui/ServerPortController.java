@@ -59,7 +59,6 @@ public class ServerPortController implements Initializable {
 	 * One second.
 	 */
 	static final int SEC = 1000;
-	public boolean flag = true;
 	/**
 	 * The indicate if thread still alive.
 	 */
@@ -104,6 +103,7 @@ public class ServerPortController implements Initializable {
 	 * window.
 	 *
 	 * @param primaryStage The stage for window's scene.
+	 * @throws Exception if an error occurs when opening.
 	 */
 	public void start(Stage primaryStage) throws Exception {
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/ServerPort.fxml"));
@@ -124,6 +124,7 @@ public class ServerPortController implements Initializable {
 	 * This is FXML event handler. Handles the action of click on 'connect' button.
 	 *
 	 * @param event The action event.
+	 * @throws Exception if an error occurs.
 	 */
 	@FXML
 	public void connectActionButton(ActionEvent event) throws Exception {
@@ -172,7 +173,7 @@ public class ServerPortController implements Initializable {
 	 * This is FXML event handler. Handles the action of click on 'refresh' button.
 	 *
 	 * @param event The action event.
-	 * @throws IOException
+	 * @throws IOException if an I/O error occurs when opening.
 	 */
 	@SuppressWarnings({ "static-access" })
 	@FXML

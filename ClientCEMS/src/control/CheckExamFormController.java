@@ -240,9 +240,9 @@ public class CheckExamFormController implements GuiController, Initializable {
 	@FXML
 	void checkExamAction(ActionEvent event) {
 		if (formIsNotEmpty())
-			Navigator.instance().alertPopUp("checkExamForm");
+			Navigator.instance().alertPopUp("CheckExamForm");
 		else
-			Navigator.instance().navigate("checkExamForm");
+			Navigator.instance().navigate("CheckExamForm");
 	}
 
 	/**

@@ -50,12 +50,6 @@ public class ServerCrushedController implements Initializable {
 		primaryStage.setScene(scene);
 		// close the program
 		primaryStage.setOnCloseRequest((event) -> {
-			try {
-				ClientUI.client.closeConnection();
-			} catch (IOException e) {
-				UsefulMethods.instance().display("Fail to close client!");
-				UsefulMethods.instance().printException(e);
-			}
 			System.exit(0);
 		});
 		primaryStage.show();
@@ -68,12 +62,6 @@ public class ServerCrushedController implements Initializable {
 	 */
 	@FXML
 	void approveActionButton(ActionEvent event) {
-		try {
-			ClientUI.client.closeConnection();
-		} catch (IOException e) {
-			UsefulMethods.instance().display("Fail to close client!");
-			UsefulMethods.instance().printException(e);
-		}
 		System.exit(0);
 	}
 

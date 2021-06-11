@@ -50,13 +50,13 @@ public class LoginController implements GuiController, Initializable {
 	@FXML
 	private ImageView imgLogo;
 	@FXML
-	private TextField txtUserName;
+	public TextField txtUserName;
 	@FXML
 	private Button btnLogin;
 	@FXML
-	private PasswordField txtPassword;
+	public PasswordField txtPassword;
 	@FXML
-	private Label lblErr;
+	public Label lblErr;
 
 	// Instance methods ************************************************
 
@@ -110,7 +110,7 @@ public class LoginController implements GuiController, Initializable {
 	 * @throws IOException if an I/O error occurs when opening.
 	 */
 	@FXML
-	void login(ActionEvent event) throws IOException {
+	public void login(ActionEvent event) throws IOException {
 		Message messageToServer = new Message();
 		String userName = txtUserName.getText();
 		String password = txtPassword.getText();
@@ -162,13 +162,6 @@ public class LoginController implements GuiController, Initializable {
 	 */
 	@FXML
 	void exit(ActionEvent event) throws IOException {
-		// close the client
-		try {
-			ClientUI.client.closeConnection();
-		} catch (IOException e) {
-			UsefulMethods.instance().display("Fail to close client!");
-			UsefulMethods.instance().printException(e);
-		}
 		System.exit(0);
 	}
 

@@ -9,5 +9,6 @@
 	</classpathentry>
 	<classpathentry combineaccessrules="false" kind="src" path="/CommonCEMS"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/OCSF"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

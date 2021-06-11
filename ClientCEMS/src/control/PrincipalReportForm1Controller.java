@@ -59,9 +59,9 @@ public class PrincipalReportForm1Controller implements GuiController, Initializa
 	@FXML
 	private Label lblErrData;
 	@FXML
-	private ComboBox<String> typeOptions;
+	public ComboBox<String> typeOptions;
 	@FXML
-	private ComboBox<String> chooseType;
+	public ComboBox<String> chooseType;
 
 	// Instance methods ************************************************
 
@@ -81,7 +81,8 @@ public class PrincipalReportForm1Controller implements GuiController, Initializa
 	 */
 	@SuppressWarnings("unchecked")
 	@FXML
-	void next(ActionEvent event) {
+	
+	public void next(ActionEvent event) {
 		clearErrLbl(lblErrData);
 		// handle missing fields
 		if (chooseType.getSelectionModel().isEmpty()) {

@@ -30,7 +30,7 @@ public class ClientUI extends Application {
 	 * Static instance for {@link ClientController} instance. Will be create only
 	 * once for each run.
 	 */
-	public static ClientController client;
+	public static IClientController client;
 
 	// Instance methods ************************************************
 

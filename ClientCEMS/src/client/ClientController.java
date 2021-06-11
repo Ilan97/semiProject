@@ -18,7 +18,7 @@ import ocsf.client.AbstractClient;
  * @author Moran Davidov
  * @version May 2021
  */
-public class ClientController extends AbstractClient {
+public class ClientController extends AbstractClient implements IClientController {
 
 	// Instance variables **********************************************
 
@@ -67,6 +67,7 @@ public class ClientController extends AbstractClient {
 	 * @return message The result from server
 	 * 
 	 */
+	@Override
 	public Object handleMessageFromClientUI(Message msg) {
 		try {
 			openConnection();
@@ -153,5 +154,7 @@ public class ClientController extends AbstractClient {
 	public void display(String message) {
 		System.out.println("> " + message);
 	}
+	
+	
 }
 //End of ClientController class

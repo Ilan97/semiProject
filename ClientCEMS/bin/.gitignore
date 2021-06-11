@@ -1,5 +1,4 @@
+/client/
+/clientUnitTests/
 /control/
 /gui/
-/.classpath
-/.project
-/client/

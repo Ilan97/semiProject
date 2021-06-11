@@ -114,7 +114,7 @@ public class RequestChangeDurationExamTimeController implements GuiController, I
 			// check if isn't shorter than the original duration
 			Message messageToServer = new Message();
 			messageToServer.setMsg(getCode());
-			messageToServer.setOperation("GetExamDuration");
+			messageToServer.setOperation("GetOriginExamDuration");
 			messageToServer.setControllerName("ExamController");
 			originDur = (double) ClientUI.client.handleMessageFromClientUI(messageToServer);
 			// code isn't exists

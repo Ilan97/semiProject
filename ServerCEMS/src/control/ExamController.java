@@ -47,8 +47,8 @@ public class ExamController {
 	// time variables
 	static final int MIN = 60 * 1000;
 	static final int SEC = 1000;
-	public static boolean flagForTimer = true;
-	public static int SecTimer = 0, MinTimer = 0, HourTimer = 0;
+	// map of flags for each exam
+	private static HashMap<String, Boolean> flagsMap = new HashMap<>();
 
 	// Instance methods ************************************************
 
@@ -159,6 +159,13 @@ public class ExamController {
 			result = examMessage;
 			break;
 
+		case "GetOriginExamDuration":
+			String[] examData = parsingTheExamId(getExamID((String) request.getMsg()));
+			double originDur = getOriginDuration(examData[0], examData[1], examData[2]);
+			examMessage.setMsg(originDur);
+			result = examMessage;
+			break;
+
 		case "CheckCodeExistsForRequest":
 			isExists = checkCodeExistsAndOpen((String) request.getMsg());
 			examMessage.setMsg(isExists);
@@ -191,9 +198,15 @@ public class ExamController {
 			break;
 
 		case "OpenExam":
-			boolean isOpend = openExam((String) request.getMsg());
+			String ecode = (String) request.getMsg();
+			boolean isOpend = openExam(ecode);
 			examMessage.setMsg(isOpend);
 			result = examMessage;
+			// add flag to flagsMap
+			if (!flagsMap.containsKey(ecode))
+				flagsMap.put(ecode, true);
+			else
+				flagsMap.replace(ecode, true);
 			openTimer((String) request.getMsg());
 			break;
 
@@ -312,7 +325,7 @@ public class ExamController {
 
 		new Thread(() -> {
 			try {
-				while (flagForTimer) {
+				while (flagsMap.get(code)) {
 					Thread.sleep(MIN);
 					updateTimer(code);
 					checkforDone(code);
@@ -393,7 +406,7 @@ public class ExamController {
 		if (((currTime > 10 && numberOfPerformers == 0)
 				|| (currTime == getDuration(code)) && (!(getExamStatus(code).equals("done"))))) {
 			UpdateExamToDone(code);
-			flagForTimer = false;
+			flagsMap.replace(code, false);
 		}
 	}
 

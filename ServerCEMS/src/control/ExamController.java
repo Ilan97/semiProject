@@ -7,7 +7,6 @@ import java.sql.Blob;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
@@ -100,7 +99,7 @@ public class ExamController {
 					res = getExamFile(data[0], data[1]);
 					if (getExamStatus(data[0]).equals("open")) {
 						examMessage.setMsg(res);
-					} else
+					} else if (getExamStatus(data[0]).equals("done"))
 						examMessage.setMsg("too late to get into the exam");
 				} else
 					examMessage.setMsg("student is already did the exam");
@@ -134,7 +133,7 @@ public class ExamController {
 					if (getExamStatus(data[0]).equals("open")) {
 						resExam = checkComputerizedExamCode(data[0], data[1]);
 						examMessage.setMsg(resExam);
-					} else
+					} else if (getExamStatus(data[0]).equals("done"))
 						examMessage.setMsg("too late to get into the exam");
 				} else
 					examMessage.setMsg("student is already did the exam");
@@ -391,7 +390,8 @@ public class ExamController {
 	public static void checkforDone(String code) {
 		int currTime = CheckTimeOfExam(code);
 		int numberOfPerformers = GetcountPerformers(code);
-		if ((currTime > 10 && numberOfPerformers == 0) || (currTime >= getDuration(code))) {
+		if (((currTime > 10 && numberOfPerformers == 0)
+				|| (currTime == getDuration(code)) && (!(getExamStatus(code).equals("done"))))) {
 			UpdateExamToDone(code);
 			flagForTimer = false;
 		}
@@ -610,11 +610,12 @@ public class ExamController {
 	public static boolean openExam(String code) {
 		PreparedStatement pstmt = null;
 		String query;
-		query = "UPDATE examToPerform SET estatus = ? WHERE ecode = ?";
+		query = "UPDATE examToPerform SET estatus = ?, timer = ? WHERE ecode = ?";
 		try {
 			pstmt = DBconnector.conn.prepareStatement(query);
 			pstmt.setString(1, "open");
-			pstmt.setString(2, code);
+			pstmt.setInt(2, 0);
+			pstmt.setString(3, code);
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			return false;
@@ -1402,30 +1403,24 @@ public class ExamController {
 	 * This method update the ExamToPerform table in 'duration' column, by specific
 	 * ID.
 	 *
-	 * @param examKey     The entire exam ID.
+	 * @param code        The entire exam ID.
 	 * @param newDuration For the new exam duration time.
 	 * @return true if success, false otherwise.
 	 */
-	public static boolean updateExamDurationQuery(String examKey, double newDuration) {
-		Statement stmt = null;
+	public static boolean updateExamDurationQuery(String code, double newDuration) {
+		PreparedStatement pstmt = null;
 		boolean res = false;
-		String[] examIDcomponents = parsingTheExamId(examKey);
-		// data from parsingTheExamId method
-		fieldID = examIDcomponents[0];
-		courseID = examIDcomponents[1];
-		examID = examIDcomponents[2];
-		// Execute query for update the exam's duration time. Table Exam.
-		String query = "UPDATE ExamToPerform SET duration = " + newDuration + " WHERE fid = " + fieldID + " AND "
-				+ "cid = " + courseID + " AND " + "eid = " + examID;
+		String sql = "UPDATE ExamToPerform SET duration = ? WHERE ecode = ?";
 		try {
-			stmt = DBconnector.conn.createStatement();
-			stmt.executeUpdate(query);
-			DBconnector.display("DB: New exam duration time was updated");
+			pstmt = DBconnector.conn.prepareStatement(sql);
+			pstmt.setDouble(1, newDuration);
+			pstmt.setString(2, code);
+			pstmt.executeUpdate();
 		} catch (SQLException e) {
-			return res;
+			DBconnector.printSQLException(e);
 		} finally {
 			try {
-				stmt.close();
+				pstmt.close();
 			} catch (Exception e) {
 				DBconnector.printException(e);
 			}

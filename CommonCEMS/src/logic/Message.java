@@ -63,7 +63,7 @@ public class Message implements Serializable {
 	}
 
 	/**
-	 * @param operation The operation to set
+	 * @param controllerName The controllerName to set.
 	 */
 	public void setControllerName(String controllerName) {
 		this.controllerName = controllerName;

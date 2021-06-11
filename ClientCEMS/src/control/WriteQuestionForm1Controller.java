@@ -78,6 +78,8 @@ public class WriteQuestionForm1Controller implements GuiController, Initializabl
 
 	/**
 	 * This method clear error label.
+	 * 
+	 * @param err the label to clear.
 	 */
 	private void clearErrLbl(Label err) {
 		err.setText("");
@@ -264,9 +266,9 @@ public class WriteQuestionForm1Controller implements GuiController, Initializabl
 	@FXML
 	void checkExamAction(ActionEvent event) {
 		if (formIsNotEmpty())
-			Navigator.instance().alertPopUp("checkExamForm");
+			Navigator.instance().alertPopUp("CheckExamForm");
 		else
-			Navigator.instance().navigate("checkExamForm");
+			Navigator.instance().navigate("CheckExamForm");
 	}
 
 	/**

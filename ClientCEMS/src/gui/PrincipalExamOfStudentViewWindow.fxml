@@ -49,7 +49,7 @@
                   <Font name="Calibri Bold" size="24.0" />
                </font>
             </Label>
-            <TextArea fx:id="txtNote" layoutX="122.0" layoutY="422.0" prefHeight="48.0" prefWidth="416.0" />
+            <TextArea fx:id="txtNote" editable="false" layoutX="122.0" layoutY="422.0" prefHeight="48.0" prefWidth="416.0" />
          </children>
       </Pane>
    </children>

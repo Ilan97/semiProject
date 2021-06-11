@@ -86,6 +86,10 @@ public class ComputerizedExamInnerFormController implements Initializable {
 	/**
 	 * This method called to initialize a controller after its root element has been
 	 * completely processed (after load method).
+	 * 
+	 * @param q     {@link Question} the question to set.
+	 * @param index to set on.
+	 * @param score of this question.
 	 */
 	public void setQuestion(Question q, int index, int score) {
 		this.q = q;
@@ -104,6 +108,9 @@ public class ComputerizedExamInnerFormController implements Initializable {
 
 	/**
 	 * This method set the answers to the radio buttons.
+	 * 
+	 * @param btn   {@link RadioButton} to set the answer to.
+	 * @param index of the answer.
 	 */
 	private void setAns(RadioButton btn, int index) {
 		int ans = a.get(index);

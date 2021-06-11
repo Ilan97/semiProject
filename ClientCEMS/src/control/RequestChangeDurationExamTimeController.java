@@ -62,7 +62,7 @@ public class RequestChangeDurationExamTimeController implements GuiController, I
 	 * Pop this window.
 	 *
 	 * @param primaryStage The stage for window's scene.
-	 * @throws IOException
+	 * @throws IOException if an I/O error occurs when opening.
 	 */
 	public void start(Stage primaryStage) throws IOException {
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/RequestChangeExamDurationTimeWindow.fxml"));
@@ -95,6 +95,8 @@ public class RequestChangeDurationExamTimeController implements GuiController, I
 
 	/**
 	 * This method clear error label.
+	 * 
+	 * @param err the label to clear.
 	 */
 	private void clearErrLbl(Label err) {
 		err.setText("");

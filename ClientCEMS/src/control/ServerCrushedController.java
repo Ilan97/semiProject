@@ -41,7 +41,7 @@ public class ServerCrushedController implements Initializable {
 	 * window.
 	 *
 	 * @param primaryStage The stage for window's scene.
-	 * @throws Exception
+	 * @throws Exception if an error occurs when opening.
 	 */
 	public void start(Stage primaryStage) throws Exception {
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/ServerCrushedWindow.fxml"));

@@ -88,7 +88,7 @@
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
-            <TextArea fx:id="txtSusp" layoutX="588.0" layoutY="47.0" prefHeight="137.0" prefWidth="173.0" />
+            <TextArea fx:id="txtSusp" editable="false" layoutX="588.0" layoutY="47.0" prefHeight="137.0" prefWidth="173.0" />
             <Label fx:id="lblSusp" layoutX="588.0" layoutY="30.0" text="Suspected of copying:">
                <font>
                   <Font name="Calibri Bold" size="14.0" />

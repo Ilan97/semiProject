@@ -49,6 +49,11 @@ public class CheckExamOfStudentInnerFormController implements GuiController, Ini
 	/**
 	 * This method called to initialize a controller after its root element has been
 	 * completely processed (after load method).
+	 * 
+	 * @param q     {@link Question} the question to set.
+	 * @param index to set on.
+	 * @param score of this question.
+	 * @param ans   the answers for this question.
 	 */
 	public void setQuestion(Question q, int index, int score, String ans) {
 		String toShow = q.getContent() + "\n\n" + q.getInstructions();

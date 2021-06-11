@@ -41,8 +41,10 @@ public class ExamOfStudent implements Serializable {
 	}
 
 	/**
-	 * @param content
-	 * @param code
+	 * @param content          The content.
+	 * @param code             The code.
+	 * @param studentName      The studentName.
+	 * @param realTimeDuration The realTimeDuration.
 	 */
 	public ExamOfStudent(byte[] content, String code, String studentName, double realTimeDuration) {
 		super();
@@ -53,8 +55,11 @@ public class ExamOfStudent implements Serializable {
 	}
 
 	/**
-	 * @param content
-	 * @param code
+	 * @param code             The code.
+	 * @param studentName      The studentName.
+	 * @param realTimeDuration The realTimeDuration.
+	 * @param grade            The grade.
+	 * @param answers          The answers.
 	 */
 	public ExamOfStudent(String code, String studentName, double realTimeDuration, int grade, String answers) {
 		super();
@@ -108,7 +113,7 @@ public class ExamOfStudent implements Serializable {
 	}
 
 	/**
-	 * @param estatus the etype to set
+	 * @param etype the etype to set
 	 */
 	public void setEtype(ExamType etype) {
 		this.etype = etype;
@@ -263,7 +268,6 @@ public class ExamOfStudent implements Serializable {
 
 	/**
 	 * @param edate the edate to set
-	 * @return
 	 */
 	public void setEdate(String edate) {
 		this.edate = edate;

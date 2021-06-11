@@ -13,7 +13,7 @@
       <Pane prefHeight="541.0" prefWidth="794.0" style="-fx-background-color: #ffffff;">
          <children>
             <ImageView fx:id="imgBack" fitHeight="541.0" fitWidth="636.0" layoutX="163.0" layoutY="1.0" />
-            <VBox layoutY="115.0" prefHeight="427.0" prefWidth="166.0" style="-fx-background-color: #ffffff;">
+            <VBox layoutY="114.0" prefHeight="427.0" prefWidth="166.0" style="-fx-background-color: #ffffff;">
                <children>
                   <Button fx:id="btnHome" mnemonicParsing="false" prefHeight="60.0" prefWidth="130.0" style="-fx-background-color: #b2b2b2; -fx-background-radius: 0 30 30 0;" text="Home" textAlignment="CENTER" textFill="WHITE">
                      <font>

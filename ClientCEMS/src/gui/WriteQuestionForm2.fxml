@@ -56,7 +56,7 @@
                   <Font name="Calibri Bold" size="14.0" />
                </font>
             </Label>
-            <TextArea fx:id="questionView" layoutX="458.0" layoutY="210.0" prefHeight="207.0" prefWidth="261.0">
+            <TextArea fx:id="questionView" editable="false" layoutX="458.0" layoutY="210.0" prefHeight="207.0" prefWidth="261.0">
                <font>
                   <Font name="Calibri" size="14.0" />
                </font>

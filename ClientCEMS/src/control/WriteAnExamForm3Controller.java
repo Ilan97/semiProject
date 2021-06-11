@@ -68,7 +68,7 @@ public class WriteAnExamForm3Controller implements GuiController, Initializable 
 	 * This is FXML event handler. Handles the action of click on 'Save' button.
 	 *
 	 * @param event The action event.
-	 * @throws InterruptedException
+	 * @throws InterruptedException if an interrupt error occurs.
 	 */
 	@FXML
 	void saveAction(ActionEvent event) throws InterruptedException {
@@ -130,7 +130,8 @@ public class WriteAnExamForm3Controller implements GuiController, Initializable 
 	/**
 	 * This method request from server to return the eid from DB.
 	 *
-	 * @param fieldName,courseName from client.
+	 * @param fieldName  from client.
+	 * @param courseName from client.
 	 * @return return Eid if found in dataBase else return -1.
 	 */
 	private int GetEid(String fieldName, String courseName) {
@@ -146,7 +147,7 @@ public class WriteAnExamForm3Controller implements GuiController, Initializable 
 	/**
 	 * This method request from server to return the fid from DB.
 	 *
-	 * @param fieldName from client.
+	 * @param FieldName from client.
 	 * @return return Fid if Field found in dataBase else return "Field not found".
 	 */
 	private String GetFid(String FieldName) {
@@ -233,7 +234,7 @@ public class WriteAnExamForm3Controller implements GuiController, Initializable 
 	 */
 	@FXML
 	void checkExamAction(ActionEvent event) {
-		Navigator.instance().alertPopUp("checkExamForm");
+		Navigator.instance().alertPopUp("CheckExamForm");
 	}
 
 	/**

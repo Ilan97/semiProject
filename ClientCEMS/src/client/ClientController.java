@@ -39,7 +39,7 @@ public class ClientController extends AbstractClient {
 	 *
 	 * @param host The server to connect to.
 	 * @param port The port number to connect on.
-	 * @throws IOException
+	 * @throws IOException if an I/O error occurs when opening.
 	 */
 	public ClientController(String host, int port) throws IOException {
 		super(host, port);
@@ -80,7 +80,7 @@ public class ClientController extends AbstractClient {
 				} catch (InterruptedException e) {
 				}
 			}
-			
+
 			Object ret = message;
 			message = null;
 			return ret;

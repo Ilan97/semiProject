@@ -42,7 +42,7 @@ public class ManualExamDownloadedWindowController implements GuiController, Init
 	 * Pop this window.
 	 *
 	 * @param primaryStage The stage for window's scene.
-	 * @throws IOException
+	 * @throws IOException if an I/O error occurs when opening.
 	 */
 	public void start(Stage primaryStage) throws IOException {
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/ManualExamDownloadedWindow.fxml"));

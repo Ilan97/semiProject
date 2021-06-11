@@ -20,7 +20,7 @@
                   <Font name="Calibri Bold" size="18.0" />
                </font>
             </Label>
-            <TextArea fx:id="question" layoutX="26.0" layoutY="53.0" prefHeight="129.0" prefWidth="510.0" />
+            <TextArea fx:id="question" editable="false" layoutX="26.0" layoutY="53.0" prefHeight="129.0" prefWidth="510.0" />
             <Label fx:id="lblScore" layoutX="138.0" layoutY="24.0" prefHeight="17.0" prefWidth="79.0" textFill="#b2b2b2">
                <font>
                   <Font name="Calibri Bold" size="14.0" />

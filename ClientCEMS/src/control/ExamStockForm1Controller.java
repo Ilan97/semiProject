@@ -87,6 +87,8 @@ public class ExamStockForm1Controller implements GuiController, Initializable {
 
 	/**
 	 * This method clear error label.
+	 * 
+	 * @param err the label to clear.
 	 */
 	private void clearErrLbl(Label err) {
 		err.setText("");
@@ -211,9 +213,9 @@ public class ExamStockForm1Controller implements GuiController, Initializable {
 	@FXML
 	void checkExamAction(ActionEvent event) {
 		if (formIsNotEmpty())
-			Navigator.instance().alertPopUp("checkExamForm");
+			Navigator.instance().alertPopUp("CheckExamForm");
 		else
-			Navigator.instance().navigate("checkExamForm");
+			Navigator.instance().navigate("CheckExamForm");
 	}
 
 	/**

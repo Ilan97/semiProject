@@ -123,7 +123,7 @@ public class Navigator implements NavigatorInterface {
 		baseNode.getChildren().clear();
 		baseNode.getChildren().add(current.node);
 	}
-	
+
 	/** navigates to the last page all the data from current page will be deleted */
 	@Override
 	public void next() {
@@ -177,19 +177,19 @@ public class Navigator implements NavigatorInterface {
 			super();
 		}
 	}
-	
+
 	/**
-	 * This method create pop up alert for warning the user. 
-	 * click OK will navigate to "formName" form
+	 * This method create pop up alert for warning the user. click OK will navigate
+	 * to "formName" form
 	 *
-	 * @param String formName.
+	 * @param formName The name of the file.
 	 */
 	public void alertPopUp(String formName) {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Alert");
 		alert.setHeaderText("Leaving this page will cause the data to be lost\r\n");
 		alert.setContentText("Are you ok with this?");
-		Image image = new Image("file:src/control/error.png");
+		Image image = new Image(GuiController.class.getResource("error.png").toString());
 		Label label = new Label();
 		label.setPrefSize(image.getWidth(), image.getWidth());
 		label.setGraphic(new ImageView(image));
@@ -197,16 +197,17 @@ public class Navigator implements NavigatorInterface {
 		alert.getDialogPane().getStylesheets().add(this.getClass().getResource("style.css").toString());
 		ButtonBar bb = (ButtonBar) alert.getDialogPane().lookup(".button-bar");
 		bb.setButtonOrder("C_L+Ok_R");
-		bb.getButtons().forEach(b->{
+		bb.getButtons().forEach(b -> {
 			Button bu = (Button) b;
-			if(bu.getText( ).equals("Cancel")) {
-			bu.getStyleClass().add("Cancel");
+			if (bu.getText().equals("Cancel")) {
+				bu.getStyleClass().add("Cancel");
 			}
 		});
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == ButtonType.OK) { // user chose OK
 			clearHistory(formName);
-		} else {} // user chose CANCEL or closed the dialog
+		} else {
+		} // user chose CANCEL or closed the dialog
 	}
 
 	/** navigation Interruption */

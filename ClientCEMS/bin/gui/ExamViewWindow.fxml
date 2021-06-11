@@ -16,7 +16,7 @@
       <Pane layoutX="1.0" layoutY="-2.0" prefHeight="533.0" prefWidth="599.0">
          <children>
             <ImageView fx:id="imgBack" fitHeight="541.0" fitWidth="607.0" layoutX="-4.0" layoutY="-3.0" />
-            <TextArea fx:id="txtExamView" layoutX="36.0" layoutY="185.0" prefHeight="178.0" prefWidth="526.0" />
+            <TextArea fx:id="txtExamView" editable="false" layoutX="36.0" layoutY="185.0" prefHeight="178.0" prefWidth="526.0" />
             <Label layoutX="48.0" layoutY="38.0" prefHeight="48.0" prefWidth="207.0" text="Exam View" textFill="#47ce60">
                <font>
                   <Font name="Calibri Bold" size="41.0" />

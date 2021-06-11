@@ -20,9 +20,9 @@ public class Client {
 	// Constructors ****************************************************
 
 	/**
-	 * @param ip
-	 * @param hostName
-	 * @param status
+	 * @param ip       The ip.
+	 * @param hostName The hostName.
+	 * @param status   The status.
 	 */
 	public Client(String ip, String hostName, ClientStatus status) {
 		this.ip = ip;

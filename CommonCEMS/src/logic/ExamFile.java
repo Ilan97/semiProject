@@ -22,8 +22,8 @@ public class ExamFile implements Serializable {
 	// Constructors ****************************************************
 
 	/**
-	 * @param content
-	 * @param filename
+	 * @param content  The content.
+	 * @param filename The filename.
 	 */
 	public ExamFile(byte[] content, String filename) {
 		this.content = content;

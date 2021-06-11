@@ -85,6 +85,8 @@ public class WriteAnExamForm1Controller implements GuiController, Initializable 
 
 	/**
 	 * This method clear error label.
+	 * 
+	 * @param err the label to clear.
 	 */
 	private void clearErrLbl(Label err) {
 		err.setText("");
@@ -254,7 +256,7 @@ public class WriteAnExamForm1Controller implements GuiController, Initializable 
 	 * This is FXML event handler. Handles the action of click on 'Home' button.
 	 *
 	 * @param event The action event.
-	 * @throws IOException
+	 * @throws IOException if an I/O error occurs when opening.
 	 */
 	@FXML
 	void goHome(ActionEvent event) throws IOException {
@@ -315,9 +317,9 @@ public class WriteAnExamForm1Controller implements GuiController, Initializable 
 	@FXML
 	void checkExamAction(ActionEvent event) {
 		if (formIsNotEmpty())
-			Navigator.instance().alertPopUp("checkExamForm");
+			Navigator.instance().alertPopUp("CheckExamForm");
 		else
-			Navigator.instance().navigate("checkExamForm");
+			Navigator.instance().navigate("CheckExamForm");
 	}
 
 	/**

@@ -193,7 +193,7 @@ public class ManualExamFormController implements GuiController, Initializable {
 						String ExamStatus;
 						String Exam_eCode = code;
 						boolean FlagForAttention = true;
-            // request for startDuration
+						// request for startDuration
 						messageToServerThread3.setControllerName("ExamController");
 						messageToServerThread3.setOperation("GetExamDuration");
 						messageToServerThread3.setMsg(Exam_eCode);
@@ -202,7 +202,7 @@ public class ManualExamFormController implements GuiController, Initializable {
 						}
 						while (flagForTimer) {
 							Thread.sleep(15 * SEC);
-							//request for currDuration
+							// request for currDuration
 							messageToServerThread3.setControllerName("ExamController");
 							messageToServerThread3.setOperation("GetExamDuration");
 							messageToServerThread3.setMsg(Exam_eCode);
@@ -213,7 +213,7 @@ public class ManualExamFormController implements GuiController, Initializable {
 							// check if A change was made during the exam
 							if (currDuration != startDuration) {
 								Platform.runLater(() -> {
-									// successes pop up
+									// alert pop up
 									AlertExamManualDurationChangedWindowController PopUp = new AlertExamManualDurationChangedWindowController();
 									try {
 										PopUp.start(new Stage());
@@ -229,10 +229,10 @@ public class ManualExamFormController implements GuiController, Initializable {
 							synchronized (this) {
 								ExamStatus = (String) ClientUI.client.handleMessageFromClientUI(messageToServerThread3);
 							}
-							if( (HourTimer*60 + MinTimer) + 10 == currDuration && FlagForAttention ) {
+							if ((HourTimer * 60 + MinTimer) + 10 == currDuration && FlagForAttention) {
 								FlagForAttention = false;
 								Platform.runLater(() -> {
-									// successes pop up
+									// alert pop up
 									AlertTimeIsRunningOutWindowController pop1 = new AlertTimeIsRunningOutWindowController();
 									try {
 										pop1.start(new Stage());
@@ -249,34 +249,38 @@ public class ManualExamFormController implements GuiController, Initializable {
 								synchronized (this) {
 									ClientUI.client.handleMessageFromClientUI(messageToServerThread3);
 								}
+
 								flagForTimer = false;
+
+								examToUpload = new ExamOfStudent(null, code, LoginController.user.getUsername(), -1);
+								btnSubmit.fire();
+								messageToServerThread3.setMsg(examToUpload);
+								messageToServerThread3.setControllerName("StudentController");
+								messageToServerThread3.setOperation("SubmitExam");
+								synchronized (this) {
+									ClientUI.client.handleMessageFromClientUI(messageToServerThread3);
+								}
+
 								if (ExamStatus.equals("locked")) {
 									Platform.runLater(() -> {
+										// alert pop up
 										AlertExamLockedWindowController pop2 = new AlertExamLockedWindowController();
 										try {
 											pop2.start(new Stage());
 										} catch (Exception e) {
 											UsefulMethods.instance().printException(e);
 										}
+										Navigator.instance().clearHistory("StudentHomeForm");
 									});
 								} else
 									Platform.runLater(() -> {
-										examToUpload = new ExamOfStudent(null, code, LoginController.user.getUsername(),
-												-1);
-										btnSubmit.fire();
-										messageToServerThread3.setMsg(examToUpload);
-										messageToServerThread3.setControllerName("StudentController");
-										messageToServerThread3.setOperation("SubmitExam");
-										synchronized(this) {
-										ClientUI.client.handleMessageFromClientUI(messageToServerThread3);
-										}
+										// alert pop up
 										StudentDidNotMakeItWindowController pop3 = new StudentDidNotMakeItWindowController();
 										try {
 											pop3.start(new Stage());
 										} catch (IOException e) {
 											UsefulMethods.instance().printException(e);
 										}
-
 										Navigator.instance().clearHistory("StudentHomeForm");
 									});
 							}
@@ -296,7 +300,7 @@ public class ManualExamFormController implements GuiController, Initializable {
 	 * This is FXML event handler. Handles the action of click on 'Upload' button.
 	 *
 	 * @param event The action event.
-	 * @throws IOException
+	 * @throws IOException if an I/O error occurs when opening.
 	 */
 	@FXML
 	void uploadAction(ActionEvent event) throws IOException {
@@ -339,7 +343,7 @@ public class ManualExamFormController implements GuiController, Initializable {
 	 * button.
 	 *
 	 * @param event The action event.
-	 * @throws IOException
+	 * @throws IOException if an I/O error occurs when opening.
 	 */
 	@FXML
 	void submitAction(ActionEvent event) throws IOException {
@@ -400,7 +404,7 @@ public class ManualExamFormController implements GuiController, Initializable {
 	/**
 	 * This method called to update timer for client as on server
 	 * 
-	 * @param eCode of the exam
+	 * @param ecode of the exam
 	 */
 	public void updateCurrTimerForClient(String ecode) {
 		Message messageToServer = new Message();

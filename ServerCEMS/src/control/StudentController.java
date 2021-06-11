@@ -239,6 +239,8 @@ public class StudentController {
 	/**
 	 * This method get computerized exam of specific student.
 	 * 
+	 * @param userName the user name.
+	 * @param code     the exam code.
 	 * @return {@link ExamOfStudent} if found in dataBase else return null.
 	 */
 	public static ExamOfStudent getExam(String userName, String code) {
@@ -364,6 +366,7 @@ public class StudentController {
 	/**
 	 * This method gets all the exams of student by userName.
 	 * 
+	 * @param userName the user name.
 	 * @return {@link ExamOfStudent} {@link ArrayList} if found in dataBase else
 	 *         return null.
 	 */
@@ -415,6 +418,11 @@ public class StudentController {
 
 	/**
 	 * This method get the exam status.
+	 * 
+	 * @param es  The {@link ExamOfStudent}.
+	 * @param Fid The field id.
+	 * @param Cid The course id.
+	 * @param Eid The exam id.
 	 */
 	public static void getExamType(ExamOfStudent es, String Fid, String Cid, String Eid) {
 		PreparedStatement pstmt = null;
@@ -454,6 +462,9 @@ public class StudentController {
 
 	/**
 	 * This method get the exam of student date.
+	 * 
+	 * @param code The exam code.
+	 * @return date The exam date.
 	 */
 	public static String getExamDate(String code) {
 		PreparedStatement pstmt = null;
@@ -508,7 +519,7 @@ public class StudentController {
 	/**
 	 * This method save student's finished exam in DB.
 	 *
-	 * @param file {@link ExamOfStudent} The exam to be upload by student.
+	 * @param exam {@link ExamOfStudent} The exam to be upload by student.
 	 * @return true if saved, else return false.
 	 */
 	public static boolean submitExam(ExamOfStudent exam) {

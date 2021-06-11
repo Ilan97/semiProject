@@ -101,6 +101,8 @@ public class ViewQuestionsForm1Controller implements GuiController, Initializabl
 
 	/**
 	 * This method clear error label.
+	 * 
+	 * @param err the label to clear.
 	 */
 	private void clearErrLbl(Label err) {
 		err.setText("");

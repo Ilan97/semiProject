@@ -77,7 +77,7 @@ public class ApproveDurationWindowController implements GuiController, Initializ
 		// change the duration
 		boolean res = false;
 		Message messageToServer = new Message();
-		messageToServer.setMsg(req.getExamID() + " " + req.getNewDur());
+		messageToServer.setMsg(req.getEcode() + " " + req.getNewDur());
 		messageToServer.setOperation("updateExamDurationTime");
 		messageToServer.setControllerName("ExamController");
 		res = (boolean) ClientUI.client.handleMessageFromClientUI(messageToServer);

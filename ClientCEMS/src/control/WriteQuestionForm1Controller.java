@@ -113,7 +113,7 @@ public class WriteQuestionForm1Controller implements GuiController, Initializabl
 				clearErrLbl(lblErrField);
 
 			// course not chosen
-			if (course.getSelectionModel().isEmpty())
+			if ((course.getSelectionModel().isEmpty()) && (!field.getSelectionModel().isEmpty()))
 				lblErrCourse.setText("choose course");
 			// course chosen
 			else
@@ -146,7 +146,15 @@ public class WriteQuestionForm1Controller implements GuiController, Initializabl
 			// there are 3 wrong answers
 			else
 				clearErrLbl(lblErrWrongAns);
+			// nothing is missing
 		} else {
+			// clear all labels
+			clearErrLbl(lblErrField);
+			clearErrLbl(lblErrCourse);
+			clearErrLbl(lblErrQues);
+			clearErrLbl(lblErrInstr);
+			clearErrLbl(lblErrRightAns);
+			clearErrLbl(lblErrWrongAns);
 			// build the Question object
 			Question q = new Question();
 			q.setAuthor(LoginController.user.getFirstName() + " " + LoginController.user.getLastName());

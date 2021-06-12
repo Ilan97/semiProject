@@ -127,7 +127,7 @@ public class WriteAnExamForm1Controller implements GuiController, Initializable 
 				clearErrLbl(lblErrField);
 
 			// course not chosen
-			if (course.getSelectionModel().isEmpty())
+			if ((course.getSelectionModel().isEmpty()) && (!field.getSelectionModel().isEmpty()))
 				lblErrCourse.setText("choose course");
 			// course chosen
 			else
@@ -142,7 +142,7 @@ public class WriteAnExamForm1Controller implements GuiController, Initializable 
 
 			// no duration
 			if (getDuration().isEmpty())
-				lblErrDur.setText("enter content");
+				lblErrDur.setText("enter duration");
 			// there is duration
 			else
 				clearErrLbl(lblErrDur);
@@ -150,6 +150,11 @@ public class WriteAnExamForm1Controller implements GuiController, Initializable 
 		} else if (!durationIsValid())
 			lblErrDur.setText("invalid duration");
 		else {
+			// clear all labels
+			clearErrLbl(lblErrField);
+			clearErrLbl(lblErrCourse);
+			clearErrLbl(lblErrType);
+			clearErrLbl(lblErrDur);
 			clearErrLbl(lblErrData);
 			// user return back but didn't change the field and course
 			if (nextInit && Exam.getCname().equals(Course) && Exam.getFname().equals(Field)) {

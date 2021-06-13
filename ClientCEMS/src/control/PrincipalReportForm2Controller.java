@@ -37,16 +37,17 @@ public class PrincipalReportForm2Controller implements GuiController, Initializa
 	@FXML
 	private ImageView imgLogo;
 	@FXML
-	private Label lblAvgTitle;
+	public Label lblAvgTitle;
 	@FXML
-	private Label lblAvg;
+	public Label lblAvg;
 	@FXML
-	private Label lblMedTitle;
+	public Label lblMedTitle;
 	@FXML
-	private Label lblMed;
+	public Label lblMed;
 	@FXML
-	private BarChart<String, Integer> graph;;
-
+	public BarChart<String, Integer> graph;
+	
+	public int histCnt[];
 	// Instance methods ************************************************
 
 	/**
@@ -78,11 +79,11 @@ public class PrincipalReportForm2Controller implements GuiController, Initializa
 	 * @param med  The indication to show the median.
 	 */
 	public void setReport(List<Integer> li, boolean hist, boolean avg, boolean med) {
-		int histCnt[] = new int[9];
+		histCnt = new int[9];
 		int sum = 0;
 		lblAvgTitle.setVisible(avg);
 		lblMedTitle.setVisible(med);
-		graph.setVisible(hist);
+		
 
 		if (med) {
 			Collections.sort(li);
@@ -112,6 +113,7 @@ public class PrincipalReportForm2Controller implements GuiController, Initializa
 		if (avg)
 			lblAvg.setText(String.format("%.2f", (double) sum / li.size()));
 		if (hist) {
+			graph.setVisible(true);
 			XYChart.Series<String, Integer> seriesToAdd = new XYChart.Series<String, Integer>();
 			for (int i = 0; i < 9; i++) {
 
@@ -208,6 +210,7 @@ public class PrincipalReportForm2Controller implements GuiController, Initializa
 		// set the style of the graph
 		graph.getStylesheets().add(Navigator.class.getResource("style.css").toString());
 		graph.setId("principal");
+		graph.setVisible(false);
 	}
 }
 // End of PrincipalReportForm2Controller class

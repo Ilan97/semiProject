@@ -24,7 +24,7 @@ import ocsf.server.ConnectionToClient;
  * @author Moran Davidov
  * @version May 2021
  */
-public class ServerController extends AbstractServer {
+public class ServerController extends AbstractServer  {
 
 	// Instance variables **********************************************
 
@@ -60,6 +60,7 @@ public class ServerController extends AbstractServer {
 	 * @param client {@link ConnectionToClient} The connection from which the
 	 *               message originated.
 	 */
+	@Override
 	public void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		// message received from client is an Message instance.
 		Message messageFromClient = (Message) msg;

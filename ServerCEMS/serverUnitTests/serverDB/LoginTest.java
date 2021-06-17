@@ -1,5 +1,14 @@
 package serverDB;
 
+/**
+ * This is unitTest class for the server side. These test are checking the functionality of login action.
+ *
+ * @author Ilan Meikler
+ * @author Bat-El Gardin
+ * @author Ohad Shamir
+ * @version June 2021
+ */
+
 import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,9 +21,24 @@ import logic.UserType;
 
 class LoginTest {
 
-	User user;
-	String userName, password;
+	// Variables ************************************************
 
+	/**
+	 * This is the user that returned from the userController.
+	 */
+	User user;
+	/**
+	 * This is the userName we are testing.
+	 */
+	String userName;
+	/**
+	 * This is the user's password we are testing..
+	 */
+	String password;
+
+	/**
+	 * This class is set up the variables we are going to test.
+	 */
 	@BeforeEach
 	void setUp() throws Exception {
 		DBconnector.connectToDB();
@@ -29,13 +53,26 @@ class LoginTest {
 		user.setLogedIN(false);
 	}
 
+	// Tests ************************************************
+
+	// checking wrong userName that user puts in.
+	// input: wrong userName.
+	// expected: null.
 	@Test
-	void logInWrongUserNameOrPasswordTest() {
+	void logInWrongUserNameTest() {
 		Message msg = new Message();
 		// wrong userName
 		msg.setMsg("ilanA ilan1234");
 		msg.setOperation("isUserExists");
 		assertNull(UserController.handleRequest(msg).getMsg());
+	}
+
+	// checking wrong password that user puts in.
+	// input: wrong password.
+	// expected: null.
+	@Test
+	void logInWrongPasswordTest() {
+		Message msg = new Message();
 		// wrong password
 		msg = new Message();
 		msg.setMsg("ilanM ilan123");
@@ -43,6 +80,9 @@ class LoginTest {
 		assertNull(UserController.handleRequest(msg).getMsg());
 	}
 
+	// checking successful student login.
+	// input: existing user.
+	// expected: object user that returns from the userController.
 	@Test
 	void successfullStudentLogInTest() {
 		Message msg = new Message();
@@ -51,3 +91,4 @@ class LoginTest {
 		assertEquals(user, (User) (UserController.handleRequest(msg).getMsg()));
 	}
 }
+//End of LoginTest class

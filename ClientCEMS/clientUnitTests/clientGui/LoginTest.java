@@ -1,5 +1,14 @@
 package clientGui;
 
+/**
+ * This is unitTest class for the client side. These test are checking the functionality of login action.
+ *
+ * @author Ilan Meikler
+ * @author Bat-El Gardin
+ * @author Ohad Shamir
+ * @version June 2021
+ */
+
 import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,12 +28,30 @@ import logic.User;
 import logic.UserType;
 
 class LoginTest {
+
+	// Variables ************************************************
+
+	/**
+	 * This variable is declared for JavaFX to run.
+	 */
 	@SuppressWarnings("unused")
-	private JFXPanel panel = new JFXPanel();// for javafx to run
+	private JFXPanel panel = new JFXPanel();
+	/**
+	 * The user we are testing.
+	 */
 	private User user;
+	/**
+	 * The message that returned from clientController.
+	 */
 	private Object objToRet;
 
-	private class ClientControllerStudentStub implements IClientController {
+	// Private classes ************************************************
+
+	/**
+	 * This is stub class to the ClientController class. This class handles the
+	 * messages that send to the client from the screen.
+	 */
+	private class ClientControllerStub implements IClientController {
 
 		@Override
 		public Object handleMessageFromClientUI(Message msg) {
@@ -35,8 +62,15 @@ class LoginTest {
 
 	}
 
+	/**
+	 * The screen we want to navigate to.
+	 */
 	String navigatedScreen = "";
 
+	/**
+	 * This is stub class to the Navigator class. This class is navigate between
+	 * different pages.
+	 */
 	private class StubNavigator implements NavigatorInterface {
 
 		@Override
@@ -71,12 +105,19 @@ class LoginTest {
 
 	}
 
+	/**
+	 * This is the controller we are testing.
+	 */
 	LoginController lc = new LoginController();
 
+	/**
+	 * This class is set up the variables we are going to test.
+	 */
 	@BeforeEach
 	void setUp() throws Exception {
+		// the error label in the window
 		lc.lblErr = new Label();
-
+		// set up the user we are testing
 		user = new User();
 		user.setUsername("ilanM");
 		user.setUpassword("ilan1234");
@@ -84,10 +125,16 @@ class LoginTest {
 		lc.txtPassword = new PasswordField();
 		lc.txtPassword.setText(user.getUpassword());
 		lc.txtUserName = new TextField(user.getUsername());
-		ClientUI.client = new ClientControllerStudentStub();
+		// stub classes
+		ClientUI.client = new ClientControllerStub();
 		Navigator.setNavigator(new StubNavigator());
 	}
 
+	// Tests ************************************************
+
+	// checking wrong userName or password that user puts in.
+	// input: null.
+	// expected: error label: "User Name or Password is incorrect".
 	@Test
 	void logInWrongUserNameOrPasswordTest() {
 		objToRet = null;
@@ -99,6 +146,9 @@ class LoginTest {
 		}
 	}
 
+	// checking login with empty fields.
+	// input: empty fields.
+	// expected: error label: "User Name or Password is missing".
 	@Test
 	void logInEmptyUserNameTest() {
 		lc.txtUserName.setText("");
@@ -110,6 +160,9 @@ class LoginTest {
 		}
 	}
 
+	// checking user that is already logged in.
+	// input: user that is logged in.
+	// expected: error label: "User already logged in".
 	@Test
 	void AlreadylogedInTest() {
 		objToRet = user;
@@ -122,6 +175,9 @@ class LoginTest {
 		}
 	}
 
+	// checking successful student login.
+	// input: student user.
+	// expected: navigate to "StudentHomeForm" screen.
 	@Test
 	void successfullStudentLogInTest() {
 		objToRet = user;
@@ -136,6 +192,9 @@ class LoginTest {
 		}
 	}
 
+	// checking successful teacher login.
+	// input: teacher user.
+	// expected: navigate to "TeacherHomeForm" screen.
 	@Test
 	void successfullTeacherLogInTest() {
 		objToRet = user;
@@ -150,6 +209,9 @@ class LoginTest {
 		}
 	}
 
+	// checking successful principal login.
+	// input: principal user.
+	// expected: navigate to "PrincipalHomeForm" screen.
 	@Test
 	void successfullPrincipalLogInTest() {
 		objToRet = user;
@@ -164,3 +226,4 @@ class LoginTest {
 		}
 	}
 }
+//End of LoginTest class
